@@ -1,0 +1,29 @@
+# Citation metadata (Citation File Format 1.2.0).  Fields marked TODO are to be completed by the author.
+cff-version: 1.2.0
+message: "If you use this package, please cite the paper (preferred-citation) and the package itself."
+type: dataset
+title: "Supplementary data and code for: Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data"
+authors:
+  - family-names: Pascalutsa
+    given-names: Vladimir
+    affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
+    # TODO (author): ORCID, e.g.  orcid: "https://orcid.org/0000-0000-0000-0000"
+version: "1.0"
+date-released: "2026-10-16"
+# TODO (author): DOI of the published package, e.g.  doi: 10.5281/zenodo.0000000
+license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
+repository-code: "https://github.com/vladipas/ComptonBChPT"
+keywords:
+  - Compton scattering
+  - proton polarizabilities
+  - chiral perturbation theory
+  - partial-wave analysis
+preferred-citation:
+  type: article
+  title: "Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data"
+  authors:
+    - family-names: Pascalutsa
+      given-names: Vladimir
+      affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
+  year: 2026
+  journal: "TODO (author): journal, volume, article number / arXiv identifier"

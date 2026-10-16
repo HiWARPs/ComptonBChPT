@@ -1,0 +1,103 @@
+=== 1. exact Born and pi0-pole amplitudes: Python (Feynman rules) vs Fortran (A_i route)
+  E=  10.0  max rel dev Born 6.4e-13   pi0 4.5e-12
+  E=  59.0  max rel dev Born 4.7e-13   pi0 4.6e-13
+  E=  89.0  max rel dev Born 4.7e-13   pi0 4.6e-13
+  E= 109.0  max rel dev Born 4.8e-13   pi0 4.7e-13
+  E= 135.0  max rel dev Born 4.8e-13   pi0 4.5e-13
+  E= 150.0  max rel dev Born 4.7e-13   pi0 4.4e-13
+=== 2. LET: Born multipoles at E_lab=0.05 MeV (units alpha/M); expect fEE1-=fEE1+=-1/3, others 0
+  fEE1- = -0.333284
+  fEE1+ = -0.333331
+  fMM1- = -0.000147
+  fMM1+ = +0.000060
+  fEM1+ = -0.000012
+  fME1+ = -0.000000
+  fEE2- = +0.000002
+  fEE2+ = +0.000002
+  fMM2- = +0.000000
+  fMM2+ = -0.000000
+=== 3. partial-wave resummation (theta_cm = 20..160 deg)
+   NOTE: the NNLO loop amplitudes of ampl.f90 are numerically unstable within ~2-3 deg of theta_cm=0 (piN loops)
+   and theta_cm=180 deg (piN and piDelta loops); the non-Born part is therefore projected with an
+   endpoint-avoiding 20-point Gauss-Legendre rule (extreme nodes at 7.2/172.8 deg).
+  E= 59.0 Born+pi0 resummed vs exact, max rel dcs: J<=9/2: 2.0e-06, J<=15/2: 4.2e-09, J<=21/2: 1.1e-11
+  E= 59.0 Born exact + non-Born(J<=Jmax) vs direct BChPT, max rel dcs / max |dS3|: J<=3/2: 9.6e-04/4.5e-04, J<=5/2: 1.2e-05/1.3e-05, J<=9/2: 2.5e-05/1.2e-06, J<=13/2: 2.8e-05/1.4e-06
+  E= 59.0 PLB truncation (10 multipoles) vs direct: max rel dcs 1.9e-05, max |dS3| 2.7e-05;  l=1 only: 1.6e-03 / 9.3e-04
+  E= 89.0 Born+pi0 resummed vs exact, max rel dcs: J<=9/2: 4.0e-05, J<=15/2: 3.9e-07, J<=21/2: 5.0e-09
+  E= 89.0 Born exact + non-Born(J<=Jmax) vs direct BChPT, max rel dcs / max |dS3|: J<=3/2: 3.7e-03/2.0e-03, J<=5/2: 1.2e-04/1.2e-04, J<=9/2: 3.0e-06/3.6e-07, J<=13/2: 3.2e-06/1.8e-07
+  E= 89.0 PLB truncation (10 multipoles) vs direct: max rel dcs 1.8e-04, max |dS3| 2.3e-04;  l=1 only: 5.9e-03 / 3.9e-03
+  E=109.0 Born+pi0 resummed vs exact, max rel dcs: J<=9/2: 1.3e-04, J<=15/2: 2.4e-06, J<=21/2: 6.1e-08
+  E=109.0 Born exact + non-Born(J<=Jmax) vs direct BChPT, max rel dcs / max |dS3|: J<=3/2: 6.5e-03/4.0e-03, J<=5/2: 2.9e-04/3.2e-04, J<=9/2: 1.4e-06/1.7e-06, J<=13/2: 6.4e-07/3.8e-08
+  E=109.0 PLB truncation (10 multipoles) vs direct: max rel dcs 4.2e-04, max |dS3| 6.8e-04;  l=1 only: 1.0e-02 / 7.7e-03
+  E=135.0 Born+pi0 resummed vs exact, max rel dcs: J<=9/2: 3.7e-04, J<=15/2: 1.2e-05, J<=21/2: 5.7e-07
+  E=135.0 Born exact + non-Born(J<=Jmax) vs direct BChPT, max rel dcs / max |dS3|: J<=3/2: 1.1e-02/6.6e-03, J<=5/2: 6.3e-04/6.9e-04, J<=9/2: 4.2e-06/1.1e-05, J<=13/2: 1.1e-07/1.9e-07
+  E=135.0 PLB truncation (10 multipoles) vs direct: max rel dcs 9.2e-04, max |dS3| 2.0e-03;  l=1 only: 2.3e-02 / 1.7e-02
+  E=150.0 Born+pi0 resummed vs exact, max rel dcs: J<=9/2: 5.7e-04, J<=15/2: 2.4e-05, J<=21/2: 1.5e-06
+  E=150.0 Born exact + non-Born(J<=Jmax) vs direct BChPT, max rel dcs / max |dS3|: J<=3/2: 1.9e-02/3.3e-03, J<=5/2: 2.3e-03/1.9e-04, J<=9/2: 4.1e-05/4.0e-06, J<=13/2: 4.8e-07/1.9e-07
+  E=150.0 PLB truncation (10 multipoles) vs direct: max rel dcs 1.7e-03, max |dS3| 4.8e-03;  l=1 only: 1.5e-02 / 2.6e-02
+  multipole <-> partial-wave round trip (Born, J<=31/2) max dev 5.4e-20 fm
+=== 4. observables: Python formulas vs Fortran fit-driver (pointsmode) at lab kinematics
+  E=  59.0 th_lab= 60.0: CS_lab  12.6951 vs  12.6951 | CS_cm  11.9972 vs  11.9972 | S3 -0.60293 vs -0.60293 | par   5.0408 vs   5.0408 | perp  20.3494 vs  20.3494
+  E=  89.0 th_lab= 90.0: CS_lab  10.7342 vs  10.7342 | CS_cm  10.8154 vs  10.8154 | S3 -0.77445 vs -0.77445 | par   2.4211 vs   2.4211 | perp  19.0473 vs  19.0473
+  E= 109.0 th_lab=133.0: CS_lab  15.5849 vs  15.5849 | CS_cm  18.0717 vs  18.0717 | S3 -0.22667 vs -0.22667 | par  12.0523 vs  12.0523 | perp  19.1174 vs  19.1174
+  E= 135.0 th_lab=155.0: CS_lab  19.3448 vs  19.3448 | CS_cm  24.3928 vs  24.3928 | S3 -0.04725 vs -0.04725 | par  18.4308 vs  18.4308 | perp  20.2589 vs  20.2589
+  E=  92.2 th_lab= 35.0: CS_lab  12.6907 vs  12.6907 | CS_cm  10.9865 vs  10.9865 | S3 -0.24102 vs -0.24102 | par   9.6319 vs   9.6319 | perp  15.7494 vs  15.7494
+  E= 129.5 th_lab=145.0: CS_lab  18.0321 vs  18.0321 | CS_cm  22.1183 vs  22.1183 | S3 -0.10031 vs -0.10031 | par  16.2234 vs  16.2234 | perp  19.8408 vs  19.8408
+  E= 150.0 th_lab=120.0: CS_lab  18.8213 vs  18.8213 | CS_cm  21.9214 vs  21.9214 | S3 -0.13685 vs -0.13685 | par  16.2456 vs  16.2456 | perp  21.3970 vs  21.3970
+=== 5. LEX check of the PLB parametrisation (Eq. nonBorn_multipoles_expansion), R=(E/M)^2 f^R residual
+   contact (LEC) amplitude of ampl.f90 for a shift of one static polarisability at a time
+   [NB: onlyLEX=t does NOT work in this code version: the NNLO-completeness check that follows the onlyLEX
+    block zeroes all LEC shifts, so onlyLEX gives pure Born+pi0. We use the complete NNLO run with shifted
+    polarisabilities instead; component 6 (contact) then carries exactly the shift.]
+   printed: f^R_i(E) = [fbar/(E^k M/sqrt s) - (static + recoil terms)] (M/E)^2 -> should stay O(1)
+  -- only a = 10
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +9.945    +9.943    -9.323    -9.943    -0.044    +0.130
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +9.730    +9.723    -9.118    -9.723    -0.042    +0.128
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +9.229    +9.212    -8.642    -9.212    -0.038    +0.121
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +8.564    +8.534    -8.011    -8.534    -0.033    +0.111
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +7.810    +7.767    -7.296    -7.767    -0.028    +0.101
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +7.030    +6.977    -6.559    -6.977    -0.023    +0.091
+  -- only b = 10
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -4.365    -4.986    +4.987    +4.986    +0.131    -0.045
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -4.324    -4.930    +4.936    +4.930    +0.128    -0.042
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -4.223    -4.792    +4.810    +4.792    +0.122    -0.039
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -4.075    -4.596    +4.629    +4.596    +0.114    -0.036
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -3.887    -4.354    +4.401    +4.354    +0.104    -0.031
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -3.668    -4.078    +4.140    +4.078    +0.094    -0.027
+  -- only gEE = 5
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =   -11.826   +23.652    +4.922    -9.851    +0.372    -1.762
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =   -11.589   +23.177    +4.804    -9.639    +0.359    -1.722
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =   -11.034   +22.068    +4.530    -9.145    +0.331    -1.633
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =   -10.294   +20.588    +4.169    -8.491    +0.294    -1.514
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -9.449   +18.897    +3.763    -7.752    +0.254    -1.379
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    -8.570   +17.136    +3.349    -6.991    +0.215    -1.240
+  -- only gMM = 5
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +4.923    -9.851   -11.826   +23.652    -1.761    +0.371
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +4.804    -9.639   -11.589   +23.177    -1.722    +0.359
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +4.530    -9.145   -11.034   +22.068    -1.633    +0.331
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +4.169    -8.491   -10.294   +20.588    -1.514    +0.294
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +3.763    -7.752    -9.449   +18.897    -1.379    +0.254
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +3.349    -6.991    -8.570   +17.136    -1.240    +0.215
+  -- only gEM = 5
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.008    -0.017    +6.895   -13.784    +3.109    -1.721
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.041    -0.081    +6.744   -13.457    +3.046    -1.682
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.112    -0.224    +6.392   -12.698    +2.898    -1.596
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.201    -0.400    +5.925   -11.696    +2.701    -1.481
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.290    -0.578    +5.396   -10.566    +2.476    -1.351
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +0.370    -0.736    +4.851    -9.408    +2.242    -1.216
+  -- only gME = 5
+     E=   2.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +6.895   -13.784    +0.008    -0.017    -1.720    +3.108
+     E=  10.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +6.744   -13.457    +0.041    -0.081    -1.682    +3.045
+     E=  30.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +6.392   -12.698    +0.112    -0.224    -1.596    +2.898
+     E=  60.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +5.925   -11.696    +0.201    -0.400    -1.481    +2.701
+     E= 100.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +5.396   -10.566    +0.290    -0.578    -1.351    +2.476
+     E= 150.0  fR(EE+,EE-,MM+,MM-,EM,ME) [1e-4 fm^3|fm^4] =    +4.851    -9.408    +0.370    -0.736    -1.216    +2.242
+=== 6. forward amplitudes f, g: direct (theta=0) vs multipole sums (PLB Eq. A_1_A_3_multipoles)
+  E=  20.0 Born+pi0 : f_dir=-1.534725e-03 f_mult=-1.534725e-03 | g_dir=-5.258518e-05 g_mult=-5.258518e-05 | -alpha kappa^2 nu/2M^2=-5.258518e-05  -alpha/M=-1.534725e-03 [fm]
+  E=  20.0 BChPT    : f_dir=-1.520281e-03 f_mult=-1.520281e-03 | g_dir=-5.352501e-05 g_mult=-5.352501e-05 | -alpha kappa^2 nu/2M^2=-5.258518e-05  -alpha/M=-1.534725e-03 [fm]
+  E=  59.0 Born+pi0 : f_dir=-1.534725e-03 f_mult=-1.534725e-03 | g_dir=-1.551263e-04 g_mult=-1.551263e-04 | -alpha kappa^2 nu/2M^2=-1.551263e-04  -alpha/M=-1.534725e-03 [fm]
+  E=  59.0 BChPT    : f_dir=-1.394471e-03 f_mult=-1.394471e-03 | g_dir=-1.573105e-04 g_mult=-1.573105e-04 | -alpha kappa^2 nu/2M^2=-1.551263e-04  -alpha/M=-1.534725e-03 [fm]
+  E= 109.0 Born+pi0 : f_dir=-1.534725e-03 f_mult=-1.534725e-03 | g_dir=-2.865892e-04 g_mult=-2.865892e-04 | -alpha kappa^2 nu/2M^2=-2.865892e-04  -alpha/M=-1.534725e-03 [fm]
+  E= 109.0 BChPT    : f_dir=-1.002045e-03 f_mult=-1.002045e-03 | g_dir=-2.908821e-04 g_mult=-2.908821e-04 | -alpha kappa^2 nu/2M^2=-2.865892e-04  -alpha/M=-1.534725e-03 [fm]
+  E= 150.0 Born+pi0 : f_dir=-1.534725e-03 f_mult=-1.534725e-03 | g_dir=-3.943888e-04 g_mult=-3.943888e-04 | -alpha kappa^2 nu/2M^2=-3.943888e-04  -alpha/M=-1.534725e-03 [fm]
+  E= 150.0 BChPT    : f_dir=-7.662203e-05 f_mult=-7.662203e-05 | g_dir=-1.028932e-04 g_mult=-1.028932e-04 | -alpha kappa^2 nu/2M^2=-3.943888e-04  -alpha/M=-1.534725e-03 [fm]

@@ -1,0 +1,13 @@
+ &energy Emin=0.05,Emax=0.4,Edel=0.05,kvar=3/
+ &angles thmin=20.,thmax=160.,thdel=2.,cmsangle=f/
+ &incl anomaly=t,oneNloop=t,oneDloop=t,relchpt=t,loopoints=640/
+ &Delta gaugeinv=t,dng1=2.97,dng2=-1.,dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/
+ &constants gA=1.27d0,fpi=0.09221d0,pi0mass=0.13498d0,pionm=0.13957/
+ &nucleon hbchpt=f,born=t,nuclamm=t,onlyLEX=@ONLYLEX@/
+ &multipoles pwa=f,jmax=3/
+ &waytocompute feynrule=f/
+ &isospin proton=t/
+ &scalarPs alphaE1fm=@ALPHA@,betaM1fm=@BETA@,varyscalarPs=f/
+ &spinPs gamEEfm=@GEE@,gamEMfm=@GEM@,gamMEfm=@GME@,gamMMfm=@GMM@/
+ &fitdriver pointsmode=t, pointsfile='points.txt', outfile='points.out', selftest=@SELFTEST@ @REFS@/
+ &v2 order=@ORDER@, consts='@CONSTS@' @DVERTEX@ @DRUNNING@ @V2X@/

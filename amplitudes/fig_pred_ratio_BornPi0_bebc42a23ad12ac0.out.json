@@ -1,0 +1,35 @@
+{
+ "cfg": {
+  "born": true,
+  "nuclamm": true,
+  "anomaly": true,
+  "oneNloop": false,
+  "oneDloop": false,
+  "delta_pole": false,
+  "gM": 2.97,
+  "gE": -1.0,
+  "gA": 1.27,
+  "fpi": 0.09221,
+  "pi0mass": 0.13498,
+  "pionm": 0.13957,
+  "refs": null,
+  "Puser": null,
+  "order": null,
+  "consts": null,
+  "dvertex": null,
+  "drunning": null,
+  "hA": null,
+  "v2x": null
+ },
+ "profile": "v2",
+ "name": "fig_pred_ratio_BornPi0",
+ "npoints": 438,
+ "exe": "<release>/code/code_v2/execs/ampl.exe",
+ "exe_size": 1374632,
+ "exe_mtime": 1791982553,
+ "code_id": "work/code_v2 commit 5da8f7c (pi0ff summarised in CHANGES.md), built with gfortran-16 -O3 (makefile.gfortran-native), LoopTools 2.16",
+ "inputs": {
+  "in_dat": " &energy Emin=0.05,Emax=0.4,Edel=0.05,kvar=3/\n &angles thmin=20.,thmax=160.,thdel=2.,cmsangle=f/\n &incl anomaly=t,oneNloop=f,oneDloop=f,relchpt=t,loopoints=640/\n &Delta gaugeinv=t,dng1=2.97,dng2=-1.0,dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/\n &constants gA=1.270000d0,fpi=0.0922100d0,pi0mass=0.134980,pionm=0.139570/\n &nucleon hbchpt=f,born=t,nuclamm=t,onlyLEX=f/\n &multipoles pwa=f,jmax=3/\n &waytocompute feynrule=f/\n &isospin proton=t/\n &scalarPs alphaE1fm=-999.0,betaM1fm=-999.0,varyscalarPs=f/\n &spinPs gamEEfm=-999.0,gamEMfm=-999.0,gamMEfm=-999.0,gamMMfm=-999.0/\n &fitdriver pointsmode=t, pointsfile='points.txt', outfile='points.out', selftest=f /\n &v2 consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t/\n",
+  "baryon_dat": "&hadr exch=t,t,f,nq=-1,1,1,rm=0.9383,wid=0.,cutf=2.2,gstr=13.8,gem=0./\n&hadr exch=f,f,f,nq=-1,1,1,rm=1.47,wid=.2,cutf=1.7,gstr=2.6,gem=-1./\n&hadr exch=f,f,f,nq=1,3,3,rm=1.232,wid=0.12,cutf=2.6,gstr=0.36,gem=-1./\n&hadr exch=f,f,f,nq=1,1,1,rm=1.555,wid=0.12,cutf=2.0,gstr=0.6,gem=-0.3/\n&hadr exch=f,f,f,nq=-1,3,1,rm=1.525,wid=.2,cutf=1.7,gstr=0.8,gem=-0.3/\n&hadr exch=f,f,f,nq=1,3,1,rm=1.820,wid=0.12,cutf=1.9,gstr=0.80,gem=-0.25/\n&hadr exch=f,f,f,nq=-1,5,1,rm=1.67,wid=.2,cutf=1.4,gstr=2.2,gem=3./\n&hadr exch=f,f,f,nq=-1,3,3,rm=1.700,wid=.2,cutf=0.,gstr=0.5,gem=-.25/\n"
+ }
+}

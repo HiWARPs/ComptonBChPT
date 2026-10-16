@@ -1,0 +1,48 @@
+executable : <release>/code/code_v2/execs/ampl.exe
+&v2 options: pimassphys=t, nmassphys=t, dvertex=t
+alpha, beta: 11.671852608455913 2.8762748457155864  cov [ 0.21787734 -0.16847303 -0.16847303  0.18654929]  spin fit [11.06995186  3.03808259 -3.10002616  2.68813336 -1.2694298   2.62202994]
+points     : 9084
+  validation complete (VC), P=Pref        {'max rel. dev. (cross sections)': 6.8299628814058535e-06, 'max abs. dev. (asymmetries)': 8.392097245034803e-07}
+  validation complete (VC), P=main fit    {'max rel. dev. (cross sections)': 6.919220719983512e-06, 'max abs. dev. (asymmetries)': 8.500538265835376e-07}
+  validation complete (VC), P=spin fit    {'max rel. dev. (cross sections)': 6.333308777255706e-06, 'max abs. dev. (asymmetries)': 7.769897881006226e-07}
+  validation complete without VC, P=main fit {'max rel. dev. (cross sections)': 6.982449099412163e-06, 'max abs. dev. (asymmetries)': 8.528186081164851e-07}
+  validation tree Born+pi0+D1             {'max rel. dev. (cross sections)': 1.2740834572969519e-12, 'max abs. dev. (asymmetries)': 1.0628165014736624e-12}
+  validation Born+pi0+piN, d=main fit     {'max rel. dev. (cross sections)': 1.778678142164431e-12, 'max abs. dev. (asymmetries)': 1.6243673073290665e-12}
+  validation Born+piN+D0+piD, d=main fit  {'max rel. dev. (cross sections)': 6.2189721490428715e-06, 'max abs. dev. (asymmetries)': 7.163509014654346e-07}
+  validation static pols per mechanism (piN, D1, piD) {'piN': [7.0998, -1.9743, -3.2806, -0.1239, 0.5397, 0.9139], 'D1': [-0.1097, 7.1501, -0.3996, 3.286, -0.4273, 0.3855], 'piD': [4.4253, -1.4466, 0.4343, -0.2229, 0.0577, -0.1668]}
+  validation Pref (complete)              [11.415433, 3.729126, -3.245879, 2.939187, 0.170077, 1.132566]
+  validation vertex corrections present   True
+  extrapolated (flag=1) points: 467
+  wrote fig_delta_cs_vsE
+  wrote fig_delta_cs_vstheta_a
+  wrote fig_delta_cs_vstheta_b
+  Fig. 2: lab-frame sets converted to c.m.: ['MAMI 02', 'MAMI 99', 'SAL 00', 'TAPS 01']
+  wrote fig_delta_S3_vs_theta
+  wrote fig_delta_S3_90_vsE
+  wrote fig_delta_S2x_S2z
+  wrote fig_delta_S2_vsE
+  wrote fig_delta_cs_ratio
+                set  N  Erange  chi2N_n1  chi2N_nfit     n  chi2N_th  chi2N_spin_nfit  fit_report
+  A2_Martel2015_S2x  4     288     0.642       0.642 1.000     0.632            0.684        0.67
+  Martel_thesis_S2x  5     331     7.554       7.554 1.000     4.690            8.288         NaN
+ A2_Paudyal2020_S2z 10 275-295     2.493       1.662 0.921     1.312            1.345        1.61
+        LEGS2001_S3 79 213-334     2.363       2.363 1.000     2.230            1.052        2.52
+    Barbiellini1968  1     318     0.001       0.001 1.000     0.001            0.297         NaN
+        LEGS2001_CS 77 213-334    10.421       8.357 1.059     4.222            7.068        7.92
+      Hunger1997_75 12 207-339     2.065       1.572 0.955     1.266            1.851        1.59
+      Hunger1997_90  9 250-349     2.681       2.565 1.017     1.902            3.501        2.60
+       Wissmann1999  8 199-334     1.275       1.247 1.012     1.115            1.039        1.26
+          Camen2002  7 211-331     1.014       0.965 1.015     0.720            0.429        1.15
+           Kolb2000  1     247     8.821       8.821 1.000     6.485            6.194         NaN
+Hallin1993_TabII(D) 70 151-291     7.780       3.624 1.207     2.364            3.154        3.64
+    Hallin1993_TabI 17 182-286    16.829       6.304 1.197     2.860            4.770         NaN
+    OlmosdeLeon2001 10 157-164     2.037       1.703 1.042     1.306            1.064        1.73
+         Genzel1972 14 237-335    14.903       2.762 0.773     2.391            2.703         NaN
+           Gray1967  5 210-310     6.098       5.038 0.922     4.315            4.374         NaN
+        Baranov1966 10 213-249    13.764      13.369 0.952     5.026           10.594         NaN
+Baranov1966_refined  2 235-240     0.911       0.821 1.037     0.603            1.006         NaN
+      Nagashima1964  1     314     9.489       8.396 0.951     8.115            7.250         NaN
+  bin-averaged vs nominal-energy asymmetry, max |diff|: {'S2X_288': 0.009, 'S2X_330.595': 0.005, 'S2Z_275': 0.003, 'S2Z_295': 0.003}
+PDFs:   <release>/paper/figs/delta/
+tables: <release>/code/delta_plots/results/chi2_table.md (.csv, .tex)
+renders: <release>/code/delta_plots/png/pdf/

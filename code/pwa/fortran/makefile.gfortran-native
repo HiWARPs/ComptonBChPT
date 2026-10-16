@@ -1,0 +1,51 @@
+FC = /opt/homebrew/bin/gfortran-16
+SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
+export SDKROOT
+
+NATIVE_FLAGS = -O3 -mcpu=native -funroll-loops
+FFLAGS = $(NATIVE_FLAGS) -w -ffree-form -ffree-line-length-none -cpp \
+	-std=legacy -fallow-argument-mismatch
+
+BUILD = build-gfortran-native
+TARGET = execs/ampl.exe
+LT = $(HOME)/.local/looptools-gfortran-native
+INCLUDES = -I. -I.. -I$(LT)/include
+
+OBJECTS = \
+	$(BUILD)/trigd.o \
+	$(BUILD)/ampl.o \
+	$(BUILD)/As.o \
+	$(BUILD)/bkmAs.o \
+	$(BUILD)/Loops.o \
+	$(BUILD)/Cov_1loop_As.o
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(FC) $(NATIVE_FLAGS) -o $@ $(OBJECTS) $(LT)/lib/libooptools.a
+
+$(BUILD):
+	mkdir -p $@
+
+$(BUILD)/trigd.o: trigd.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../trigd.f90 -o trigd.o
+
+$(BUILD)/ampl.o: ampl.f90 $(BUILD)/trigd.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../ampl.f90 -o ampl.o
+
+$(BUILD)/As.o: As.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../As.f90 -o As.o
+
+$(BUILD)/bkmAs.o: bkmAs.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../bkmAs.f90 -o bkmAs.o
+
+$(BUILD)/Loops.o: Loops.f90 $(BUILD)/ampl.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../Loops.f90 -o Loops.o
+
+$(BUILD)/Cov_1loop_As.o: Cov_1loop_As.F90 $(BUILD)/trigd.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../Cov_1loop_As.F90 -o Cov_1loop_As.o
+
+clean:
+	rm -rf $(BUILD) $(TARGET)

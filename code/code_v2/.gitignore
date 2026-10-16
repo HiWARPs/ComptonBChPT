@@ -1,0 +1,12 @@
+# build products
+build-gfortran-native/
+build-ifort/
+*.o
+*.mod
+execs/*.exe
+__pycache__/
+*.pyc
+# scratch run directories created by the driver / tests
+driver/run_*/
+tests/out/
+tests/ref_bin/

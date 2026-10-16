@@ -1,0 +1,34 @@
+# Shared matplotlib style for the paper figures (PRD/revtex4-2).
+# Use: plt.style.use('<release>/code/figstyle.mplstyle')
+# Single column: figsize (3.4, 2.6); double column: (7.0, 4.2). Save as PDF.
+font.family        : serif
+font.serif         : Times New Roman, Times, STIXGeneral, DejaVu Serif
+mathtext.fontset   : stix
+font.size          : 9
+axes.labelsize     : 9
+axes.titlesize     : 9
+legend.fontsize    : 7.5
+xtick.labelsize    : 8
+ytick.labelsize    : 8
+axes.linewidth     : 0.7
+lines.linewidth    : 1.2
+lines.markersize   : 3.5
+errorbar.capsize   : 0
+xtick.direction    : in
+ytick.direction    : in
+xtick.top          : True
+ytick.right        : True
+xtick.minor.visible: True
+ytick.minor.visible: True
+xtick.major.size   : 3.5
+ytick.major.size   : 3.5
+xtick.minor.size   : 2
+ytick.minor.size   : 2
+legend.frameon     : False
+legend.handlelength: 1.8
+savefig.bbox       : tight
+savefig.pad_inches : 0.02
+savefig.dpi        : 300
+figure.dpi         : 150
+# colour cycle: theory bands/lines first, then data
+axes.prop_cycle    : cycler('color', ['1f4e9c', 'c0392b', '2e8b57', 'e08e0b', '6a3d9a', '444444', '17becf', '8c564b'])

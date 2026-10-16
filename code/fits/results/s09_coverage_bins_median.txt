@@ -1,0 +1,17 @@
+coverage check, NNLO fit F2_d_all_thB: 261 angular points, 253 of them in 50-150 MeV (8 below 50 MeV omitted)
+bins: 10-MeV bins; no bin merged
+cross-section-like points (CS, CSCM, SPAR, SPERP) in the lower panel: 217; asymmetries excluded there: 36
+lower-panel statistic: median of the relative quantities (in per cent of the model t = n * theory)
+E [MeV]      N  Ncs     rms pull     rms pull median |r|/t median s_exp/t median s_th/t
+                         (s_exp) (s_exp+s_th)         [%]         [%]         [%]
+ 50- 60    15   15         0.71         0.71        4.57        7.31        0.16
+ 60- 70    13   13         1.06         1.05        2.53        7.53        0.25
+ 70- 80    14   14         0.91         0.90        5.45       10.34        0.30
+ 80- 90    31   31         1.00         1.00        6.27       11.07        0.59
+ 90-100    37   25         0.64         0.63        4.38        8.65        0.82
+100-110    35   23         0.89         0.87        5.25        6.43        1.22
+110-120    25   25         0.99         0.93        5.18        7.88        1.86
+120-130    36   24         1.04         0.92        5.18        8.13        2.65
+130-140    28   28         1.01         0.81        4.75        8.09        3.58
+140-150    19   19         0.59         0.56        5.21       11.59        4.04
+all        253  217         0.90         0.85        4.98        8.48        1.22

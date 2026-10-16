@@ -1,0 +1,33 @@
+# Intel ifort (x86_64, runs under Rosetta on Apple silicon) cross-check build.
+# Primary build remains makefile.gfortran-native.  [2026-10 audit]
+FC = /opt/intel/oneapi/compiler/2022.2.1/mac/bin/intel64/ifort
+SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
+export SDKROOT
+# -save reproduces the original 2012 ifort makefile (static locals); -fp-model precise
+# avoids value-unsafe optimisations so that the comparison with gfortran is meaningful.
+FFLAGS = -O2 -w -save -fp-model precise -fpp
+BUILD = build-ifort
+TARGET = execs/ampl_ifort.exe
+LT = $(HOME)/.local/looptools-ifort
+INCLUDES = -I. -I.. -I$(LT)/include
+OBJECTS = $(BUILD)/trigd.o $(BUILD)/ampl.o $(BUILD)/As.o $(BUILD)/bkmAs.o $(BUILD)/Loops.o $(BUILD)/Cov_1loop_As.o
+.PHONY: all clean
+all: $(TARGET)
+$(TARGET): $(OBJECTS)
+	$(FC) -o $@ $(OBJECTS) $(LT)/lib/libooptools.a -Wl,-syslibroot,$(SDKROOT) -L$(SDKROOT)/usr/lib
+$(BUILD):
+	mkdir -p $@
+$(BUILD)/trigd.o: trigd.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../trigd.f90 -o trigd.o
+$(BUILD)/ampl.o: ampl.f90 $(BUILD)/trigd.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../ampl.f90 -o ampl.o
+$(BUILD)/As.o: As.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../As.f90 -o As.o
+$(BUILD)/bkmAs.o: bkmAs.f90 | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../bkmAs.f90 -o bkmAs.o
+$(BUILD)/Loops.o: Loops.f90 $(BUILD)/ampl.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../Loops.f90 -o Loops.o
+$(BUILD)/Cov_1loop_As.o: Cov_1loop_As.F90 $(BUILD)/trigd.o | $(BUILD)
+	cd $(BUILD) && $(FC) $(FFLAGS) $(INCLUDES) -c ../Cov_1loop_As.F90 -o Cov_1loop_As.o
+clean:
+	rm -rf $(BUILD) $(TARGET)

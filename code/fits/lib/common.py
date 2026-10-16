@@ -1,0 +1,156 @@
+"""common.py -- shared helpers for the analysis scripts (selections, driver outputs, fit construction)."""
+import os, sys, json
+import numpy as np
+import pandas as pd
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+FITS = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+import bchpt, database, forward, theory, fitter  # noqa: E402
+from fitter import Chi2Fit, DIR, C_BALDIN, C_GAMMA0, gamma0, gammapi  # noqa: E402,F401
+
+DBDIR = os.path.join(FITS, 'db')
+RES = os.path.join(FITS, os.environ.get('FIT_RESULTS', 'results'))
+FIGS = os.path.join(FITS, os.environ.get('FIT_FIGS', 'figs'))
+PROFILE = bchpt.PROFILE
+STYLE = os.path.join(os.path.dirname(FITS), 'figstyle.mplstyle')
+
+OLD_L = ['OlmosdeLeon2001', 'Federspiel1991', 'Zieger1992', 'Baranov1974_75_th90', 'Baranov1974_75_th150',
+         'Hallin1993_TabII', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged', 'Pugh1957', 'Hyman1959',
+         'Goldansky1960', 'Oxley1958', 'Bernardini1960']
+A2 = ['A2_2022_CS', 'A2_2022_S3']
+A2PB = ['A2_2018Mar_CS', 'A2_2018Jul_CS', 'A2_2018Mar_S3', 'A2_2018Jul_S3']
+HIGS = ['HIGS_2022_CIRC', 'HIGS_2022_LIN']
+FWD = ['GHP_fwd_CS', 'GHP_fwd_S2Z']
+D_SETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_CS', 'LEGS2001_S3', 'Hunger1997_75', 'Hunger1997_90',
+          'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001',
+          'Gray1967', 'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964']
+
+PREF_NNLO_V1 = np.array([11.246404, 3.870657, -3.335106, 2.942725, 0.178734, 1.146936])
+# NNLO static polarisabilities of the base amplitude of the active profile (v2: incl. the physical-mass shift)
+PREF_NNLO = bchpt.run([('pref', 100.0, 90.0, 'CS', 'LAB')], 'NNLO', name='pref', verbose=False).Pref.copy()
+PAUDYAL = np.array([-2.87, 2.70, -0.85, 2.04])
+BALDIN = (14.0, 0.2)
+GHP_G0 = (-0.929, 0.105)
+# MAIN DATABASE = all region-L data minus MAIN_DROP.  MAIN_DROP holds the pid(s) flagged by the 3-sigma rule
+# (|pull| > 3 w.r.t. the main-configuration fit F2 + truncation covariance, two passes) applied ONCE to the
+# all-points database; it was determined on 2026-10-14 and is held fixed here (s03_fits_L.py verifies it at every
+# run and stops if the all-points search gives a different list).  The single point is TAPS (Olmos de Leon 2001)
+# at E = 108.42 MeV, theta_lab = 133 deg (pull -4.27).  Every selection made through s03_fits_L.rows_for() drops
+# these pids unless keep_outlier=True (variant 'd_allpts'); scripts that select rows directly must drop them
+# themselves (see scenarios/nnlo_prediction_chi2.py).
+MAIN_DROP = ('OlmosdeLeon2001_029',)
+
+
+def load_db(per_beamtime=False):
+    fn = os.path.join(DBDIR, 'fitdb_pb.csv' if per_beamtime else 'fitdb.csv')
+    df = pd.read_csv(fn, keep_default_na=False)
+    for c in ['E', 'theta', 'theta_lab', 'theta_cm', 'value', 'err_stat', 'err_syspt', 'err_pt', 'norm']:
+        df[c] = df[c].astype(float)
+    return df
+
+
+_OUT = {}
+
+
+def outputs(df, cfg='NNLO', tag='db'):
+    """DriverOutput for all rows of df (cached on disk and in memory)."""
+    key = (tag, cfg if isinstance(cfg, str) else json.dumps(cfg, sort_keys=True), len(df))
+    if key not in _OUT:
+        pts = database.points_for_driver(df)
+        _OUT[key] = bchpt.run(pts, cfg, name='%s_%s' % (tag, cfg if isinstance(cfg, str) else 'custom'))
+    return _OUT[key]
+
+
+def base_static(T, cfg):
+    """static polarisabilities contained in the base amplitude of configuration cfg.
+    v2: the driver's Pref follows the mechanisms switched on (incl. the physical-mass shift) -> Pref."""
+    if PROFILE == 'v2':
+        return T.Pref.copy()
+    c = dict(bchpt.BASE); c.update(bchpt.CONFIGS[cfg] if isinstance(cfg, str) else cfg)
+    P = np.zeros(6)
+    if c['oneNloop']:
+        P += T.comp['piN loops']
+    if c['delta_pole']:
+        P += T.comp['Delta pole']
+    if c['oneDloop']:
+        P += T.comp['piDelta loops']
+    return P
+
+
+def select(df, sets, Emax=150.0, Emin=0.0, exclude_flags=(), extra_mask=None):
+    m = df['dataset'].isin(sets) & (df['E'] <= Emax + 1e-6) & (df['E'] >= Emin)
+    for f in exclude_flags:
+        m &= ~df['flags'].str.contains(f, regex=False)
+    if extra_mask is not None:
+        m &= extra_mask
+    return df[m].copy()
+
+
+def build_fit(df, T, P0, free, constraints=(), fwd_mode='nuisance', thcov=None, theory_fn=None,
+              extra=None, extra_prior=None, Toffset=None):
+    """df: selected rows; T: DriverOutput covering (at least) these pids.
+    Toffset: shift so that P (total static pols) maps to the driver's P = Pref + d  (P_driver = P - Toffset)."""
+    idx = T.subset(df['pid'].values)
+    y = df['value'].values
+    N = len(df)
+    C = np.diag(df['err_pt'].values ** 2)
+    shifts = None
+    isf = df['dataset'].isin(FWD).values
+    if isf.any():
+        cf, sh, fidx = forward.model(df, mode=fwd_mode)
+        C[np.ix_(isf, isf)] = cf[np.ix_(isf, isf)]
+        shifts = sh
+    if thcov is not None:
+        C = C + thcov
+    norms = {k: float(df[df.dataset == k]['norm'].iloc[0]) for k in df['dataset'].unique()}
+    off = np.zeros(6) if Toffset is None else Toffset
+    if theory_fn is None:
+        def theory_fn(P, ex):
+            return T.predict_array(P - off, idx)
+    return Chi2Fit(y, theory_fn, C, df['dataset'].values, norms, P0, free, constraints=constraints,
+                   shifts=shifts, extra=extra, extra_prior=extra_prior)
+
+
+def fmt(v, e, nd=2):
+    return ('%.' + str(nd) + 'f(%.' + str(nd) + 'f)') % (v, e)
+
+
+def save_json(obj, name):
+    os.makedirs(RES, exist_ok=True)
+
+    def conv(o):
+        if isinstance(o, np.ndarray):
+            return o.tolist()
+        if isinstance(o, (np.floating,)):
+            return float(o)
+        if isinstance(o, (np.integer,)):
+            return int(o)
+        raise TypeError(type(o))
+    json.dump(obj, open(os.path.join(RES, name), 'w'), indent=1, default=conv)
+
+
+def order_values(dfx, s, tag='db', scheme='B'):
+    """order-by-order values (y0, y2, y3) for the rows s of database dfx (see theory.py for the schemes)."""
+    T3 = outputs(dfx, 'NNLO', tag=tag)
+    idx = T3.subset(s['pid'].values)
+    y3 = T3.value_file[idx]
+    if scheme == 'A':
+        return outputs(dfx, 'LO', tag=tag).value_file[idx], outputs(dfx, 'NLO', tag=tag).value_file[idx], y3
+
+    def matched(cfg):
+        TT = outputs(dfx, cfg, tag=tag)
+        off = base_static(TT, cfg) - TT.Pref
+        return TT.predict_array(T3.Pref - off, idx)
+    return matched('BornPi0'), matched('NLO'), y3
+
+
+def truncation_for(dfx, s, tag='db', scheme='B', mode='sqrtQ', Lam=650.0, cbar='rms', corr=True, lE=25.0, lth=40.0):
+    y0, y2, y3 = order_values(dfx, s, tag, scheme)
+    tr = theory.truncation(y0, y2, y3, s['dobs'].values, s['E'].values, mode=mode, Lam=Lam, cbar=cbar)
+    if corr:
+        C = theory.covariance(tr['sigma'], s['dobs'].values, s['E'].values, s['theta_cm'].values, lE=lE, lth=lth)
+    else:
+        C = np.diag(tr['sigma'] ** 2)
+    tr['y0'], tr['y2'], tr['y3'] = y0, y2, y3
+    return C, tr

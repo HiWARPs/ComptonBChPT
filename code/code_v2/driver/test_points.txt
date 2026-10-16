@@ -1,0 +1,21 @@
+# id      E_lab[MeV]  theta[deg]  observable  [frame: LAB (default) | CM]
+# unpolarised lab cross sections (nb/sr), e.g. TAPS/MAMI, Mornacchi 2022 style kinematics
+cs01        79.0        60.0       CS
+cs02        79.0       135.0       CS
+cs03       109.0        90.0       CS
+cs04       139.0       150.0       CS
+cs05       148.0       133.0       CS
+cs06       160.0        90.0       CSCM   CM
+# beam asymmetry Sigma_3 (A2 convention: (dsig_par - dsig_perp)/(dsig_par + dsig_perp))
+s3_01       90.0        90.0       S3
+s3_02      140.0       140.0       S3
+s3_03      250.0        90.0       S3     CM
+# double-polarisation asymmetries Sigma_2x, Sigma_2z (A2/Babusci convention)
+s2x_01     288.0        90.0       S2X
+s2x_02     288.0       120.0       S2X    CM
+s2z_01     288.0        90.0       S2Z
+s2z_02     273.0       150.0       S2Z
+s2z_fwd    250.0         0.0       S2Z    CM
+# linearly polarised lab cross sections (nb/sr)
+sp_01      110.0        90.0       SPAR
+sp_02      110.0        90.0       SPERP

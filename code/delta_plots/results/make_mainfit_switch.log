@@ -1,0 +1,44 @@
+executable : <release>/code/code_v2/execs/ampl.exe
+&v2 options: pimassphys=t, nmassphys=t, dvertex=t
+alpha, beta: 11.591404728511248 2.9405273468446875  cov [ 0.21777917 -0.16838148 -0.16838148  0.1864895 ]  spin fit [11.0055455   3.10152649 -3.0935188   2.68604862 -1.25603165  2.60418286]
+points     : 9196
+  validation complete (VC), P=Pref        {'max rel. dev. (cross sections)': 6.8299628814058535e-06, 'max abs. dev. (asymmetries)': 8.85861051513892e-07}
+  validation complete (VC), P=main fit    {'max rel. dev. (cross sections)': 6.907062323488519e-06, 'max abs. dev. (asymmetries)': 8.634906585314184e-07}
+  validation complete (VC), P=spin fit    {'max rel. dev. (cross sections)': 6.333554307943849e-06, 'max abs. dev. (asymmetries)': 7.770641823797169e-07}
+  validation complete without VC, P=main fit {'max rel. dev. (cross sections)': 6.968757881853762e-06, 'max abs. dev. (asymmetries)': 8.512717281653143e-07}
+  validation tree Born+pi0+D1             {'max rel. dev. (cross sections)': 1.2740834572969519e-12, 'max abs. dev. (asymmetries)': 1.0628165014736624e-12}
+  validation Born+pi0+piN, d=main fit     {'max rel. dev. (cross sections)': 1.775833308783531e-12, 'max abs. dev. (asymmetries)': 1.6215917497675036e-12}
+  validation Born+piN+D0+piD, d=main fit  {'max rel. dev. (cross sections)': 6.223115448207922e-06, 'max abs. dev. (asymmetries)': 7.157310909189601e-07}
+  validation static pols per mechanism (piN, D1, piD) {'piN': [7.0998, -1.9743, -3.2806, -0.1239, 0.5397, 0.9139], 'D1': [-0.1097, 7.1501, -0.3996, 3.286, -0.4273, 0.3855], 'piD': [4.4253, -1.4466, 0.4343, -0.2229, 0.0577, -0.1668]}
+  validation Pref (complete)              [11.415433, 3.729126, -3.245879, 2.939187, 0.170077, 1.132566]
+  validation vertex corrections present   True
+  extrapolated (flag=1) points: 467
+  Fig. 1: plotting-only points 400 < E <= 450 MeV: {'Camen2002': {'size': 3, 'min': 407.4, 'max': 448.3}, 'Hunger1997_75': {'size': 1, 'min': 408.6, 'max': 408.6}, 'Hunger1997_90': {'size': 4, 'min': 408.1, 'max': 443.2}, 'Wissmann1999': {'size': 1, 'min': 409.7, 'max': 409.7}}
+  wrote fig_delta_cs_vsE
+  wrote fig_delta_cs_vstheta_a
+  wrote fig_delta_cs_vstheta_b
+  Fig. 2: lab-frame sets converted to c.m.: ['MAMI 02', 'MAMI 99', 'SAL 00', 'TAPS 01']
+  wrote fig_delta_S3_vs_theta
+  wrote fig_delta_S3_90_vsE
+  wrote fig_delta_S2x_S2z
+  wrote fig_delta_S2_vsE
+  wrote fig_delta_cs_ratio
+                set  N  Erange  chi2N_n1  chi2N_nfit     n  chi2N_th  chi2N_spin_nfit  fit_report
+  A2_Martel2015_S2x  4     288     0.637       0.637 1.000     0.627            0.681        0.67
+  Martel_thesis_S2x  5     331     7.565       7.565 1.000     4.716            8.285         NaN
+ A2_Paudyal2020_S2z 10 275-295     2.477       1.642 0.921     1.291            1.339        1.61
+        LEGS2001_S3 79 213-334     2.338       2.338 1.000     2.212            1.048        2.52
+    Barbiellini1968  1     318     0.001       0.001 1.000     0.001            0.292         NaN
+        LEGS2001_CS 77 213-334    10.220       8.226 1.058     4.143            6.982        7.92
+      Hunger1997_75 12 207-339     2.064       1.569 0.955     1.263            1.841        1.59
+      Hunger1997_90  9 250-349     2.653       2.540 1.017     1.881            3.457        2.60
+       Wissmann1999  8 199-334     1.254       1.228 1.012     1.097            1.030        1.26
+          Camen2002  7 211-331     0.958       0.918 1.014     0.685            0.412        1.15
+           Kolb2000  1     247     8.620       8.620 1.000     6.321            6.072         NaN
+Hallin1993_TabII(D) 70 151-291     7.649       3.580 1.205     2.335            3.138        3.64
+    Hallin1993_TabI 17 182-286    16.449       6.151 1.194     2.790            4.700         NaN
+    OlmosdeLeon2001 10 157-164     1.984       1.664 1.042     1.276            1.044        1.73
+  bin-averaged vs nominal-energy asymmetry, max |diff|: {'S2X_288': 0.009, 'S2X_330.595': 0.005, 'S2Z_275': 0.003, 'S2Z_295': 0.003}
+PDFs:   <release>/paper/figs/delta/
+tables: <release>/code/delta_plots/results/chi2_table.md (.csv, .tex)
+renders: <release>/code/delta_plots/png/pdf/

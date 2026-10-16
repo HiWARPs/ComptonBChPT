@@ -1,0 +1,37 @@
+MAIN                               N=253 chi2/N=0.861 a-b= 9.63(1.08) b=2.28(0.53) gpi= 6.37(1.67) a+b=14.18(0.17) g0=-0.856(0.098) gEE=-2.76 gMM=0.91(0.37) gME=2.71 gEM=0.00
+w30                                N=253 chi2/N=0.836 a-b=10.17(1.34) b=2.00(0.66) gpi= 6.76(2.59) a+b=14.17(0.17) g0=-0.872(0.100) gEE=-2.94 gMM=1.04(0.65) gME=2.78 gEM=0.00
+bchptctr                           N=253 chi2/N=0.858 a-b=10.45(1.09) b=1.87(0.54) gpi= 8.97(1.66) a+b=14.19(0.17) g0=-0.859(0.098) gEE=-4.06 gMM=2.60(0.37) gME=2.31 gEM=0.00
+bchptctr_w30                       N=253 chi2/N=0.834 a-b=10.86(1.35) b=1.66(0.67) gpi= 9.15(2.59) a+b=14.18(0.17) g0=-0.873(0.100) gEE=-4.14 gMM=2.66(0.65) gME=2.35 gEM=0.00
+l2zero                             N=253 chi2/N=0.855 a-b= 9.69(1.08) b=2.22(0.53) gpi= 6.60(1.64) a+b=14.13(0.17) g0=-0.863(0.098) gEE=-2.87 gMM=0.78(0.37) gME=2.95 gEM=0.00
+gEMfree                            N=253 chi2/N=0.861 a-b= 9.70(1.20) b=2.24(0.59) gpi= 6.76(3.25) a+b=14.18(0.17) g0=-0.858(0.098) gEE=-2.37 gMM=1.08(1.28) gME=2.73 gEM=-0.59
+binsB                              N=253 chi2/N=0.889 a-b= 9.59(1.08) b=2.30(0.53) gpi= 6.56(1.67) a+b=14.20(0.17) g0=-0.866(0.098) gEE=-2.85 gMM=0.93(0.37) gME=2.78 gEM=0.00
+binmode                            N=253 chi2/N=0.884 a-b= 9.93(1.09) b=2.12(0.54) gpi= 6.88(1.66) a+b=14.17(0.17) g0=-0.899(0.098) gEE=-2.99 gMM=1.05(0.36) gME=2.84 gEM=0.00
+A2beamtimes                        N=349 chi2/N=0.831 a-b= 9.62(1.03) b=2.28(0.51) gpi= 6.24(1.59) a+b=14.17(0.17) g0=-0.855(0.098) gEE=-2.69 gMM=0.88(0.36) gME=2.67 gEM=0.00
+fwd_uncorr                         N=253 chi2/N=0.858 a-b= 9.64(1.05) b=2.18(0.55) gpi= 6.54(1.69) a+b=14.01(0.20) g0=-0.927(0.105) gEE=-2.81 gMM=0.89(0.38) gME=2.84 gEM=0.00
+exact_constraints                  N=253 chi2/N=0.877 a-b= 9.68(0.99) b=2.16(0.50) gpi= 6.80(1.60) a+b=14.00(0.00) g0=-0.929(0.000) gEE=-2.93 gMM=0.89(0.36) gME=2.97 gEM=0.00
+no_float_norm                      N=253 chi2/N=0.902 a-b= 9.52(0.80) b=2.33(0.40) gpi= 6.04(1.35) a+b=14.18(0.16) g0=-0.854(0.096) gEE=-2.60 gMM=0.80(0.30) gME=2.65 gEM=0.00
+db_allpts                          N=254 chi2/N=0.908 a-b= 9.90(1.08) b=2.14(0.53) gpi= 6.43(1.67) a+b=14.18(0.17) g0=-0.866(0.098) gEE=-2.78 gMM=0.89(0.37) gME=2.75 gEM=0.00
+db_3sigma                          N=252 chi2/N=0.802 a-b= 8.84(1.11) b=2.67(0.55) gpi= 5.51(1.76) a+b=14.19(0.17) g0=-0.900(0.099) gEE=-2.30 gMM=0.85(0.38) gME=2.36 gEM=0.00
+db_pruned                          N=243 chi2/N=0.730 a-b= 8.03(1.15) b=3.07(0.56) gpi= 5.31(1.82) a+b=14.16(0.17) g0=-0.930(0.100) gEE=-2.19 gMM=0.82(0.38) gME=2.30 gEM=0.00
+db_modern                          N=205 chi2/N=0.781 a-b= 8.72(1.20) b=2.73(0.59) gpi= 6.08(1.79) a+b=14.17(0.17) g0=-0.902(0.101) gEE=-2.59 gMM=0.96(0.38) gME=2.53 gEM=0.00
+db_new_only                        N=112 chi2/N=0.791 a-b= 8.94(1.41) b=2.62(0.69) gpi= 7.25(2.23) a+b=14.18(0.18) g0=-0.895(0.102) gEE=-3.18 gMM=1.15(0.51) gME=2.92 gEM=0.00
+db_A2_only                         N= 96 chi2/N=0.741 a-b= 7.31(1.63) b=3.41(0.80) gpi= 5.88(2.51) a+b=14.14(0.18) g0=-0.925(0.103) gEE=-2.48 gMM=1.15(0.54) gME=2.25 gEM=0.00
+db_noHIGS                          N=237 chi2/N=0.855 a-b= 9.09(1.14) b=2.53(0.56) gpi= 5.90(1.74) a+b=14.16(0.17) g0=-0.864(0.098) gEE=-2.52 gMM=0.89(0.37) gME=2.49 gEM=0.00
+db_noTAPS                          N=199 chi2/N=0.823 a-b= 9.79(1.16) b=2.19(0.57) gpi= 7.07(1.90) a+b=14.16(0.17) g0=-0.849(0.099) gEE=-3.11 gMM=0.95(0.42) gME=3.01 gEM=0.00
+db_noA2                            N=157 chi2/N=0.868 a-b=11.29(1.42) b=1.34(0.70) gpi= 7.03(2.16) a+b=13.97(0.19) g0=-0.904(0.101) gEE=-3.06 gMM=1.14(0.49) gME=2.82 gEM=0.00
+db_noLegacy                        N=214 chi2/N=0.837 a-b= 8.91(1.19) b=2.63(0.59) gpi= 5.71(1.80) a+b=14.17(0.17) g0=-0.909(0.100) gEE=-2.40 gMM=0.92(0.38) gME=2.39 gEM=0.00
+db_old_only                        N=141 chi2/N=0.863 a-b=10.66(1.53) b=1.64(0.76) gpi= 6.38(2.28) a+b=13.95(0.19) g0=-0.903(0.101) gEE=-2.74 gMM=1.10(0.50) gME=2.54 gEM=0.00
+db_old_only_pruned                 N=131 chi2/N=0.637 a-b= 7.00(1.70) b=3.49(0.85) gpi= 3.61(2.69) a+b=13.98(0.19) g0=-0.956(0.102) gEE=-1.33 gMM=0.61(0.55) gME=1.67 gEM=0.00
+db_pruned_noHIGS                   N=227 chi2/N=0.701 a-b= 7.07(1.22) b=3.53(0.60) gpi= 4.39(1.94) a+b=14.14(0.17) g0=-0.949(0.100) gEE=-1.72 gMM=0.78(0.40) gME=1.89 gEM=0.00
+   influence drop Oxley                         a-b=8.32 b=2.93 gpi=4.93
+   influence drop Oxley 60/150                  a-b=8.84 b=2.67 gpi=5.51
+   influence keep TAPS 108.4/133 (all points)   a-b=9.90 b=2.14 gpi=6.43
+   influence drop Baranov 150deg                a-b=9.38 b=2.39 gpi=6.72
+   influence drop Bernardini                    a-b=9.61 b=2.28 gpi=6.38
+   influence drop Goldansky                     a-b=10.27 b=1.95 gpi=7.04
+   influence drop Oxley+Goldansky               a-b=8.96 b=2.61 gpi=5.66
+   influence drop A2 Sigma3                     a-b=9.57 b=2.31 gpi=6.21
+   PG TAPS {'chi2_all': 217.8, 'chi2_sub': 49.0, 'chi2_rest': 163.8, 'dchi2': 4.99, 'N_sub': 54, 'N_rest': 199, 'amb_sub': 8.99, 'amb_rest': 9.79, 'e_amb_sub': 2.44, 'e_amb_rest': 1.16, 'gpi_sub': 4.1, 'gpi_rest': 7.07, 'b_sub': 2.5, 'b_rest': 2.19}
+   PG A2 {'chi2_all': 217.8, 'chi2_sub': 71.16, 'chi2_rest': 136.35, 'dchi2': 10.29, 'N_sub': 96, 'N_rest': 157, 'amb_sub': 7.31, 'amb_rest': 11.29, 'e_amb_sub': 1.63, 'e_amb_rest': 1.42, 'gpi_sub': 5.88, 'gpi_rest': 7.03, 'b_sub': 3.41, 'b_rest': 1.34}
+   PG HIGS {'chi2_all': 217.8, 'chi2_sub': 13.07, 'chi2_rest': 202.69, 'dchi2': 2.03, 'N_sub': 16, 'N_rest': 237, 'amb_sub': 19.46, 'amb_rest': 9.09, 'e_amb_sub': 5.66, 'e_amb_rest': 1.14, 'gpi_sub': 28.86, 'gpi_rest': 5.9, 'b_sub': -2.72, 'b_rest': 2.53}
+   PG new vs old {'chi2_all': 217.8, 'chi2_sub': 88.57, 'chi2_rest': 121.63, 'dchi2': 7.6, 'N_sub': 112, 'N_rest': 141, 'amb_sub': 8.94, 'amb_rest': 10.66, 'e_amb_sub': 1.41, 'e_amb_rest': 1.53, 'gpi_sub': 7.25, 'gpi_rest': 6.38, 'b_sub': 2.62, 'b_rest': 1.64}

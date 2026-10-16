@@ -1,0 +1,21 @@
+Pref = 11.415 3.729 -3.246 2.939 0.170 1.133
+MAIN database: all points minus MAIN_DROP = ['OlmosdeLeon2001_029']
+A2_2022_CS                 N= 60 chi2=   56.5
+A2_2022_S3                 N= 36 chi2=   26.9
+Baranov1974_75_th150       N=  4 chi2=   34.2
+Baranov1974_75_th90        N=  3 chi2=    3.4
+Bernardini1960             N=  2 chi2=    1.2
+Federspiel1991             N= 16 chi2=   18.2
+Goldansky1960              N=  5 chi2=    5.9
+HIGS_2022_CIRC             N=  8 chi2=   13.4
+HIGS_2022_LIN              N=  8 chi2=   10.0
+Hallin1993_TabII           N= 13 chi2=   12.9
+Hyman1959                  N= 12 chi2=    1.9
+MacGibbon1995_tagged       N=  8 chi2=    4.9
+MacGibbon1995_untagged     N= 10 chi2=    3.6
+OlmosdeLeon2001            N= 54 chi2=   54.4
+Oxley1958                  N=  4 chi2=   31.1
+Pugh1957                   N= 16 chi2=    4.5
+Zieger1992                 N=  2 chi2=    1.7
+TOTAL N=261 chi2=284.6
+OlmosdeLeon2001            N= 55 chi2=   78.6   [all points incl. the 3-sigma outlier]

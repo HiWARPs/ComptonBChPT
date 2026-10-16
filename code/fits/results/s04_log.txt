@@ -1,0 +1,12 @@
+CS c2 k=0: l_E = 19 MeV, l_theta = 56 deg, rms = 0.285
+CS c3 k=0: l_E = 15 MeV, l_theta = 51 deg, rms = 0.606
+CS c2 k=3: l_E = 12 MeV, l_theta = 57 deg, rms = 0.346
+CS c3 k=3: l_E = 19 MeV, l_theta = 44 deg, rms = 0.934
+CS c2 k=4: l_E = 13 MeV, l_theta = 52 deg, rms = 0.416
+CS c3 k=4: l_E = 19 MeV, l_theta = 40 deg, rms = 1.348
+S3 c2 k=0: l_E = 12 MeV, l_theta = 35 deg, rms = 0.103
+S3 c3 k=0: l_E = 14 MeV, l_theta = 30 deg, rms = 0.126
+S3 c2 k=3: l_E = 12 MeV, l_theta = 33 deg, rms = 0.111
+S3 c3 k=3: l_E = 22 MeV, l_theta = 26 deg, rms = 0.222
+S3 c2 k=4: l_E = 12 MeV, l_theta = 31 deg, rms = 0.118
+S3 c3 k=4: l_E = 27 MeV, l_theta = 25 deg, rms = 0.343

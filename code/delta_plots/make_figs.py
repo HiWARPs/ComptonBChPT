@@ -1,0 +1,657 @@
+"""
+make_figs.py -- Delta-region figures and chi^2 table (see work/notes/delta_plots.md).
+
+usage:  [AMPL_EXE=...] [DP_ALPHA=.. DP_BETA=.. DP_COV_AB=.. DP_SPINFIT=.. DP_V2OPTS=..] python make_figs.py
+        (or ./make_all.sh; see config.py for the environment variables)
+Writes  paper/figs/delta/*.pdf, work/delta_plots/png/*.png (renders for inspection),
+        work/delta_plots/results/{chi2_table.md,chi2_table.csv,chi2_table.tex,data_with_theory.csv,
+        validation.json,curves_*.csv}
+"""
+import os, sys, json, unicodedata
+import numpy as np
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch, Rectangle
+import config as C
+import data_dp as D
+import theory_dp as TD
+
+plt.style.use(C.STYLE)
+for d in (C.FIGDIR, C.PNG, C.RESULTS):
+    os.makedirs(d, exist_ok=True)
+
+C_MAIN, C_BAND, C_GM = '#c0392b', '#f4aaa2', '#fde6e2'
+C_GM_EDGE = '#e7877c'
+C_TREE, C_SPIN, C_NOVC = '#1f4e9c', '#2b2b2b', '#4d4d4d'
+# legend labels (short; the captions of the paper give the full description)
+LAB_MAIN = r'NNLO fit'
+LAB_GM = r'$g_M = 2.97\pm0.10$'
+LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
+LAB_SPIN = r"$\gamma$'s from the $\Delta$-region fit"
+LAB_NOVC = r'no vertex corrections'
+MS = 3.2
+W1, W2 = 246 / 72.27, 510 / 72.27      # final printed widths [in] (single / double column); included without scaling
+E_2PI = 2 * 134.9768 * (1 + 134.9768 / C.MP)   # pi0 pi0 p threshold, lab photon energy [MeV] (308.8)
+SHOWN = {}       # figure -> {dataset: number of points shown}
+SHOWN_PIDS = set()
+
+
+def mark_shown(fig, sel):
+    SHOWN_PIDS.update(sel.pid)
+    d = SHOWN.setdefault(fig, {})
+    for k, v in sel.groupby('dataset').size().items():
+        d[k] = d.get(k, 0) + int(v)
+
+# ============================================================== kinematic grids
+E_GRID = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 450.01, 2.0)]   # Fig. 1: to 450 MeV
+TH_GRID = np.r_[0.0, 1.0, np.arange(2.0, 178.01, 2.0), 179.0, 180.0]
+FIG1 = [('LAB', 60.0), ('LAB', 90.0), ('LAB', 133.5), ('CM', 75.0), ('CM', 90.0), ('CM', 138.0)]
+FIG2A = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1]           # part (a): 2 rows x 4
+FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0]     # part (b): 3 rows x 4, legend in the free slots
+FIG2 = FIG2A + FIG2B
+LEGS_E = [213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8]
+E3B = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 350.01, 2.0)]
+FIG4 = [('S2X', 288.0, 'A2 15 (273-303 MeV)'), ('S2X', 330.595, 'Martel thesis (315-346 MeV)'),
+        ('S2Z', 275.0, 'A2 20 (265-285 MeV)'), ('S2Z', 295.0, 'A2 20 (285-305 MeV)')]
+E5 = np.r_[np.arange(50.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 400.01, 2.0)]
+FIG5 = [('S2X', 90.0), ('S2X', 130.0), ('S2Z', 90.0), ('S2Z', 130.0)]
+E6 = np.arange(150.0, 400.01, 2.0)
+FIG6 = [(0, 80, 65.0), (80, 100, 90.0), (100, 125, 112.5), (125, 181, 140.0)]
+
+
+def gid(*a):
+    return 'g_' + '_'.join(str(x) for x in a)
+
+
+def build_points(df):
+    pts = []
+    for fr, th in FIG1:
+        for E in E_GRID:
+            pts.append((gid('f1', fr, th, '%.2f' % E), E, th, 'CS' if fr == 'LAB' else 'CSCM', fr))
+    for E in FIG2:
+        for th in TH_GRID:
+            pts.append((gid('f2', E, th), E, th, 'CSCM', 'CM'))
+    for E in LEGS_E:
+        for th in TH_GRID:
+            pts.append((gid('f3', E, th), E, th, 'S3', 'CM'))
+    for E in E3B:
+        pts.append((gid('f3b', '%.2f' % E), E, 90.0, 'S3', 'CM'))
+    for o, E, _ in FIG4:
+        for th in TH_GRID:
+            pts.append((gid('f4', o, E, th), E, th, o, 'LAB'))
+        # energy grid across the bin (bin-averaged curve)
+    for o, E, _ in FIG4:
+        lo, hi = BIN[E]
+        for Eb in np.linspace(lo, hi, 7):
+            for th in TH_GRID:
+                pts.append((gid('f4b', o, E, '%.3f' % Eb, th), Eb, th, o, 'LAB'))
+    for o, th in FIG5:
+        for E in E5:
+            pts.append((gid('f5', o, th, '%.2f' % E), E, th, o, 'LAB'))
+    for a, b, th in FIG6:
+        for E in E6:
+            pts.append((gid('f6', th, '%.1f' % E), E, th, 'CSCM', 'CM'))
+    pts += D.driver_points(df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])])
+    return pts
+
+
+BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0), 295.0: (285.0, 305.0)}
+
+
+# ============================================================== drawing helpers
+def draw_theory(ax, x, cv, idx, tree=True, spin=True, gm=True, novc=False):
+    if gm:
+        ax.fill_between(x, cv['gm_lo'][idx], cv['gm_hi'][idx], color=C_GM, lw=0, zorder=1)
+        ax.plot(x, cv['gm_lo'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(x, cv['gm_hi'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+    ax.fill_between(x, cv['lo'][idx], cv['hi'][idx], color=C_BAND, lw=0, alpha=0.85, zorder=2)
+    if tree:
+        ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
+    if spin:
+        ax.plot(x, cv['spin'][idx], '-.', color=C_SPIN, lw=0.8, zorder=3)
+    if novc and 'noVC' in cv:
+        ax.plot(x, cv['noVC'][idx], ':', color=C_NOVC, lw=0.9, zorder=3.5)
+    ax.plot(x, cv['main'][idx], '-', color=C_MAIN, lw=1.15, zorder=4)
+
+
+def theory_handles(spin=True, tree=True, gm=True, novc=False):
+    h, l = [], []
+    h.append((Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.15))); l.append(LAB_MAIN)
+    if gm:
+        h.append(Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)); l.append(LAB_GM)
+    if tree:
+        h.append(Line2D([], [], color=C_TREE, ls='--', dashes=(4, 2), lw=0.9)); l.append(LAB_TREE)
+    if spin:
+        h.append(Line2D([], [], color=C_SPIN, ls='-.', lw=0.8)); l.append(LAB_SPIN)
+    if novc:
+        h.append(Line2D([], [], color=C_NOVC, ls=':', lw=0.9)); l.append(LAB_NOVC)
+    return h, l
+
+
+def draw_points(ax, label, x, y, e, reg, xerr=None, zorder=5, ms=MS):
+    m, c, filled = D.STYLE[label]
+    msz = ms * (1.35 if m in ('*', 'P', 'X') else 1.0)
+    h = ax.errorbar(x, y, yerr=e, xerr=xerr, fmt=m, color=c, mfc=c if filled else 'white', mec=c, ms=msz, mew=0.7,
+                    elinewidth=0.6, capsize=0, zorder=zorder, label=label)
+    if label not in reg:
+        reg[label] = Line2D([], [], ls='none', marker=m, color=c, mfc=c if filled else 'white', mec=c, ms=msz, mew=0.7)
+    return h
+
+
+def data_handles(reg):
+    labs = [l for l in D.ORDER if l in reg] + [l for l in reg if l not in D.ORDER]
+    return [reg[l] for l in labs], labs
+
+
+def save(fig, name, exact=False):
+    """exact=True: keep the exact figure size (no cropping) -- the paper includes these PDFs without scaling"""
+    with plt.rc_context({'savefig.bbox': 'standard'} if exact else {}):
+        fig.savefig(os.path.join(C.FIGDIR, name + '.pdf'))
+        fig.savefig(os.path.join(C.PNG, name + '.png'), dpi=200)
+    plt.close(fig)
+    print('  wrote', name)
+
+
+def legend_rows(fig, th, tl, dh, dl, ncol_t=None, ncol_d=None):
+    """theory legend in a row above the panels, data legend in a row (or rows) below (constrained layout)"""
+    fig.legend(th, tl, loc='outside upper center', ncol=ncol_t or len(tl), handlelength=2.0, columnspacing=1.0)
+    if dh:
+        fig.legend(dh, dl, loc='outside lower center', ncol=ncol_d or len(dl), handlelength=1.0, handletextpad=0.35,
+                   columnspacing=1.1)
+
+
+def legend_below(fig, th, tl, dh, dl, ncol_t=3, ncol_d=6, y_t=0.0, y_d=None, fs=7.0):
+    lt = fig.legend(th, tl, loc='upper center', ncol=ncol_t, bbox_to_anchor=(0.5, y_t), fontsize=fs,
+                    handlelength=2.2, columnspacing=1.2, borderaxespad=0.)
+    fig.add_artist(lt)
+    if dh:
+        fig.canvas.draw()
+        bb = lt.get_window_extent().transformed(fig.transFigure.inverted())
+        fig.legend(dh, dl, loc='upper center', ncol=ncol_d, bbox_to_anchor=(0.5, bb.y0 - 0.012), fontsize=fs,
+                   handlelength=1.0, columnspacing=1.0, handletextpad=0.3, borderaxespad=0.)
+
+
+# ============================================================== figures
+def fig1(df, cv, ix):
+    fig, axs = plt.subplots(2, 3, figsize=(W2, 4.7), sharex=True, layout='constrained')
+    reg = {}
+    cs = df[df.is_cs & (df.dataset != 'Hallin1993_TabI')]
+    for k, (fr, th0) in enumerate(FIG1):
+        ax = axs.ravel()[k]
+        idx = np.array([ix[gid('f1', fr, th0, '%.2f' % E)] for E in E_GRID])
+        draw_theory(ax, E_GRID, cv, idx, novc=True)
+        col = 'theta_lab' if fr == 'LAB' else 'theta_cm'
+        sel = cs[(cs.frame == fr) & (np.abs(cs[col] - th0) <= C.WIN_THETA + 1e-6)]
+        mark_shown('Fig. 1 (dsigma vs E)', sel)
+        for lab in [l for l in D.ORDER if l in set(sel.label)]:
+            s = sel[sel.label == lab]
+            draw_points(ax, lab, s.E.values, s.value.values, s.err.values, reg)
+        frl = 'lab' if fr == 'LAB' else 'cm'
+        ax.text(0.05, 0.93, r'$%g^\circ$ %s' % (th0, 'lab' if fr == 'LAB' else 'c.m.'), transform=ax.transAxes,
+                va='top', ha='left')
+        ax.axvline(E_2PI, color='0.45', lw=0.5, ls=':', zorder=0.5)       # two-pion (pi0 pi0 p) threshold
+        ymax = max(np.max(cv['gm_hi'][idx]), (sel.value + sel.err).max() if len(sel) else 0)
+        ax.set_ylim(0, 1.08 * ymax)
+        ax.set_xlim(0, 450)
+        if k % 3 == 0:
+            ax.set_ylabel(r'$d\sigma/d\Omega_{\rm %s}$ [nb/sr]' % frl)
+        if k >= 3:
+            ax.set_xlabel(r'$E_\gamma$ [MeV]')
+        ax.xaxis.set_major_locator(plt.MultipleLocator(100))
+    th, tl = theory_handles(novc='noVC' in cv)
+    dh, dl = data_handles(reg)
+    legend_rows(fig, th, tl, dh, dl, ncol_d=9)
+    save(fig, 'fig_delta_cs_vsE', exact=True)
+    return reg
+
+
+def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
+    nc = 4
+    nr = int(np.ceil(len(energies) / nc))
+    fig, axs = plt.subplots(nr, nc, figsize=(W2, 1.32 * nr + 0.36), sharex=True, layout='constrained')
+    fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02)
+    axs = axs.ravel()
+    reg = {} if reg is None else reg
+    cs = df[df.is_cs & (df.dataset != 'Hallin1993_TabI')].copy()
+    # each point assigned to the nearest panel energy of ALL Fig. 2 panels (no point shown twice)
+    Ep = np.array(FIG2)
+    near = Ep[np.argmin(np.abs(cs.E.values[:, None] - Ep[None, :]), axis=1)]
+    cs['Epanel'] = near
+    cs = cs[np.abs(cs.E - cs.Epanel) <= 3.0 + 1e-6]
+    conv_labels = set()
+    for k, E0 in enumerate(energies):
+        ax = axs[k]
+        idx = np.array([ix[gid('f2', E0, th)] for th in TH_GRID])
+        draw_theory(ax, TH_GRID, cv, idx)
+        sel = cs[np.isclose(cs.Epanel, E0)]
+        mark_shown('Fig. 2 (dsigma vs theta)', sel)
+        th, v, e, conv = D.as_frame(sel, 'CM')
+        sel = sel.assign(thp=th, vp=v, ep=e, conv=conv)
+        conv_labels |= set(sel[sel.conv].label)
+        for lab in [l for l in D.ORDER if l in set(sel.label)]:
+            s = sel[sel.label == lab]
+            draw_points(ax, lab, s.thp.values, s.vp.values, s.ep.values, reg)
+        ax.text(0.05, 0.93, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
+        ymax = max(np.max(cv['gm_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
+                   (sel.vp + sel.ep).max() if len(sel) else 0)
+        ax.set_ylim(0, 1.17 * ymax)
+        ax.set_xlim(0, 180)
+        ax.xaxis.set_major_locator(plt.MultipleLocator(60))
+        ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
+        if k % nc == 0:
+            ax.set_ylabel(r'$d\sigma/d\Omega_{\rm cm}$ [nb/sr]')
+    for k in range(len(energies), len(axs)):
+        axs[k].axis('off')
+    for k in range(len(energies)):
+        if k >= len(energies) - nc or (k + nc >= len(energies) and k + nc < len(axs)):
+            axs[k].set_xlabel(r'$\theta_{\rm cm}$ [deg]')
+            axs[k].xaxis.set_tick_params(labelbottom=True)
+    th, tl = theory_handles(novc=False)
+    dh, dl = data_handles(reg)
+    if legend_in_last and len(energies) < len(axs):
+        # legend in the free panel slots of the last row (data sets of both parts of the figure)
+        gs = axs[len(energies)].get_subplotspec().get_gridspec()
+        for k in range(len(energies), len(axs)):
+            fig.delaxes(axs[k])
+        axl = fig.add_subplot(gs[nr - 1, len(energies) % nc:])
+        axl.axis('off')
+        l1 = axl.legend(th, tl, loc='center left', handlelength=2.0, borderaxespad=0.0, bbox_to_anchor=(0.04, 0.5))
+        axl.add_artist(l1)
+        axl.legend(dh, dl, loc='center right', ncol=2, handlelength=1.0, columnspacing=1.0,
+                   handletextpad=0.35, borderaxespad=0.0, bbox_to_anchor=(0.98, 0.5))
+    save(fig, name, exact=True)
+    return conv_labels, reg
+
+
+def fig3a(df, cv, ix):
+    fig, axs = plt.subplots(3, 4, figsize=(W2, 4.45), sharex=True, layout='constrained')
+    fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02)
+    axs = axs.ravel()
+    reg = {}
+    s3 = df[df.obs == 'S3']
+    for k, E0 in enumerate(LEGS_E):
+        ax = axs[k]
+        idx = np.array([ix[gid('f3', E0, th)] for th in TH_GRID])
+        draw_theory(ax, TH_GRID, cv, idx, novc=True)
+        sel = s3[np.abs(s3.E - E0) <= 0.05]
+        mark_shown('Fig. 3a (Sigma3 vs theta)', sel)
+        for lab in [l for l in D.ORDER if l in set(sel.label)]:
+            s = sel[sel.label == lab]
+            draw_points(ax, lab, s.theta_cm.values, s.value.values, s.err.values, reg)
+        ax.axhline(0, color='0.6', lw=0.4, zorder=0)
+        ax.text(0.05, 0.94, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
+        ax.set_xlim(0, 180)
+        ax.xaxis.set_major_locator(plt.MultipleLocator(60))
+        ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
+        if k % 4 == 0:
+            ax.set_ylabel(r'$\Sigma_3$')
+        if k >= 8:
+            ax.set_xlabel(r'$\theta_{\rm cm}$ [deg]')
+    # common y range per row, with headroom for the energy labels
+    for r, (lo, hi) in enumerate([(-0.40, 0.46), (-0.25, 0.42), (-0.05, 0.80)]):
+        for a in axs[4 * r:4 * r + 4]:
+            a.set_ylim(min(lo, a.get_ylim()[0]), hi)
+    th, tl = theory_handles(novc='noVC' in cv)
+    dh, dl = data_handles(reg)
+    hh, ll = th + dh, tl + dl                       # rows: (main, g_M, tree) / (spin fit, no VC, LEGS)
+    o = [0, 3, 1, 4, 2, 5] if len(hh) == 6 else list(range(len(hh)))
+    fig.legend([hh[i] for i in o], [ll[i] for i in o], loc='outside upper center', ncol=3, handlelength=2.0,
+               columnspacing=2.0)
+    save(fig, 'fig_delta_S3_vs_theta', exact=True)
+
+
+def fig3b(df, cv, ix):
+    fig, ax = plt.subplots(figsize=(W1, 2.65), layout='constrained')
+    reg = {}
+    idx = np.array([ix[gid('f3b', '%.2f' % E)] for E in E3B])
+    draw_theory(ax, E3B, cv, idx, novc=True)
+    s3 = df[(df.obs == 'S3') & (np.abs(df.theta_cm - 90.0) <= C.WIN_THETA + 1e-6)]
+    mark_shown('Fig. 3b (Sigma3(90) vs E)', s3)
+    for lab in [l for l in D.ORDER if l in set(s3.label)]:
+        s = s3[s3.label == lab]
+        xerr = None
+        if lab == 'Frascati 68':
+            xerr = np.array([[s.E.values[0] - s.Elo.values[0]], [s.Ehi.values[0] - s.E.values[0]]])
+        draw_points(ax, lab, s.E.values, s.value.values, s.err.values, reg, xerr=xerr)
+    ax.axhline(0, color='0.6', lw=0.4, zorder=0)
+    ax.set_xlim(0, 350); ax.set_ylim(-1.05, 0.75)
+    ax.set_xlabel(r'$E_\gamma$ [MeV]'); ax.set_ylabel(r'$\Sigma_3(\theta_{\rm cm}=90^\circ)$')
+    th, tl = theory_handles(novc='noVC' in cv)
+    dh, dl = data_handles(reg)
+    fig.legend(th, tl, loc='outside upper center', ncol=2, handlelength=2.0, columnspacing=1.0)
+    ax.legend(dh, dl, loc='lower right', handlelength=1.0, handletextpad=0.35, borderaxespad=0.5)   # empty region
+    save(fig, 'fig_delta_S3_90_vsE', exact=True)
+    return s3
+
+
+def fig4(df, cv, ix):
+    # single-column figure (2x2 panels, rows share the y axis)
+    fig, axs = plt.subplots(2, 2, figsize=(W1, 4.05), sharex=True, sharey='row', layout='constrained')
+    axs = axs.ravel()
+    reg = {}
+    for k, (o, E0, title) in enumerate(FIG4):
+        ax = axs[k]
+        idx = np.array([ix[gid('f4', o, E0, th)] for th in TH_GRID])
+        draw_theory(ax, TH_GRID, cv, idx, novc=True)
+        # bin-averaged NNLO (bremsstrahlung weight 1/E): <N>/<D>; only reported (differs by <= 0.01)
+        lo, hi = BIN[E0]
+        Eb = np.linspace(lo, hi, 7)
+        w = 1.0 / Eb; w /= w.sum()
+        avg = np.array([np.sum([w[j] * cv['num'][ix[gid('f4b', o, E0, '%.3f' % Eb[j], th)]] for j in range(7)]) /
+                        np.sum([w[j] * cv['den'][ix[gid('f4b', o, E0, '%.3f' % Eb[j], th)]] for j in range(7)])
+                        for th in TH_GRID])
+        cv.setdefault('binavg', {})[(o, E0)] = avg
+        sel = df[(df.obs == o) & np.isclose(df.E, E0)]
+        mark_shown('Fig. 4 (Sigma2x,2z vs theta)', sel)
+        for lab in [l for l in D.ORDER if l in set(sel.label)]:
+            s = sel[sel.label == lab]
+            draw_points(ax, lab, s.theta_lab.values, s.value.values, s.err.values, reg, ms=3.8)
+        if o == 'S2Z':
+            # Paudyal 10.4% correlated scale uncertainty: grey bars at the bottom
+            yb = -0.09
+            for t, v in zip(sel.theta_lab, sel.value):
+                ax.add_patch(Rectangle((t - 2.5, yb), 5.0, 0.104 * abs(v), color='0.6', lw=0, zorder=2))
+        ax.axhline(0, color='0.6', lw=0.4, zorder=0)
+        ax.set_xlim(0, 180)
+        ax.xaxis.set_major_locator(plt.MultipleLocator(60))
+        ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
+        sym = r'\Sigma_{2x}' if o == 'S2X' else r'\Sigma_{2z}'
+        if k % 2 == 0:
+            ax.set_ylabel(r'$%s$' % sym)
+        if o == 'S2X':
+            ax.text(0.04, 0.07, r'%s MeV' % ('%g' % round(E0, 1)), transform=ax.transAxes, va='bottom', ha='left')
+        else:
+            ax.text(0.5, 0.93, r'%s MeV' % ('%g' % round(E0, 1)), transform=ax.transAxes, va='top', ha='center')
+        if k >= 2:
+            ax.set_xlabel(r'$\theta_{\rm lab}$ [deg]')
+    axs[0].set_ylim(-0.75, 0.75); axs[1].set_ylim(-0.75, 0.75)
+    axs[2].set_ylim(-0.1, 1.05); axs[3].set_ylim(-0.1, 1.05)
+    th, tl = theory_handles(novc='noVC' in cv)
+    dh, dl = data_handles(reg)
+    dh.append(Patch(facecolor='0.6', edgecolor='none')); dl.append(r'A2 20 scale unc.\ (10.4\%)')
+    legend_rows(fig, th, tl, dh, dl, ncol_t=2, ncol_d=2)
+    save(fig, 'fig_delta_S2x_S2z', exact=True)
+
+
+def fig5(df, cv, ix):
+    fig, axs = plt.subplots(2, 2, figsize=(7.0, 4.4), sharex=True)
+    axs = axs.ravel()
+    reg = {}
+    for k, (o, th0) in enumerate(FIG5):
+        ax = axs[k]
+        idx = np.array([ix[gid('f5', o, th0, '%.2f' % E)] for E in E5])
+        draw_theory(ax, E5, cv, idx, novc=True)
+        sel = df[(df.obs == o) & (np.abs(df.theta_lab - th0) <= C.WIN_THETA + 1e-6)]
+        mark_shown('Fig. 5 (Sigma2x,2z vs E)', sel)
+        for lab in [l for l in D.ORDER if l in set(sel.label)]:
+            s = sel[sel.label == lab]
+            xerr = np.vstack([s.E.values - s.Elo.values, s.Ehi.values - s.E.values])
+            draw_points(ax, lab, s.E.values, s.value.values, s.err.values, reg, xerr=xerr, ms=3.8)
+        ax.axhline(0, color='0.6', lw=0.4, zorder=0)
+        ax.set_xlim(50, 400)
+        sym = r'\Sigma_{2x}' if o == 'S2X' else r'\Sigma_{2z}'
+        ax.set_ylabel(r'$%s(\theta_{\rm lab}=%g^\circ)$' % (sym, th0))
+        if k >= 2:
+            ax.set_xlabel(r'$E_\gamma$ [MeV]')
+    fig.tight_layout(rect=(0, 0.1, 1, 1), h_pad=0.5, w_pad=1.0)
+    th, tl = theory_handles(novc='noVC' in cv)
+    dh, dl = data_handles(reg)
+    fig.legend(th + dh, tl + dl, loc='upper center', ncol=3, bbox_to_anchor=(0.5, 0.092), fontsize=7.0,
+               handlelength=2.2, columnspacing=1.2, borderaxespad=0.)
+    save(fig, 'fig_delta_S2_vsE')
+
+
+def fig6(df, cv, ix):
+    """data / NNLO at the exact kinematics of every Delta-region cross-section point (E > 150 MeV)"""
+    cs = df[df.is_cs & (df.E > C.E_DELTA_MIN) & (df.dataset != 'Hallin1993_TabI')].copy()
+    ii = np.array([ix[p] for p in cs.pid])
+    th = cv['main'][ii]
+    cs['r'] = cs.value / th; cs['re'] = cs.err / th
+    fig, axs = plt.subplots(2, 2, figsize=(7.0, 4.7), sharex=True, sharey=True)
+    axs = axs.ravel()
+    reg = {}
+    for k, (a, b, thr) in enumerate(FIG6):
+        ax = axs[k]
+        s = cs[(cs.theta_cm >= a) & (cs.theta_cm < b)].sort_values('E')
+        mark_shown('Fig. 6 (dsigma ratio)', s)
+        idx = np.array([ix[gid('f6', thr, '%.1f' % E)] for E in E6])
+        m0 = cv['main'][idx]
+        ax.fill_between(E6, cv['gm_lo'][idx] / m0, cv['gm_hi'][idx] / m0, color=C_GM, lw=0, zorder=1)
+        ax.plot(E6, cv['gm_lo'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(E6, cv['gm_hi'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.fill_between(E6, cv['lo'][idx] / m0, cv['hi'][idx] / m0, color=C_BAND, lw=0, alpha=0.85, zorder=2)
+        ax.axhline(1.0, color=C_MAIN, lw=1.0, zorder=3)
+        for lab in [l for l in D.ORDER if l in set(s.label)]:
+            q = s[s.label == lab]
+            draw_points(ax, lab, q.E.values, q.r.values, q.re.values, reg, ms=2.8)
+        lo_ = r'%d^\circ\leq' % a if a > 0 else ''
+        hi_ = r'<%d^\circ' % b if b < 181 else ''
+        ax.set_title(r'$%s\theta_{\rm cm}%s$  (bands: $\theta_{\rm cm}=%g^\circ$)' % (lo_, hi_, thr), fontsize=8, pad=3)
+        ax.set_xlim(150, 400); ax.set_ylim(0.45, 1.75)
+        if k % 2 == 0:
+            ax.set_ylabel(r'data / NNLO')
+        if k >= 2:
+            ax.set_xlabel(r'$E_\gamma$ [MeV]')
+    fig.tight_layout(rect=(0, 0.13, 1, 1), h_pad=0.6, w_pad=0.6)
+    th = [(Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.0)),
+          Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)]
+    tl = [r'NNLO B$\chi$PT, fitted $\alpha_{E1},\beta_{M1}$ (=1) and its uncertainty', LAB_GM]
+    dh, dl = data_handles(reg)
+    legend_below(fig, th, tl, dh, dl, ncol_t=2, ncol_d=7, y_t=0.115, y_d=0.075)
+    save(fig, 'fig_delta_cs_ratio')
+    return cs
+
+
+# ============================================================== chi^2 table
+def chi2_rows(df, cv, ix, Emin, Emax, curve='main'):
+    s = df[(df.E > Emin) & (df.E <= Emax) & df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
+    s['set'] = s.dataset.replace({'Hallin1993_TabII': 'Hallin1993_TabII(D)', 'Hallin1993_TabII_D': 'Hallin1993_TabII(D)'})
+    rows = []
+    for ds in dict.fromkeys(s.set):
+        q = s[s.set == ds]
+        ii = np.array([ix[p] for p in q.pid])
+        t = cv[curve][ii]; y = q.value.values; e = q.err.values
+        sth = 0.5 * (cv['hi'][ii] - cv['lo'][ii])
+        dn = float(q.norm.iloc[0])
+        c0 = float(np.sum(((y - t) / e) ** 2))
+
+        def nfit(err):
+            if dn <= 0:
+                return 1.0, float(np.sum(((y - t) / err) ** 2))
+            a = np.sum(t * t / err ** 2) + 1 / dn ** 2
+            b = np.sum(t * y / err ** 2) + 1 / dn ** 2
+            n = b / a
+            return n, float(np.sum(((y - n * t) / err) ** 2) + ((n - 1) / dn) ** 2)
+        n1, c1 = nfit(e)
+        n2, c2 = nfit(np.sqrt(e ** 2 + sth ** 2))
+        rows.append(dict(set=ds, label=q.label.iloc[0], obs='/'.join(sorted(set(q.obs))), N=len(q),
+                         Erange=('%.0f' % q.E.min()) if q.E.max() - q.E.min() < 0.5 else '%.0f-%.0f' % (q.E.min(), q.E.max()), norm=dn, in_fitdb=bool(q.in_fitdb.iloc[0]),
+                         published=bool(q.published.iloc[0]), chi2_n1=c0, chi2N_n1=c0 / len(q),
+                         n=n1, chi2_nfit=c1, chi2N_nfit=c1 / len(q), chi2N_th=c2 / len(q), n_th=n2))
+    return pd.DataFrame(rows)
+
+
+SETNAME = {
+    'A2_Martel2015_S2x': 'A2 15 $\\Sigma_{2x}$ (Martel), 288 MeV', 'Martel_thesis_S2x': 'Martel thesis $\\Sigma_{2x}$, 331 MeV (unpubl.)',
+    'A2_Paudyal2020_S2z': 'A2 20 $\\Sigma_{2z}$ (Paudyal)', 'LEGS2001_S3': 'LEGS 01 $\\Sigma_3$', 'LEGS2001_CS': 'LEGS 01 $d\\sigma$',
+    'Hunger1997_75': 'MAMI 97 75° c.m. (Hünger)', 'Hunger1997_90': 'MAMI 97 90° c.m. (Hünger)', 'Wissmann1999': 'MAMI 99 (Wissmann)',
+    'Camen2002': 'MAMI 02 (Camen/Kossert)', 'Hallin1993_TabII(D)': 'SAL 93 (Hallin) Tab. II', 'Hallin1993_TabI': 'SAL 93 (Hallin) Tab. I [not indep.]',
+    'OlmosdeLeon2001': 'TAPS 01 (Olmos de León)', 'Genzel1972': 'Bonn 72 (Genzel)', 'Gray1967': 'Illinois 67 (Gray)',
+    'Baranov1966': 'Moscow 66 (Baranov)', 'Baranov1966_refined': 'Moscow 66 refined, fwd pts', 'Kolb2000': 'SAL 00 (Kolb)',
+    'Nagashima1964': 'Tokyo 64 (Nagashima)', 'Barbiellini1968': 'Frascati 68 $\\Sigma_3$ (sign flipped)',
+    'MacGibbon1995_untagged': 'SAL 95 (MacGibbon)'}
+SETORDER = ['A2_Martel2015_S2x', 'Martel_thesis_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'Barbiellini1968', 'LEGS2001_CS',
+            'Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002', 'Kolb2000', 'Hallin1993_TabII(D)', 'Hallin1993_TabI',
+            'OlmosdeLeon2001', 'Genzel1972', 'Gray1967', 'Baranov1966', 'Baranov1966_refined', 'Nagashima1964']
+FITREPORT = {'A2_Martel2015_S2x': 0.67, 'A2_Paudyal2020_S2z': 1.61, 'LEGS2001_S3': 2.52, 'LEGS2001_CS': 7.92,
+             'Hunger1997_75': 1.59, 'Hunger1997_90': 2.60, 'Wissmann1999': 1.26, 'Camen2002': 1.15,
+             'Hallin1993_TabII(D)': 3.64, 'OlmosdeLeon2001': 1.73}
+
+
+def chi2_table(df, cv, ix):
+    tabs = {}
+    for key, (a, b) in {'350': (C.E_DELTA_MIN, C.E_DELTA_MAX), '400': (C.E_DELTA_MIN, 400.0)}.items():
+        t = chi2_rows(df, cv, ix, a, b)
+        ts = chi2_rows(df, cv, ix, a, b, curve='spin')
+        t['chi2N_spin_nfit'] = ts.chi2N_nfit.values
+        tt = chi2_rows(df, cv, ix, a, b, curve='tree')
+        t['chi2N_tree_nfit'] = tt.chi2N_nfit.values
+        if 'noVC' in cv:
+            t['chi2N_noVC_nfit'] = chi2_rows(df, cv, ix, a, b, curve='noVC').chi2N_nfit.values
+        t['order'] = [SETORDER.index(x) if x in SETORDER else 99 for x in t.set]
+        t = t.sort_values('order').drop(columns='order')
+        t['fit_report'] = [FITREPORT.get(x, np.nan) if key == '350' else np.nan for x in t.set]
+        tabs[key] = t
+        t.to_csv(os.path.join(C.RESULTS, 'chi2_table_E%s.csv' % key), index=False)
+    # markdown
+    L = []
+    for key, t in tabs.items():
+        L.append('\n### %s < E_lab <= %s MeV\n' % (int(C.E_DELTA_MIN), key))
+        hdr = '| data set | obs | N | E range | scale δ | χ²/N (n=1) | χ²/N (n fitted) | n | χ²/N incl. th. band | χ²/N spin-fit curve | χ²/N Born+π⁰+Δ |'
+        if 'chi2N_noVC_nfit' in t:
+            hdr += ' χ²/N without VC |'
+        hdr += (' fit_report §5.1 (v1) |' if key == '350' else ' |')
+        L.append(hdr)
+        L.append('|' + '---|' * (hdr.count('|') - 1))
+        for r in t.itertuples():
+            nm = SETNAME.get(r.set, r.set).replace('$\\Sigma_{2x}$', 'Σ2x').replace('$\\Sigma_{2z}$', 'Σ2z').replace('$\\Sigma_3$', 'Σ3').replace('$d\\sigma$', 'dσ')
+            sc = ('%.1f%%' % (100 * r.norm)) if r.norm > 0 else '–'
+            nn = ('%.3f' % r.n) if r.norm > 0 else '1'
+            c1 = ('%.2f' % r.chi2N_nfit) if r.norm > 0 else '–'
+            line = '| %s | %s | %d | %s | %s | %.2f | %s | %s | %.2f | %.2f | %.2f |' % (
+                nm, r.obs, r.N, r.Erange, sc, r.chi2N_n1, c1, nn, r.chi2N_th, r.chi2N_spin_nfit, r.chi2N_tree_nfit)
+            if 'chi2N_noVC_nfit' in t:
+                line += ' %.2f |' % r.chi2N_noVC_nfit
+            fr = '' if np.isnan(r.fit_report) else '%.2f' % r.fit_report
+            line += ' %s |' % fr
+            L.append(line)
+    open(os.path.join(C.RESULTS, 'chi2_table.md'), 'w').write('\n'.join(L) + '\n')
+    # LaTeX (main range)
+    t = tabs['350']
+    T = ['\\begin{tabular}{lrrcccc}', '\\hline',
+         'Data set & $N$ & $E_\\gamma$ [MeV] & $\\chi^2/N$ ($n=1$) & $\\chi^2/N$ ($n$ fitted) & $n$ & $\\chi^2/N$ (incl.\\ th.)\\\\', '\\hline']
+    for r in t.itertuples():
+        nm = unicodedata.normalize('NFC', SETNAME.get(r.set, r.set)).replace('°', '$^\\circ$').replace('ü', '\\"u').replace('é', "\\'e").replace('ó', "\\'o")
+        c1 = ('%.2f' % r.chi2N_nfit) if r.norm > 0 else '--'
+        nn = ('%.2f' % r.n) if r.norm > 0 else '--'
+        T.append('%s & %d & %s & %.2f & %s & %s & %.2f\\\\' % (nm, r.N, r.Erange.replace('-', '--'), r.chi2N_n1, c1, nn, r.chi2N_th))
+    T += ['\\hline', '\\end{tabular}']
+    open(os.path.join(C.RESULTS, 'chi2_table.tex'), 'w').write('\n'.join(T) + '\n')
+    return tabs
+
+
+def provenance(df):
+    figs = list(SHOWN)
+    L = ['| data set | label | obs (frame of angle) | N | E range [MeV] | angles | point error | scale | in fitdb | ' + ' | '.join(
+        f.split(' (')[0] for f in figs) + ' |', '|' + '---|' * (9 + len(figs))]
+    for ds, q in df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].groupby('dataset', sort=False):
+        th = q.theta_lab if q.frame.iloc[0] == 'LAB' else q.theta_cm
+        ang = sorted(set(np.round(th, 1)))
+        angs = ('%g' % ang[0]) if len(ang) == 1 else ('%g-%g (%d)' % (ang[0], ang[-1], len(ang)))
+        er = ('%.0f' % q.E.min()) if q.E.max() - q.E.min() < 0.5 else '%.0f-%.0f' % (q.E.min(), q.E.max())
+        cols = [str(SHOWN[f].get(ds, '')) for f in figs]
+        L.append('| %s | %s | %s (%s) | %d | %s | %s | %s | %s | %s | %s |' % (
+            ds, q.label.iloc[0].replace('$\\gamma$', 'γ'), q.obs.iloc[0], q.frame.iloc[0], len(q), er, angs,
+            q.note.iloc[0].split(';')[0][:60], ('%.1f%%' % (100 * q.norm.iloc[0])) if q.norm.iloc[0] > 0 else '–',
+            'yes' if q.in_fitdb.iloc[0] else 'no', ' | '.join(cols)))
+    open(os.path.join(C.RESULTS, 'provenance.md'), 'w').write('\n'.join(L) + '\n')
+
+
+CITE = {'LEGS 01': 'Blanpied:2001ae', 'MAMI 97': 'Hunger:1997pt', 'MAMI 99': 'Wissmann:1999vi',
+        'MAMI 02': 'Camen:2001st,Kossert:2002ws', 'SAL 93': 'Hallin:1993ft', 'SAL 95': 'MacGibbon:1995in',
+        'SAL 00': 'Kolb:2000ix', 'Bonn 72': 'Genzel:1972ba', 'Illinois 67': 'Gray:1967zzd',
+        'Moscow 66': 'Baranov:1966aaa,Baranov:1966oqa', 'Tokyo 64': 'Nagashima:1964zz', 'Frascati 68': 'Barbiellini:1968rlx',
+        'TAPS 01': 'deLeon:2001dnx', 'A2 22': 'A2:2021wmm', 'HI$\\gamma$S 22': 'Li:2022vnz', 'Illinois 91': 'Federspiel:1991yd',
+        'Moscow 74': 'Baranov:1974ec,Baranov:1975ju', 'MIT 57': 'Pugh:1957zz', 'MIT 59': 'Hyman:1959zz',
+        'Moscow 60': 'Goldansky:1960zz', 'Chicago 58': 'Oxley:1958zz', 'Illinois 60': 'Bernardini:1960wya',
+        'A2 15': 'A2:2014iky', 'Martel thesis (unpubl.)': 'Martel:2013phd', 'A2 20': 'A2:2019bqm'}
+OBSTEX = {'CS': r'$d\sigma/d\Omega_{\rm lab}$', 'CSCM': r'$d\sigma/d\Omega_{\rm cm}$', 'S3': r'$\Si_3$',
+          'S2X': r'$\Si_{2x}$', 'S2Z': r'$\Si_{2z}$'}
+
+
+def data_table(df):
+    """LaTeX table of the data sets shown in the Delta-region figures (label = legend entry)."""
+    shown = set()
+    for d in SHOWN.values():
+        shown |= set(d)
+    q = df[df.pid.isin(SHOWN_PIDS)]
+    T = [r'\begin{tabular}{llllrr}', r'\hline',
+         r'Label & Ref. & Observable & $\theta$ frame & $E_\gamma$ [MeV] & $N$\\', r'\hline']
+    for lab in [l for l in D.ORDER if l in set(q.label)]:
+        z = q[q.label == lab]
+        obs = ', '.join(OBSTEX[o] for o in dict.fromkeys(z.obs))
+        fr = '/'.join(sorted(set(z.frame.str.lower().str.replace('cm', 'c.m.'))))
+        er = ('%.0f' % z.E.min()) if z.E.max() - z.E.min() < 0.5 else '%.0f--%.0f' % (z.E.min(), z.E.max())
+        T.append(r'%s & \cite{%s} & %s & %s & %s & %d\\' % (lab, CITE[lab], obs, fr, er, len(z)))
+    T += [r'\hline', r'\end{tabular}']
+    open(os.path.join(C.RESULTS, 'data_table.tex'), 'w').write('\n'.join(T) + '\n')
+
+
+# ============================================================== main
+def main():
+    df = D.build()
+    df.to_csv(os.path.join(C.RESULTS, 'data_display.csv'), index=False)
+    pts = build_points(df)
+    # unique ids
+    seen = set(); P = []
+    for p in pts:
+        if p[0] not in seen:
+            seen.add(p[0]); P.append(p)
+    print('executable :', C.EXE)
+    print('&v2 options:', C.v2opts(True))
+    print('alpha, beta:', C.ALPHA_MAIN, C.BETA_MAIN, ' cov', C.COV_AB.ravel(), ' spin fit', C.P_SPINFIT)
+    print('points     :', len(P))
+    T = TD.Theory(P, tag='dp')
+    val = T.validate()
+    json.dump(val, open(os.path.join(C.RESULTS, 'validation.json'), 'w'), indent=1)
+    for k, v in val.items():
+        print('  validation %-28s %s' % (k, v))
+    cv = T.curves()
+    json.dump(dict(Pref=list(T.Pref), P_main=list(T.P_main()), static=T.static.tolist(), exe=C.EXE,
+                   v2opts=C.v2opts(True), P_spinfit=list(C.P_SPINFIT), cov_ab=C.COV_AB.tolist(),
+                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gM={k: list(v) for k, v in T.gM_runs().items() if str(k).startswith('Pref')}),
+              open(os.path.join(C.RESULTS, 'run_info.json'), 'w'), indent=1)
+    ix = {p[0]: i for i, p in enumerate(P)}
+    nflag = int(np.sum(cv['flag'])); print('  extrapolated (flag=1) points:', nflag)
+    # data with theory
+    dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
+    ii = np.array([ix[p] for p in dd.pid])
+    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'tree', 'spin') + (('noVC',) if 'noVC' in cv else ()):
+        dd['th_' + k] = cv[k][ii]
+    dd.to_csv(os.path.join(C.RESULTS, 'data_with_theory.csv'), index=False)
+    # curves for reproducibility
+    cur = pd.DataFrame({'id': [p[0] for p in P], 'E': [p[1] for p in P], 'theta': [p[2] for p in P],
+                        'obs': [p[3] for p in P], 'frame': [p[4] for p in P]})
+    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'tree', 'spin', 'flag') + (('noVC',) if 'noVC' in cv else ()):
+        cur[k] = cv[k]
+    cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
+    ext = D.build_ext450()
+    print('  Fig. 1: plotting-only points 400 < E <= 450 MeV:', ext.groupby('dataset').E.agg(['size', 'min', 'max']).to_dict('index'))
+    fig1(pd.concat([df, ext], ignore_index=True), cv, ix)
+    c2a, reg2 = fig2(df, cv, ix, FIG2A, 'fig_delta_cs_vstheta_a')
+    c2b, _ = fig2(df, cv, ix, FIG2B, 'fig_delta_cs_vstheta_b', legend_in_last=True, reg=reg2)
+    print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2a | c2b))
+    fig3a(df, cv, ix)
+    fig3b(df, cv, ix)
+    fig4(df, cv, ix)
+    fig5(df, cv, ix)
+    fig6(df, cv, ix)
+    tabs = chi2_table(df, cv, ix)
+    pd.set_option('display.width', 250)
+    print(tabs['350'][['set', 'N', 'Erange', 'chi2N_n1', 'chi2N_nfit', 'n', 'chi2N_th', 'chi2N_spin_nfit', 'fit_report']].round(3).to_string(index=False))
+    provenance(df)
+    data_table(df)
+    # bin-averaged vs nominal asymmetries (Fig. 4), for the notes
+    rep = {}
+    for (o, E0), avg in cv.get('binavg', {}).items():
+        idx = np.array([ix[gid('f4', o, E0, th)] for th in TH_GRID])
+        rep['%s_%g' % (o, E0)] = float(np.max(np.abs(avg - cv['main'][idx])))
+    json.dump(rep, open(os.path.join(C.RESULTS, 'binavg_maxdiff.json'), 'w'), indent=1)
+    print('  bin-averaged vs nominal-energy asymmetry, max |diff|:', {k: round(v, 3) for k, v in rep.items()})
+
+
+if __name__ == '__main__':
+    main()

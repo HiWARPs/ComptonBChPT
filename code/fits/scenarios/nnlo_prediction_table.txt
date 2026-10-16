@@ -1,0 +1,23 @@
+Pref = 11.415 3.729 -3.246 2.939 0.170 1.133
+main database minus ['OlmosdeLeon2001_029']; forward points E <= 145 MeV
+set                           N chi2(n=1)   n float  n+theory     n_th
+A2_2022_CS                   60      56.5      44.9      43.2    0.980
+A2_2022_S3                   36      26.9      26.9      26.6    1.005
+Baranov1974_75_th150          4      34.2       6.0       5.9    0.879
+Baranov1974_75_th90           3       3.4       3.2       3.1    1.012
+Bernardini1960                2       1.2       1.1       1.1    0.987
+Federspiel1991               16      18.2      18.2      18.2    0.997
+Goldansky1960                 5       5.9       3.6       3.6    1.033
+HIGS_2022_CIRC                8      13.4      10.9      10.9    0.971
+HIGS_2022_LIN                 8      10.0       9.5       9.4    0.987
+Hallin1993_TabII             13      12.9       9.3       8.4    1.033
+Hyman1959                    12       1.9       1.8       1.8    0.996
+MacGibbon1995_tagged          8       4.9       4.8       4.8    0.992
+MacGibbon1995_untagged       10       3.6       3.6       3.6    0.996
+OlmosdeLeon2001              54      54.4      54.4      53.2    1.006
+Oxley1958                     4      31.1      11.1      11.0    0.912
+Pugh1957                     16       4.5       3.7       3.7    0.959
+Zieger1992                    2       1.7       1.7       1.3    1.000
+GHP_forward                  22    3540.0     613.8      14.7         
+GLOBAL                      283    3824.6     828.6     227.2         
+GLOBAL_angular              261     284.6     214.8     211.8         
