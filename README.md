@@ -1,11 +1,29 @@
-# ComptonBChPT — data, amplitude tables and code of the proton Compton-scattering analysis
+# ComptonBChPT — NNLO BχPT calculations and partial-wave analysis of proton Compton scattering
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23413172.svg)](https://doi.org/10.5281/zenodo.23413172)
 
-Reproducibility package for
+Code, data and amplitude tables for the next-to-next-to-leading-order (NNLO) calculations of proton Compton
+scattering in covariant baryon chiral perturbation theory (BχPT) with the Δ(1232), in the framework of
 
-> V. Pascalutsa, *Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data*,
-> [journal reference / arXiv identifier: to be added] (2026).
+> V. Lensky and V. Pascalutsa, *Predictive powers of chiral perturbation theory in Compton scattering off protons*,
+> Eur. Phys. J. C 65, 195 (2010), [doi:10.1140/epjc/s10052-009-1183-z](https://doi.org/10.1140/epjc/s10052-009-1183-z);
+> V. Lensky, J. McGovern and V. Pascalutsa, *Predictions of covariant chiral perturbation theory for nucleon
+> polarisabilities and polarised Compton scattering*, Eur. Phys. J. C 75, 604 (2015),
+> [doi:10.1140/epjc/s10052-015-3791-0](https://doi.org/10.1140/epjc/s10052-015-3791-0),
+
+and for the partial-wave analysis (PWA) of the proton Compton-scattering data below the pion-production threshold of
+
+> N. Krupina, V. Lensky and V. Pascalutsa, *Partial-wave analysis of proton Compton scattering data below the
+> pion-production threshold*, Phys. Lett. B 782, 34 (2018),
+> [doi:10.1016/j.physletb.2018.04.066](https://doi.org/10.1016/j.physletb.2018.04.066).
+
+The fits of the polarizabilities to the world database, the error budget, the radiative corrections and the figures
+are those of
+
+> V. Pascalutsa, *Chiral-EFT prediction for proton polarizabilities tested by the new Compton-scattering data*,
+> [journal reference / arXiv identifier: to be added] (2026),
+
+whose complete analysis can be rerun from the tabulated amplitudes in a few minutes (see below).
 
 Author: Vladimir Pascalutsa, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.0
 (2026-10-16).  Repository: https://github.com/vladipas/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
@@ -14,7 +32,7 @@ The package contains (i) the world database of proton Compton-scattering data us
 provenance of every point, (ii) the tabulated NNLO BχPT amplitudes for every data point and for the curves of the
 figures, as exact quadratic forms in the polarizabilities, (iii) the Python code of the fits, of the error budget,
 of the partial-wave analysis (PWA), of the radiative corrections, of the total cross section and of the figures,
-(iv) the Fortran code of the NNLO amplitude, and (v) the results.  With (ii) the complete fit analysis of the paper
+(iv) the Fortran code of the NNLO amplitude, and (v) the results.  With (ii) the complete fit analysis of the 2026 paper
 can be rerun in a few minutes without compiling the Fortran code.
 
 ## Layout

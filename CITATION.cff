@@ -1,14 +1,14 @@
 # Citation metadata (Citation File Format 1.2.0).
 cff-version: 1.2.0
-message: "If you use this package, please cite the paper (preferred-citation) and the package itself."
+message: "If you use this package, please cite the papers it is based on (references) and the package itself; the fits and figures of the 2026 paper (preferred-citation) can be rerun with it."
 type: dataset
-title: "Supplementary data and code for: Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data"
+title: "ComptonBChPT: NNLO baryon chiral perturbation theory calculations and partial-wave analysis of proton Compton scattering"
 authors:
   - family-names: Pascalutsa
     given-names: Vladimir
     orcid: "https://orcid.org/0000-0002-2613-6104"
     affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
-version: "1.0"
+version: "1.0.2"
 date-released: "2026-10-16"
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
 repository-code: "https://github.com/vladipas/ComptonBChPT"
@@ -27,7 +27,7 @@ keywords:
   - partial-wave analysis
 preferred-citation:
   type: article
-  title: "Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data"
+  title: "Chiral-EFT prediction for proton polarizabilities tested by the new Compton-scattering data"
   authors:
     - family-names: Pascalutsa
       given-names: Vladimir
@@ -36,6 +36,26 @@ preferred-citation:
   year: 2026
   journal: "[journal, volume, article number and arXiv identifier to be added]"
 references:
+  - type: article
+    title: "Partial-wave analysis of proton Compton scattering data below the pion-production threshold"
+    authors:
+      - family-names: Krupina
+        given-names: Nadiia
+      - family-names: Lensky
+        given-names: Vadim
+      - family-names: Pascalutsa
+        given-names: Vladimir
+        orcid: "https://orcid.org/0000-0002-2613-6104"
+    journal: "Physics Letters B"
+    volume: 782
+    start: 34
+    end: 41
+    year: 2018
+    doi: 10.1016/j.physletb.2018.04.066
+    identifiers:
+      - type: other
+        value: "arXiv:1712.05349"
+        description: "arXiv preprint"
   - type: article
     title: "Predictive powers of chiral perturbation theory in Compton scattering off protons"
     authors:
