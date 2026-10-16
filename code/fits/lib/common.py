@@ -145,7 +145,7 @@ def order_values(dfx, s, tag='db', scheme='B'):
     return matched('BornPi0'), matched('NLO'), y3
 
 
-def truncation_for(dfx, s, tag='db', scheme='B', mode='sqrtQ', Lam=650.0, cbar='rms', corr=True, lE=25.0, lth=40.0):
+def truncation_for(dfx, s, tag='db', scheme='B', mode='sqrtQ', Lam=750.0, cbar='rms', corr=True, lE=25.0, lth=40.0):
     y0, y2, y3 = order_values(dfx, s, tag, scheme)
     tr = theory.truncation(y0, y2, y3, s['dobs'].values, s['E'].values, mode=mode, Lam=Lam, cbar=cbar)
     if corr:

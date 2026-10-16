@@ -161,7 +161,7 @@ def budget(kind):
     norm = np.array(m['dP_norm'][:2])
     con = np.array(m['dP_fwd'][:2]) if kind == 'F2' else np.array(m['dP_baldin'][:2])
     # truncation-model variants (spread = rms deviation from the main fit)
-    tv = ['L500', 'L800', 'fixed048', 'max', 'l50', 'l12', 'l100']
+    tv = ['L600', 'L900', 'fixed048', 'max', 'l50', 'l12', 'l100']
     dv = np.array([np.array(FL['%s_d_all_thB_%s' % (kind, v)]['P'][:2]) - np.array(m['P'][:2]) for v in tv])
     tmodel = np.sqrt(np.mean(dv ** 2, axis=0))
     # database selection: half range over d (main), d' (all points incl. the outlier), e, f, g, h, F4
@@ -240,16 +240,16 @@ for i, p in enumerate(h['HIGS_pids']):
 
 # ------------------------------------------------------------------ theory-error variants
 table('Truncation-error model variants (main configuration F2)',
-      ['F2_d_all_thB', 'F2_d_all_thB_L500', 'F2_d_all_thB_L800', 'F2_d_all_thB_fixed048', 'F2_d_all_thB_max', 'F2_d_all_thB_l50',
+      ['F2_d_all_thB', 'F2_d_all_thB_L600', 'F2_d_all_thB_L900', 'F2_d_all_thB_fixed048', 'F2_d_all_thB_max', 'F2_d_all_thB_l50',
        'F2_d_all_thB_l12', 'F2_d_all_thB_l100', 'F2_d_all_thB_diag', 'F2_d_all_thA', 'F2_d_all_thA_diag', 'F2_d_all'],
-      ['default: scheme B, Λb = 650 MeV, δ = √(max(mπ,E)/Λb), c̄ rms, ℓE = 25 MeV, ℓθ = 40°', 'Λb = 500 MeV', 'Λb = 800 MeV',
+      ['default: scheme B, Λb = 750 MeV, p = max(mπ,E)/Λb, c̄ rms, ℓE = 25 MeV, ℓθ = 40°', 'Λb = 600 MeV', 'Λb = 900 MeV',
        'δ = mπ/Δ = 0.48 fixed', 'c̄ = max(|c2|,|c3|)', 'ℓE = 50 MeV, ℓθ = 50°', 'ℓE = 12 MeV, ℓθ = 25°', 'ℓE = 100 MeV, ℓθ = 100°',
        'uncorrelated (diagonal)', 'scheme A (naive, double counts LECs)', 'scheme A, diagonal', 'no truncation covariance'],
       ref='F2_d_all_thB')
 table('Truncation-error model variants (F1)',
-      ['F1_d_all_thB', 'F1_d_all_thB_L500', 'F1_d_all_thB_L800', 'F1_d_all_thB_fixed048', 'F1_d_all_thB_max', 'F1_d_all_thB_l50',
+      ['F1_d_all_thB', 'F1_d_all_thB_L600', 'F1_d_all_thB_L900', 'F1_d_all_thB_fixed048', 'F1_d_all_thB_max', 'F1_d_all_thB_l50',
        'F1_d_all_thB_l12', 'F1_d_all_thB_l100', 'F1_d_all_thB_diag', 'F1_d_all_thA', 'F1_d_all_thA_diag', 'F1_d_all'],
-      ['default', 'Λb = 500 MeV', 'Λb = 800 MeV', 'δ = 0.48 fixed', 'c̄ = max', 'ℓ = 50/50', 'ℓ = 12/25', 'ℓ = 100/100',
+      ['default', 'Λb = 600 MeV', 'Λb = 900 MeV', 'δ = 0.48 fixed', 'c̄ = max', 'ℓ = 50/50', 'ℓ = 12/25', 'ℓ = 100/100',
        'diagonal', 'scheme A', 'scheme A diagonal', 'no truncation covariance'], ref='F1_d_all_thB')
 
 # ------------------------------------------------------------------ order-by-order, parameters, spin inputs

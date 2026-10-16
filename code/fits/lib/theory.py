@@ -5,13 +5,14 @@ Orders (delta counting, LMP2015 Table 1; delta^2 ~ m_pi/Lambda, delta ~ m_pi/Del
     LO   = O(p^2)       : Born graphs without anomalous magnetic moment (Thomson/Dirac)          y0
     NLO  = O(p^3)       : + Pauli (kappa) Born terms + pi0 pole + piN loops                        y2  (relative delta^2)
     NNLO = O(p^{7/2})   : + Delta pole + piDelta loops                                              y3  (relative delta^3)
-Expansion: y_NNLO = y_ref (c0 + c2 delta^2 + c3 delta^3),  c2 = (y_NLO - y_LO)/(y_ref delta^2),
-c3 = (y_NNLO - y_NLO)/(y_ref delta^3).  Truncation error (all omitted orders delta^4, delta^5, ..., summed in
+Expansion parameter p = max(m_pi, E_lab)/Lambda_b (= delta^2 at low energies; the code variable d = sqrt(p)):
+    y_NNLO = y_ref (c0 + c1 p + c3/2 p^{3/2}),  c1 = (y_NLO - y_LO)/(y_ref p),  c3/2 = (y_NNLO - y_NLO)/(y_ref p^{3/2})
+(c2, c3 in the code = c1, c3/2 here).  Truncation error (all omitted orders delta^4, delta^5, ..., summed in
 quadrature, Furnstahl et al. PRC 92 (2015) 024005; Melendez et al. PRC 100 (2019) 044001):
-    sigma_th = y_ref * cbar * delta^4 / sqrt(1 - delta^2),   cbar^2 = (c2^2 + c3^2)/2  ('rms', default)
+    sigma_th = y_ref * cbar * p^2 / sqrt(1 - p),   cbar^2 = (c2^2 + c3^2)/2  ('rms', default)
                                                                cbar = max(|c2|,|c3|)    ('max')
-Expansion parameter (default 'sqrtQ'): delta(E) = sqrt(max(m_pi, E_lab)/Lambda_b), Lambda_b = 650 MeV
-(delta = 0.463 at and below E = m_pi); alternative 'fixed': delta = m_pi/Delta = 0.48.
+Breakdown scale Lambda_b = 750 MeV (of the order of the rho mass; p = 0.186 at and below E = m_pi; until 2026-10-16 the
+default was 650 MeV); alternative mode 'fixed': d = m_pi/Delta = 0.48 (the delta-counting value, energy independent).
 Reference scale: y_ref = |y_LO| for cross sections (LO Born), y_ref = 1 for asymmetries (natural size; the LO
 Sigma_2x,z are accidentally small).
 Two schemes for the order-by-order input (y0, y2, y3):
@@ -34,14 +35,14 @@ ASYM = ('S3', 'S2X', 'S2Z')
 FAMILY = {'CS': 'CS', 'CSCM': 'CS', 'SPAR': 'SPAR', 'SPERP': 'SPERP', 'S3': 'S3', 'S2X': 'S2X', 'S2Z': 'S2Z'}
 
 
-def delta_of(E, mode='sqrtQ', Lam=650.0, fixed=0.48):
+def delta_of(E, mode='sqrtQ', Lam=750.0, fixed=0.48):
     E = np.asarray(E, float)
     if mode == 'fixed':
         return np.full_like(E, fixed)
     return np.sqrt(np.maximum(MPI, E) / Lam)
 
 
-def truncation(y0, y2, y3, obs, E, mode='sqrtQ', Lam=650.0, cbar='rms', fixed=0.48):
+def truncation(y0, y2, y3, obs, E, mode='sqrtQ', Lam=750.0, cbar='rms', fixed=0.48):
     obs = np.asarray(obs)
     d = delta_of(E, mode, Lam, fixed)
     yref = np.where(np.isin(obs, ASYM), 1.0, np.abs(y0))

@@ -11,11 +11,15 @@ Environment (all optional; one command regenerates everything: work/delta_plots/
                   dvertex is set by the pipeline itself: dvertex=t for the main curves, dvertex=f for the
                   "without vertex corrections" curve and the delta x (Delta-pole corrections) shift.
                   A v1 executable ignores the &v2 group (then both coincide and are not drawn/used).
-  DP_ALPHA, DP_BETA   alphaE1, betaM1 of the main fit [1e-4 fm^3]       (default 11.69, 2.88)
-  DP_COV_AB       'c11,c12,c22' fit covariance of (alpha, beta)         (default main fit, rho = -0.83)
-  DP_SPINFIT      'a,b,gEE,gMM,gEM,gME' parameter set of the spin-polarisability fit (dash-dotted curves)
-  DP_FITS_JSON [+ DP_FIT_KEY]     read alpha, beta, cov from a work/fits fits_L.json (overrides DP_ALPHA...)
-  DP_DELTA_JSON [+ DP_SPIN_KEY]   read the spin-fit parameter set from a work/fits delta_region.json
+  DP_MAIN         main curve (red solid + dark band): 'pred' (default) = the parameter-free NNLO prediction, all
+                  six static polarisabilities at the NNLO values of the amplitude (driver Pref, physical masses);
+                  'fit' = alphaE1, betaM1 from the NNLO fit (the main curve before 2026-10-16)
+  DP_FITS_JSON [+ DP_FIT_KEY]     fits_L.json of work/fits from which alpha, beta, cov of the 'NNLO fit' curve are
+                  read (default: work/fits/results/fits_L.json if present, key F2_d_all_thB)
+  DP_ALPHA, DP_BETA, DP_COV_AB    alpha, beta, 'c11,c12,c22' of the NNLO fit, used only when no fits_L.json is found
+  DP_SPINFIT / DP_DELTA_JSON [+ DP_SPIN_KEY]   parameter set of the Delta-region spin-polarisability fit; since
+                  2026-10-16 no longer drawn, used only as a third parameter set in the validation of the Gram
+                  decomposition
 """
 import os
 import numpy as np
@@ -54,31 +58,47 @@ MPI = 139.57
 # ---------------------------------------------------------------------------------------------
 # polarisabilities  P = (alphaE1, betaM1 [1e-4 fm^3]; gE1E1, gM1M1, gE1M2, gM1E2 [1e-4 fm^4])
 # ---------------------------------------------------------------------------------------------
-# main BChPT fit (fit_report Sect. 0/4.1, F2 + truncation covariance; work/fits/results/fits_L.json
-# 'F2_d_all_thB'): alpha = 11.69(47), beta = 2.88(43), rho = -0.83; spin polarisabilities = NNLO values
-# of the amplitude (the driver's reference values, i.e. those of the run with the given gM).
-ALPHA_MAIN = float(os.environ.get('DP_ALPHA', 11.69))
-BETA_MAIN = float(os.environ.get('DP_BETA', 2.88))
+# Main curve (DP_MAIN).  'pred': the parameter-free NNLO prediction -- all six static polarisabilities at the NNLO
+# values of the amplitude with the physical masses, i.e. the driver's reference values Pref of the complete run
+# (= PREF_NNLO of work/fits/lib/common.py: 11.415, 3.729, -3.246, 2.939, 0.170, 1.133 for gM = 2.97); nothing
+# fitted.  'fit': alphaE1, betaM1 of the NNLO fit, spin polarisabilities at the NNLO values (main curve until
+# 2026-10-15).  The NNLO fit is drawn in both modes as a thin dashed curve without a band ('NNLO fit').
+MAIN = os.environ.get('DP_MAIN', 'pred').strip().lower()
+assert MAIN in ('pred', 'fit'), 'DP_MAIN must be pred or fit'
+
+# NNLO fit: alpha, beta (and their covariance) of work/fits/results/fits_L.json 'F2_d_all_thB' (fit_report
+# Sect. 0/4.1, F2 + truncation covariance): alpha = 11.59(47), beta = 2.94(43), rho = -0.83.  The file is read by
+# default when present (DP_FITS_JSON overrides the path, DP_FIT_KEY the key); the DP_ALPHA/DP_BETA/DP_COV_AB
+# values (v1-era defaults 11.69, 2.88) are used only when no file is found -- a warning is printed in that case.
+ALPHA_FIT = float(os.environ.get('DP_ALPHA', 11.69))
+BETA_FIT = float(os.environ.get('DP_BETA', 2.88))
 _c = _vec('DP_COV_AB', [0.2206, -0.1688, 0.1880])
 COV_AB = np.array([[_c[0], _c[1]], [_c[1], _c[2]]])     # fit covariance of (alpha, beta)
-# alternatively read the main fit from a fits_L.json-type file of work/fits (rerun with v2):
-#   DP_FITS_JSON=work/fits/results/fits_L.json  DP_FIT_KEY=F2_d_all_thB
-if os.environ.get('DP_FITS_JSON'):
+FITS_JSON = os.environ.get('DP_FITS_JSON') or os.path.join(WORK, 'fits', 'results', 'fits_L.json')
+FIT_KEY = os.environ.get('DP_FIT_KEY', 'F2_d_all_thB')
+if FITS_JSON.strip().lower() == 'none':          # DP_FITS_JSON=none: use DP_ALPHA, DP_BETA (regression checks)
+    FITS_JSON = '/nonexistent'
+if os.path.exists(FITS_JSON):
     import json as _json
-    _F = _json.load(open(os.environ['DP_FITS_JSON']))[os.environ.get('DP_FIT_KEY', 'F2_d_all_thB')]
-    ALPHA_MAIN, BETA_MAIN = float(_F['P'][0]), float(_F['P'][1])
+    _F = _json.load(open(FITS_JSON))[FIT_KEY]
+    ALPHA_FIT, BETA_FIT = float(_F['P'][0]), float(_F['P'][1])
     COV_AB = np.array(_F['covP'])[:2, :2]
+else:
+    print('[config] WARNING: %s not found; NNLO-fit curve uses alpha, beta = %.3f, %.3f from the environment/defaults'
+          % (FITS_JSON, ALPHA_FIT, BETA_FIT))
+    FITS_JSON = None
 # NNLO spin polarisabilities for gM = 2.97 (analytic, = driver Pref); used only for reporting
 SPIN_NNLO = np.array([-3.3351, 2.9427, 0.1787, 1.1469])
-# exploratory Delta-region spin-polarisability fit (fit_report Sect. 5.2, bold row:
-# A2 Sigma2x+Sigma2z + LEGS Sigma3 below 2pi threshold, gamma_pi = 8.0(1.8), gamma_0 = -0.929(105),
-# alpha+beta = 14.0(2), alpha-beta from the main fit; delta_region.json 'S_A2_LEGS_gpi').
-# The complete fitted parameter set is used for the dash-dotted curves.
+# exploratory Delta-region spin-polarisability fit (fit_report Sect. 5.2; delta_region.json 'S_A2_LEGS_gpi';
+# paper Eq. spinfit).  Since 2026-10-16 this curve is NOT drawn (user decision: the prediction is the main
+# result, the gamma fit is dropped); the parameter set serves only as a third point of the validation.
 P_SPINFIT = _vec('DP_SPINFIT', [11.2204, 2.8716, -2.9556, 2.5840, -1.3909, 2.7059])
-#   or DP_DELTA_JSON=work/fits/results/delta_region.json  DP_SPIN_KEY=S_A2_LEGS_gpi
-if os.environ.get('DP_DELTA_JSON'):
+DELTA_JSON = os.environ.get('DP_DELTA_JSON') or os.path.join(WORK, 'fits', 'results', 'delta_region.json')
+if os.path.exists(DELTA_JSON):
     import json as _json
-    P_SPINFIT = np.array(_json.load(open(os.environ['DP_DELTA_JSON']))[os.environ.get('DP_SPIN_KEY', 'S_A2_LEGS_gpi')]['P'], float)
+    P_SPINFIT = np.array(_json.load(open(DELTA_JSON))[os.environ.get('DP_SPIN_KEY', 'S_A2_LEGS_gpi')]['P'], float)
+else:
+    DELTA_JSON = None
 
 # gamma N Delta magnetic coupling and its variation (lighter band)
 GM0, GM_LO, GM_HI = 2.97, 2.87, 3.07
@@ -87,13 +107,16 @@ GM0, GM_LO, GM_HI = 2.97, 2.87, 3.07
 # EFT-truncation band (LMP2015 Eq. (32) type; see delta_plots.md Sect. 2)
 #   A_shift = A(P_main) +- delta(omega) * dA_X ,
 #   X in {piN loops, piDelta loops, Delta-pole (vertex) corrections, sum of the three}  [LMP2015 Eq. (32)]
-#   delta(omega) = omega_cm / LAMBDA_CHI ;  static alphaE1, betaM1 of every dA_X removed (they are fitted)
-#   band = pointwise envelope of all shifted observables, combined in quadrature with the
-#          propagated (alpha, beta) fit error.
+#   delta(omega) = omega_cm / LAMBDA_CHI ;  band = pointwise envelope of all shifted observables.
+#   MAIN = 'pred': nothing is fitted -- the shifts keep their static alphaE1, betaM1 content and no fit error is
+#                  added (the band is the pure LMP2015-type envelope);
+#   MAIN = 'fit' : static alphaE1, betaM1 of every dA_X removed (they are fitted) and the propagated (alpha, beta)
+#                  fit error added in quadrature (band of the figures until 2026-10-15).
 # ---------------------------------------------------------------------------------------------
-LAMBDA_CHI = 650.0      # MeV;  Delta/Lambda = 0.45 ~ delta = m_pi/Delta = 0.48 ; alpha_em/Lambda^3 = 2.0e-4 fm^3
+LAMBDA_CHI = 750.0      # MeV; single chiral scale of the paper (of the order of the rho mass; 650 MeV = LMP15 value until 2026-10-16)
 SHIFT_SETS = {'piN': ('piN',), 'piD': ('piD',), 'VC': ('VC',), 'sum': ('piN', 'piD', 'VC')}
-REMOVE_STATIC_AB = True
+REMOVE_STATIC_AB = (MAIN == 'fit')
+ADD_AB_ERROR = (MAIN == 'fit')
 
 # Born + Delta-pole curve: nucleon Born (Dirac + Pauli, s+u) + pi0 t-channel pole + Delta pole (with the
 # vertex corrections, i.e. the dressed Delta pole of the NLO Delta-region amplitude), no loops, no contact

@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-.DS_Store
-*.o
-*.mod
-code/code_v2/execs/
-code/fits/figs/*.png

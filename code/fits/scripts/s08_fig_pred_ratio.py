@@ -5,7 +5,7 @@ Ratio data/prediction at the published normalisation (n = 1) versus the lab angl
 83.4 MeV) and the A2 2022 unpolarised cross sections at their five energies (panels 2-6).  The prediction is the
 NNLO amplitude at P = PREF_NNLO (no free polarisability), evaluated per data point with the driver ('db' run).
 Drawn in every panel: the line at 1; the truncation band 1 +- sigma_th/prediction (theory.truncation via
-truncation_for on a fine angular grid, same settings as the fit covariance: scheme B, sqrtQ, Lambda_b = 650 MeV,
+truncation_for on a fine angular grid, same settings as the fit covariance: scheme B, sqrtQ, Lambda_b = 750 MeV,
 cbar = rms); the NNLO fit (fits_L 'F2_d_all_thB') divided by the prediction, both computed with predict_array on
 the grid (solid red); and the normalisation n_th the prediction prefers for the set (scenarios/
 nnlo_prediction_table.json, 'n_th': fit of the normalisation alone with the truncation covariance) as a dashed

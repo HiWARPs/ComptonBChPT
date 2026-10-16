@@ -25,13 +25,17 @@ for d in (C.FIGDIR, C.PNG, C.RESULTS):
 
 C_MAIN, C_BAND, C_GM = '#c0392b', '#f4aaa2', '#fde6e2'
 C_GM_EDGE = '#e7877c'
-C_TREE, C_SPIN, C_NOVC = '#1f4e9c', '#2b2b2b', '#4d4d4d'
-# legend labels (short; the captions of the paper give the full description)
-LAB_MAIN = r'NNLO fit'
+C_TREE, C_NOVC = '#1f4e9c', '#4d4d4d'
+C_FIT = 'k'                        # the NNLO-fit curve: short-dashed black, distinct from the red band and from the blue tree-level dashes
+# legend labels (short; the captions of the paper give the full description).  Since 2026-10-16 the main curve is
+# the parameter-free NNLO prediction (config.MAIN = 'pred'); in the legacy mode 'fit' the labels are swapped.
+LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'NNLO fit'
+LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
 LAB_GM = r'$g_M = 2.97\pm0.10$'
 LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
-LAB_SPIN = r"$\gamma$'s from the $\Delta$-region fit"
 LAB_NOVC = r'no vertex corrections'
+FIT_DASHES = (3.0, 1.6)
+FIT_LW = 0.9
 MS = 3.2
 W1, W2 = 246 / 72.27, 510 / 72.27      # final printed widths [in] (single / double column); included without scaling
 E_2PI = 2 * 134.9768 * (1 + 134.9768 / C.MP)   # pi0 pi0 p threshold, lab photon energy [MeV] (308.8)
@@ -102,7 +106,7 @@ BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0)
 
 
 # ============================================================== drawing helpers
-def draw_theory(ax, x, cv, idx, tree=True, spin=True, gm=True, novc=False):
+def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, novc=False):
     if gm:
         ax.fill_between(x, cv['gm_lo'][idx], cv['gm_hi'][idx], color=C_GM, lw=0, zorder=1)
         ax.plot(x, cv['gm_lo'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
@@ -110,24 +114,25 @@ def draw_theory(ax, x, cv, idx, tree=True, spin=True, gm=True, novc=False):
     ax.fill_between(x, cv['lo'][idx], cv['hi'][idx], color=C_BAND, lw=0, alpha=0.85, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
-    if spin:
-        ax.plot(x, cv['spin'][idx], '-.', color=C_SPIN, lw=0.8, zorder=3)
     if novc and 'noVC' in cv:
         ax.plot(x, cv['noVC'][idx], ':', color=C_NOVC, lw=0.9, zorder=3.5)
+    if fit:
+        ax.plot(x, cv['fit'][idx], '--', color=C_FIT, lw=FIT_LW, zorder=3.8, dashes=FIT_DASHES)
     ax.plot(x, cv['main'][idx], '-', color=C_MAIN, lw=1.15, zorder=4)
 
 
-def theory_handles(spin=True, tree=True, gm=True, novc=False):
+def theory_handles(fit=True, tree=True, gm=True, novc=False):
+    """legend order (user decision 2026-10-16): main (band) / NNLO fit / tree / no VC / gM band"""
     h, l = [], []
     h.append((Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.15))); l.append(LAB_MAIN)
-    if gm:
-        h.append(Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)); l.append(LAB_GM)
+    if fit:
+        h.append(Line2D([], [], color=C_FIT, ls='--', dashes=FIT_DASHES, lw=FIT_LW)); l.append(LAB_FIT)
     if tree:
         h.append(Line2D([], [], color=C_TREE, ls='--', dashes=(4, 2), lw=0.9)); l.append(LAB_TREE)
-    if spin:
-        h.append(Line2D([], [], color=C_SPIN, ls='-.', lw=0.8)); l.append(LAB_SPIN)
     if novc:
         h.append(Line2D([], [], color=C_NOVC, ls=':', lw=0.9)); l.append(LAB_NOVC)
+    if gm:
+        h.append(Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)); l.append(LAB_GM)
     return h, l
 
 
@@ -296,7 +301,7 @@ def fig3a(df, cv, ix):
             a.set_ylim(min(lo, a.get_ylim()[0]), hi)
     th, tl = theory_handles(novc='noVC' in cv)
     dh, dl = data_handles(reg)
-    hh, ll = th + dh, tl + dl                       # rows: (main, g_M, tree) / (spin fit, no VC, LEGS)
+    hh, ll = th + dh, tl + dl                       # rows: (main, NNLO fit, tree) / (no VC, g_M, LEGS)
     o = [0, 3, 1, 4, 2, 5] if len(hh) == 6 else list(range(len(hh)))
     fig.legend([hh[i] for i in o], [ll[i] for i in o], loc='outside upper center', ncol=3, handlelength=2.0,
                columnspacing=2.0)
@@ -438,7 +443,8 @@ def fig6(df, cv, ix):
     fig.tight_layout(rect=(0, 0.13, 1, 1), h_pad=0.6, w_pad=0.6)
     th = [(Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.0)),
           Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)]
-    tl = [r'NNLO B$\chi$PT, fitted $\alpha_{E1},\beta_{M1}$ (=1) and its uncertainty', LAB_GM]
+    tl = [(r'NNLO B$\chi$PT prediction (=1) and its uncertainty' if C.MAIN == 'pred' else
+           r'NNLO B$\chi$PT, fitted $\alpha_{E1},\beta_{M1}$ (=1) and its uncertainty'), LAB_GM]
     dh, dl = data_handles(reg)
     legend_below(fig, th, tl, dh, dl, ncol_t=2, ncol_d=7, y_t=0.115, y_d=0.075)
     save(fig, 'fig_delta_cs_ratio')
@@ -491,12 +497,36 @@ FITREPORT = {'A2_Martel2015_S2x': 0.67, 'A2_Paudyal2020_S2z': 1.61, 'LEGS2001_S3
              'Hallin1993_TabII(D)': 3.64, 'OlmosdeLeon2001': 1.73}
 
 
+# rows of Table 'delta' of the paper (Appendix G), in its order and with its labels (\cite keys as in main.tex)
+PAPERROWS = [('A2_Martel2015_S2x', r'A2 $\Si_{2x}$~\cite{A2:2014iky}                  '),
+             ('A2_Paudyal2020_S2z', r'A2 $\Si_{2z}$~\cite{A2:2019bqm}'),
+             ('LEGS2001_S3', r'LEGS $\Si_3$~\cite{Blanpied:2001ae}'),
+             ('LEGS2001_CS', r'LEGS $\dd\si/\dd\W$~\cite{Blanpied:2001ae}'),
+             ('Hunger1997_75', r'MAMI $75^\circ$~\cite{Hunger:1997pt}'),
+             ('Hunger1997_90', r'MAMI $90^\circ$~\cite{Hunger:1997pt}'),
+             ('Wissmann1999', r'MAMI $131^\circ$~\cite{Wissmann:1999vi}'),
+             ('Camen2002', r'MAMI $136^\circ$~\cite{Camen:2001st}'),
+             ('Hallin1993_TabII(D)', r'SAL~\cite{Hallin:1993ft}'),
+             ('OlmosdeLeon2001', r'TAPS, 157--164\,MeV~\cite{deLeon:2001dnx}')]
+
+
+def _pf(v):
+    """number format of Table delta in main.tex: two decimals, one decimal from 10 on"""
+    return ('%.1f' % v) if v >= 9.995 else ('%.2f' % v)
+
+
 def chi2_table(df, cv, ix):
+    """chi^2/N per data set.  Columns: the main curve (config.MAIN; its band for 'incl. th.'), the other of the two
+    (prediction/fit) with n = 1 and n fitted, tree level, without vertex corrections.  The 'fit_report' column is
+    the v1 regression value for the NNLO-fit curve (fit_report Sect. 5.1)."""
     tabs = {}
     for key, (a, b) in {'350': (C.E_DELTA_MIN, C.E_DELTA_MAX), '400': (C.E_DELTA_MIN, 400.0)}.items():
         t = chi2_rows(df, cv, ix, a, b)
-        ts = chi2_rows(df, cv, ix, a, b, curve='spin')
-        t['chi2N_spin_nfit'] = ts.chi2N_nfit.values
+        tf = chi2_rows(df, cv, ix, a, b, curve='fit')
+        t['chi2N_fit_n1'] = tf.chi2N_n1.values
+        t['chi2N_fit_nfit'] = tf.chi2N_nfit.values
+        t['n_fit'] = tf.n.values
+        t['chi2N_fit_th'] = tf.chi2N_th.values         # NNLO-fit curve with the band of the MAIN curve (reference only)
         tt = chi2_rows(df, cv, ix, a, b, curve='tree')
         t['chi2N_tree_nfit'] = tt.chi2N_nfit.values
         if 'noVC' in cv:
@@ -506,14 +536,20 @@ def chi2_table(df, cv, ix):
         t['fit_report'] = [FITREPORT.get(x, np.nan) if key == '350' else np.nan for x in t.set]
         tabs[key] = t
         t.to_csv(os.path.join(C.RESULTS, 'chi2_table_E%s.csv' % key), index=False)
+    mainlab = 'NNLO prediction' if C.MAIN == 'pred' else 'NNLO fit'
+    fitlab = 'NNLO fit' if C.MAIN == 'pred' else 'NNLO prediction'
     # markdown
-    L = []
+    L = ['main curve: %s (band: %s)' % (mainlab, 'LMP15-type envelope, nothing fitted' if C.MAIN == 'pred' else
+                                           'envelope without static alpha, beta (+) fit error'),
+         'other curve: %s (alpha, beta = %.3f, %.3f%s)' % (fitlab, C.ALPHA_FIT, C.BETA_FIT,
+                                                           (', from ' + os.path.relpath(C.FITS_JSON, C.ROOT)) if C.FITS_JSON else '')]
     for key, t in tabs.items():
         L.append('\n### %s < E_lab <= %s MeV\n' % (int(C.E_DELTA_MIN), key))
-        hdr = '| data set | obs | N | E range | scale δ | χ²/N (n=1) | χ²/N (n fitted) | n | χ²/N incl. th. band | χ²/N spin-fit curve | χ²/N Born+π⁰+Δ |'
+        hdr = ('| data set | obs | N | E range | scale δ | %s: χ²/N (n=1) | χ²/N (n fitted) | n | χ²/N incl. th. band | '
+               '%s: χ²/N (n=1) | χ²/N (n fitted) | n | χ²/N Born+π⁰+Δ |' % (mainlab, fitlab))
         if 'chi2N_noVC_nfit' in t:
             hdr += ' χ²/N without VC |'
-        hdr += (' fit_report §5.1 (v1) |' if key == '350' else ' |')
+        hdr += (' fit_report §5.1 (v1, fit) |' if key == '350' else ' |')
         L.append(hdr)
         L.append('|' + '---|' * (hdr.count('|') - 1))
         for r in t.itertuples():
@@ -521,17 +557,19 @@ def chi2_table(df, cv, ix):
             sc = ('%.1f%%' % (100 * r.norm)) if r.norm > 0 else '–'
             nn = ('%.3f' % r.n) if r.norm > 0 else '1'
             c1 = ('%.2f' % r.chi2N_nfit) if r.norm > 0 else '–'
-            line = '| %s | %s | %d | %s | %s | %.2f | %s | %s | %.2f | %.2f | %.2f |' % (
-                nm, r.obs, r.N, r.Erange, sc, r.chi2N_n1, c1, nn, r.chi2N_th, r.chi2N_spin_nfit, r.chi2N_tree_nfit)
+            nf = ('%.3f' % r.n_fit) if r.norm > 0 else '1'
+            cf = ('%.2f' % r.chi2N_fit_nfit) if r.norm > 0 else '–'
+            line = '| %s | %s | %d | %s | %s | %.2f | %s | %s | %.2f | %.2f | %s | %s | %.2f |' % (
+                nm, r.obs, r.N, r.Erange, sc, r.chi2N_n1, c1, nn, r.chi2N_th, r.chi2N_fit_n1, cf, nf, r.chi2N_tree_nfit)
             if 'chi2N_noVC_nfit' in t:
                 line += ' %.2f |' % r.chi2N_noVC_nfit
             fr = '' if np.isnan(r.fit_report) else '%.2f' % r.fit_report
             line += ' %s |' % fr
             L.append(line)
     open(os.path.join(C.RESULTS, 'chi2_table.md'), 'w').write('\n'.join(L) + '\n')
-    # LaTeX (main range)
+    # LaTeX (main range): all sets, main curve
     t = tabs['350']
-    T = ['\\begin{tabular}{lrrcccc}', '\\hline',
+    T = ['%% main curve: %s' % mainlab, '\\begin{tabular}{lrrcccc}', '\\hline',
          'Data set & $N$ & $E_\\gamma$ [MeV] & $\\chi^2/N$ ($n=1$) & $\\chi^2/N$ ($n$ fitted) & $n$ & $\\chi^2/N$ (incl.\\ th.)\\\\', '\\hline']
     for r in t.itertuples():
         nm = unicodedata.normalize('NFC', SETNAME.get(r.set, r.set)).replace('°', '$^\\circ$').replace('ü', '\\"u').replace('é', "\\'e").replace('ó', "\\'o")
@@ -540,6 +578,19 @@ def chi2_table(df, cv, ix):
         T.append('%s & %d & %s & %.2f & %s & %s & %.2f\\\\' % (nm, r.N, r.Erange.replace('-', '--'), r.chi2N_n1, c1, nn, r.chi2N_th))
     T += ['\\hline', '\\end{tabular}']
     open(os.path.join(C.RESULTS, 'chi2_table.tex'), 'w').write('\n'.join(T) + '\n')
+    # LaTeX rows in the format of Table 'delta' of the paper (Appendix G), main curve and the other curve
+    tt = t.set_index('set')
+    P = ['%% rows of Table delta (paper Appendix G) in the format of main.tex; generated by work/delta_plots/make_figs.py',
+         '%% columns: Data set & N & chi^2/N (n = 1) & chi^2/N (n fitted) & chi^2/N (n fitted, theory band in quadrature)',
+         '%% --- main curve: %s (band: %s) ---' % (mainlab, 'LMP15-type envelope' if C.MAIN == 'pred' else 'envelope (+) fit error')]
+    for s, lab in PAPERROWS:
+        r = tt.loc[s]
+        P.append('%s & %d & %s & %s & %s\\\\' % (lab, r.N, _pf(r.chi2N_n1), _pf(r.chi2N_nfit) if r.norm > 0 else '--', _pf(r.chi2N_th)))
+    P.append('%% --- other curve: %s, n = 1 and n fitted (no own band; last column: with the band of the main curve) ---' % fitlab)
+    for s, lab in PAPERROWS:
+        r = tt.loc[s]
+        P.append('%s & %d & %s & %s & %s\\\\' % (lab, r.N, _pf(r.chi2N_fit_n1), _pf(r.chi2N_fit_nfit) if r.norm > 0 else '--', _pf(r.chi2N_fit_th)))
+    open(os.path.join(C.RESULTS, 'chi2_table_paper.tex'), 'w').write('\n'.join(P) + '\n')
     return tabs
 
 
@@ -602,7 +653,11 @@ def main():
             seen.add(p[0]); P.append(p)
     print('executable :', C.EXE)
     print('&v2 options:', C.v2opts(True))
-    print('alpha, beta:', C.ALPHA_MAIN, C.BETA_MAIN, ' cov', C.COV_AB.ravel(), ' spin fit', C.P_SPINFIT)
+    print('main curve :', 'NNLO prediction (P = Pref, nothing fitted)' if C.MAIN == 'pred' else 'NNLO fit')
+    print('NNLO fit   : alpha, beta =', C.ALPHA_FIT, C.BETA_FIT, ' cov', C.COV_AB.ravel(), ' from', C.FITS_JSON)
+    print('band       :', 'LMP15-type envelope (static alpha, beta kept, no fit error)' if C.MAIN == 'pred' else
+          'envelope without static alpha, beta (+) fit error in quadrature')
+    print('spin-fit set (validation only, not drawn):', C.P_SPINFIT)
     print('points     :', len(P))
     T = TD.Theory(P, tag='dp')
     val = T.validate()
@@ -610,8 +665,10 @@ def main():
     for k, v in val.items():
         print('  validation %-28s %s' % (k, v))
     cv = T.curves()
-    json.dump(dict(Pref=list(T.Pref), P_main=list(T.P_main()), static=T.static.tolist(), exe=C.EXE,
-                   v2opts=C.v2opts(True), P_spinfit=list(C.P_SPINFIT), cov_ab=C.COV_AB.tolist(),
+    json.dump(dict(main=C.MAIN, Pref=list(T.Pref), P_main=list(T.P_main()), P_fit=list(T.P_fit()), fits_json=C.FITS_JSON,
+                   fit_key=C.FIT_KEY, static=T.static.tolist(), exe=C.EXE, v2opts=C.v2opts(True),
+                   P_spinfit_validation_only=list(C.P_SPINFIT), cov_ab_fit=C.COV_AB.tolist(),
+                   remove_static_ab=C.REMOVE_STATIC_AB, add_ab_error=C.ADD_AB_ERROR,
                    Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gM={k: list(v) for k, v in T.gM_runs().items() if str(k).startswith('Pref')}),
               open(os.path.join(C.RESULTS, 'run_info.json'), 'w'), indent=1)
     ix = {p[0]: i for i, p in enumerate(P)}
@@ -619,13 +676,13 @@ def main():
     # data with theory
     dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
     ii = np.array([ix[p] for p in dd.pid])
-    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'tree', 'spin') + (('noVC',) if 'noVC' in cv else ()):
+    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'fit', 'tree') + (('noVC',) if 'noVC' in cv else ()):
         dd['th_' + k] = cv[k][ii]
     dd.to_csv(os.path.join(C.RESULTS, 'data_with_theory.csv'), index=False)
     # curves for reproducibility
     cur = pd.DataFrame({'id': [p[0] for p in P], 'E': [p[1] for p in P], 'theta': [p[2] for p in P],
                         'obs': [p[3] for p in P], 'frame': [p[4] for p in P]})
-    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'tree', 'spin', 'flag') + (('noVC',) if 'noVC' in cv else ()):
+    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'fit', 'tree', 'flag') + (('noVC',) if 'noVC' in cv else ()):
         cur[k] = cv[k]
     cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
     ext = D.build_ext450()
@@ -641,7 +698,7 @@ def main():
     fig6(df, cv, ix)
     tabs = chi2_table(df, cv, ix)
     pd.set_option('display.width', 250)
-    print(tabs['350'][['set', 'N', 'Erange', 'chi2N_n1', 'chi2N_nfit', 'n', 'chi2N_th', 'chi2N_spin_nfit', 'fit_report']].round(3).to_string(index=False))
+    print(tabs['350'][['set', 'N', 'Erange', 'chi2N_n1', 'chi2N_nfit', 'n', 'chi2N_th', 'chi2N_fit_n1', 'chi2N_fit_nfit', 'n_fit', 'fit_report']].round(3).to_string(index=False))
     provenance(df)
     data_table(df)
     # bin-averaged vs nominal asymmetries (Fig. 4), for the notes

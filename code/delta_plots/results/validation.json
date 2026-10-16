@@ -1,31 +1,31 @@
 {
- "complete (VC), P=Pref": {
+ "complete (VC), P=Pref (prediction)": {
   "max rel. dev. (cross sections)": 6.8299628814058535e-06,
   "max abs. dev. (asymmetries)": 8.85861051513892e-07
  },
- "complete (VC), P=main fit": {
-  "max rel. dev. (cross sections)": 6.907062323488519e-06,
-  "max abs. dev. (asymmetries)": 8.634906585314184e-07
+ "complete (VC), P=NNLO fit": {
+  "max rel. dev. (cross sections)": 6.90008770541465e-06,
+  "max abs. dev. (asymmetries)": 8.657705028447538e-07
  },
- "complete (VC), P=spin fit": {
-  "max rel. dev. (cross sections)": 6.333554307943849e-06,
-  "max abs. dev. (asymmetries)": 7.770641823797169e-07
+ "complete (VC), P=spin fit (not drawn)": {
+  "max rel. dev. (cross sections)": 6.333583403874447e-06,
+  "max abs. dev. (asymmetries)": 7.770797289916747e-07
  },
- "complete without VC, P=main fit": {
-  "max rel. dev. (cross sections)": 6.968757881853762e-06,
-  "max abs. dev. (asymmetries)": 8.512717281653143e-07
+ "complete without VC, P=main curve": {
+  "max rel. dev. (cross sections)": 6.882607645174065e-06,
+  "max abs. dev. (asymmetries)": 8.628550149936132e-07
  },
  "tree Born+pi0+D1": {
   "max rel. dev. (cross sections)": 1.2740834572969519e-12,
   "max abs. dev. (asymmetries)": 1.0628165014736624e-12
  },
- "Born+pi0+piN, d=main fit": {
-  "max rel. dev. (cross sections)": 1.775833308783531e-12,
-  "max abs. dev. (asymmetries)": 1.6215917497675036e-12
+ "Born+pi0+piN, d=NNLO fit": {
+  "max rel. dev. (cross sections)": 1.7743436310914032e-12,
+  "max abs. dev. (asymmetries)": 1.620370504440416e-12
  },
- "Born+piN+D0+piD, d=main fit": {
-  "max rel. dev. (cross sections)": 6.223115448207922e-06,
-  "max abs. dev. (asymmetries)": 7.157310909189601e-07
+ "Born+piN+D0+piD, d=NNLO fit": {
+  "max rel. dev. (cross sections)": 6.225417677335948e-06,
+  "max abs. dev. (asymmetries)": 7.153710724123628e-07
  },
  "static pols per mechanism (piN, D1, piD)": {
   "piN": [

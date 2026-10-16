@@ -25,16 +25,24 @@ Then Q(c, d) = v^T H v with v = (c, d) for ANY linear combination, e.g. the LMP2
 amplitudes A +- delta dA_X.  validate() compares with direct runs (complete amplitude with and without the
 vertex corrections, tree level, a 3-mechanism configuration with contact terms).
 
-Curves (config.py):
-  main   : A = Born + pi0 + piN + D1 + piD, alphaE1, betaM1 = main fit, spin polarisabilities = NNLO (Pref)
-  noVC   : same with D0 instead of D1 ("without vertex corrections", = v1 amplitude with the v2 masses)
+Curves (config.py; C.MAIN selects the main curve):
+  main   : A = Born + pi0 + piN + D1 + piD at P_main:
+             C.MAIN = 'pred' (default): all six static polarisabilities at the NNLO values (P_main = Pref, d = 0,
+                      no contact terms) -- the parameter-free NNLO prediction;
+             C.MAIN = 'fit': alphaE1, betaM1 = NNLO fit, spin polarisabilities = NNLO (Pref)
+  fit    : same amplitude at alphaE1, betaM1 of the NNLO fit, spin polarisabilities = NNLO ("NNLO fit" curve,
+           thin dashed, no band)
+  noVC   : main with D0 instead of D1 ("without vertex corrections", = v1 amplitude with the v2 masses)
   trunc  : envelope over X in {piN, piD, VC = D1 - D0, sum} and +- of O(A +- delta(omega_cm) dA_X),
-           static alphaE1, betaM1 of the loop shifts removed (they are fitted); delta = omega_cm / Lambda_chi
-  ab     : (alpha, beta) fit error, linear propagation with the fit covariance
+           delta = omega_cm / Lambda_chi; in 'fit' mode the static alphaE1, betaM1 of the loop shifts are removed
+           (they are fitted), in 'pred' mode they stay (nothing is fitted)
+  ab     : (alpha, beta) fit error, linear propagation with the fit covariance ('fit' mode only; zero in 'pred')
   band   : main -+ sqrt(trunc_side^2 + ab^2)
-  gM     : envelope of the complete amplitude with gM = 2.87, 3.07 (alpha, beta fixed; spin pols = NNLO of gM)
+  gM     : envelope of the complete amplitude with gM = 2.87, 3.07: in 'pred' mode the full prediction of that
+           gM (all six polarisabilities at the NNLO values of that gM, incl. the gM^2 dependence of betaM1);
+           in 'fit' mode alpha, beta fixed at the fit, spin pols = NNLO of gM
   tree   : Born + pi0 + D1 (no loops, no contact terms)
-  spin   : complete amplitude at the parameter set of the Delta-region spin-polarisability fit
+  (spin  : complete amplitude at the Delta-region spin-polarisability fit -- validation only since 2026-10-16)
 """
 import itertools
 import numpy as np
@@ -152,11 +160,19 @@ class Theory:
     def d_of(self, P):
         return np.asarray(P, float) - self.Pref
 
+    def P_fit(self):
+        """NNLO fit: alpha, beta fitted, spin polarisabilities at the NNLO values"""
+        return np.r_[C.ALPHA_FIT, C.BETA_FIT, self.Pref[2:]]
+
     def P_main(self):
-        return np.r_[C.ALPHA_MAIN, C.BETA_MAIN, self.Pref[2:]]
+        """parameter set of the main curve: the NNLO prediction (Pref) or the NNLO fit (config.MAIN)"""
+        return self.Pref.copy() if C.MAIN == 'pred' else self.P_fit()
 
     def main(self):
         return self.evaluate(C_MAIN, self.d_of(self.P_main()))
+
+    def fit(self):
+        return self.evaluate(C_MAIN, self.d_of(self.P_fit()))
 
     def noVC(self):
         return self.evaluate(C_NOVC, self.d_of(self.P_main()))
@@ -168,6 +184,8 @@ class Theory:
         return self.evaluate(C_MAIN, self.d_of(C.P_SPINFIT))
 
     def ab_error(self, eps=0.01):
+        if not C.ADD_AB_ERROR:
+            return np.zeros(len(self.points))
         P0 = self.P_main()
         g = []
         for k in range(2):
@@ -204,7 +222,9 @@ class Theory:
             out = {}
             for g in (C.GM_LO, C.GM_HI):
                 T = runner.run(self.points, gM=g, name='%s_NNLO_VC_gM%.2f' % (self.tag, g))
-                out[g] = T.predict_array(np.r_[C.ALPHA_MAIN, C.BETA_MAIN, T.Pref[2:]])
+                # 'pred': the complete prediction of that gM (P = its own Pref); 'fit': alpha, beta of the fit
+                Pg = T.Pref.copy() if C.MAIN == 'pred' else np.r_[C.ALPHA_FIT, C.BETA_FIT, T.Pref[2:]]
+                out[g] = T.predict_array(Pg)
                 out['Pref%.2f' % g] = T.Pref
             self._gm = out
         return self._gm
@@ -219,7 +239,7 @@ class Theory:
         glo = np.minimum.reduce([main, gm[C.GM_LO], gm[C.GM_HI]])
         ghi = np.maximum.reduce([main, gm[C.GM_LO], gm[C.GM_HI]])
         out = dict(main=main, lo=lo, hi=hi, trunc_lo=tlo, trunc_hi=thi, ab=ab, gm_lo=glo, gm_hi=ghi,
-                   gm_287=gm[C.GM_LO], gm_307=gm[C.GM_HI], tree=self.tree(), spin=self.spinfit(),
+                   gm_287=gm[C.GM_LO], gm_307=gm[C.GM_HI], tree=self.tree(), fit=self.fit(),
                    flag=self.full.flag.copy())
         for k, v in parts.items():
             out['shift_' + k] = v
@@ -232,17 +252,18 @@ class Theory:
     # ------------------------------------------------------------------ validation
     def validate(self):
         rep = {}
-        for lab, P in [('complete (VC), P=Pref', self.Pref), ('complete (VC), P=main fit', self.P_main()),
-                       ('complete (VC), P=spin fit', C.P_SPINFIT)]:
+        for lab, P in [('complete (VC), P=Pref (prediction)', self.Pref), ('complete (VC), P=NNLO fit', self.P_fit()),
+                       ('complete (VC), P=spin fit (not drawn)', C.P_SPINFIT)]:
             rep[lab] = self._dev(self.evaluate(C_MAIN, self.d_of(P)), self.full.predict_array(P))
         dm = self.d_of(self.P_main())
-        rep['complete without VC, P=main fit'] = self._dev(self.evaluate(C_NOVC, dm), predict_d(self.full_noVC, dm))
+        rep['complete without VC, P=main curve'] = self._dev(self.evaluate(C_NOVC, dm), predict_d(self.full_noVC, dm))
         Tt = runner.run(self.points, mechs=('Born', 'pi0', 'Dpole'), name='%s_check_tree' % self.tag)
         rep['tree Born+pi0+D1'] = self._dev(self.tree(), predict_d(Tt, np.zeros(6)))
+        df_ = self.d_of(self.P_fit())          # contact terms of the NNLO fit (non-zero also in 'pred' mode)
         Tn = runner.run(self.points, mechs=('Born', 'pi0', 'piN'), name='%s_check_NLO' % self.tag)
-        rep['Born+pi0+piN, d=main fit'] = self._dev(self.evaluate(cvec(Born=1, pi0=1, piN=1), dm), predict_d(Tn, dm))
+        rep['Born+pi0+piN, d=NNLO fit'] = self._dev(self.evaluate(cvec(Born=1, pi0=1, piN=1), df_), predict_d(Tn, df_))
         Tq = runner.run(self.points, mechs=('Born', 'piN', 'Dpole', 'piD'), name='%s_check_noPi0_noVC' % self.tag, dvertex=False)
-        rep['Born+piN+D0+piD, d=main fit'] = self._dev(self.evaluate(cvec(Born=1, piN=1, D0=1, piD=1), dm), predict_d(Tq, dm))
+        rep['Born+piN+D0+piD, d=NNLO fit'] = self._dev(self.evaluate(cvec(Born=1, piN=1, D0=1, piD=1), df_), predict_d(Tq, df_))
         rep['static pols per mechanism (piN, D1, piD)'] = {b: [round(float(x), 4) for x in self.static[IDX[b]]] for b in ('piN', 'D1', 'piD')}
         rep['Pref (complete)'] = [round(float(x), 6) for x in self.Pref]
         rep['vertex corrections present'] = self.hasVC

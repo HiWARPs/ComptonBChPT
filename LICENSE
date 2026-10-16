@@ -1,21 +1,12 @@
-MIT License
+LICENSE -- to be chosen by the author
 
-Copyright (c) 2026 Vladimir Pascalutsa
+No license has been assigned to this package yet.  The author (Vladimir Pascalutsa, Institut fuer Kernphysik,
+Johannes Gutenberg-Universitaet Mainz) will choose the license before the package is published; until then the
+default of copyright law applies (all rights reserved) and the package is not to be redistributed.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Notes for the choice:
+  * code/code_v2 (Fortran) and the Python code are the author's own work;
+  * the numerical data tables (data/, code/data/db_*.csv) are transcriptions of published experimental results
+    and of the author's earlier compilations, with their sources listed in data/DATA_PROVENANCE.md;
+  * the amplitude tables (amplitudes/) are outputs of the author's code.
+Once chosen, add the SPDX identifier to CITATION.cff (field `license`).

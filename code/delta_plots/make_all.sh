@@ -2,9 +2,11 @@
 # ---------------------------------------------------------------------------------------------
 # make_all.sh -- regenerate all Delta-region figures, the chi^2 table and PDF->PNG renders.
 #
-#   cd work/delta_plots && ./make_all.sh                       # defaults (code_v2, alpha=11.69, beta=2.88)
-#   DP_ALPHA=11.67 DP_BETA=2.88 DP_COV_AB=0.218,-0.168,0.187 ./make_all.sh
-#   DP_FITS_JSON=../fits/results/fits_L.json DP_DELTA_JSON=../fits/results/delta_region.json ./make_all.sh
+#   cd work/delta_plots && ./make_all.sh      # defaults: code_v2; main curve = parameter-free NNLO prediction
+#                                             # (DP_MAIN=pred); the 'NNLO fit' curve reads alpha, beta from
+#                                             # work/fits/results/fits_L.json ['F2_d_all_thB'] automatically
+#   DP_MAIN=fit ./make_all.sh                 # legacy: main curve = NNLO fit with its band (figures until 2026-10-15)
+#   DP_FITS_JSON=../fits/results/fits_L.json DP_FIT_KEY=F2_d_all_thB ./make_all.sh   # other fit file/key
 #   AMPL_EXE=/path/to/ampl.exe DP_V2OPTS="pimassphys=t, nmassphys=t" ./make_all.sh
 #   ./make_all.sh --check-v1      # additionally: chi^2 regression check against fit_report Sect. 5.1 (v1)
 #

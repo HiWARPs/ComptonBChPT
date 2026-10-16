@@ -1,10 +1,16 @@
 """Figure of the l=1 non-Born proton Compton multipoles below the pion-production threshold, as dynamical
-polarisabilities:  BChPT main fit ("NNLO fit": v2 code, alpha_E1, beta_M1 and their covariance read from
-work/fits/results/fits_L.json['F2_d_all_thB'], spin polarisabilities at NNLO) with the band from the (alpha, beta)
-fit covariance, the parameter-free NNLO prediction, the PWA fit of the paper ("PWA fit": main database = all data
-minus the 3-sigma outlier TAPS 108.42/133 (update_fits.MAIN_DROP), legacy normalisations floated, configuration
-main_fits.MAIN), and the published KLP18 Fit 1 and Fit 1'' (PLB 782 (2018) 34, Fig. 4, recovered from the vector
-graphics).
+polarisabilities:  the parameter-free NNLO BChPT prediction (v2 code, static polarisabilities = the code's
+physical-mass reference values BV.REF; MAIN curve, solid, dark grey) with the band of the O(p^4) LECs of natural
+size, delta alpha_E1 = delta beta_M1 = +-DLEC = +-0.7 (Lensky-Pascalutsa 2010, Eq. 25), propagated through the exact
+amplitude (central differences at REF +- 0.7 e_k, added in quadrature; it is drawn in the alpha_E1(w), beta_M1(w)
+panels only -- the LECs do not shift the spin multipoles, which is checked at run time); the BChPT main fit
+("NNLO fit": alpha_E1, beta_M1 from work/fits/results/fits_L.json['F2_d_all_thB'], spin polarisabilities at NNLO;
+dashed, blue); the PWA fit of the paper ("PWA fit": main database = all data minus the 3-sigma outlier
+TAPS 108.42/133 (update_fits.MAIN_DROP), legacy normalisations floated, configuration main_fits.MAIN); and the
+published KLP18 Fit 1 and Fit 1'' (PLB 782 (2018) 34, Fig. 4, recovered from the vector graphics).
+Until 2026-10-16 the fit was the main (solid) curve, with the band from the (alpha, beta) fit covariance, and the
+prediction dashed; that version is kept in work/backups/*_before_predmain.*  The fit-covariance band is still
+computed and written to the JSON ('dyn_band_fit').
 
 Conventions (identical for all curves/points; = make_figures.DYN / HMP16 Eq. 3.46 / KLP18 notebook):
   non-Born c.m. multipoles fbar^{l+-}_{rho' rho}(omega) of compton.py (HMP16 Eqs. 3.19-3.22; Phi = T/(8 pi sqrt s)),
@@ -73,7 +79,10 @@ LEG = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansk
 KEYS6 = [k[0] for k in MF.DYN]                         # alphaE1, betaM1, gE1E1, gM1M1, gE1M2, gM1E2
 L1 = [('EE', 1, '+'), ('EE', 1, '-'), ('MM', 1, '+'), ('MM', 1, '-'), ('EM', 1, '+'), ('ME', 1, '+')]
 EGRID = np.arange(0.5, 160.001, 0.5)
-COL = dict(bchpt='#c0392b', pwa='#1f4e9c', plb1='#5f5f5f', plb1pp='#e08e0b')
+COL = dict(pred='#444444', fit='#1f4e9c', band='#9fb6dd', pwa='#1f4e9c', plb1='#5f5f5f', plb1pp='#e08e0b')
+BAND_ALPHA = 0.6
+DLEC = 0.7      # natural size of the O(p^4) LECs (LP 2010, Eq. 25): band of the prediction (as in work/fits/scripts/s06_figures.py)
+SCALAR = ('alphaE1', 'betaM1')
 LABEL = dict(alphaE1=r'$\alpha_{E1}(\omega)$', betaM1=r'$\beta_{M1}(\omega)$', gE1E1=r'$\gamma_{E1E1}(\omega)$',
              gM1M1=r'$\gamma_{M1M1}(\omega)$', gE1M2=r'$\gamma_{E1M2}(\omega)$', gM1E2=r'$\gamma_{M1E2}(\omega)$')
 UNIT = dict(alphaE1=3, betaM1=3, gE1E1=4, gM1M1=4, gE1M2=4, gM1E2=4)
@@ -104,6 +113,8 @@ def bchpt():
     from concurrent.futures import ThreadPoolExecutor            # fill the run cache in parallel
     jobs = [(None, False), (dict(alphaE1=ref['alphaE1'] + 1.0), False), (dict(betaM1=ref['betaM1'] + 1.0), False),
             (BCHPT_FIT, False), (None, True)]
+    jobs += [(dict(alphaE1=ref['alphaE1'] + sgn * DLEC), False) for sgn in (+1, -1)]      # LEC band of the prediction
+    jobs += [(dict(betaM1=ref['betaM1'] + sgn * DLEC), False) for sgn in (+1, -1)]
     with ThreadPoolExecutor(5) as ex:
         list(ex.map(lambda j: BV.multipoles(EGRID, j[0], born_only=j[1]), jobs))
     nb0, born = BV.nonborn(EGRID, None)                                  # NNLO prediction (LECs = 0)
@@ -119,13 +130,34 @@ def bchpt():
     fm = {k: f0[k] + da * Ja[k] + db * Jb[k] for k in keys}
     lin_check = max(float(np.max(abs(fm[k] - nbm[k].real))) / float(np.max(abs(nbm[k].real))) for k in L1)
     d0, dJa, dJb = dyn_curves(f0, EGRID), dyn_curves(Ja, EGRID), dyn_curves(Jb, EGRID)
+    # LEC band of the prediction: central differences of the multipoles at REF +- DLEC e_k through the exact
+    # amplitude (direct runs), added in quadrature.  The amplitude is linear in the LECs, so ca = DLEC * Ja exactly
+    # (checked below, 'lec_lin_check'); the dynamical polarisabilities are linear in the multipoles.
+    nbap, _ = BV.nonborn(EGRID, dict(alphaE1=ref['alphaE1'] + DLEC))
+    nbam, _ = BV.nonborn(EGRID, dict(alphaE1=ref['alphaE1'] - DLEC))
+    nbbp, _ = BV.nonborn(EGRID, dict(betaM1=ref['betaM1'] + DLEC))
+    nbbm, _ = BV.nonborn(EGRID, dict(betaM1=ref['betaM1'] - DLEC))
+    ca = {k: (nbap[k] - nbam[k]).real / 2 for k in keys}
+    cb = {k: (nbbp[k] - nbbm[k]).real / 2 for k in keys}
+    lec_lin_check = max(float(np.max(abs(c[k] - DLEC * J[k]))) / max(float(np.max(abs(DLEC * J[k]))), 1e-30)
+                        for c, J in ((ca, Ja), (cb, Jb)) for k in L1)
+    dca, dcb = dyn_curves(ca, EGRID), dyn_curves(cb, EGRID)
+    # how the LEC shifts propagate into the dynamical polarisabilities: d alpha_E1(w)/d alpha_E1 should be 1 and
+    # d beta_M1(w)/d alpha_E1 = 0 at all w (and vice versa), the spin multipoles should not move at all
+    jac_check = {}
+    for k in KEYS6:
+        ja, jb = dJa[k], dJb[k]
+        jac_check[k] = dict(dJa_max=float(np.max(abs(ja))), dJb_max=float(np.max(abs(jb))),
+                            dJa_minus_1_max=float(np.max(abs(ja - 1))), dJb_minus_1_max=float(np.max(abs(jb - 1))),
+                            dJa_at_150=float(np.interp(150.0, EGRID, ja)), dJb_at_150=float(np.interp(150.0, EGRID, jb)))
     smooth_info = {}
     for k in KEYS6:
         d0[k], ch, res = smooth_lowE(EGRID, d0[k])
         smooth_info[k] = dict(max_change=ch, max_fit_residual=res)
     sa, sb, rho = BCHPT_COV['sa'], BCHPT_COV['sb'], BCHPT_COV['rho']
-    out = dict(E=EGRID, nnlo={}, main={}, band={}, raw_main=fm, raw_nnlo=f0, raw_Ja=Ja, raw_Jb=Jb, born=born,
-               nb_main_direct=nbm, ref=ref, lin_check=lin_check, smooth=smooth_info)
+    out = dict(E=EGRID, nnlo={}, main={}, band={}, lec={}, raw_main=fm, raw_nnlo=f0, raw_Ja=Ja, raw_Jb=Jb, born=born,
+               nb_main_direct=nbm, ref=ref, lin_check=lin_check, lec_lin_check=lec_lin_check, jac_check=jac_check,
+               smooth=smooth_info, dlec=DLEC)
     stat_nnlo = dict(ref)
     stat_main = dict(ref, **BCHPT_FIT)
     for k in KEYS6:
@@ -134,10 +166,13 @@ def bchpt():
         out['main'][k] = np.concatenate([[stat_main[k]], main])
         var = (sa * dJa[k])**2 + (sb * dJb[k])**2 + 2 * rho * sa * sb * dJa[k] * dJb[k]
         e0 = {'alphaE1': sa, 'betaM1': sb}.get(k, 0.0)
-        out['band'][k] = np.concatenate([[e0], np.sqrt(var)])
+        out['band'][k] = np.concatenate([[e0], np.sqrt(var)])        # (alpha, beta) covariance of the fit (not drawn)
+        l0 = DLEC if k in SCALAR else 0.0                            # static values: shifted by exactly +-DLEC
+        out['lec'][k] = np.concatenate([[l0], np.sqrt(dca[k]**2 + dcb[k]**2)])   # LEC band of the prediction (drawn)
     out['Ec'] = np.concatenate([[0.0], EGRID])
-    # raw multipole band
+    # raw multipole bands: fit covariance (not drawn) and LEC band of the prediction (drawn)
     out['raw_band'] = {k: np.sqrt((sa * Ja[k])**2 + (sb * Jb[k])**2 + 2 * rho * sa * sb * Ja[k] * Jb[k]) for k in keys}
+    out['raw_lec'] = {k: np.sqrt(ca[k]**2 + cb[k]**2) for k in keys}
     return out
 
 
@@ -267,6 +302,15 @@ def errpoints(ax, x, y, e, col, mk, filled, label=None, ms=3.2, z=4):
                 elinewidth=0.7, label=label, zorder=z)
 
 
+# theory legend entries, as in Figs. cs and sigma3 of the paper (work/fits/scripts/s06_figures.py: TH_LAB, th_handles)
+TH_LAB = ['NNLO B$\\chi$PT, $\\delta\\alpha_{E1},\\delta\\beta_{M1}=\\pm0.7$', 'NNLO fit']
+
+
+def th_handles():
+    return [(Patch(facecolor=COL['band'], alpha=BAND_ALPHA, lw=0), Line2D([], [], color=COL['pred'], lw=1.2)),
+            Line2D([], [], color=COL['fit'], ls='--', lw=1.0)]
+
+
 PANELS = [['alphaE1', 'gE1E1', 'gE1M2'], ['betaM1', 'gM1M1', 'gM1E2']]
 YLIM = dict(alphaE1=(8.6, 20.4), betaM1=(0.0, 11.8), gE1E1=(-15.6, 1.6), gM1M1=(-0.6, 6.9), gE1M2=(-0.75, 1.25),
             gM1E2=(-0.4, 4.4))
@@ -283,10 +327,12 @@ def fig_main(B, P, K):
         for c, k in enumerate(row):
             ax = axs[r, c]
             E = B['Ec']
-            m, s = B['main'][k], B['band'][k]
-            ax.fill_between(E, m - s, m + s, color=COL['bchpt'], alpha=0.25, lw=0, zorder=1)
-            ax.plot(E, m, color=COL['bchpt'], lw=1.1, zorder=2)
-            ax.plot(E, B['nnlo'][k], color=COL['bchpt'], lw=0.75, ls=(0, (4, 2.2)), zorder=2)
+            p, s = B['nnlo'][k], B['lec'][k]
+            if k in SCALAR:                                   # LEC band: scalar polarisabilities only
+                ax.fill_between(E, p - s, p + s, color=COL['band'], alpha=BAND_ALPHA, lw=0, zorder=1)
+            # NNLO fit (dashed, drawn below the prediction: in the spin panels the two coincide)
+            ax.plot(E, B['main'][k], '--', color=COL['fit'], lw=1.0, zorder=2)
+            ax.plot(E, p, '-', color=COL['pred'], lw=1.2, zorder=2.5)   # NNLO prediction (main curve)
             # KLP18 published (open symbols)
             for tag, key, mk in (('Fit 1', 'plb1', 's'), ("Fit 1''", 'plb1pp', 'D')):
                 d = K[(K.fit == tag) & (K.key == k)]
@@ -312,13 +358,12 @@ def fig_main(B, P, K):
             if r == 1:
                 ax.set_xlabel(r'$E_\gamma$ [MeV]')
             ax.set_xticks([0, 50, 100, 150])
-    h = [(Patch(facecolor=COL['bchpt'], alpha=0.25, lw=0), Line2D([], [], color=COL['bchpt'], lw=1.1)),
-         Line2D([], [], color=COL['bchpt'], lw=0.75, ls=(0, (4, 2.2))),
+    h = th_handles() + [
          Line2D([], [], color=COL['pwa'], marker='o', ms=3.2, ls='none'),
          Line2D([], [], color=COL['plb1'], marker='s', ms=2.9, mfc='white', ls='none'),
          Line2D([], [], color=COL['plb1pp'], marker='D', ms=2.6, mfc='white', ls='none')]
-    lab = ['NNLO fit', 'NNLO prediction', 'PWA fit', 'KLP18, Fit 1', r"KLP18, Fit 1$''$"]
-    fig.legend(h, lab, loc='outside upper center', ncol=5, handletextpad=0.4, columnspacing=2.0)
+    lab = TH_LAB + ['PWA fit', 'KLP18, Fit 1', r"KLP18, Fit 1$''$"]
+    fig.legend(h, lab, loc='outside upper center', ncol=5, handletextpad=0.4, columnspacing=1.6)
     for ext in ('pdf', 'png'):
         with plt.rc_context({'savefig.bbox': 'standard'}):          # keep the full 510 pt width (no cropping)
             fig.savefig(os.path.join(FIGDIR if ext == 'pdf' else PNGDIR, f'fig_multipoles.{ext}'), dpi=300)
@@ -336,10 +381,10 @@ def fig_raw(B, P, Krep):
     for r, row in enumerate(RAW):
         for c, k in enumerate(row):
             ax = axs[r, c]
-            m, s = B['raw_main'][k] * 1e4, B['raw_band'][k] * 1e4
-            ax.fill_between(E, m - s, m + s, color=COL['bchpt'], alpha=0.25, lw=0, zorder=1)
-            ax.plot(np.r_[0, E], np.r_[0, m], color=COL['bchpt'], lw=1.1, zorder=2)
-            ax.plot(np.r_[0, E], np.r_[0, B['raw_nnlo'][k] * 1e4], color=COL['bchpt'], lw=0.75, ls=(0, (4, 2.2)), zorder=2)
+            p, s = B['raw_nnlo'][k] * 1e4, B['raw_lec'][k] * 1e4
+            ax.fill_between(E, p - s, p + s, color=COL['band'], alpha=BAND_ALPHA, lw=0, zorder=1)
+            ax.plot(np.r_[0, E], np.r_[0, B['raw_main'][k] * 1e4], '--', color=COL['fit'], lw=1.0, zorder=2)
+            ax.plot(np.r_[0, E], np.r_[0, p], '-', color=COL['pred'], lw=1.2, zorder=2.5)
             for tag, key, mk in (('Fit 1', 'plb1', 's'), ("Fit 1''", 'plb1pp', 'D')):
                 rr = Krep[tag]['raw']
                 errpoints(ax, [x['E'] + OFF[key] for x in rr], [x[k][0] * 1e4 for x in rr], [x[k][1] * 1e4 for x in rr],
@@ -355,14 +400,12 @@ def fig_raw(B, P, Krep):
             if r == 1:
                 ax.set_xlabel(r'$E_\gamma$ [MeV]')
             ax.set_xticks([0, 50, 100, 150])
-    h = [(Patch(facecolor=COL['bchpt'], alpha=0.25, lw=0), Line2D([], [], color=COL['bchpt'], lw=1.1)),
-         Line2D([], [], color=COL['bchpt'], lw=0.75, ls=(0, (4, 2.2))),
+    h = th_handles() + [
          Line2D([], [], color=COL['pwa'], marker='o', ms=3.2, ls='none'),
          Line2D([], [], color=COL['plb1'], marker='s', ms=2.9, mfc='white', ls='none'),
          Line2D([], [], color=COL['plb1pp'], marker='D', ms=2.6, mfc='white', ls='none')]
-    lab = ['NNLO fit', 'NNLO prediction', 'PWA fit', 'KLP18 Fit 1 (reanalysis)',
-           r"KLP18 Fit 1$''$ (reanalysis)"]
-    fig.legend(h, lab, loc='outside upper center', ncol=5, handletextpad=0.4, columnspacing=1.2)
+    lab = TH_LAB + ['PWA fit', 'KLP18 Fit 1 (reanalysis)', r"KLP18 Fit 1$''$ (reanalysis)"]
+    fig.legend(h, lab, loc='outside upper center', ncol=5, handletextpad=0.4, columnspacing=1.0)
     for ext in ('pdf', 'png'):
         with plt.rc_context({'savefig.bbox': 'standard'}):
             fig.savefig(os.path.join(FIGDIR if ext == 'pdf' else PNGDIR, f'fig_multipoles_raw.{ext}'), dpi=300)
@@ -424,10 +467,14 @@ def main():
                             "baryon.dat M_N = 0.93827 GeV; multipoles from pwa_gaga (16-pt Gauss, J<=5/2) minus Born+pi0",
                    main_fit=BCHPT_FIT, cov=BCHPT_COV, reference_nnlo=B['ref'], linearity_check_rel=B['lin_check'],
                    lowE_smoothing=B['smooth'],
-                   E=B['Ec'], dyn_main=B['main'], dyn_band=B['band'], dyn_nnlo=B['nnlo'],
+                   dlec=B['dlec'], lec_linearity_check_rel=B['lec_lin_check'], lec_jacobian_check=B['jac_check'],
+                   figure='main curve = NNLO prediction (dyn_nnlo) with the LEC band (dyn_band_lec, scalar panels only); '
+                          'dashed = NNLO fit (dyn_main); the fit-covariance band (dyn_band_fit) is not drawn',
+                   E=B['Ec'], dyn_main=B['main'], dyn_band_fit=B['band'], dyn_nnlo=B['nnlo'], dyn_band_lec=B['lec'],
                    E_raw=B['E'], raw_main_fm={'%s%d%s' % k: B['raw_main'][k] for k in L1},
                    raw_nnlo_fm={'%s%d%s' % k: B['raw_nnlo'][k] for k in L1},
-                   raw_band_fm={'%s%d%s' % k: B['raw_band'][k] for k in L1}),
+                   raw_band_fit_fm={'%s%d%s' % k: B['raw_band'][k] for k in L1},
+                   raw_band_lec_fm={'%s%d%s' % k: B['raw_lec'][k] for k in L1}),
         pwa_main=dict(config='main_fits.MAIN + floating normalisations of the legacy sets ' + str(LEG) +
                              '; main database = all points minus ' + str(UF.MAIN_DROP), **P),
         pwa_prior_variants=variants,
@@ -442,6 +489,14 @@ def main():
     # ---------------- printout
     print('BChPT reference (NNLO) static values:', B['ref'])
     print('linearity check (direct main-fit run vs NNLO + LEC Jacobians), max rel:', B['lin_check'])
+    print('LEC band: central differences at REF +- %.1f e_k vs %.1f * Jacobian, max rel:' % (DLEC, DLEC), B['lec_lin_check'])
+    print('LEC Jacobians of the dynamical polarisabilities (d/d alpha_E1, d/d beta_M1 of the static shifts):')
+    for k in KEYS6:
+        j = B['jac_check'][k]
+        print('    %-8s max|dJa| = %.2e  max|dJb| = %.2e  max|dJa-1| = %.2e  max|dJb-1| = %.2e  at 150 MeV: %.6f %.6f'
+              % (k, j['dJa_max'], j['dJb_max'], j['dJa_minus_1_max'], j['dJb_minus_1_max'], j['dJa_at_150'], j['dJb_at_150']))
+    print('LEC band (drawn) at E = 0, 59, 109, 150 MeV:',
+          {k: [round(float(np.interp(e, B['Ec'], B['lec'][k])), 4) for e in (0, 59, 109, 150)] for k in KEYS6})
     print('low-E smoothing (12-30 MeV):', {k: round(v['max_change'], 4) for k, v in B['smooth'].items()})
     print('PWA MAIN:', {k: (round(P['der'][k], 3), round(P['der_err'][k], 3)) for k in KEYS6})
     print('validation (1) Born projection max rel dev:', V['born_projection_rel_dev']['max_rel_dev'])

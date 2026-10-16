@@ -8,6 +8,8 @@ import os
 os.environ['AMPL_EXE'] = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'code', 'execs', 'ampl.exe')
 os.environ['DP_ALPHA'] = '11.6937'
 os.environ['DP_BETA'] = '2.8793'
+os.environ['DP_FITS_JSON'] = 'none'      # use the DP_ALPHA/DP_BETA values above, not fits_L.json
+os.environ['DP_MAIN'] = 'fit'            # the regression refers to the NNLO-fit curve (T.fit() below)
 import numpy as np
 import config as C
 import data_dp as D
@@ -19,7 +21,7 @@ dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])]
 P = D.driver_points(dd)
 T = TD.Theory(P, tag='v1check', verbose=False)
 assert not T.hasVC
-main = T.main()
+main = T.fit()                           # NNLO fit with the v1 alpha, beta (independent of DP_MAIN)
 cv = dict(main=main, lo=main, hi=main)
 ix = {p[0]: i for i, p in enumerate(P)}
 t = MF.chi2_rows(df, cv, ix, C.E_DELTA_MIN, C.E_DELTA_MAX)
