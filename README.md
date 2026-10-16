@@ -1,12 +1,14 @@
 # ComptonBChPT — data, amplitude tables and code of the proton Compton-scattering analysis
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23413172.svg)](https://doi.org/10.5281/zenodo.23413172)
+
 Reproducibility package for
 
 > V. Pascalutsa, *Predictive powers of chiral perturbation theory tested by the new proton Compton-scattering data*,
 > [journal reference / arXiv identifier: to be added] (2026).
 
 Author: Vladimir Pascalutsa, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.0
-(2026-10-16).  Repository: https://github.com/vladipas/ComptonBChPT.  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
+(2026-10-16).  Repository: https://github.com/vladipas/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
 
 The package contains (i) the world database of proton Compton-scattering data used in the paper, with the
 provenance of every point, (ii) the tabulated NNLO BχPT amplitudes for every data point and for the curves of the

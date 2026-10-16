@@ -12,7 +12,14 @@ version: "1.0"
 date-released: "2026-10-16"
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
 repository-code: "https://github.com/vladipas/ComptonBChPT"
-# doi: 10.5281/zenodo.XXXXXXX   # to be added once the Zenodo DOI is minted
+doi: 10.5281/zenodo.23413172   # concept DOI (all versions); the DOI of version 1.0.1 is 10.5281/zenodo.23413173
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23413173
+    description: "Zenodo archive of release v1.0.1"
+  - type: doi
+    value: 10.5281/zenodo.23413172
+    description: "Zenodo concept DOI, resolves to the latest version"
 keywords:
   - Compton scattering
   - proton polarizabilities
