@@ -1,4 +1,4 @@
-# Citation metadata (Citation File Format 1.2.0).  Fields marked TODO are to be completed by the author.
+# Citation metadata (Citation File Format 1.2.0).
 cff-version: 1.2.0
 message: "If you use this package, please cite the paper (preferred-citation) and the package itself."
 type: dataset
@@ -6,13 +6,13 @@ title: "Supplementary data and code for: Predictive powers of chiral perturbatio
 authors:
   - family-names: Pascalutsa
     given-names: Vladimir
+    orcid: "https://orcid.org/0000-0002-2613-6104"
     affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
-    # TODO (author): ORCID, e.g.  orcid: "https://orcid.org/0000-0000-0000-0000"
 version: "1.0"
 date-released: "2026-10-16"
-# TODO (author): DOI of the published package, e.g.  doi: 10.5281/zenodo.0000000
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
 repository-code: "https://github.com/vladipas/ComptonBChPT"
+# doi: 10.5281/zenodo.XXXXXXX   # to be added once the Zenodo DOI is minted
 keywords:
   - Compton scattering
   - proton polarizabilities
@@ -24,6 +24,45 @@ preferred-citation:
   authors:
     - family-names: Pascalutsa
       given-names: Vladimir
+      orcid: "https://orcid.org/0000-0002-2613-6104"
       affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
   year: 2026
-  journal: "TODO (author): journal, volume, article number / arXiv identifier"
+  journal: "[journal, volume, article number and arXiv identifier to be added]"
+references:
+  - type: article
+    title: "Predictive powers of chiral perturbation theory in Compton scattering off protons"
+    authors:
+      - family-names: Lensky
+        given-names: Vadim
+      - family-names: Pascalutsa
+        given-names: Vladimir
+        orcid: "https://orcid.org/0000-0002-2613-6104"
+    journal: "European Physical Journal C"
+    volume: 65
+    start: 195
+    end: 209
+    year: 2010
+    doi: 10.1140/epjc/s10052-009-1183-z
+    identifiers:
+      - type: other
+        value: "arXiv:0907.0451"
+        description: "arXiv preprint"
+  - type: article
+    title: "Predictions of covariant chiral perturbation theory for nucleon polarisabilities and polarised Compton scattering"
+    authors:
+      - family-names: Lensky
+        given-names: Vadim
+      - family-names: McGovern
+        given-names: Judith
+      - family-names: Pascalutsa
+        given-names: Vladimir
+        orcid: "https://orcid.org/0000-0002-2613-6104"
+    journal: "European Physical Journal C"
+    volume: 75
+    start: 604
+    year: 2015
+    doi: 10.1140/epjc/s10052-015-3791-0
+    identifiers:
+      - type: other
+        value: "arXiv:1510.02794"
+        description: "arXiv preprint"
