@@ -368,9 +368,15 @@ def ellipse(ax, P, cov, **kw):
     return e
 
 
-fig, ax = plt.subplots(figsize=(W1, 3.55), layout='constrained')
+fig, ax = plt.subplots(figsize=(W1, 3.85), layout='constrained')
 a = np.linspace(8, 16, 50)
-h_bal = ax.fill_between(a, 14.0 - 0.2 - a, 14.0 + 0.2 - a, color='#dddddd', lw=0, label='Baldin SR, 14.0(2)')
+h_bal = ax.fill_between(a, 14.0 - 0.2 - a, 14.0 + 0.2 - a, color='#dddddd', lw=0, label='Baldin SR, average 14.0(2)')
+# the two photoabsorption fits of Gryniuk et al. 2015 (fit I: MAID below the 2pi threshold; fit II: SAID), hatched
+with plt.rc_context({'hatch.linewidth': 0.5}):
+    h_b1 = ax.fill_between(a, 14.29 - 0.27 - a, 14.29 + 0.27 - a, facecolor='none', edgecolor='#8c8c8c', hatch='////', lw=0,
+                           label='Baldin SR, fit I 14.29(27)')
+    h_b2 = ax.fill_between(a, 13.85 - 0.22 - a, 13.85 + 0.22 - a, facecolor='none', edgecolor='#8c8c8c', hatch='\\\\\\\\', lw=0,
+                           label='Baldin SR, fit II 13.85(22)')
 # the NNLO fit of this work (68% joint CL)
 r = FL['F2_d_all_thB']
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
@@ -389,7 +395,7 @@ for (av, ae), (bv, be), c, m, lab in others:
 ax.set_xlim(9.5, 15.2); ax.set_ylim(-0.5, 5.0)
 ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1)); ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1))
 ax.set_xlabel('$\\alpha_{E1}$ [$10^{-4}$ fm$^3$]'); ax.set_ylabel('$\\beta_{M1}$ [$10^{-4}$ fm$^3$]')
-handles = [h_bal, h_nnlo, h_fit] + hs
+handles = [h_bal, h_b1, h_b2, h_nnlo, h_fit] + hs
 fig.legend(handles, [h.get_label() for h in handles], loc='outside lower center', ncol=2, handlelength=2.0,
            handletextpad=0.5, columnspacing=1.0)
 save_exact(fig, 'fig4_alpha_beta')
