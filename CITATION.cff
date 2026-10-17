@@ -8,6 +8,10 @@ authors:
     given-names: Vladimir
     orcid: "https://orcid.org/0000-0002-2613-6104"
     affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
+  - family-names: Lensky
+    given-names: Vadim
+    orcid: "https://orcid.org/0000-0001-5185-3220"
+    affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
 version: "1.3"
 date-released: "2026-10-17"
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
