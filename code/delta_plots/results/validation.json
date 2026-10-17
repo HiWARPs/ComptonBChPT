@@ -61,5 +61,14 @@
   0.170077,
   1.132566
  ],
- "vertex corrections present": true
+ "vertex corrections present": true,
+ "extra curve run3: Pref(irun=3) - Pref(default)": [
+  0.0,
+  1e-06,
+  -1e-06,
+  1e-06,
+  0.0,
+  1e-06
+ ],
+ "extra curve run3: max |run/main - 1| (cross sections)": 0.18859900911141936
 }

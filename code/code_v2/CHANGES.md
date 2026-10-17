@@ -3,14 +3,14 @@
 v1 = audited working copy `work/code` (= `<original Fortran source (SRC_MOD), not included>` + fit driver), see
 `work/notes/code_audit.md` (bug labels B1–B10, S1–S9 refer to its Sect. 5).
 History: `git log` in this directory (one commit per change; the first commit is the v1 state).
-Regression suite: `tests/run_regression.sh [--build]` (16 s; all PASS at the final commit).
+Regression suite: `tests/run_regression.sh [--build]` (tests a–h, ~1 min; all PASS at the final commit).
 Physics validation against the published curves: `tools/validate_lmp2015.py`, `tools/validate_fig14.py`.
 
 Default behaviour of v2 = v1 + bug fixes + robust evaluation + **γNΔ vertex corrections on**.
 v1 is reproduced to < 1e-6 (driver grid 20–350 MeV, all angles away from 0/180°) with
 `dvertex=f` and `v2="iosmode=1,loopsafe=f"` (test d).  All new options live in the optional
 namelist `&v2` (absent ⇒ defaults); `driver/run_points.sh` passes them (`order=`, `dvertex=`,
-`drunning=`, `consts=`, `v2="..."`).  Input/output formats of the driver are unchanged
+`drunning=` (t/f or the scheme 0–3 = `&v2 irun`), `consts=`, `v2="..."`).  Input/output formats of the driver are unchanged
 (additional `#` header lines only; flag column now 0/1/2).
 
 Units below: α, β in 1e-4 fm³, γ in 1e-4 fm⁴; dσ relative, asymmetries absolute.
@@ -149,6 +149,37 @@ value without vertex corrections (0.745 with them, the default).
   Being beyond the working order it changes the static polarisabilities strongly: Δ-pole
   β_M1 7.15 → 9.35, total (α, β, γE1E1, γM1M1, γE1M2, γM1E2) = (11.28, 6.12, −3.50, 2.54, 0.07, 1.19)
   (the reference values follow automatically, numerical extraction). For studies only.
+
+## G. Running Δ parameters, doubly subtracted (`&v2 irun`, `run_points.sh drunning=0|1|2|3`) — `As.f90` (`delta_running`, `delta_selfenergy`), `ampl.f90`
+Note `work/notes/delta_running2.md`; prototype `tools/running_delta.py` (schemes 1–3); tables `tools/running_table.f90`;
+unitarity `tools/check_unitarity_running.py`; regression test h.  `drunning=t` ≡ `irun=1` (kept for compatibility; the
+integer overrides the logical when given), default `irun=0` = off.
+* **irun=1** (as before): once subtracted at the pole, Re g(s) = g + F1(s), F1(s) = (s−M_Δ²)/π P∫ds′ Im g(s′)/((s′−M_Δ²)(s′−s));
+  σ_R = σ − Re σ(M_Δ²) − (s−M_Δ²) Re σ′(M_Δ²), τ_R = τ − Re τ(M_Δ²).  Static polarisabilities (11.28, 6.12, −3.50, 2.54, 0.07, 1.19).
+* **irun=2** (new, "running2"): second subtraction at the static point s0 = M_N² so that Re g(s0) = g, σ_R(s0) = 0, τ_R(s0) = 0:
+  Re g(s) = g + (s−M_Δ²)(s−s0)/π P∫ds′ Im g(s′)/((s′−s)(s′−M_Δ²)(s′−s0)) = g + F1(s) − (s−M_Δ²)/(s0−M_Δ²) F1(s0) (partial fractions;
+  the twice-subtracted integral vanishes at both subtraction points, so no further linear term); σ_R → σ_R − c (s−M_Δ²)²,
+  c = σ_R(s0)/(s0−M_Δ²)²; τ_R → τ_R − c′ (s−M_Δ²), c′ = τ_R(s0)/(s0−M_Δ²).  The subtracted polynomials are analytic
+  (higher-order counterterms, absorbed by the O(p⁴) contact terms).  α_E1, β_M1, γE1M2, γM1E2 are unchanged exactly (they depend
+  on the running functions only through their values at s0); γE1E1 and γM1M1, which enter at O(ν³), also feel the slopes at s0
+  (dgM/ds = −0.19, dgE/ds = −1.58 GeV⁻², dM_Δ/ds = +0.068 GeV⁻¹, dτ_R/ds = +0.075 GeV⁻²): Pref = (11.2464, 3.8707, **−3.3868**,
+  **2.5675**, 0.1787, 1.1469), i.e. ΔγE1E1 = −0.052, ΔγM1M1 = −0.375 (driver header; independent amplitude extraction agrees).
+* **irun=3** (exploratory, "running3"): in addition vanishing slopes at s0 (Re g′(s0) = σ_R′(s0) = τ_R′(s0) = 0, one more polynomial
+  term each: −(s−M_Δ²)(s−s0) b with b = (F1′(s0)−a)/(s0−M_Δ²), a = F1(s0)/(s0−M_Δ²); −d (s−M_Δ²)²(s−s0); −d′ (s−M_Δ²)(s−s0)).
+  All six static polarisabilities unchanged (max 1e-6).  Grows faster above the resonance (gM = 2.61 at √s = 1.4 GeV).
+* Energy dependence (√s = 1.1 / 1.15 / 1.2 / 1.232 / 1.3 GeV): irun=2 Re gM = 2.974 / 2.996 / 2.988 / 2.970 / 2.903,
+  Re gE = −2.35 / −1.99 / −1.36 / −1.00 / −0.39, M_Δ(s)/M_N = 1.3223 / 1.3169 / 1.3137 / 1.3131 / 1.3154, 1+Re τ_R = 1.0106 / 1.0074 /
+  1.0032 / 1 / 0.9915 (irun=1: gM 2.79 … 3.01, M_Δ/M_N 1.299 … 1.308, Z 1.10 … 0.94).  Full table in the note.
+* Numerics: the Feynman-parameter integrals of σ, τ, σ′, τ′ use a cubic endpoint map (log singularities at the zeros of M²(x)):
+  σ′(M_Δ²) now 1e-8 instead of 2e-5 (changes irun=1 at the 1e-5 level).  Fortran vs Python prototype (vxmode=0): 3e-7.
+  Cost: none measurable (2.45 vs 2.53 ms/point).
+* Checks: default bit-identical (540 driver points × 57 numbers, max diff 0.0; header gains the `irun` field); the s-channel
+  Δ-pole P33 multipole with running equals −a′ Z G²/D, a′ = a (W+M_Δ(s))/(W+M_Δ), to 1e-9; P33 unitarity of the complete amplitude
+  vs the generalised Watson prediction (code's Im G): irun=2 residual 3.2e-3 (200 MeV) → 2.5e-6 (330 MeV), irun=3 ≤ 4e-4,
+  irun=1 2e-2 — entirely the mismatch factor √(a/(a′Z)) of the fixed NLO Im parts (residual 1e-16 with Im G rescaled).
+* Observables (physical masses, prediction at the default static values): irun=2 raises dσ on the rising flank (200 MeV: +1.5 … +4.7 %,
+  250 MeV: +4 … +7 %, 300 MeV: +5 … +7 %, 340 MeV: ≤ 1 %, backward largest), Σ3(90° cm) by +0.02 at 200–250 MeV, Σ2z(90° lab) by
+  +0.02 … +0.03; below threshold ≤ 0.5 % (at its own γ's ≤ 2 %, from γM1M1).  Δ-region χ² and the NNLO fit: see the note.
 
 ## Physical pion masses per isospin channel (coordinator request) — `Cov_1loop_As.F90:18ff (CovOneLoop)`
 Options `pimassphys` and `nmassphys` (both default `f` = v1).

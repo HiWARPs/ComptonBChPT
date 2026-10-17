@@ -38,7 +38,7 @@ v2 keys (namelist `&v2` of `ampl.exe`):
 |---|---|---|
 | `order=` | `3.5`, `3`, `2` | chiral order of the base amplitude (LMP2015 Table 1, low-energy counting): `2` = O(p^2) nucleon Born graphs with charge couplings (kappa=0); `3` = O(p^3): + anomalous magnetic moments in the Born graphs, pi0 (WZW) pole, piN loops; `3.5` = O(p^7/2) = NNLO: + Delta pole (s+u) and piDelta loops (v1 content). `Pref` follows the order (0 / piN-loop / NNLO values). For Bayesian truncation-error estimates run the same points with order=2,3,3.5. |
 | `dvertex=` | `t`, `f` | imaginary parts of the one-loop gamma-N-Delta vertex (LMP2015 Fig. 4; NLO in the Delta region; zero below the pion threshold). `f` = v1. |
-| `drunning=` | `f`, `t` | running Re gM(s), Re gE(s) (dispersion relation LMP2015 Eq. D5), M_Delta(s), 1+Re tau_R(s) (App. D). Beyond the working order, changes the static polarisabilities (beta_M1(Delta pole) 7.15 -> 9.3); for studies only. |
+| `drunning=` | `f`, `t`, `0`, `1`, `2`, `3` | running Re gM(s), Re gE(s) (dispersion relation of the vertex Im parts), M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D; CHANGES.md Sect. G, `work/notes/delta_running2.md`). `t` = `1`: once subtracted at the pole (LMP2015 Eq. D5; changes the static polarisabilities, beta_M1 3.87 -> 6.12). `2`: doubly subtracted (pole and static point s0 = M_N^2): alpha_E1, beta_M1, gamma_E1M2, gamma_M1E2 unchanged, gamma_E1E1 -0.05, gamma_M1M1 -0.38 (slopes at s0). `3`: also vanishing slopes at s0, all six static polarisabilities unchanged (exploratory). Integers set `&v2 irun`; `Pref` follows (numerical extraction). |
 | `consts=` | `LMP15`, `PDG24` | parameter set; PDG24: gA=1.2754, f_pi=92.07 MeV, m_pi+-, m_pi0, M_p, kappa_p (CODATA 2022), hbar c, h_A refitted to Gamma_Delta=117 MeV (2.873); gM, gE unchanged. |
 | `v2="..."` | | further `&v2` entries, comma separated, e.g. `v2="pimassphys=t,nmassphys=t"`: `pimassphys` (pi0 p loops with m_pi0), `nmassphys` (pi+ n loops with the neutron mass: physical cusp at 151.4 MeV), `hA=` (pi N Delta coupling), `vxmode=` (2 Watson [default], 0 PV2006 on-shell mapping, 1 PV2006 with M_Delta->W), `pi0ff=t` (pi0 gamma gamma transition form factor of the proton triangle loop on the pi0-pole vertex, F(t) = -2M^2 C0(0,0,t;M^2,M^2,M^2), F(0)=1; static polarisabilities unchanged; CHANGES.md Sect. F), `loopsafe=f` (raw v1 loop evaluation), `elex=` (15 MeV), `tausafe=` (4e-4 M^2), `iosmode=1` (v1 one-sided piDelta subtraction, diagnostics). |
 
@@ -180,8 +180,8 @@ and `Pref` = 0 (LEX-type calculation).
 | `test_quadratic_exactness.py` | end-to-end exactness test against the original main program |
 | `static_pols.py` | extraction of static polarisabilities from the amplitude (`&fitdriver staticmode=t`) |
 | `analytic_pols.py` | LMP2015 App. C analytic static polarisabilities (any constants) |
-| `../tests/run_regression.sh` | v2 regression suite (static pols, Thomson/LEX, unitarity, v1 vs v2, gfortran vs ifort, driver exactness) |
-| `../tools/` | Born photoproduction multipoles, PWA runner, unitarity checks, PV2006 vertex functions, running Delta prototype, LMP2015 figure validation (`validate_lmp2015.py`, `validate_fig14.py`) |
+| `../tests/run_regression.sh` | v2 regression suite (static pols, Thomson/LEX, unitarity, v1 vs v2, gfortran vs ifort, driver exactness, pi0ff, running Delta parameters) |
+| `../tools/` | Born photoproduction multipoles, PWA runner, unitarity checks, PV2006 vertex functions, running Delta prototype (`running_delta.py`, schemes 1-3; `running_table.f90`; `check_unitarity_running.py`), LMP2015 figure validation (`validate_lmp2015.py`, `validate_fig14.py`) |
 
 Other `&fitdriver` options: `staticmode=t` (dump A_i by mechanism on a small (ν,t) grid to
 `static_As.out` + diagnostics: UV/Δ-state dependence, reproducibility, Thomson limit),

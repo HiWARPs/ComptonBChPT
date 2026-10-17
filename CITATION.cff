@@ -8,8 +8,8 @@ authors:
     given-names: Vladimir
     orcid: "https://orcid.org/0000-0002-2613-6104"
     affiliation: "Institut für Kernphysik, Johannes Gutenberg-Universität Mainz, 55128 Mainz, Germany"
-version: "1.1"
-date-released: "2026-10-16"
+version: "1.2"
+date-released: "2026-10-17"
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
 repository-code: "https://github.com/vladipas/ComptonBChPT"
 doi: 10.5281/zenodo.23413172   # concept DOI (all versions); the DOI of version 1.0.1 is 10.5281/zenodo.23413173

@@ -42,6 +42,11 @@ Curves (config.py; C.MAIN selects the main curve):
            gM (all six polarisabilities at the NNLO values of that gM, incl. the gM^2 dependence of betaM1);
            in 'fit' mode alpha, beta fixed at the fit, spin pols = NNLO of gM
   tree   : Born + pi0 + D1 (no loops, no contact terms)
+  run<n> : (C.EXTRA = 'run3' default, 2026-10-17) the complete amplitude with the running gammaNDelta couplings and
+           Delta mass of code_v2 (&v2 irun = n; irun=3: doubly subtracted with values and slopes fixed at s0 = M_N^2,
+           all six static polarisabilities unchanged) at the static polarisabilities of the main curve -- a direct
+           driver run (not part of the Gram decomposition), contact terms set so that P = P_main, exactly as the
+           'P0' evaluation of chi2_running.py.  The 'noVC' curve stays available for the chi^2 tables.
   (spin  : complete amplitude at the Delta-region spin-polarisability fit -- validation only since 2026-10-16)
 """
 import itertools
@@ -97,7 +102,8 @@ class Theory:
         self.isasym = np.isin(self.obs, ASYM)
         self.tag = tag
         n = len(self.points)
-        run = lambda mechs, nm, dv=True: runner.run(self.points, mechs=mechs, name='%s_%s' % (tag, nm), verbose=verbose, dvertex=dv)
+        run = lambda mechs, nm, dv=True, irun=None: runner.run(self.points, mechs=mechs, name='%s_%s' % (tag, nm), verbose=verbose,
+                                                                dvertex=dv, irun=irun)
         R = {}                                   # Gram-basis runs: key = frozenset of basis labels
         for b in MB:
             R[frozenset([b])] = run((RUNMECH[b],), b, b != 'D0')
@@ -107,8 +113,10 @@ class Theory:
             R[frozenset([a, b])] = run((RUNMECH[a], RUNMECH[b]), a + '+' + b, not ('D0' in (a, b)))
         self.full = run(MECHS, 'NNLO_VC', True)
         self.full_noVC = run(MECHS, 'NNLO_noVC', False)
+        # extra curve of the figures (config.EXTRA = 'run<n>'): complete amplitude with the running Delta parameters
+        self.full_run = run(MECHS, 'NNLO_VC_irun%d' % C.EXTRA_IRUN, True, irun=C.EXTRA_IRUN) if C.EXTRA_IRUN is not None else None
         self.Pref = self.full.Pref.copy()
-        for T in R.values():
+        for T in list(R.values()) + ([self.full_run] if self.full_run is not None else []):
             assert np.array_equal(T.ids, self.full.ids)
         # static polarisabilities of the mechanisms: v2 sets Pref = static pols of the mechanisms switched on
         # (incl. physical-mass shifts); v1 writes the complete NNLO values for every configuration -> header.
@@ -180,6 +188,11 @@ class Theory:
     def tree(self):
         return self.evaluate(C_TREE, np.zeros(6))
 
+    def running(self):
+        """complete amplitude with the running Delta parameters (&v2 irun = C.EXTRA_IRUN) at the static polarisabilities
+        of the main curve: the driver's contact terms shift its own Pref to P_main (for irun=3 the two coincide)"""
+        return self.full_run.predict_array(self.P_main())
+
     def spinfit(self):
         return self.evaluate(C_MAIN, self.d_of(C.P_SPINFIT))
 
@@ -245,6 +258,8 @@ class Theory:
             out['shift_' + k] = v
         if self.hasVC:
             out['noVC'] = self.noVC()
+        if self.full_run is not None:
+            out[C.EXTRA] = self.running()          # 'run3' (default), 'run2', 'run1'
         num, den = self.nd(C_MAIN, self.d_of(self.P_main()))
         out['num'], out['den'] = num, den
         return out
@@ -267,6 +282,10 @@ class Theory:
         rep['static pols per mechanism (piN, D1, piD)'] = {b: [round(float(x), 4) for x in self.static[IDX[b]]] for b in ('piN', 'D1', 'piD')}
         rep['Pref (complete)'] = [round(float(x), 6) for x in self.Pref]
         rep['vertex corrections present'] = self.hasVC
+        if self.full_run is not None:
+            # the running run must not change the static polarisabilities (irun=3: exactly; irun=2: gamma's shift)
+            rep['extra curve %s: Pref(irun=%d) - Pref(default)' % (C.EXTRA, C.EXTRA_IRUN)] = [round(float(x), 6) for x in self.full_run.Pref - self.Pref]
+            rep['extra curve %s: max |run/main - 1| (cross sections)' % C.EXTRA] = float(np.max(np.abs(self.running()[~self.isasym] / self.main()[~self.isasym] - 1)))
         return rep
 
     def _dev(self, g, r):

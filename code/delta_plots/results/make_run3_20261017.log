@@ -1,0 +1,79 @@
+executable : <release>/code/code_v2/execs/ampl.exe
+&v2 options: pimassphys=t, nmassphys=t, dvertex=t
+main curve : NNLO prediction (P = Pref, nothing fitted)
+NNLO fit   : alpha, beta = 11.546219309667354 2.978140875236648  cov [ 0.20511821 -0.15920541 -0.15920541  0.17478391]  from <release>/code/fits/results/fits_L.json
+band       : LMP15-type envelope (static alpha, beta kept, no fit error)
+spin-fit set (validation only, not drawn): [10.98770122  3.11910408 -3.09171816  2.68548115 -1.25234984  2.59926079]
+extra curve: running Delta parameters, irun=3 (values and slopes fixed at s0; static pols unchanged) ; also in the angular distributions
+points     : 9196
+  [runner] dp_Born                 9196 points -> dp_Born_773fca5079772c4c.out
+  [runner] dp_pi0                  9196 points -> dp_pi0_f2c0bfe023ab836a.out
+  [runner] dp_piN                  9196 points -> dp_piN_70e475dd47116e54.out
+  [runner] dp_D1                   9196 points -> dp_D1_010fc3cf4a042e7b.out
+  [runner] dp_piD                  9196 points -> dp_piD_70d9e40d1cb96940.out
+  [runner] dp_D0                   9196 points -> dp_D0_e665da8e5c878caf.out
+  [runner] dp_Born+pi0             9196 points -> dp_Born+pi0_040163088aab55ff.out
+  [runner] dp_Born+piN             9196 points -> dp_Born+piN_6f1c0bf8f64e55ae.out
+  [runner] dp_Born+D1              9196 points -> dp_Born+D1_367cd666d4c88ece.out
+  [runner] dp_Born+piD             9196 points -> dp_Born+piD_23e8a1991a912e0b.out
+  [runner] dp_Born+D0              9196 points -> dp_Born+D0_cc2cfe916d0b8a27.out
+  [runner] dp_pi0+piN              9196 points -> dp_pi0+piN_56feac9df9264033.out
+  [runner] dp_pi0+D1               9196 points -> dp_pi0+D1_56a9aae9b3da14fe.out
+  [runner] dp_pi0+piD              9196 points -> dp_pi0+piD_165cdbc3cd9b720e.out
+  [runner] dp_pi0+D0               9196 points -> dp_pi0+D0_b805749fa2d6b4f8.out
+  [runner] dp_piN+D1               9196 points -> dp_piN+D1_df8c3e01123bbe7f.out
+  [runner] dp_piN+piD              9196 points -> dp_piN+piD_29ccb7201ce7edb3.out
+  [runner] dp_piN+D0               9196 points -> dp_piN+D0_ea8f032dbdfbe605.out
+  [runner] dp_D1+piD               9196 points -> dp_D1+piD_654155ac61dfcc7d.out
+  [runner] dp_piD+D0               9196 points -> dp_piD+D0_4792bfcfc60454d9.out
+  [runner] dp_NNLO_VC              9196 points -> dp_NNLO_VC_36baecf14059ffed.out
+  [runner] dp_NNLO_noVC            9196 points -> dp_NNLO_noVC_9f9db7338dffa6bc.out
+  [runner] dp_NNLO_VC_irun3        9196 points -> dp_NNLO_VC_irun3_5886935cd0bd6ec5.out
+  [runner] dp_check_tree           9196 points -> dp_check_tree_69f788887c2b12b4.out
+  [runner] dp_check_NLO            9196 points -> dp_check_NLO_a940b2fd76c970b5.out
+  [runner] dp_check_noPi0_noVC     9196 points -> dp_check_noPi0_noVC_d9262ccfb1dfe0d1.out
+  validation complete (VC), P=Pref (prediction) {'max rel. dev. (cross sections)': 6.8299628814058535e-06, 'max abs. dev. (asymmetries)': 8.85861051513892e-07}
+  validation complete (VC), P=NNLO fit    {'max rel. dev. (cross sections)': 6.90008770541465e-06, 'max abs. dev. (asymmetries)': 8.657705028447538e-07}
+  validation complete (VC), P=spin fit (not drawn) {'max rel. dev. (cross sections)': 6.333583403874447e-06, 'max abs. dev. (asymmetries)': 7.770797289916747e-07}
+  validation complete without VC, P=main curve {'max rel. dev. (cross sections)': 6.882607645174065e-06, 'max abs. dev. (asymmetries)': 8.628550149936132e-07}
+  validation tree Born+pi0+D1             {'max rel. dev. (cross sections)': 1.2740834572969519e-12, 'max abs. dev. (asymmetries)': 1.0628165014736624e-12}
+  validation Born+pi0+piN, d=NNLO fit     {'max rel. dev. (cross sections)': 1.7743436310914032e-12, 'max abs. dev. (asymmetries)': 1.620370504440416e-12}
+  validation Born+piN+D0+piD, d=NNLO fit  {'max rel. dev. (cross sections)': 6.225417677335948e-06, 'max abs. dev. (asymmetries)': 7.153710724123628e-07}
+  validation static pols per mechanism (piN, D1, piD) {'piN': [7.0998, -1.9743, -3.2806, -0.1239, 0.5397, 0.9139], 'D1': [-0.1097, 7.1501, -0.3996, 3.286, -0.4273, 0.3855], 'piD': [4.4253, -1.4466, 0.4343, -0.2229, 0.0577, -0.1668]}
+  validation Pref (complete)              [11.415433, 3.729126, -3.245879, 2.939187, 0.170077, 1.132566]
+  validation vertex corrections present   True
+  validation extra curve run3: Pref(irun=3) - Pref(default) [0.0, 1e-06, -1e-06, 1e-06, 0.0, 1e-06]
+  validation extra curve run3: max |run/main - 1| (cross sections) 0.18859900911141936
+  [runner] dp_NNLO_VC_gM2.87       9196 points -> dp_NNLO_VC_gM2.87_2deeada75b638b97.out
+  [runner] dp_NNLO_VC_gM3.07       9196 points -> dp_NNLO_VC_gM3.07_1cdee88b5929d744.out
+  extrapolated (flag=1) points: 467
+  Fig. 1: plotting-only points 400 < E <= 450 MeV: {'Camen2002': {'size': 3, 'min': 407.4, 'max': 448.3}, 'Hunger1997_75': {'size': 1, 'min': 408.6, 'max': 408.6}, 'Hunger1997_90': {'size': 4, 'min': 408.1, 'max': 443.2}, 'Wissmann1999': {'size': 1, 'min': 409.7, 'max': 409.7}}
+  wrote fig_delta_cs_vsE
+  wrote fig_delta_cs_vstheta_a
+  wrote fig_delta_cs_vstheta_b
+  Fig. 2: lab-frame sets converted to c.m.: ['MAMI 02', 'MAMI 99', 'SAL 00', 'TAPS 01']
+  wrote fig_delta_S3_vs_theta
+  wrote fig_delta_S3_90_vsE
+  wrote fig_delta_S2x_S2z
+  wrote fig_delta_S2_vsE
+  wrote fig_delta_cs_ratio
+                set  N  Erange  chi2N_n1  chi2N_nfit     n  chi2N_th  chi2N_fit_n1  chi2N_fit_nfit  n_fit  fit_report
+  A2_Martel2015_S2x  4     288     0.627       0.627 1.000     0.611         0.634           0.634  1.000        0.67
+  Martel_thesis_S2x  5     331     7.461       7.461 1.000     5.945         7.571           7.571  1.000         NaN
+ A2_Paudyal2020_S2z 10 275-295     2.362       1.482 0.919     1.012         2.468           1.631  0.921        1.61
+        LEGS2001_S3 79 213-334     1.846       1.846 1.000     1.686         2.324           2.324  1.000        2.52
+    Barbiellini1968  1     318     0.000       0.000 1.000     0.000         0.001           0.001  1.000         NaN
+        LEGS2001_CS 77 213-334     8.885       7.563 1.047     4.435        10.105           8.152  1.058        7.92
+      Hunger1997_75 12 207-339     2.073       1.512 0.952     1.176         2.063           1.567  0.955        1.59
+      Hunger1997_90  9 250-349     2.313       2.239 1.013     1.907         2.637           2.525  1.016        2.60
+       Wissmann1999  8 199-334     1.132       1.117 1.009     1.003         1.242           1.217  1.012        1.26
+          Camen2002  7 211-331     0.663       0.657 1.005     0.487         0.928           0.891  1.013        1.15
+           Kolb2000  1     247     7.384       7.384 1.000     5.860         8.506           8.506  1.000         NaN
+Hallin1993_TabII(D) 70 151-291     6.779       3.353 1.184     2.699         7.574           3.556  1.203        3.64
+    Hallin1993_TabI 17 182-286    13.894       5.349 1.174     3.219        16.233           6.065  1.193         NaN
+    OlmosdeLeon2001 10 157-164     1.656       1.416 1.036     1.315         1.954           1.642  1.041        1.73
+  bin-averaged vs nominal-energy asymmetry, max |diff|: {'S2X_288': 0.009, 'S2X_330.595': 0.005, 'S2Z_275': 0.003, 'S2Z_295': 0.003}
+PDFs:   <release>/paper/figs/delta/
+tables: <release>/code/delta_plots/results/chi2_table.md (.csv, .tex)
+renders: <release>/code/delta_plots/png/pdf/
+EXIT 0

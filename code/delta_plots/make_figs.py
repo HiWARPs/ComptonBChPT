@@ -34,8 +34,22 @@ LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
 LAB_GM = r'$g_M = 2.97\pm0.10$'
 LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
 LAB_NOVC = r'no vertex corrections'
+LAB_RUN = r'running $\Delta$ parameters'
+# extra dotted curve (config.EXTRA, 2026-10-17): 'run3' = the prediction with the running Delta parameters (irun=3), dotted
+# in the colour of the main curve, legend entry right after 'NNLO fit'; 'novc' = without the vertex corrections (grey
+# dotted, legend entry after the tree-level curve, the figures until 2026-10-17); 'none' = no extra curve.
+EXTRA_KEY = {'novc': 'noVC', 'none': None}.get(C.EXTRA, C.EXTRA)      # key of the curve in theory_dp.Theory.curves()
+C_RUN = C_MAIN
+EXTRA_COLOR = C_NOVC if C.EXTRA == 'novc' else C_RUN
+EXTRA_LABEL = LAB_NOVC if C.EXTRA == 'novc' else LAB_RUN
+EXTRA_AFTER_FIT = C.EXTRA != 'novc'
+EXTRA_LW = 1.0
 FIT_DASHES = (3.0, 1.6)
 FIT_LW = 0.9
+
+
+def has_extra(cv):
+    return EXTRA_KEY is not None and EXTRA_KEY in cv
 MS = 3.2
 W1, W2 = 246 / 72.27, 510 / 72.27      # final printed widths [in] (single / double column); included without scaling
 E_2PI = 2 * 134.9768 * (1 + 134.9768 / C.MP)   # pi0 pi0 p threshold, lab photon energy [MeV] (308.8)
@@ -106,7 +120,7 @@ BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0)
 
 
 # ============================================================== drawing helpers
-def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, novc=False):
+def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False):
     if gm:
         ax.fill_between(x, cv['gm_lo'][idx], cv['gm_hi'][idx], color=C_GM, lw=0, zorder=1)
         ax.plot(x, cv['gm_lo'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
@@ -114,23 +128,28 @@ def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, novc=False):
     ax.fill_between(x, cv['lo'][idx], cv['hi'][idx], color=C_BAND, lw=0, alpha=0.85, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
-    if novc and 'noVC' in cv:
-        ax.plot(x, cv['noVC'][idx], ':', color=C_NOVC, lw=0.9, zorder=3.5)
+    if extra and has_extra(cv):
+        ax.plot(x, cv[EXTRA_KEY][idx], ':', color=EXTRA_COLOR, lw=EXTRA_LW, zorder=3.5)
     if fit:
         ax.plot(x, cv['fit'][idx], '--', color=C_FIT, lw=FIT_LW, zorder=3.8, dashes=FIT_DASHES)
     ax.plot(x, cv['main'][idx], '-', color=C_MAIN, lw=1.15, zorder=4)
 
 
-def theory_handles(fit=True, tree=True, gm=True, novc=False):
-    """legend order (user decision 2026-10-16): main (band) / NNLO fit / tree / no VC / gM band"""
+def theory_handles(fit=True, tree=True, gm=True, extra=False):
+    """legend order (user decisions 2026-10-16/17): main (band) / NNLO fit / running Delta parameters / tree / gM band;
+    with the legacy extra curve 'novc': main / NNLO fit / tree / no VC / gM band"""
     h, l = [], []
+    extra = extra and EXTRA_KEY is not None        # DP_EXTRA=none: never an extra entry
+    hx = Line2D([], [], color=EXTRA_COLOR, ls=':', lw=EXTRA_LW)
     h.append((Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.15))); l.append(LAB_MAIN)
     if fit:
         h.append(Line2D([], [], color=C_FIT, ls='--', dashes=FIT_DASHES, lw=FIT_LW)); l.append(LAB_FIT)
+    if extra and EXTRA_AFTER_FIT:
+        h.append(hx); l.append(EXTRA_LABEL)
     if tree:
         h.append(Line2D([], [], color=C_TREE, ls='--', dashes=(4, 2), lw=0.9)); l.append(LAB_TREE)
-    if novc:
-        h.append(Line2D([], [], color=C_NOVC, ls=':', lw=0.9)); l.append(LAB_NOVC)
+    if extra and not EXTRA_AFTER_FIT:
+        h.append(hx); l.append(EXTRA_LABEL)
     if gm:
         h.append(Patch(facecolor=C_GM, edgecolor=C_GM_EDGE, lw=0.4)); l.append(LAB_GM)
     return h, l
@@ -187,7 +206,7 @@ def fig1(df, cv, ix):
     for k, (fr, th0) in enumerate(FIG1):
         ax = axs.ravel()[k]
         idx = np.array([ix[gid('f1', fr, th0, '%.2f' % E)] for E in E_GRID])
-        draw_theory(ax, E_GRID, cv, idx, novc=True)
+        draw_theory(ax, E_GRID, cv, idx, extra=True)
         col = 'theta_lab' if fr == 'LAB' else 'theta_cm'
         sel = cs[(cs.frame == fr) & (np.abs(cs[col] - th0) <= C.WIN_THETA + 1e-6)]
         mark_shown('Fig. 1 (dsigma vs E)', sel)
@@ -206,7 +225,7 @@ def fig1(df, cv, ix):
         if k >= 3:
             ax.set_xlabel(r'$E_\gamma$ [MeV]')
         ax.xaxis.set_major_locator(plt.MultipleLocator(100))
-    th, tl = theory_handles(novc='noVC' in cv)
+    th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     legend_rows(fig, th, tl, dh, dl, ncol_d=9)
     save(fig, 'fig_delta_cs_vsE', exact=True)
@@ -230,7 +249,7 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
     for k, E0 in enumerate(energies):
         ax = axs[k]
         idx = np.array([ix[gid('f2', E0, th)] for th in TH_GRID])
-        draw_theory(ax, TH_GRID, cv, idx)
+        draw_theory(ax, TH_GRID, cv, idx, extra=C.EXTRA_THETA)     # the extra curve also here (default for 'run3')
         sel = cs[np.isclose(cs.Epanel, E0)]
         mark_shown('Fig. 2 (dsigma vs theta)', sel)
         th, v, e, conv = D.as_frame(sel, 'CM')
@@ -254,7 +273,7 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
         if k >= len(energies) - nc or (k + nc >= len(energies) and k + nc < len(axs)):
             axs[k].set_xlabel(r'$\theta_{\rm cm}$ [deg]')
             axs[k].xaxis.set_tick_params(labelbottom=True)
-    th, tl = theory_handles(novc=False)
+    th, tl = theory_handles(extra=C.EXTRA_THETA and has_extra(cv))
     dh, dl = data_handles(reg)
     if legend_in_last and len(energies) < len(axs):
         # legend in the free panel slots of the last row (data sets of both parts of the figure)
@@ -280,7 +299,7 @@ def fig3a(df, cv, ix):
     for k, E0 in enumerate(LEGS_E):
         ax = axs[k]
         idx = np.array([ix[gid('f3', E0, th)] for th in TH_GRID])
-        draw_theory(ax, TH_GRID, cv, idx, novc=True)
+        draw_theory(ax, TH_GRID, cv, idx, extra=True)
         sel = s3[np.abs(s3.E - E0) <= 0.05]
         mark_shown('Fig. 3a (Sigma3 vs theta)', sel)
         for lab in [l for l in D.ORDER if l in set(sel.label)]:
@@ -299,10 +318,10 @@ def fig3a(df, cv, ix):
     for r, (lo, hi) in enumerate([(-0.40, 0.46), (-0.25, 0.42), (-0.05, 0.80)]):
         for a in axs[4 * r:4 * r + 4]:
             a.set_ylim(min(lo, a.get_ylim()[0]), hi)
-    th, tl = theory_handles(novc='noVC' in cv)
+    th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
-    hh, ll = th + dh, tl + dl                       # rows: (main, NNLO fit, tree) / (no VC, g_M, LEGS)
-    o = [0, 3, 1, 4, 2, 5] if len(hh) == 6 else list(range(len(hh)))
+    hh, ll = th + dh, tl + dl                       # 3 columns, filled column-wise -> rows: (entries 0, 1, 2) / (3, 4, 5),
+    o = [0, 3, 1, 4, 2, 5] if len(hh) == 6 else list(range(len(hh)))   # i.e. (main, NNLO fit, running) / (tree, g_M, LEGS)
     fig.legend([hh[i] for i in o], [ll[i] for i in o], loc='outside upper center', ncol=3, handlelength=2.0,
                columnspacing=2.0)
     save(fig, 'fig_delta_S3_vs_theta', exact=True)
@@ -312,7 +331,7 @@ def fig3b(df, cv, ix):
     fig, ax = plt.subplots(figsize=(W1, 2.65), layout='constrained')
     reg = {}
     idx = np.array([ix[gid('f3b', '%.2f' % E)] for E in E3B])
-    draw_theory(ax, E3B, cv, idx, novc=True)
+    draw_theory(ax, E3B, cv, idx, extra=True)
     s3 = df[(df.obs == 'S3') & (np.abs(df.theta_cm - 90.0) <= C.WIN_THETA + 1e-6)]
     mark_shown('Fig. 3b (Sigma3(90) vs E)', s3)
     for lab in [l for l in D.ORDER if l in set(s3.label)]:
@@ -324,7 +343,7 @@ def fig3b(df, cv, ix):
     ax.axhline(0, color='0.6', lw=0.4, zorder=0)
     ax.set_xlim(0, 350); ax.set_ylim(-1.05, 0.75)
     ax.set_xlabel(r'$E_\gamma$ [MeV]'); ax.set_ylabel(r'$\Sigma_3(\theta_{\rm cm}=90^\circ)$')
-    th, tl = theory_handles(novc='noVC' in cv)
+    th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     fig.legend(th, tl, loc='outside upper center', ncol=2, handlelength=2.0, columnspacing=1.0)
     ax.legend(dh, dl, loc='lower right', handlelength=1.0, handletextpad=0.35, borderaxespad=0.5)   # empty region
@@ -340,7 +359,7 @@ def fig4(df, cv, ix):
     for k, (o, E0, title) in enumerate(FIG4):
         ax = axs[k]
         idx = np.array([ix[gid('f4', o, E0, th)] for th in TH_GRID])
-        draw_theory(ax, TH_GRID, cv, idx, novc=True)
+        draw_theory(ax, TH_GRID, cv, idx, extra=True)
         # bin-averaged NNLO (bremsstrahlung weight 1/E): <N>/<D>; only reported (differs by <= 0.01)
         lo, hi = BIN[E0]
         Eb = np.linspace(lo, hi, 7)
@@ -374,7 +393,7 @@ def fig4(df, cv, ix):
             ax.set_xlabel(r'$\theta_{\rm lab}$ [deg]')
     axs[0].set_ylim(-0.75, 0.75); axs[1].set_ylim(-0.75, 0.75)
     axs[2].set_ylim(-0.1, 1.05); axs[3].set_ylim(-0.1, 1.05)
-    th, tl = theory_handles(novc='noVC' in cv)
+    th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     dh.append(Patch(facecolor='0.6', edgecolor='none')); dl.append(r'A2 20 scale unc.\ (10.4\%)')
     legend_rows(fig, th, tl, dh, dl, ncol_t=2, ncol_d=2)
@@ -388,7 +407,7 @@ def fig5(df, cv, ix):
     for k, (o, th0) in enumerate(FIG5):
         ax = axs[k]
         idx = np.array([ix[gid('f5', o, th0, '%.2f' % E)] for E in E5])
-        draw_theory(ax, E5, cv, idx, novc=True)
+        draw_theory(ax, E5, cv, idx, extra=True)
         sel = df[(df.obs == o) & (np.abs(df.theta_lab - th0) <= C.WIN_THETA + 1e-6)]
         mark_shown('Fig. 5 (Sigma2x,2z vs E)', sel)
         for lab in [l for l in D.ORDER if l in set(sel.label)]:
@@ -402,7 +421,7 @@ def fig5(df, cv, ix):
         if k >= 2:
             ax.set_xlabel(r'$E_\gamma$ [MeV]')
     fig.tight_layout(rect=(0, 0.1, 1, 1), h_pad=0.5, w_pad=1.0)
-    th, tl = theory_handles(novc='noVC' in cv)
+    th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     fig.legend(th + dh, tl + dl, loc='upper center', ncol=3, bbox_to_anchor=(0.5, 0.092), fontsize=7.0,
                handlelength=2.2, columnspacing=1.2, borderaxespad=0.)
@@ -531,6 +550,13 @@ def chi2_table(df, cv, ix):
         t['chi2N_tree_nfit'] = tt.chi2N_nfit.values
         if 'noVC' in cv:
             t['chi2N_noVC_nfit'] = chi2_rows(df, cv, ix, a, b, curve='noVC').chi2N_nfit.values
+        if has_extra(cv) and EXTRA_KEY != 'noVC':
+            # running Delta parameters: n = 1 and n fitted, point errors only (the paper's '+run.' column, with the band
+            # recomputed for the running amplitude, is results/running/chi2_table_irun3.csv of chi2_running.py)
+            tr = chi2_rows(df, cv, ix, a, b, curve=EXTRA_KEY)
+            t['chi2N_%s_n1' % EXTRA_KEY] = tr.chi2N_n1.values
+            t['chi2N_%s_nfit' % EXTRA_KEY] = tr.chi2N_nfit.values
+            t['n_%s' % EXTRA_KEY] = tr.n.values
         t['order'] = [SETORDER.index(x) if x in SETORDER else 99 for x in t.set]
         t = t.sort_values('order').drop(columns='order')
         t['fit_report'] = [FITREPORT.get(x, np.nan) if key == '350' else np.nan for x in t.set]
@@ -549,6 +575,9 @@ def chi2_table(df, cv, ix):
                '%s: χ²/N (n=1) | χ²/N (n fitted) | n | χ²/N Born+π⁰+Δ |' % (mainlab, fitlab))
         if 'chi2N_noVC_nfit' in t:
             hdr += ' χ²/N without VC |'
+        runcol = 'chi2N_%s_n1' % EXTRA_KEY if EXTRA_KEY and ('chi2N_%s_n1' % EXTRA_KEY) in t else None
+        if runcol:
+            hdr += ' running Δ (irun=%d): χ²/N (n=1) | χ²/N (n fitted) | n |' % C.EXTRA_IRUN
         hdr += (' fit_report §5.1 (v1, fit) |' if key == '350' else ' |')
         L.append(hdr)
         L.append('|' + '---|' * (hdr.count('|') - 1))
@@ -563,6 +592,9 @@ def chi2_table(df, cv, ix):
                 nm, r.obs, r.N, r.Erange, sc, r.chi2N_n1, c1, nn, r.chi2N_th, r.chi2N_fit_n1, cf, nf, r.chi2N_tree_nfit)
             if 'chi2N_noVC_nfit' in t:
                 line += ' %.2f |' % r.chi2N_noVC_nfit
+            if runcol:
+                rr = getattr(r, 'chi2N_%s_nfit' % EXTRA_KEY); rn = getattr(r, 'n_%s' % EXTRA_KEY)
+                line += ' %.2f | %s | %s |' % (getattr(r, runcol), ('%.2f' % rr) if r.norm > 0 else '–', ('%.3f' % rn) if r.norm > 0 else '1')
             fr = '' if np.isnan(r.fit_report) else '%.2f' % r.fit_report
             line += ' %s |' % fr
             L.append(line)
@@ -658,6 +690,11 @@ def main():
     print('band       :', 'LMP15-type envelope (static alpha, beta kept, no fit error)' if C.MAIN == 'pred' else
           'envelope without static alpha, beta (+) fit error in quadrature')
     print('spin-fit set (validation only, not drawn):', C.P_SPINFIT)
+    print('extra curve:', {'run3': 'running Delta parameters, irun=3 (values and slopes fixed at s0; static pols unchanged)',
+                           'run2': 'running Delta parameters, irun=2, at the static pols of the main curve',
+                           'run1': 'running Delta parameters, irun=1, at the static pols of the main curve',
+                           'novc': 'without the gammaNDelta vertex corrections', 'none': 'none'}[C.EXTRA],
+          '; also in the angular distributions' if C.EXTRA_THETA else '')
     print('points     :', len(P))
     T = TD.Theory(P, tag='dp')
     val = T.validate()
@@ -669,20 +706,24 @@ def main():
                    fit_key=C.FIT_KEY, static=T.static.tolist(), exe=C.EXE, v2opts=C.v2opts(True),
                    P_spinfit_validation_only=list(C.P_SPINFIT), cov_ab_fit=C.COV_AB.tolist(),
                    remove_static_ab=C.REMOVE_STATIC_AB, add_ab_error=C.ADD_AB_ERROR,
-                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gM={k: list(v) for k, v in T.gM_runs().items() if str(k).startswith('Pref')}),
+                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gM={k: list(v) for k, v in T.gM_runs().items() if str(k).startswith('Pref')},
+                   extra=C.EXTRA, extra_irun=C.EXTRA_IRUN, extra_in_theta=C.EXTRA_THETA,
+                   extra_v2opts=(C.v2opts(True, C.EXTRA_IRUN) if C.EXTRA_IRUN is not None else None),
+                   Pref_extra=(list(T.full_run.Pref) if T.full_run is not None else None)),
               open(os.path.join(C.RESULTS, 'run_info.json'), 'w'), indent=1)
     ix = {p[0]: i for i, p in enumerate(P)}
     nflag = int(np.sum(cv['flag'])); print('  extrapolated (flag=1) points:', nflag)
+    extra_cols = tuple(dict.fromkeys(k for k in ('noVC', EXTRA_KEY) if k and k in cv))     # 'noVC' always, plus 'run3'
     # data with theory
     dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
     ii = np.array([ix[p] for p in dd.pid])
-    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'fit', 'tree') + (('noVC',) if 'noVC' in cv else ()):
+    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'fit', 'tree') + extra_cols:
         dd['th_' + k] = cv[k][ii]
     dd.to_csv(os.path.join(C.RESULTS, 'data_with_theory.csv'), index=False)
     # curves for reproducibility
     cur = pd.DataFrame({'id': [p[0] for p in P], 'E': [p[1] for p in P], 'theta': [p[2] for p in P],
                         'obs': [p[3] for p in P], 'frame': [p[4] for p in P]})
-    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'fit', 'tree', 'flag') + (('noVC',) if 'noVC' in cv else ()):
+    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'fit', 'tree', 'flag') + extra_cols:
         cur[k] = cv[k]
     cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
     ext = D.build_ext450()

@@ -47,13 +47,17 @@
         !*             with the code's own Delta-pole partial wave (reproduces the LMP2015 multipoles best),
         !*             0 = PV2006 formulas with the on-shell (M_Delta) mapping to gM,gE, 1 = same with M_Delta -> W
         !*   drunning: running Re gM, gE (once-subtracted DR, LMP2015 Eq. D5), M_Delta(s), 1+Re tau_R(s) (App. D)
+        !*   irun    : subtraction scheme of the running (As.f90 delta_running): 0 off, 1 = drunning=t (once
+        !*             subtracted at the pole), 2 = doubly subtracted (pole and static point s0 = M_N^2: alpha_E1,
+        !*             beta_M1 unchanged), 3 = also vanishing slopes at s0 (all six static polarisabilities
+        !*             unchanged; exploratory).  Default -1 = follow drunning; irun >= 0 overrides it.
         !*   consts  : 'LMP15' (default) or 'PDG24'
         !*   loopsafe: robust loop evaluation near 0/180 deg (t-interpolation) and below elex (static-pol. form)
         !*   elex    : lab photon energy [MeV] below which the loops are replaced by their static-polarisability form
         !*   tausafe : half-width [M^2] of the Gram-singular zones |t|,|eta| < tausafe
         REAL*8 :: order=3.5d0, elex=15.d0, tausafe=4.d-4, epsos=1.d-4, tzfrac=0.2d0
         REAL*8 :: tznode(4)=(/1.d0,2.d0,3.d0,4.d0/)
-        INTEGER :: iosmode=0, vxmode=2
+        INTEGER :: iosmode=0, vxmode=2, irun=-1
         LOGICAL :: dvertex=.true., drunning=.false., loopsafe=.true.
         CHARACTER(len=8) :: consts='LMP15'
         INTEGER ios_v2
@@ -73,7 +77,7 @@
         LOGICAL :: pi0ff=.false.
         REAL*8 hA_default
         NAMELIST /v2/ order, dvertex, drunning, consts, loopsafe, elex, tausafe, epsos, iosmode, tzfrac, tznode, vxmode, &
-             pimassphys, nmassphys, hA, pichan, mneutron, pi0ff
+             pimassphys, nmassphys, hA, pichan, mneutron, pi0ff, irun
         REAL*8 mpin2_c, mnuc2_c
         INTEGER ipimode_c
         COMMON /v2pimass/ mpin2_c, ipimode_c, mnuc2_c
@@ -84,6 +88,8 @@
         COMMON /v2piDos/ epsos_c, iosmode_c
         LOGICAL ldvertex_c, ldrunning_c
         COMMON /v2delta/ ldvertex_c, ldrunning_c
+        INTEGER irun_c
+        COMMON /v2drun/ irun_c
         INTEGER ivxmode_c
         COMMON /v2vx/ ivxmode_c
         REAL*8 aem_c
@@ -243,6 +249,16 @@
         ELSE
            hAuser=.true.
         ENDIF
+        !* [v2] running Delta parameters: irun (0/1/2/3) overrides the logical drunning (kept for compatibility)
+        IF(irun.LT.0) THEN
+           irun=0
+           IF(drunning) irun=1
+        ELSE IF(irun.GT.3) THEN
+           WRITE(*,*) 'ERROR: &v2 irun must be 0, 1, 2 or 3; got ',irun
+           STOP
+        ELSE
+           drunning=(irun.GT.0)
+        ENDIF
         CALL upcase(consts)
         CALL set_constants_v2()
         CALL set_order_v2()
@@ -294,7 +310,7 @@
         !*      on-shell-offset options, hA for the PDG-2024 set, references and LECs
         dmloop=bary(3)%rm
         epsos_c=epsos; iosmode_c=iosmode
-        ldvertex_c=dvertex; ldrunning_c=drunning; ivxmode_c=vxmode; aem_c=alphaQED
+        ldvertex_c=dvertex; ldrunning_c=drunning; ivxmode_c=vxmode; aem_c=alphaQED; irun_c=irun
         mpin2_c=pionm2; ipimode_c=0; mnuc2_c=1.d0
         IF(pimassphys.OR.nmassphys) THEN
            ipimode_c=1
@@ -1416,8 +1432,8 @@
                ' oneNloop=',oneNloop,' oneDloop=',oneDloop,' relchpt=',relchpt
           WRITE(92,'(a,f4.1,a,l2,a,l2,a,a,a,l2,a,f6.2,a,es9.2)') '# v2 options: order=',order,' dvertex=',dvertex, &
                ' drunning=',drunning,' consts=',TRIM(consts),' loopsafe=',loopsafe,' elex[MeV]=',elex,' tausafe=',tausafe
-          WRITE(92,'(a,l2,a,i2,a,l2,a,l2,a,f9.5,a,l2)') '# flags (cont.): nuclamm=',nuclamm,' vxmode=',vxmode, &
-               ' pimassphys=',pimassphys,' nmassphys=',nmassphys,'  hA=',hA,'  pi0ff=',pi0ff
+          WRITE(92,'(a,l2,a,i2,a,l2,a,l2,a,f9.5,a,l2,a,i2)') '# flags (cont.): nuclamm=',nuclamm,' vxmode=',vxmode, &
+               ' pimassphys=',pimassphys,' nmassphys=',nmassphys,'  hA=',hA,'  pi0ff=',pi0ff,'  irun=',irun
           WRITE(92,'(a,4(1x,f10.6),a,f9.5)') '# constants: gA,fpi[GeV],mpi[GeV],mpi0[GeV] =',gA,fpi*smm,pionm*smm,pi0mass*smm, &
                '  hA=',hA
           WRITE(92,'(a,f10.7,a,f10.7,a,f12.6,a,f9.6)') '#            M_p[GeV]=',smm,'  hbarc[GeV fm]=',hbarc, &
@@ -1583,7 +1599,7 @@
              Pdr=Pana_cmp(:,2)
              CALL piN_static_numeric(10,0.d0,Pana_cmp(:,2))
              Pana_tot=Pana_tot-Pdr+Pana_cmp(:,2)
-             WRITE(*,'(a,6f9.4)') ' [v2] drunning: Delta-pole static pols (numerical)   ',Pana_cmp(:,2)
+             WRITE(*,'(a,i1,a,6f9.4)') ' [v2] drunning (irun=',irun,'): Delta-pole static pols (numerical)   ',Pana_cmp(:,2)
              WRITE(*,'(a,6f9.4)') ' [v2]           (fixed couplings, analytic)          ',Pdr
           ENDIF
           IF((pimassphys.OR.nmassphys).AND.oneNloop.AND.relchpt) THEN

@@ -137,7 +137,8 @@
       !* [v2] Delta-region options (set by the main program from namelist &v2):
       !*   ldvertex : imaginary parts of the one-loop gamma N Delta vertex (LMP2015 Fig. 4,
       !*              PV2006 App. B), s-channel only (they vanish below the pi N threshold)
-      !*   ldrunning: running Re gM(s), Re gE(s), M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D)
+      !*   ldrunning: running Re gM(s), Re gE(s), M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D); the
+      !*              subtraction scheme (irun = 1, 2, 3) is passed to delta_running via COMMON /v2drun/
       LOGICAL ldvertex, ldrunning
       COMMON /v2delta/ ldvertex, ldrunning
       REAL*8 vImgM, vImgE, ReG1, ReG2, Mrun, ztau, Mp
@@ -485,29 +486,54 @@ END FUNCTION rQfun
     END SUBROUTINE gnd_vertex_im
 
 !=============================================================================
-! [v2] placeholder for the running couplings/mass (filled below when drunning is used)
+! [v2] running couplings / mass / field renormalisation of the Delta pole (&v2 drunning, irun)
 !=============================================================================
     SUBROUTINE delta_running(s,Md,G1,G2,ReG1,ReG2,Mrun,ztau)
-      !* [v2] higher-order Delta-pole option (&v2 drunning), LMP2015 Sect. 2.3 and App. D:
-      !*  Re gM(s), Re gE(s): once-subtracted dispersion relation (D5) of Im gM, Im gE (gnd_vertex_im),
-      !*     subtraction at s = M_D^2 where Re g = G1, G2 (input couplings); principal values by
+      !* [v2] higher-order Delta-pole option (&v2 drunning / irun), LMP2015 Sect. 2.3 and App. D:
+      !*  Re gM(s), Re gE(s): dispersion relation of Im gM, Im gE (gnd_vertex_im), principal values by
       !*     singularity subtraction; nodes s' = s_th + c (y/(1-y))^2, 400 Gauss points (cached).
       !*  M_D(s) = M_D + Re sigma_R(s),  ztau = 1 + Re tau_R(s): piN (C_N = hA^2) and piDelta
       !*     (C_D = (5/3 H_A)^2, H_A = 9/5 gA) self-energy loops, Eqs. (D1)-(D4), Xi = 0, scale M_N.
-      !* Units: nucleon-mass units. Verified against tools/running_delta.py and LMP2015 Fig. 5
-      !* (M_D(s)/M_N and 1+Re tau_R reproduced; gM(s) to 0.02).
+      !* Subtraction schemes (COMMON /v2drun/ irun_c; main program: &v2 irun, or drunning=t -> irun=1):
+      !*  irun=1  once subtracted at s = M_D^2 (LMP2015 Eq. D5 and D4): Re g = G + F1(s),
+      !*          F1(s) = (s-M_D^2)/pi P int ds' Im g(s')/((s'-M_D^2)(s'-s)); sigma_R = sigma - Re sigma(M_D^2)
+      !*          - (s-M_D^2) Re sigma'(M_D^2); tau_R = tau - Re tau(M_D^2).  Changes the static polarisabilities
+      !*          strongly (Delta-pole beta_M1 7.15 -> 9.35); for studies only.
+      !*  irun=2  doubly subtracted: additionally subtracted at the static point s0 = M_N^2 (= 1 here), so that
+      !*          Re g(s0) = G, sigma_R(s0) = 0, tau_R(s0) = 0 and alpha_E1, beta_M1 are unchanged:
+      !*            Re g(s) = G + (s-M_D^2)(s-s0)/pi P int ds' Im g(s')/((s'-s)(s'-M_D^2)(s'-s0))
+      !*                    = G + F1(s) - (s-M_D^2)/(s0-M_D^2) F1(s0)             [partial fractions in s';
+      !*            the twice-subtracted integral vanishes at both subtraction points, hence no further linear term]
+      !*            sigma_R(s) = sigma(s) - [a + b (s-M_D^2) + c (s-M_D^2)^2], a, b as for irun=1 (value and slope
+      !*            at the pole), c = sigma_R^(1)(s0)/(s0-M_D^2)^2 ;  tau_R(s) = tau(s) - Re tau(M_D^2) - c' (s-M_D^2),
+      !*            c' = tau_R^(1)(s0)/(s0-M_D^2).
+      !*          The subtracted pieces are polynomials in s (analytic): they correspond to counterterms of
+      !*          higher order, the leading ones being the O(p^4) contact terms (delta alpha, delta beta, delta gamma)
+      !*          of the analysis, which absorb them.  The spin polarisabilities still depend on the slopes of the
+      !*          running functions at s0 (they enter the amplitude at O(nu^3)).
+      !*  irun=3  (exploratory) as irun=2 with, in addition, vanishing slopes at s0 (Re g'(s0) = 0, sigma_R'(s0) = 0,
+      !*          tau_R'(s0) = 0), i.e. one more polynomial term each: -(s-M_D^2)(s-s0) b, b = (F1'(s0)-a)/(s0-M_D^2),
+      !*          a = F1(s0)/(s0-M_D^2), F1'(s0) = 1/pi int ds' Im g(s')/(s'-s0)^2; -d (s-M_D^2)^2 (s-s0),
+      !*          d = sigma_R^(2)'(s0)/(s0-M_D^2)^2; -d' (s-M_D^2)(s-s0), d' = tau_R^(2)'(s0)/(s0-M_D^2).  Then all
+      !*          six static dipole polarisabilities are unchanged.
+      !* Units: nucleon-mass units. Verified against tools/running_delta.py (schemes 1-3, 1e-6) and, for irun=1,
+      !* LMP2015 Fig. 5 (M_D(s)/M_N and 1+Re tau_R reproduced; gM(s) to 0.02).
       implicit none
       REAL*8, INTENT(in) :: s,Md,G1,G2
       REAL*8, INTENT(out) :: ReG1,ReG2,Mrun,ztau
       REAL*8 gA,hA,fpi,pi0mass,pionm
       COMMON/Consts/hA,gA,fpi,pi0mass,pionm
       INTEGER, PARAMETER :: NQ=400
+      REAL*8, PARAMETER :: s0=1.d0        ! static point s0 = M_N^2 (nucleon-mass units)
       REAL*8, SAVE :: yq(NQ), wq(NQ), sp(NQ), jac(NQ), imgq(NQ,2), imgD(2), key(6)=-1.d0
-      REAL*8, SAVE :: s0N(3), s0D(3)
-      REAL*8 sth, cc, PI, ims(2), G(2), F(2), wS, wM, MD2, sig(2), tau(2), dsg(2), sR, tR
+      REAL*8, SAVE :: s0N(3), s0D(3), F0(2), dF0(2), sR0, tR0, dsR0, dtR0
+      REAL*8 sth, cc, PI, ims(2), G(2), F(2), wS, wM, MD2, sig(2), tau(2), dsg(2), dtg(2), sR, tR
+      REAL*8 dd, ca(2), cb(2), cm, cmp, dm, dmp
       INTEGER k
       INTEGER ivxmode
       COMMON /v2vx/ ivxmode
+      INTEGER irun_c
+      COMMON /v2drun/ irun_c
       PI=4.d0*datan(1.d0)
       sth=(1.d0+pionm)**2
       cc=1.d0
@@ -521,11 +547,29 @@ END FUNCTION rQfun
             CALL gnd_vertex_im(dsqrt(sp(k)),Md,imgq(k,1),imgq(k,2))
          ENDDO
          CALL gnd_vertex_im(Md,Md,imgD(1),imgD(2))
-         CALL delta_selfenergy(MD2,Md,1,s0N(1),s0N(2),s0N(3))
-         CALL delta_selfenergy(MD2,Md,2,s0D(1),s0D(2),s0D(3))
+         CALL delta_selfenergy(MD2,Md,1,s0N(1),s0N(2),s0N(3),dtg(1))
+         CALL delta_selfenergy(MD2,Md,2,s0D(1),s0D(2),s0D(3),dtg(2))
+         !* once-subtracted integral F1 and its slope at the static point s0 (below threshold: no principal value)
+         F0=0.d0; dF0=0.d0
+         DO k=1,NQ
+            wM=(MD2-sth+cc)/(sp(k)-sth+cc)
+            G=imgq(k,:)/(sp(k)-s0)-(imgq(k,:)-imgD*wM)/(sp(k)-MD2)
+            F0=F0+G*jac(k)
+            dF0=dF0+imgq(k,:)/(sp(k)-s0)**2*jac(k)
+         ENDDO
+         F0=(F0+imgD*dlog((MD2-sth)/cc))/PI
+         dF0=dF0/PI
+         !* once-subtracted sigma_R, tau_R and their slopes at s0
+         CALL delta_selfenergy(s0,Md,1,sig(1),tau(1),dsg(1),dtg(1))
+         CALL delta_selfenergy(s0,Md,2,sig(2),tau(2),dsg(2),dtg(2))
+         sR0=(sig(1)-s0N(1)-(s0-MD2)*s0N(3))+(sig(2)-s0D(1)-(s0-MD2)*s0D(3))
+         tR0=(tau(1)-s0N(2))+(tau(2)-s0D(2))
+         dsR0=(dsg(1)-s0N(3))+(dsg(2)-s0D(3))
+         dtR0=dtg(1)+dtg(2)
          key=(/Md,hA,gA,fpi,pionm,DBLE(ivxmode)/)
       ENDIF
-      !* running couplings
+      !* running couplings: once-subtracted integral F1(s) (principal value by singularity subtraction with the
+      !* weight w_x(s') = (x-s_th+c)/(s'-s_th+c), P int w_x/(s'-x) = -log((x-s_th)/c))
       ims=0.d0
       IF(s.GT.sth) CALL gnd_vertex_im(dsqrt(s),Md,ims(1),ims(2))
       F=0.d0
@@ -543,23 +587,38 @@ END FUNCTION rQfun
       IF(s.GT.sth) F=F-ims*dlog((s-sth)/cc)
       F=F+imgD*dlog((MD2-sth)/cc)
       F=F/PI
-      ReG1=G1+F(1); ReG2=G2+F(2)
       !* running mass and field renormalisation: sigma_R = sigma - Re sigma(MD^2) - (s-MD^2) Re sigma'(MD^2)
-      CALL delta_selfenergy(s,Md,1,sig(1),tau(1),dsg(1))
-      CALL delta_selfenergy(s,Md,2,sig(2),tau(2),dsg(2))
+      CALL delta_selfenergy(s,Md,1,sig(1),tau(1),dsg(1),dtg(1))
+      CALL delta_selfenergy(s,Md,2,sig(2),tau(2),dsg(2),dtg(2))
       sR=(sig(1)-s0N(1)-(s-MD2)*s0N(3))+(sig(2)-s0D(1)-(s-MD2)*s0D(3))
       tR=(tau(1)-s0N(2))+(tau(2)-s0D(2))
+      IF(irun_c.GE.2) THEN
+         !* second subtraction at the static point s0 (polynomial pieces = higher-order counterterms, see above)
+         dd=s0-MD2
+         ca=F0/dd
+         F=F-(s-MD2)*ca
+         cm=sR0/dd**2; cmp=tR0/dd
+         sR=sR-cm*(s-MD2)**2; tR=tR-cmp*(s-MD2)
+         IF(irun_c.GE.3) THEN
+            !* third condition: vanishing slopes at s0
+            cb=(dF0-ca)/dd
+            F=F-(s-MD2)*(s-s0)*cb
+            dm=(dsR0-2.d0*cm*dd)/dd**2; dmp=(dtR0-cmp)/dd
+            sR=sR-dm*(s-MD2)**2*(s-s0); tR=tR-dmp*(s-MD2)*(s-s0)
+         ENDIF
+      ENDIF
+      ReG1=G1+F(1); ReG2=G2+F(2)
       Mrun=Md+sR
       ztau=1.d0+tR
     END SUBROUTINE delta_running
 
-    SUBROUTINE delta_selfenergy(s,Md,which,ReSig,ReTau,ReDSig)
-      !* Re sigma(s), Re tau(s), Re dsigma/ds of LMP2015 Eq. (D2) for the piN (which=1) or piDelta
+    SUBROUTINE delta_selfenergy(s,Md,which,ReSig,ReTau,ReDSig,ReDTau)
+      !* Re sigma(s), Re tau(s), Re dsigma/ds, Re dtau/ds of LMP2015 Eq. (D2) for the piN (which=1) or piDelta
       !* (which=2) loop; Xi=0, log scale M_N=1; Feynman-parameter integral split at the zeros of M^2(x)
       implicit none
       REAL*8, INTENT(in) :: s, Md
       INTEGER, INTENT(in) :: which
-      REAL*8, INTENT(out) :: ReSig, ReTau, ReDSig
+      REAL*8, INTENT(out) :: ReSig, ReTau, ReDSig, ReDTau
       REAL*8 gA,hA,fpi,pi0mass,pionm
       COMMON/Consts/hA,gA,fpi,pi0mass,pionm
       INTEGER, PARAMETER :: NX=96
@@ -590,19 +649,25 @@ END FUNCTION rQfun
             IF(pts(k).LT.pts(i)) THEN; x=pts(i); pts(i)=pts(k); pts(k)=x; ENDIF
          ENDDO
       ENDDO
-      ReSig=0.d0; ReTau=0.d0; ReDSig=0.d0
+      ReSig=0.d0; ReTau=0.d0; ReDSig=0.d0; ReDTau=0.d0
       DO i=1,np-1
          xa=pts(i); xb=pts(i+1)
+         IF(xb-xa.LT.1.d-13) CYCLE     ! coincident roots (exactly at threshold): 0 * log(0)
          DO k=1,NX
-            x=0.5d0*(xb-xa)*xg(k)+0.5d0*(xb+xa); w=0.5d0*(xb-xa)*wg(k)
+            !* cubic endpoint map x = mid + half (3u - u^3)/2 (vanishing Jacobian at the ends): the log
+            !* singularities of the integrand at the zeros of M^2(x) then converge like a smooth integrand
+            !* (sigma'(M_D^2) accurate to 1e-8 with 96 nodes; plain Gauss-Legendre: 2e-5)
+            x=0.5d0*(xb+xa)+0.5d0*(xb-xa)*(3.d0*xg(k)-xg(k)**3)/2.d0
+            w=0.5d0*(xb-xa)*1.5d0*(1.d0-xg(k)**2)*wg(k)
             M2=pionm**2*x+Mx**2*(1.d0-x)-s*x*(1.d0-x)
             L=dlog(dabs(M2))                   ! real part of log(M^2 - i0)
             ReSig=ReSig+w*(x*Md+Mx)*M2*(-1.d0+L)
             ReTau=ReTau+w*x*M2*(-1.d0+L)
-            ReDSig=ReDSig+w*(x*Md+Mx)*(-x*(1.d0-x))*L
+            ReDSig=ReDSig+w*(x*Md+Mx)*(-x*(1.d0-x))*L      ! d/ds [M2 (-1+L)] = dM2/ds L, dM2/ds = -x(1-x)
+            ReDTau=ReDTau+w*x*(-x*(1.d0-x))*L
          ENDDO
       ENDDO
-      ReSig=pref*ReSig; ReTau=pref*ReTau; ReDSig=pref*ReDSig
+      ReSig=pref*ReSig; ReTau=pref*ReTau; ReDSig=pref*ReDSig; ReDTau=pref*ReDTau
     END SUBROUTINE delta_selfenergy
 
     SUBROUTINE gauleg_v2(x1,x2,x,w,n)

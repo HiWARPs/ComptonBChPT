@@ -11,7 +11,7 @@
 # Puser =    11.246404     3.870657    -3.335106     2.942725     0.178734     1.146936
 # flags: onlyLEX= F anomaly= T oneNloop= T oneDloop= T relchpt= T
 # v2 options: order= 3.5 dvertex= T drunning= F consts=LMP15 loopsafe= T elex[MeV]= 15.00 tausafe= 4.00E-04
-# flags (cont.): nuclamm= T vxmode= 2 pimassphys= F nmassphys= F  hA=  2.85000
+# flags (cont.): nuclamm= T vxmode= 2 pimassphys= F nmassphys= F  hA=  2.85000  pi0ff= F  irun= 0
 # constants: gA,fpi[GeV],mpi[GeV],mpi0[GeV] =   1.270000   0.092210   0.139570   0.134980  hA=  2.85000
 #            M_p[GeV]= 0.9382700  hbarc[GeV fm]= 0.1973300  kappa_p=    1.793000
 #            gM,gE,MDelta[GeV] =   2.970000  -1.000000   1.232000  1/alpha_em=  137.036000

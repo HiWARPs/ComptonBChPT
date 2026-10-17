@@ -56,10 +56,11 @@ def tf(b):
     return 't' if b else 'f'
 
 
-def make_inputs(mechs=MECHS, gM=C.GM0, template=None, dvertex=True):
+def make_inputs(mechs=MECHS, gM=C.GM0, template=None, dvertex=True, irun=None):
+    """irun: &v2 irun of code_v2 (running Delta parameters, 0-3); None = as DP_V2OPTS (default: no running)"""
     ind = template if template is not None else DEFAULT_TEMPLATE
     rep = {'@ANOMALY@': tf('pi0' in mechs), '@ONENLOOP@': tf('piN' in mechs), '@ONEDLOOP@': tf('piD' in mechs),
-           '@GM@': repr(float(gM)), '@V2OPTS@': C.v2opts(dvertex)}
+           '@GM@': repr(float(gM)), '@V2OPTS@': C.v2opts(dvertex, irun)}
     for k, v in rep.items():
         ind = ind.replace(k, v)
     bar = BARYON.replace('@NEX@', tf('Born' in mechs)).replace('@DEX@', tf('Dpole' in mechs))
@@ -71,11 +72,11 @@ def points_text(points):
     return ''.join('%-28s %12.6f %12.6f %-6s %s\n' % (pid, float(E), float(th), obs, fr) for pid, E, th, obs, fr in points)
 
 
-def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verbose=True, dvertex=True):
+def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verbose=True, dvertex=True, irun=None):
     exe = exe or C.EXE
     if template is None and C.TEMPLATE and exe == C.EXE:
         template = open(C.TEMPLATE).read()
-    ind, bar = make_inputs(mechs, gM, template, dvertex)
+    ind, bar = make_inputs(mechs, gM, template, dvertex, irun)
     ptxt = points_text(points)
     st = os.stat(exe)
     key = hashlib.sha1((ptxt + ind + bar + os.path.abspath(exe) + str(st.st_size) + str(int(st.st_mtime))).encode()).hexdigest()[:16]
@@ -93,8 +94,8 @@ def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verb
                 raise RuntimeError('ampl.exe failed in %s (see run.log)' % wd)
             shutil.copy(os.path.join(wd, 'points.out'), fout + '.tmp')
             os.replace(fout + '.tmp', fout)
-            json.dump(dict(mechs=list(mechs), gM=gM, dvertex=dvertex, v2opts=C.v2opts(dvertex), exe=os.path.abspath(exe), npoints=len(points)),
-                      open(fout + '.json', 'w'), indent=1)
+            json.dump(dict(mechs=list(mechs), gM=gM, dvertex=dvertex, irun=irun, v2opts=C.v2opts(dvertex, irun),
+                           exe=os.path.abspath(exe), npoints=len(points)), open(fout + '.json', 'w'), indent=1)
         except Exception:
             print('  [runner] run directory kept for inspection:', wd)
             raise

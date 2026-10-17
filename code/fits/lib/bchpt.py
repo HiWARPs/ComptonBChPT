@@ -63,7 +63,7 @@ BARYON = """&hadr exch=t,t,f,nq=-1,1,1,rm=0.9383,wid=0.,cutf=2.2,gstr=13.8,gem=0
 BASE = dict(born=True, nuclamm=True, anomaly=True, oneNloop=True, oneDloop=True, delta_pole=True,
             gM=2.97, gE=-1.0, gA=1.27, fpi=0.09221, pi0mass=0.13498, pionm=0.13957, refs=None, Puser=None,
             # v2 namelist &v2 (None = not written)
-            order=None, consts=None, dvertex=None, drunning=None, hA=None, v2x=None)
+            order=None, consts=None, dvertex=None, drunning=None, hA=None, v2x=None)   # drunning: bool or irun 0/1/2/3
 PROFILE_BASE = {'v1': {}, 'v2': dict(dvertex=True, consts='LMP15', v2x='pimassphys=t,nmassphys=t')}
 
 CONFIGS = {
@@ -94,6 +94,11 @@ if PROFILE == 'v2':
         'v1equiv': dict(dvertex=False, v2x='iosmode=1,loopsafe=f'),
         'LO_flags': dict(nuclamm=False, anomaly=False, oneNloop=False, oneDloop=False, delta_pole=False),
         'NLO_flags': dict(oneDloop=False, delta_pole=False),
+        # running Delta parameters (LMP2015 App. D; code_v2 &v2 irun, work/notes/delta_running2.md):
+        # 1 = once subtracted at the pole (changes the static polarisabilities, beta 3.7 -> 6.1),
+        # 2 = doubly subtracted (pole + static point s0 = M_N^2: alpha, beta unchanged; gamma_M1M1 -0.38 via the slopes),
+        # 3 = also vanishing slopes at s0 (all six static polarisabilities unchanged)
+        'running1': dict(drunning=1), 'running2': dict(drunning=2), 'running3': dict(drunning=3),
     })
 
 
@@ -137,7 +142,10 @@ def make_inputs(cfg):
     if c['dvertex'] is not None:
         v2.append('dvertex=%s' % tf(c['dvertex']))
     if c['drunning'] is not None:
-        v2.append('drunning=%s' % tf(c['drunning']))
+        if isinstance(c['drunning'], bool):
+            v2.append('drunning=%s' % tf(c['drunning']))
+        else:                                    # integer subtraction scheme -> &v2 irun (0/1/2/3)
+            v2.append('irun=%d' % int(c['drunning']))
     if c['hA'] is not None:
         v2.append('hA=%.4f' % c['hA'])
     if c['v2x']:

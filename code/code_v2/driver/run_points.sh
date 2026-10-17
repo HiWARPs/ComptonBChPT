@@ -22,7 +22,10 @@
 #     order=2|3|3.5 chiral order of the base amplitude (LMP2015 Table 1): 2 = Born (charges only),
 #                   3 = + AMM, pi0 pole, piN loops, 3.5 = + Delta pole, piDelta loops (NNLO, default)
 #     dvertex=t|f   Im parts of the gamma-N-Delta vertex loops (NLO in the Delta region, LMP2015 Fig. 4)
-#     drunning=t|f  running Re gM, gE, M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D; higher order, off)
+#     drunning=t|f|0|1|2|3  running Re gM, gE, M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D; higher order, off):
+#                   t = 1 = once subtracted at the Delta pole (changes the static polarisabilities),
+#                   2 = doubly subtracted (pole and static point s0 = M_N^2: alpha_E1, beta_M1 unchanged),
+#                   3 = also vanishing slopes at s0 (all six static pols unchanged; exploratory); numbers set &v2 irun
 #     consts=LMP15|PDG24  parameter set (default LMP15 = LMP2015 Table 2)
 #     v2="key=val,..."    any further &v2 entries (pimassphys, nmassphys, pi0ff, loopsafe, elex, tausafe, tzfrac, ...)
 # ---------------------------------------------------------------------------
@@ -41,7 +44,8 @@ for kv in "$@"; do
   case $k in
     alpha) ALPHA=$v;; beta) BETA=$v;; gEE) GEE=$v;; gMM) GMM=$v;; gEM) GEM=$v;; gME) GME=$v;;
     selftest) SELFTEST=$v;; onlylex) ONLYLEX=$v;; ref) REFS=", $v";; exe) EXE=$v;; keep) KEEP=$v;;
-    order) ORDER=$v;; dvertex) DVERTEX=", dvertex=$v";; drunning) DRUNNING=", drunning=$v";;
+    order) ORDER=$v;; dvertex) DVERTEX=", dvertex=$v";;
+    drunning) case $v in [0-9]) DRUNNING=", irun=$v";; *) DRUNNING=", drunning=$v";; esac;;
     consts) CONSTS=$v;; v2) V2X=", $v";;
     *) echo "unknown key $k" >&2; exit 1;;
   esac

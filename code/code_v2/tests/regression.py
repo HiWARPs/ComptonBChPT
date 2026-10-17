@@ -15,6 +15,9 @@ Regression tests for ampl.exe v2 (called by run_regression.sh).
   g  pi0 gamma gamma transition form factor (&v2 pi0ff): pi0ff=f identical to the default, pi0ff=t leaves the
      forward points, the flags and the static polarisabilities of every mechanism unchanged, closed form vs
      LoopTools C0 (tools/check_pi0ff.F90)
+  h  running Delta parameters (&v2 irun = drunning): irun=0 / drunning=f identical to the default; irun=2 (doubly
+     subtracted, pole + static point) leaves alpha_E1, beta_M1, gamma_E1M2, gamma_M1E2 unchanged, irun=3 all six;
+     reference values of a few driver points for irun=2 and 3; Fortran delta_running vs tools/running_delta.py
 
 usage: regression.py [a b c ...] (default: all)
 Each check prints PASS / FAIL / INFO lines; the exit code is the number of FAILs.
@@ -440,8 +443,76 @@ def test_g():
            % (len(d1) + len(d2), max(d1 + d2), f300[0] if f300 else float('nan')))
 
 
+# ------------------------------------------------------------------------------------------- h
+REF_H = {2: {'CS_100_90': 10.4911886346, 'CS_150_60': 7.4767746311, 'CS_250_120': 72.6381196838, 'S3_250_90': 0.0371416481,
+             'S2X_300_60': 0.3666126012, 'S2Z_200_120': 0.1454064081, 'CS_350_150': 122.8816452846, 'CS_60_30': 17.4101473526},
+         3: {'CS_100_90': 10.5581280943, 'CS_150_60': 7.6636345173, 'CS_250_120': 75.2638663493, 'S3_250_90': 0.0299293668,
+             'S2X_300_60': 0.3672637008, 'S2Z_200_120': 0.1444854620, 'CS_350_150': 123.2711424261, 'CS_60_30': 17.4162482696}}
+PREF_H = {0: [11.246404, 3.870657, -3.335106, 2.942725, 0.178734, 1.146936],
+          2: [11.246404, 3.870658, -3.386814, 2.567498, 0.178734, 1.146937],
+          3: [11.246404, 3.870658, -3.335106, 2.942725, 0.178734, 1.146937]}
+
+
+def pref_of(*keys):
+    d = tempfile.mkdtemp(prefix='drv_', dir=os.path.join(OUT, 'tmp'))
+    p = os.path.join(d, 'pts.txt'); o = os.path.join(d, 'pts.out')
+    open(p, 'w').write('x 100 90 CS\n')
+    subprocess.run([DRV, p, o] + list(keys), check=True, capture_output=True)
+    pr = [l for l in open(o) if l.startswith('# Pref')][0]
+    shutil.rmtree(d, ignore_errors=True)
+    return np.array([float(v) for v in pr.split('=')[1].split()])
+
+
+def test_h():
+    print('(h) running Delta parameters (&v2 irun; drunning=t = irun=1, 2 = doubly subtracted, 3 = + slopes at s0)')
+    pts = grid([20, 60, 100, 140, 150, 200, 250, 300, 350], [0, 30, 60, 90, 120, 150, 180])
+    a = driver(pts); b = driver(pts, 'drunning=f'); c = driver(pts, 'drunning=0')
+    report(bool(max(cmp(a, b))[0] == 0.0 and max(cmp(a, c))[0] == 0.0 and all(a[k][1] == b[k][1] == c[k][1] for k in a)),
+           'drunning=f and irun=0 identical to the default (values and flags, %d points)' % len(a))
+    r1 = driver(pts, 'drunning=t'); r1b = driver(pts, 'drunning=1')
+    report(bool(max(cmp(r1, r1b))[0] == 0.0), 'drunning=t identical to irun=1')
+    P0 = pref_of(); P2 = pref_of('drunning=2'); P3 = pref_of('drunning=3')
+    report(bool(np.max(np.abs(P0 - PREF_H[0])) < 2e-6), 'default Pref = %s' % ' '.join('%.5f' % v for v in P0))
+    report(bool(np.max(np.abs((P2 - P0)[[0, 1, 4, 5]])) < 1e-5),
+           'irun=2: alpha_E1, beta_M1, gamma_E1M2, gamma_M1E2 unchanged (max |diff| %.1e); gamma_E1E1 %+.4f, gamma_M1M1 %+.4f '
+           '(slopes of the running functions at s0)' % (np.max(np.abs((P2 - P0)[[0, 1, 4, 5]])), P2[2] - P0[2], P2[3] - P0[3]))
+    report(bool(np.max(np.abs(P3 - P0)) < 1e-5), 'irun=3: all six static polarisabilities unchanged (max |diff| %.1e)' % np.max(np.abs(P3 - P0)))
+    report(bool(np.max(np.abs(P2 - PREF_H[2])) < 2e-6 and np.max(np.abs(P3 - PREF_H[3])) < 2e-6), 'Pref of irun=2, 3 at the reference values')
+    for ir in (2, 3):
+        r = driver(pts, 'drunning=%d' % ir)
+        dev = max((abs(r[k][0] / v - 1) if k.startswith('CS') else abs(r[k][0] - v)) for k, v in REF_H[ir].items())
+        report(bool(dev < 1e-7), 'irun=%d: %d reference points (CS relative, asymmetries absolute): max dev. %.1e' % (ir, len(REF_H[ir]), dev))
+        dd = max(cmp(a, r))
+        report(None, 'irun=%d vs default: max change %.2e (%s)' % (ir, dd[0], dd[1]))
+    # Fortran delta_running (vxmode=0: PV2006 Im parts, as the Python prototype) vs tools/running_delta.py, schemes 1-3
+    src = os.path.join(ROOT, 'tools', 'running_table.f90')
+    exe = os.path.join(OUT, 'tmp', 'running_table')
+    env = dict(os.environ, SDKROOT=subprocess.run(['xcrun', '--sdk', 'macosx', '--show-sdk-path'],
+                                                  capture_output=True, text=True).stdout.strip())
+    subprocess.run(['/opt/homebrew/bin/gfortran-16', '-O2', '-ffree-line-length-none', '-std=legacy', src,
+                    os.path.join(ROOT, 'build-gfortran-native', 'As.o'), '-o', exe], check=True, env=env)
+    F = np.loadtxt(subprocess.run([exe, '0'], capture_output=True, text=True).stdout.splitlines())
+    import running_delta as RD
+    worst = 0.0
+    for row in F:
+        W, ns = row[0] * RD.MN, int(round(row[1]))
+        tb = RD.table(ns, Ws=[W])[0]
+        worst = max(worst, float(np.max(np.abs(np.array(tb[1:5]) - row[2:6]))))
+    report(bool(worst < 1e-6), 'delta_running (Fortran, vxmode=0) vs running_delta.py, schemes 1-3, 8 energies: Re gM, Re gE, '
+           'M_D(s), 1+tau_R max |diff| = %.1e' % worst)
+    # scheme 2 at the subtraction points (Watson Im parts, default): Re g = g at s0 and M_D^2, M_D(s0) = M_D, Z(s0) = 1
+    F2 = np.loadtxt(subprocess.run([exe, '2'], capture_output=True, text=True).stdout.splitlines())
+    r0 = [r for r in F2 if int(round(r[1])) == 2 and abs(r[0] - 1.0) < 1e-12][0]
+    rD = [r for r in F2 if int(round(r[1])) == 2 and abs(r[0] - 1.232 / RD.MN) < 1e-6][0]
+    MDm = 1.232 / RD.MN
+    dev = max(abs(r0[2] - 2.97), abs(r0[3] + 1.0), abs(r0[4] - MDm), abs(r0[5] - 1.0), abs(rD[2] - 2.97), abs(rD[3] + 1.0),
+              abs(rD[4] - MDm), abs(rD[5] - 1.0))
+    report(bool(dev < 1e-12), 'irun=2 (Watson Im parts): Re gM, Re gE, M_D(s), Z at s0 = M_N^2 and at M_D^2 equal the static/pole '
+           'values: max |diff| = %.1e' % dev)
+
+
 if __name__ == '__main__':
-    which = sys.argv[1:] or list('abcdefg')
+    which = sys.argv[1:] or list('abcdefgh')
     for w in which:
         globals()['test_' + w]()
     print('REGRESSION SUMMARY: %d FAIL(s)' % NFAIL)
