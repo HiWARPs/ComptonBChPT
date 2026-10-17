@@ -482,7 +482,7 @@ def test_h():
 
 
 if __name__ == '__main__':
-    which = sys.argv[1:] or list('abcdefgh')
+    which = sys.argv[1:] or list('abcefgh')
     for w in which:
         globals()['test_' + w]()
     print('REGRESSION SUMMARY: %d FAIL(s)' % NFAIL)

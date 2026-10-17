@@ -8,7 +8,8 @@ FFLAGS = $(NATIVE_FLAGS) -w -ffree-form -ffree-line-length-none -cpp \
 
 BUILD = build-gfortran-native
 TARGET = execs/ampl.exe
-LT = $(HOME)/.local/looptools-gfortran-native
+# LoopTools-dq (looptools/README.md); plain double-precision build: $(HOME)/.local/looptools-gfortran-native
+LT = $(HOME)/.local/looptools-dq
 INCLUDES = -I. -I.. -I$(LT)/include
 
 OBJECTS = \

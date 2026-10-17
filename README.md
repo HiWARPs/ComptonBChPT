@@ -115,15 +115,17 @@ Edit the compiler path (`FC`) and the LoopTools path (`LT`) at the top of the ma
 
 ```
 cd code/code_v2
+looptools/build_looptools_dq.sh $HOME/.local/looptools-dq   # once (~1.5 min): LoopTools-dq, see below
 make -f makefile.gfortran-native          # -> execs/ampl.exe
 tests/run_regression.sh                   # regression suite (~20 s)
 ```
 
-Optional: `code/code_v2/looptools` builds LoopTools-dq. It is LoopTools 2.16 with a quad-precision core behind the
-usual double-precision interface, and it removes the precision loss of the box tensor coefficients near 0° and 180°
-and at low energies. It is used with `make -f makefile.gfortran-native LT=<prefix>`. The default results change by
-≤ 4×10⁻⁶ and the run takes 3.5 times longer; see `code/code_v2/looptools/README.md`.  The amplitude tables shipped
-here were computed with the standard double-precision library.
+`makefile.gfortran-native` links LoopTools-dq (`code/code_v2/looptools`). This is LoopTools 2.16 with a
+quad-precision core behind the usual double-precision interface, and it removes the precision loss of the box tensor
+coefficients near 0° and 180° and at low energies. To link the plain double-precision LoopTools instead, set `LT` to
+its prefix. Compared with that library, the results change by ≤ 4×10⁻⁶ and the run takes 3.5 times longer; see
+`code/code_v2/looptools/README.md`.  The amplitude tables shipped here were computed with the double-precision
+library.
 
 `code/fits/lib/bchpt.py` looks for the executable at `code/code_v2/execs/ampl.exe` (override with the environment
 variable `AMPL_EXE`).  A table is recomputed only when it is missing from `amplitudes/`: delete the tables to be

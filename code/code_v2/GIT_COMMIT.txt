@@ -1,1 +1,1 @@
-work/code_v2 at commit 572446c13686458c3dc96b772455113ecbb33e67 (2026-10-18): LoopTools-dq README: self-contained problem statement (no private references)
+work/code_v2 at commit 20b8c5df82f9ae2accc46d3e1a0f118317955847 (2026-10-18): Link LoopTools-dq by default in makefile.gfortran-native; default regression list without the removed test d

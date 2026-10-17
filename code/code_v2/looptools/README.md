@@ -49,8 +49,11 @@ about 1° away (30 MeV). In double precision this needs ≳ 10°.
 
 ```
 ./build_looptools_dq.sh $HOME/.local/looptools-dq [LoopTools-2.16.tar.gz]   # ~1.5 min; FC=... selects the compiler
-cd .. && make -f makefile.gfortran-native LT=$HOME/.local/looptools-dq       # no other change
+cd .. && make -f makefile.gfortran-native                                     # links $HOME/.local/looptools-dq
 ```
+
+`makefile.gfortran-native` links LoopTools-dq by default (since 2026-10-18). For the plain double-precision
+library, pass `LT=<its prefix>` (e.g. `$HOME/.local/looptools-gfortran-native`).
 
 The script checks the MD5 of the official tarball and downloads it if no path is given. It builds LoopTools twice
 with `./configure --quad`. The second build prefixes every public name with `q`, via cpp defines appended to
