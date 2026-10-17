@@ -26,7 +26,7 @@ are those of
 whose complete analysis can be rerun from the tabulated amplitudes in a few minutes (see below).
 
 Author: Vladimir Pascalutsa, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.2
-(2026-10-17).  Repository: https://github.com/vladipas/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
+(2026-10-17).  Repository: https://github.com/HiWARPs/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
 
 The package contains (i) the world database of proton Compton-scattering data used in the paper, with the
 provenance of every point, (ii) the tabulated NNLO BχPT amplitudes for every data point and for the curves of the

@@ -11,7 +11,7 @@ authors:
 version: "1.2"
 date-released: "2026-10-17"
 license: MIT   # code; the data and results are CC-BY-4.0, see LICENSE-DATA
-repository-code: "https://github.com/vladipas/ComptonBChPT"
+repository-code: "https://github.com/HiWARPs/ComptonBChPT"
 doi: 10.5281/zenodo.23413172   # concept DOI (all versions); the DOI of version 1.0.1 is 10.5281/zenodo.23413173
 identifiers:
   - type: doi
