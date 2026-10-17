@@ -156,6 +156,12 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 * **Source:** the free-proton calibration point, 94.6 ± 9.0 (stat) ± 3.8 (syst) nb/sr at 247 MeV, θ_lab = 135° (arXiv:nucl-ex/0003002).
 * **Notes:** not in the Griesshammer table; it is added for completeness. Frame lab.
 
+### Galler et al. 2001 / Wolf et al. 2001 (Bonn, LARA), PLB 503, 245 / EPJA 12, 231 — `Galler:2001ht`, `Wolf:2001ha` — DIGITIZED, PLOTTING ONLY
+* Never tabulated (Sect. 4). The 118 points of Fig. 4 of Galler et al. — dσ/dΩ_cm at θ_cm = 75°, 90° and 125° (angular bins of 15°), 265–780 MeV — were recovered from the vector graphics of the arXiv source (`raw/old/Galler2001_arXiv/src/figures/fig4.eps`, written by xmgr; the same figure is Fig. 9 of Wolf et al.): the PostScript coordinates of the filled-circle symbols and of their error-bar segments, calibrated with the tick labels (`scripts/extract_lara_galler2001_fig4.py`, check figure `db_lara_digitized_check.png`).
+* Precision: calibration residuals ≤ 0.13 MeV and ≤ 0.15 nb/sr; the recovered energies coincide with the tagger energies quoted in Wolf et al. (264.9, 275.6, 285.3, 294.8, 303.3, 314.1, 324.9, 335.6, 345.2, 354.8, 364.3, 375.0 MeV) to ≤ 0.2 MeV. Two overlapping series appear above 450 MeV (different runs/analyses of the LARA data); both are kept.
+* Errors: the plotted bars are statistics ⊕ point-to-point systematics (detection efficiency, geometry, background subtraction; Galler et al., text to Figs. 4–6) → `stat_err`; common scale error ±3 % (tagging 2 %, target 2 %) → `norm_err_frac`.
+* File `db_lara_digitized.csv` (columns of db_old.csv). Used only in the figure dσ/dΩ vs E_γ of `work/delta_plots` (axis extended to 800 MeV on 2026-10-17); not in db_old.csv, not in any fit or χ² table.
+
 ### Older Δ-region data (all from HEPData; frames not stated, c.m. assumed unless noted)
 * **Gray & Hanson 1967**, PR 160, 1212 — `Gray:1967zzd`. HEPData ins944949 Table 3. 5 points, 210–310 MeV, with E bins. This is "Illinois 67" in Griesshammer (5 points).
 * **Genzel et al. 1972**, Lett. Nuovo Cim. 4, 695 — `Genzel:1972ba`.
@@ -182,7 +188,7 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 | Bernardini et al. 1960, Nuovo Cim. 18, 1203 | `Bernardini:1960wya` | The HEPData record ins1184998 contains **only π⁰ photoproduction**. Griesshammer: 17 pts at 100–290 MeV (7 at 120–200 MeV per their text), not fitted. Pasquini: 2 pts ≈ 135°, 140 MeV. |
 | Pugh 1957 / Frisch 1967 (full set) | `Pugh:1957zz` | Only the 90° subset is in the author files. Full set: 16 pts, 45/90/135°, 50–130 MeV. |
 | DeWire et al. 1961, PR 124, 909 | `DeWire:1961zz` | APS paywall. Griesshammer: 5 pts, 275–425 MeV. |
-| Galler et al. 2001, PLB 503, 245 / Wolf et al. 2001, EPJA 12, 231 (LARA) | `Galler:2001ht`, `Wolf:2001ha` | arXiv sources (nucl-ex/0102003, nucl-ex/0109013) contain **figures only** (>700 points, 294 ≤400 MeV in Griesshammer). Not on HEPData. The numbers were obtained privately by the compilers. |
+| Galler et al. 2001, PLB 503, 245 / Wolf et al. 2001, EPJA 12, 231 (LARA) | `Galler:2001ht`, `Wolf:2001ha` | arXiv sources (nucl-ex/0102003, nucl-ex/0109013) contain **figures only** (>700 points, 294 ≤400 MeV in Griesshammer). Not on HEPData. The numbers were obtained privately by the compilers. **2026-10-17:** the 118 points of Fig. 4 of Galler et al. (75°, 90°, 125° c.m., 265–780 MeV) were recovered from the EPS vector graphics, see Sect. 3 (`db_lara_digitized.csv`, plotting only). |
 | Camen 2002 (as published) | `Camen:2001st` | Only a figure, but the same data are tabulated in Kossert 2003 (included above). |
 | Peise 1996 / Molinari 1996 | `Peise:1996zz`, `Molinari:1996zw` | Superseded/summarised by Hünger 1997 (included). |
 | Fuhrberg 1995, NPA 591, 1 | `Fuhrberg:1995zz` | This paper is **Compton scattering on ⁴He at 87 MeV**, not the proton. No proton Compton dataset by Fuhrberg was found. |

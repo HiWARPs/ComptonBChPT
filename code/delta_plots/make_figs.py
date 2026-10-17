@@ -64,14 +64,14 @@ def mark_shown(fig, sel):
         d[k] = d.get(k, 0) + int(v)
 
 # ============================================================== kinematic grids
-E_GRID = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 450.01, 2.0)]   # Fig. 1: to 450 MeV
+E_GRID = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 800.01, 2.0)]   # Fig. 1: to 800 MeV (450 until 2026-10-17)
 TH_GRID = np.r_[0.0, 1.0, np.arange(2.0, 178.01, 2.0), 179.0, 180.0]
-FIG1 = [('LAB', 60.0), ('LAB', 90.0), ('LAB', 133.5), ('CM', 75.0), ('CM', 90.0), ('CM', 138.0)]
+FIG1 = [('LAB', 60.0), ('LAB', 90.0), ('LAB', 133.5), ('CM', 75.0), ('CM', 90.0), ('CM', 125.0)]   # 125 cm (LARA, LEGS, SAL) replaces 138 cm since 2026-10-17
 FIG2A = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1]           # part (a): 2 rows x 4
 FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0]     # part (b): 3 rows x 4, legend in the free slots
 FIG2 = FIG2A + FIG2B
 LEGS_E = [213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8]
-E3B = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 350.01, 2.0)]
+E3B = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 800.01, 2.0)]   # Fig. 3b: to 800 MeV (350 until 2026-10-17)
 FIG4 = [('S2X', 288.0, 'A2 15 (273-303 MeV)'), ('S2X', 330.595, 'Martel thesis (315-346 MeV)'),
         ('S2Z', 275.0, 'A2 20 (265-285 MeV)'), ('S2Z', 295.0, 'A2 20 (285-305 MeV)')]
 E5 = np.r_[np.arange(50.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 400.01, 2.0)]
@@ -219,12 +219,12 @@ def fig1(df, cv, ix):
         ax.axvline(E_2PI, color='0.45', lw=0.5, ls=':', zorder=0.5)       # two-pion (pi0 pi0 p) threshold
         ymax = max(np.max(cv['gm_hi'][idx]), (sel.value + sel.err).max() if len(sel) else 0)
         ax.set_ylim(0, 1.08 * ymax)
-        ax.set_xlim(0, 450)
+        ax.set_xlim(0, 800)
         if k % 3 == 0:
             ax.set_ylabel(r'$d\sigma/d\Omega_{\rm %s}$ [nb/sr]' % frl)
         if k >= 3:
             ax.set_xlabel(r'$E_\gamma$ [MeV]')
-        ax.xaxis.set_major_locator(plt.MultipleLocator(100))
+        ax.xaxis.set_major_locator(plt.MultipleLocator(200))
     th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     legend_rows(fig, th, tl, dh, dl, ncol_d=9)
@@ -341,12 +341,13 @@ def fig3b(df, cv, ix):
             xerr = np.array([[s.E.values[0] - s.Elo.values[0]], [s.Ehi.values[0] - s.E.values[0]]])
         draw_points(ax, lab, s.E.values, s.value.values, s.err.values, reg, xerr=xerr)
     ax.axhline(0, color='0.6', lw=0.4, zorder=0)
-    ax.set_xlim(0, 350); ax.set_ylim(-1.05, 0.75)
+    ax.set_xlim(0, 800); ax.set_ylim(-1.05, 0.75)
+    ax.xaxis.set_major_locator(plt.MultipleLocator(200))
     ax.set_xlabel(r'$E_\gamma$ [MeV]'); ax.set_ylabel(r'$\Sigma_3(\theta_{\rm cm}=90^\circ)$')
     th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
     fig.legend(th, tl, loc='outside upper center', ncol=2, handlelength=2.0, columnspacing=1.0)
-    ax.legend(dh, dl, loc='lower right', handlelength=1.0, handletextpad=0.35, borderaxespad=0.5)   # empty region
+    ax.legend(dh, dl, loc='upper right', handlelength=1.0, handletextpad=0.35, borderaxespad=0.5)   # empty region (to 800 MeV)
     save(fig, 'fig_delta_S3_90_vsE', exact=True)
     return s3
 
@@ -728,7 +729,9 @@ def main():
     cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
     ext = D.build_ext450()
     print('  Fig. 1: plotting-only points 400 < E <= 450 MeV:', ext.groupby('dataset').E.agg(['size', 'min', 'max']).to_dict('index'))
-    fig1(pd.concat([df, ext], ignore_index=True), cv, ix)
+    lara = D.build_lara()
+    print('  Fig. 1: plotting-only LARA (Bonn 01) points, digitized:', lara.groupby('theta_cm').E.agg(['size', 'min', 'max']).to_dict('index'))
+    fig1(pd.concat([df, ext, lara], ignore_index=True), cv, ix)
     c2a, reg2 = fig2(df, cv, ix, FIG2A, 'fig_delta_cs_vstheta_a')
     c2b, _ = fig2(df, cv, ix, FIG2B, 'fig_delta_cs_vstheta_b', legend_in_last=True, reg=reg2)
     print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2a | c2b))

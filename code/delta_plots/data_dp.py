@@ -58,6 +58,7 @@ LABEL = {
     'Federspiel1991': 'Illinois 91', 'Bernardini1960': 'Illinois 60', 'Baranov1974_75_th90': 'Moscow 74',
     'Baranov1974_75_th150': 'Moscow 74', 'Goldansky1960': 'Moscow 60', 'Pugh1957': 'MIT 57', 'Hyman1959': 'MIT 59',
     'Oxley1958': 'Chicago 58',
+    'Galler2001_LARA': 'Bonn 01',
 }
 # references (for the notes / captions)
 REF = {
@@ -88,6 +89,8 @@ REF = {
     'MIT 57': 'Pugh et al., PR 105 (1957) 982 [Pugh:1957zz]',
     'MIT 59': 'Hyman et al., PRL 3 (1959) 93 [Hyman:1959zz]',
     'Chicago 58': 'Oxley, PR 110 (1958) 733 [Oxley:1958zz]',
+    'Bonn 01': 'Galler et al., PLB 503 (2001) 245 [Galler:2001ht]; Wolf et al., EPJA 12 (2001) 231 [Wolf:2001ha] (LARA; '
+               '75, 90, 125 deg c.m., digitized from the vector graphics of Fig. 4 of Galler et al.; plotting only)',
 }
 # marker style per label: (marker, color, filled)
 TEAL, ORANGE, GREY, MAG, GREEN, PURPLE, BROWN = '#138d90', '#d9800b', '#3d3d3d', '#c2185b', '#2e7d32', '#6a3d9a', '#8c564b'
@@ -104,9 +107,10 @@ STYLE = {
     'Illinois 91': ('^', PURPLE, False), 'Illinois 60': ('X', PURPLE, True), 'MIT 57': ('d', PURPLE, False),
     'MIT 59': ('d', PURPLE, True),
     'Moscow 74': ('v', BROWN, False), 'Moscow 60': ('<', BROWN, False), 'Chicago 58': ('>', BROWN, False),
+    'Bonn 01': ('o', BROWN, True),
 }
 # legend order (Delta-region sets first)
-ORDER = ['LEGS 01', 'MAMI 97', 'MAMI 99', 'MAMI 02', 'SAL 93', 'SAL 00', 'Bonn 72', 'Illinois 67', 'Moscow 66',
+ORDER = ['LEGS 01', 'MAMI 97', 'MAMI 99', 'MAMI 02', 'Bonn 01', 'SAL 93', 'SAL 00', 'Bonn 72', 'Illinois 67', 'Moscow 66',
          'Tokyo 64', 'Frascati 68', 'TAPS 01', 'A2 22', 'HI$\\gamma$S 22', 'SAL 95', 'Illinois 91', 'Moscow 74',
          'MIT 57', 'MIT 59', 'Moscow 60', 'Chicago 58', 'Illinois 60', 'MAMI 92', 'A2 15', 'Martel thesis (unpubl.)',
          'A2 20', 'SAL 93 (Tab. I)']
@@ -209,6 +213,27 @@ def build_ext450():
     df = pd.DataFrame(rows)
     df = df[~df.dataset.isin(C.EXCLUDE_SETS)].reset_index(drop=True)
     df['is_cs'] = df.obs.isin(['CS', 'CSCM'])
+    return df
+
+
+# plotting-only: the LARA (Bonn) cross sections of Galler et al. 2001 / Wolf et al. 2001 at theta_cm = 75, 90 and 125 deg
+# (15-deg bins) from 265 to 780 MeV, never tabulated, recovered from the vector graphics of Fig. 4 of Galler et al.
+# (work/data/db_lara_digitized.csv, built by work/data/scripts/extract_lara_galler2001_fig4.py).  Used ONLY in the
+# figure of dsigma/dOmega vs E_gamma (Fig. 1 of the notes, to 800 MeV since 2026-10-17); never in the chi^2 tables.
+LARA = os.path.join(C.DATA, 'db_lara_digitized.csv')
+
+
+def build_lara():
+    old = pd.read_csv(LARA)
+    rows = []
+    for i, r in old.iterrows():
+        rows.append(dict(pid='Galler2001_LARA_%03d' % (i + 1), dataset='Galler2001_LARA', label=LABEL['Galler2001_LARA'],
+                         obs='CSCM', frame='CM', E=float(r.E_lab_MeV), Elo=np.nan, Ehi=np.nan, theta=float(r.theta_cm_deg),
+                         theta_lab=float(r.theta_lab_deg), theta_cm=float(r.theta_cm_deg), value=float(r.value),
+                         err=float(np.hypot(_f(r.stat_err), _f(r.sys_err_pt))), norm=_f(r.norm_err_frac),
+                         in_fitdb=False, published=True, note='db_lara_digitized (plotting only, digitized); ' + str(r.source)))
+    df = pd.DataFrame(rows)
+    df['is_cs'] = True
     return df
 
 
