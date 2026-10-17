@@ -31,7 +31,7 @@ C_FIT = 'k'                        # the NNLO-fit curve: short-dashed black, dis
 # the parameter-free NNLO prediction (config.MAIN = 'pred'); in the legacy mode 'fit' the labels are swapped.
 LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'NNLO fit'
 LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
-LAB_GM = r'$g_M = 2.97\pm0.10$'
+LAB_GM = r'$R_{EM} = -2.3\pm0.5\,\%$'      # light band = E2/M1 uncertainty (g_E = -1.0 -+ 0.22) since 2026-10-17; before: $g_M = 2.97\pm0.10$
 LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
 LAB_NOVC = r'no vertex corrections'
 LAB_RUN = r'running $\Delta$ parameters'
@@ -128,9 +128,9 @@ def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False, band_
     x = np.asarray(x, float)
     m = np.ones(len(x), bool) if band_xmax is None else (x <= band_xmax + 1e-9)
     if gm:
-        ax.fill_between(x[m], cv['gm_lo'][idx][m], cv['gm_hi'][idx][m], color=C_GM, lw=0, zorder=1)
-        ax.plot(x[m], cv['gm_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(x[m], cv['gm_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.fill_between(x[m], cv['ge_lo'][idx][m], cv['ge_hi'][idx][m], color=C_GM, lw=0, zorder=1)
+        ax.plot(x[m], cv['ge_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(x[m], cv['ge_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
     ax.fill_between(x[m], cv['lo'][idx][m], cv['hi'][idx][m], color=C_BAND, lw=0, alpha=0.85, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
@@ -224,7 +224,7 @@ def fig1(df, cv, ix):
                 va='top', ha='left')
         ax.axvline(E_2PI, color='0.45', lw=0.5, ls=':', zorder=0.5)       # two-pion (pi0 pi0 p) threshold
         mb = E_GRID <= E_BAND_MAX
-        ymax = max(np.max(cv['gm_hi'][idx][mb]), np.max(cv['main'][idx]), np.max(cv['fit'][idx]), np.max(cv['tree'][idx]),
+        ymax = max(np.max(cv['ge_hi'][idx][mb]), np.max(cv['main'][idx]), np.max(cv['fit'][idx]), np.max(cv['tree'][idx]),
                    (sel.value + sel.err).max() if len(sel) else 0)
         ax.set_ylim(0, 1.08 * ymax)
         ax.set_xlim(0, 800)
@@ -267,7 +267,7 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
             s = sel[sel.label == lab]
             draw_points(ax, lab, s.thp.values, s.vp.values, s.ep.values, reg)
         ax.text(0.05, 0.93, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
-        ymax = max(np.max(cv['gm_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
+        ymax = max(np.max(cv['ge_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
                    (sel.vp + sel.ep).max() if len(sel) else 0)
         ax.set_ylim(0, 1.17 * ymax)
         ax.set_xlim(0, 180)
@@ -453,9 +453,9 @@ def fig6(df, cv, ix):
         mark_shown('Fig. 6 (dsigma ratio)', s)
         idx = np.array([ix[gid('f6', thr, '%.1f' % E)] for E in E6])
         m0 = cv['main'][idx]
-        ax.fill_between(E6, cv['gm_lo'][idx] / m0, cv['gm_hi'][idx] / m0, color=C_GM, lw=0, zorder=1)
-        ax.plot(E6, cv['gm_lo'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(E6, cv['gm_hi'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.fill_between(E6, cv['ge_lo'][idx] / m0, cv['ge_hi'][idx] / m0, color=C_GM, lw=0, zorder=1)
+        ax.plot(E6, cv['ge_lo'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(E6, cv['ge_hi'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
         ax.fill_between(E6, cv['lo'][idx] / m0, cv['hi'][idx] / m0, color=C_BAND, lw=0, alpha=0.85, zorder=2)
         ax.axhline(1.0, color=C_MAIN, lw=1.0, zorder=3)
         for lab in [l for l in D.ORDER if l in set(s.label)]:
@@ -716,7 +716,7 @@ def main():
                    fit_key=C.FIT_KEY, static=T.static.tolist(), exe=C.EXE, v2opts=C.v2opts(True),
                    P_spinfit_validation_only=list(C.P_SPINFIT), cov_ab_fit=C.COV_AB.tolist(),
                    remove_static_ab=C.REMOVE_STATIC_AB, add_ab_error=C.ADD_AB_ERROR,
-                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gM={k: list(v) for k, v in T.gM_runs().items() if str(k).startswith('Pref')},
+                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gE={k: list(v) for k, v in T.gE_runs().items() if str(k).startswith('Pref')}, gE_band=(C.GE_LO, C.GE_HI),
                    extra=C.EXTRA, extra_irun=C.EXTRA_IRUN, extra_in_theta=C.EXTRA_THETA,
                    extra_v2opts=(C.v2opts(True, C.EXTRA_IRUN) if C.EXTRA_IRUN is not None else None),
                    Pref_extra=(list(T.full_run.Pref) if T.full_run is not None else None)),
@@ -727,13 +727,13 @@ def main():
     # data with theory
     dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
     ii = np.array([ix[p] for p in dd.pid])
-    for k in ('main', 'lo', 'hi', 'gm_lo', 'gm_hi', 'fit', 'tree') + extra_cols:
+    for k in ('main', 'lo', 'hi', 'ge_lo', 'ge_hi', 'fit', 'tree') + extra_cols:
         dd['th_' + k] = cv[k][ii]
     dd.to_csv(os.path.join(C.RESULTS, 'data_with_theory.csv'), index=False)
     # curves for reproducibility
     cur = pd.DataFrame({'id': [p[0] for p in P], 'E': [p[1] for p in P], 'theta': [p[2] for p in P],
                         'obs': [p[3] for p in P], 'frame': [p[4] for p in P]})
-    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'gm_lo', 'gm_hi', 'fit', 'tree', 'flag') + extra_cols:
+    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'ge_lo', 'ge_hi', 'fit', 'tree', 'flag') + extra_cols:
         cur[k] = cv[k]
     cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
     ext = D.build_ext450()

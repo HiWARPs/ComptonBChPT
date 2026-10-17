@@ -24,9 +24,7 @@ for p in pts:
 ix = {p[0]: i for i, p in enumerate(P)}
 runs = {}
 for gE in GE_LIST:
-    tmpl = runner.DEFAULT_TEMPLATE.replace('dng2=-1.0', 'dng2=%s' % repr(float(gE)))
-    assert gE == -1.0 or tmpl != runner.DEFAULT_TEMPLATE
-    runs[gE] = runner.run(P, template=tmpl, name='dp_gEscan_%+.1f' % gE)
+    runs[gE] = runner.run(P, gE=gE, name='dp_gEscan_%+.1f' % gE)
 P0 = runs[-1.0].Pref.copy()
 print('static polarisabilities (Pref) vs g_E  [alpha, beta, gE1E1, gM1M1, gE1M2, gM1E2]:')
 for gE in GE_LIST:
@@ -98,6 +96,78 @@ for ds, lab in MF.PAPERROWS:
         crow.append(rec)
 chi_tab = pd.DataFrame(crow); chi_tab.to_csv(os.path.join(OUT, 'gE_chi2_sets.csv'), index=False)
 
+# ---- joint (g_M, g_E) scan: 3 x 3 grid, quadratic form chi^2(gM, gE) per set -> joint minimum, errors, correlation
+GM_J = [C.GM_LO, C.GM0, C.GM_HI]; GE_J = [-1.5, -1.0, -0.5]
+jr = {}
+for gM in GM_J:
+    for gE in GE_J:
+        if gM == C.GM0:
+            jr[(gM, gE)] = runs[gE]
+        elif gE == -1.0:
+            jr[(gM, gE)] = runner.run(P, gM=gM, name='all_NNLO_VC_gM%.2f' % gM)        # the cached g_M-band runs of theory_dp
+        else:
+            jr[(gM, gE)] = runner.run(P, gM=gM, gE=gE, name='dp_gEscan_gM%.2f_gE%+.1f' % (gM, gE))
+jc = {k: v.predict_array(v.Pref) for k, v in jr.items()}          # complete prediction at its own static polarisabilities
+jrow = []
+for ds, lab in MF.PAPERROWS:
+    q = s[s.set == ds]
+    if not len(q):
+        continue
+    ii = np.array([ix[p] for p in q.pid])
+    for key in ('n1', 'nfit'):
+        X, Y, Z = [], [], []
+        for (gM, gE), c in jc.items():
+            c1, cn, n = chi2_set(q, c[ii]); X.append(gM - C.GM0); Y.append(gE - C.GE0); Z.append(c1 if key == 'n1' else cn)
+        X, Y, Z = map(np.array, (X, Y, Z))
+        A = np.stack([np.ones_like(X), X, Y, X * X, X * Y, Y * Y], axis=1)
+        coef, *_ = np.linalg.lstsq(A, Z, rcond=None)
+        c0, bx, by, axx, axy, ayy = coef
+        H = np.array([[2 * axx, axy], [axy, 2 * ayy]])                 # Hessian of chi^2
+        rec = dict(set=ds, key=key, N=len(q), chi2_ref=round(float(Z[(X == 0) & (Y == 0)][0]), 2), fit_resid=round(float(np.max(np.abs(A @ coef - Z))), 2))
+        try:
+            ev = np.linalg.eigvalsh(H)
+            if np.all(ev > 0):
+                m = np.linalg.solve(H, -np.array([bx, by]))
+                cov = 2 * np.linalg.inv(H)                            # Delta chi^2 = 1 errors
+                rec.update(gM_min=round(float(m[0] + C.GM0), 3), gE_min=round(float(m[1] + C.GE0), 3),
+                           gM_err=round(float(np.sqrt(cov[0, 0])), 3), gE_err=round(float(np.sqrt(cov[1, 1])), 3),
+                           corr=round(float(cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])), 2),
+                           REM_min=round(100 * REM(m[1] + C.GE0), 2), REM_err=round(100 * abs(REM(np.sqrt(cov[1, 1]))), 2),
+                           chi2_min=round(float(c0 + bx * m[0] + by * m[1] + axx * m[0] ** 2 + axy * m[0] * m[1] + ayy * m[1] ** 2), 2))
+                # g_E at fixed g_M = 2.97 (conditional) for comparison with the 1D scan
+                rec['gE_cond'] = round(float(-by / (2 * ayy) + C.GE0), 3) if ayy > 0 else np.nan
+                rec['gE_cond_err'] = round(float(1 / np.sqrt(ayy)), 3) if ayy > 0 else np.nan
+            else:
+                rec.update(note='chi^2 not convex in (gM, gE): eigenvalues %s' % np.round(ev, 2).tolist())
+        except np.linalg.LinAlgError:
+            rec.update(note='singular')
+        jrow.append(rec)
+joint_tab = pd.DataFrame(jrow); joint_tab.to_csv(os.path.join(OUT, 'gE_gM_joint.csv'), index=False)
+
+# ---- robust correlation measure: g_E minimum at each fixed g_M (parabola through g_E = -1.5, -1.0, -0.5), n fitted;
+#      slope d(g_E min)/d(g_M) from g_M = 2.87 and 3.07 -> shift of the preferred R_EM per +0.1 in g_M
+crow2 = []
+for ds, lab in MF.PAPERROWS:
+    q = s[s.set == ds]
+    if not len(q):
+        continue
+    ii = np.array([ix[p] for p in q.pid])
+    rec = dict(set=ds, N=len(q))
+    mins = {}
+    for gM in GM_J:
+        g = np.array(GE_J); c2 = np.array([chi2_set(q, jc[(gM, gE)][ii])[1] for gE in GE_J])
+        a_, b_, c_ = np.polyfit(g, c2, 2)
+        mins[gM] = (-b_ / (2 * a_)) if a_ > 0 else np.nan
+        rec['gE_min_gM%.2f' % gM] = round(float(mins[gM]), 2) if np.isfinite(mins[gM]) else np.nan
+        rec['gE_err_gM%.2f' % gM] = round(float(1 / np.sqrt(a_)), 2) if a_ > 0 else np.nan
+        rec['chi2min_gM%.2f' % gM] = round(float(np.polyval([a_, b_, c_], mins[gM])), 1) if a_ > 0 else np.nan
+    if all(np.isfinite(v) for v in mins.values()):
+        slope = (mins[C.GM_HI] - mins[C.GM_LO]) / (C.GM_HI - C.GM_LO)
+        rec['dgE_per_0.1gM'] = round(float(0.1 * slope), 2)
+        rec['dREM_per_0.1gM'] = round(float(100 * REM(0.1 * slope)), 2)
+    crow2.append(rec)
+cond_tab = pd.DataFrame(crow2); cond_tab.to_csv(os.path.join(OUT, 'gE_cond_min_vs_gM.csv'), index=False)
+
 # ---- report
 with open(os.path.join(OUT, 'gE_scan.md'), 'w') as f:
     f.write('# Sensitivity of the Delta-region observables to g_E (E2/M1)\n\nR_EM = 0.0677 g_E/g_M; g_E = 0, -0.5, -1.0, -1.5, -2.0 <-> R_EM = %s %% (g_M = 2.97)\n\n' % ', '.join('%.1f' % (100 * REM(g)) for g in GE_LIST))
@@ -110,4 +180,12 @@ with open(os.path.join(OUT, 'gE_scan.md'), 'w') as f:
     pd.set_option('display.width', 250)
     cols = ['set', 'mode', 'N'] + ['chi2_nfit_%+.1f' % g for g in GE_LIST] + ['gE_min_nfit', 'gE_err_nfit', 'REM_min_nfit', 'REM_err_nfit', 'dchi2_nfit', 'gE_min_n1', 'gE_err_n1', 'dchi2_n1']
     f.write(chi_tab[cols].to_string(index=False) + '\n')
+    f.write('\n## Joint (g_M, g_E) scan (3 x 3 grid, quadratic form per set; errors = Delta chi^2 = 1; corr = correlation of g_M and g_E)\n\n')
+    f.write(joint_tab.to_string(index=False) + '\n')
+    f.write('\n## g_E minimum at fixed g_M = 2.87 / 2.97 / 3.07 (parabola in g_E, n fitted) and the shift of the preferred value per +0.1 in g_M\n\n')
+    f.write(cond_tab.to_string(index=False) + '\n')
+    f.write('\n## Sensitivity per 1 %% of R_EM (mean of the +-0.5 g_E changes / 1.14 %%)\n\n')
+    t = curves_tab[curves_tab['mode'] == 'full'].pivot_table(index=['obs', 'stat'], columns='gE', values='value')
+    t['per_1pct'] = 0.5 * (t[-0.5].abs() + t[-1.5].abs()) / (100 * abs(REM(0.5)))
+    f.write(t[['per_1pct']].round(3).to_string() + '\n')
 print(open(os.path.join(OUT, 'gE_scan.md')).read())

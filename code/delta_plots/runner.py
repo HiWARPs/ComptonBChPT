@@ -29,7 +29,7 @@ PIDX = {p: i for i, p in enumerate(PAIRS)}
 DEFAULT_TEMPLATE = """ &energy Emin=0.05,Emax=0.4,Edel=0.05,kvar=3/
  &angles thmin=20.,thmax=160.,thdel=2.,cmsangle=f/
  &incl anomaly=@ANOMALY@,oneNloop=@ONENLOOP@,oneDloop=@ONEDLOOP@,relchpt=t,loopoints=640/
- &Delta gaugeinv=t,dng1=@GM@,dng2=-1.0,dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/
+ &Delta gaugeinv=t,dng1=@GM@,dng2=@GE@,dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/
  &constants gA=1.270000d0,fpi=0.0922100d0,pi0mass=0.134980,pionm=0.139570/
  &nucleon hbchpt=f,born=t,nuclamm=t,onlyLEX=f/
  &multipoles pwa=f,jmax=3/
@@ -56,11 +56,13 @@ def tf(b):
     return 't' if b else 'f'
 
 
-def make_inputs(mechs=MECHS, gM=C.GM0, template=None, dvertex=True, irun=None):
-    """irun: &v2 irun of code_v2 (running Delta parameters, 0-3); None = as DP_V2OPTS (default: no running)"""
+def make_inputs(mechs=MECHS, gM=C.GM0, template=None, dvertex=True, irun=None, gE=None):
+    """irun: &v2 irun of code_v2 (running Delta parameters, 0-3); None = as DP_V2OPTS (default: no running);
+    gE: gamma N Delta electric coupling dng2 (default config.GE0 = -1.0; the rendered in.dat for the default is unchanged)"""
+    gE = C.GE0 if gE is None else float(gE)
     ind = template if template is not None else DEFAULT_TEMPLATE
     rep = {'@ANOMALY@': tf('pi0' in mechs), '@ONENLOOP@': tf('piN' in mechs), '@ONEDLOOP@': tf('piD' in mechs),
-           '@GM@': repr(float(gM)), '@V2OPTS@': C.v2opts(dvertex, irun)}
+           '@GM@': repr(float(gM)), '@GE@': repr(float(gE)), '@V2OPTS@': C.v2opts(dvertex, irun)}
     for k, v in rep.items():
         ind = ind.replace(k, v)
     bar = BARYON.replace('@NEX@', tf('Born' in mechs)).replace('@DEX@', tf('Dpole' in mechs))
@@ -72,11 +74,11 @@ def points_text(points):
     return ''.join('%-28s %12.6f %12.6f %-6s %s\n' % (pid, float(E), float(th), obs, fr) for pid, E, th, obs, fr in points)
 
 
-def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verbose=True, dvertex=True, irun=None):
+def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verbose=True, dvertex=True, irun=None, gE=None):
     exe = exe or C.EXE
     if template is None and C.TEMPLATE and exe == C.EXE:
         template = open(C.TEMPLATE).read()
-    ind, bar = make_inputs(mechs, gM, template, dvertex, irun)
+    ind, bar = make_inputs(mechs, gM, template, dvertex, irun, gE)
     ptxt = points_text(points)
     st = os.stat(exe)
     key = hashlib.sha1((ptxt + ind + bar + os.path.abspath(exe) + str(st.st_size) + str(int(st.st_mtime))).encode()).hexdigest()[:16]
@@ -94,7 +96,7 @@ def run(points, mechs=MECHS, gM=C.GM0, exe=None, template=None, name='run', verb
                 raise RuntimeError('ampl.exe failed in %s (see run.log)' % wd)
             shutil.copy(os.path.join(wd, 'points.out'), fout + '.tmp')
             os.replace(fout + '.tmp', fout)
-            json.dump(dict(mechs=list(mechs), gM=gM, dvertex=dvertex, irun=irun, v2opts=C.v2opts(dvertex, irun),
+            json.dump(dict(mechs=list(mechs), gM=gM, gE=(C.GE0 if gE is None else float(gE)), dvertex=dvertex, irun=irun, v2opts=C.v2opts(dvertex, irun),
                            exe=os.path.abspath(exe), npoints=len(points)), open(fout + '.json', 'w'), indent=1)
         except Exception:
             print('  [runner] run directory kept for inspection:', wd)

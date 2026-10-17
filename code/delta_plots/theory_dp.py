@@ -149,7 +149,7 @@ class Theory:
         self.H['D'][~self.isasym] = 0.0           # cross sections: denominator == 1
         self.hasVC = bool(np.max(np.abs(self.H['N'][:, IDX['D1'], IDX['D1']] - self.H['N'][:, IDX['D0'], IDX['D0']])
                                  / np.maximum(np.abs(self.H['N'][:, IDX['D1'], IDX['D1']]), 1e-30)) > 1e-9)
-        self._gm = None
+        self._gm = None; self._ge = None
 
     # ------------------------------------------------------------------ evaluation
     def nd(self, c, d):
@@ -230,6 +230,19 @@ class Theory:
                 lo = np.minimum(lo, O); hi = np.maximum(hi, O)
         return lo, hi, parts
 
+    def gE_runs(self):
+        """complete prediction at g_E = GE_LO, GE_HI (R_EM = -2.3 -+ 0.5 %), each at its own static polarisabilities ('pred'):
+        the light band of the figures since 2026-10-17 (before: the g_M = 2.97 +- 0.10 band of gM_runs)"""
+        if self._ge is None:
+            out = {}
+            for g in (C.GE_LO, C.GE_HI):
+                T = runner.run(self.points, gE=g, name='%s_NNLO_VC_gE%.2f' % (self.tag, g))
+                Pg = T.Pref.copy() if C.MAIN == 'pred' else np.r_[C.ALPHA_FIT, C.BETA_FIT, T.Pref[2:]]
+                out[g] = T.predict_array(Pg)
+                out['Pref%.2f' % g] = T.Pref
+            self._ge = out
+        return self._ge
+
     def gM_runs(self):
         if self._gm is None:
             out = {}
@@ -248,11 +261,11 @@ class Theory:
         ab = self.ab_error()
         lo = main - np.sqrt((main - tlo) ** 2 + ab ** 2)
         hi = main + np.sqrt((thi - main) ** 2 + ab ** 2)
-        gm = self.gM_runs()
-        glo = np.minimum.reduce([main, gm[C.GM_LO], gm[C.GM_HI]])
-        ghi = np.maximum.reduce([main, gm[C.GM_LO], gm[C.GM_HI]])
-        out = dict(main=main, lo=lo, hi=hi, trunc_lo=tlo, trunc_hi=thi, ab=ab, gm_lo=glo, gm_hi=ghi,
-                   gm_287=gm[C.GM_LO], gm_307=gm[C.GM_HI], tree=self.tree(), fit=self.fit(),
+        ge = self.gE_runs()
+        glo = np.minimum.reduce([main, ge[C.GE_LO], ge[C.GE_HI]])
+        ghi = np.maximum.reduce([main, ge[C.GE_LO], ge[C.GE_HI]])
+        out = dict(main=main, lo=lo, hi=hi, trunc_lo=tlo, trunc_hi=thi, ab=ab, ge_lo=glo, ge_hi=ghi,
+                   ge_m=ge[C.GE_LO], ge_p=ge[C.GE_HI], tree=self.tree(), fit=self.fit(),
                    flag=self.full.flag.copy())
         for k, v in parts.items():
             out['shift_' + k] = v

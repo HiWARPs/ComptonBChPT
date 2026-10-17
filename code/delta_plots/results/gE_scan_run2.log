@@ -1,0 +1,32 @@
+static polarisabilities (Pref) vs g_E  [alpha, beta, gE1E1, gM1M1, gE1M2, gM1E2]:
+  gE=  0.0  R_EM= 0.00%  Pref=[11.525  3.729 -3.222  2.807  0.221  0.747]
+  gE= -0.5  R_EM=-1.14%  Pref=[11.498  3.729 -3.232  2.872  0.196  0.938]
+  gE= -1.0  R_EM=-2.28%  Pref=[11.415  3.729 -3.246  2.939  0.17   1.133]
+  gE= -1.5  R_EM=-3.42%  Pref=[11.278  3.729 -3.263  3.01   0.144  1.33 ]
+  gE= -2.0  R_EM=-4.56%  Pref=[11.086  3.729 -3.283  3.083  0.119  1.53 ]
+  [runner] dp_gEscan_gM2.87_gE-1.5 10471 points -> dp_gEscan_gM2.87_gE-1.5_3e9af5be3959eaf9.out
+  [runner] all_NNLO_VC_gM2.87     10471 points -> all_NNLO_VC_gM2.87_2431ea090998ad05.out
+  [runner] dp_gEscan_gM2.87_gE-0.5 10471 points -> dp_gEscan_gM2.87_gE-0.5_fe4dd24a3899e703.out
+  [runner] dp_gEscan_gM3.07_gE-1.5 10471 points -> dp_gEscan_gM3.07_gE-1.5_81f2da8a2533424a.out
+  [runner] all_NNLO_VC_gM3.07     10471 points -> all_NNLO_VC_gM3.07_cf6577ee5d236ac7.out
+  [runner] dp_gEscan_gM3.07_gE-0.5 10471 points -> dp_gEscan_gM3.07_gE-0.5_1e836c5cfd14e71e.out
+Traceback (most recent call last):
+  File "<release>/.venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 583, in pandas._libs.index.StringObjectEngine._check_type
+KeyError: False
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<release>/code/delta_plots/gE_scan.py", line 162, in <module>
+    t = curves_tab[curves_tab.mode == 'full'].pivot_table(index=['obs', 'stat'], columns='gE', values='value')
+        ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<release>/.venv/lib/python3.13/site-packages/pandas/core/frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "<release>/.venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: False

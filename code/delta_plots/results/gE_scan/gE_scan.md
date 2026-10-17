@@ -84,3 +84,69 @@ Hallin1993_TabII(D) full 70          246.32          239.57          234.70     
 Hallin1993_TabII(D)   P0 70          236.42          234.31          234.70          237.78          243.72        -0.66         0.43         -1.51          0.98       -0.61      -6.02       0.42   -144.46
     OlmosdeLeon2001 full 10           17.09           15.66           14.16           12.64           11.16          NaN          NaN           NaN           NaN         NaN        NaN        NaN       NaN
     OlmosdeLeon2001   P0 10           15.36           14.75           14.16           13.58           13.01       -22.42         6.04        -51.09         13.77      -12.57     -23.90       5.50    -17.34
+
+## Joint (g_M, g_E) scan (3 x 3 grid, quadratic form per set; errors = Delta chi^2 = 1; corr = correlation of g_M and g_E)
+
+                set  key  N  chi2_ref  fit_resid                                                        note  gM_min  gE_min  gM_err  gE_err  corr  REM_min  REM_err  chi2_min  gE_cond  gE_cond_err
+  A2_Martel2015_S2x   n1  4      2.51       0.00     chi^2 not convex in (gM, gE): eigenvalues [-0.05, 1.24]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+  A2_Martel2015_S2x nfit  4      2.51       0.00     chi^2 not convex in (gM, gE): eigenvalues [-0.05, 1.24]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+ A2_Paudyal2020_S2z   n1 10     23.62       0.19                                                         NaN  10.965  20.529   0.774   2.050  0.99    46.77     4.67    -86.89   -0.407        0.300
+ A2_Paudyal2020_S2z nfit 10     14.82       0.14                                                         NaN   3.847   2.202   0.449   1.960  0.96     5.02     4.46     10.20   -1.480        0.538
+        LEGS2001_S3   n1 79    145.80       1.00                                                         NaN   3.137  -1.367   0.061   0.273  0.88    -3.12     0.62     77.53   -2.024        0.131
+        LEGS2001_S3 nfit 79    145.80       1.00                                                         NaN   3.137  -1.367   0.061   0.273  0.88    -3.12     0.62     77.53   -2.024        0.131
+        LEGS2001_CS   n1 77    684.14      23.00 chi^2 not convex in (gM, gE): eigenvalues [-4.02, 96506.08]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+        LEGS2001_CS nfit 77    582.32       1.95                                                         NaN   2.552  -6.774   0.032   0.434  0.84   -15.43     0.99    391.25   -1.970        0.236
+      Hunger1997_75   n1 12     24.88       1.15                                                         NaN   2.979   0.579   0.062   1.365  0.96     1.32     3.11     13.08    0.380        0.402
+      Hunger1997_75 nfit 12     18.14       0.18                                                         NaN   2.936  -0.094   0.104   2.033  0.89    -0.21     4.63     15.47    0.495        0.932
+      Hunger1997_90   n1  9     20.82       1.32                                                         NaN   3.246   6.096   0.080   2.050  0.98    13.89     4.67      8.72   -0.823        0.423
+      Hunger1997_90 nfit  9     20.15       0.22                                                         NaN   3.104   2.567   0.086   1.948  0.89     5.85     4.44     16.77   -0.122        0.886
+       Wissmann1999   n1  8      9.06       0.39   chi^2 not convex in (gM, gE): eigenvalues [-0.19, 896.41]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+       Wissmann1999 nfit  8      8.93       0.13    chi^2 not convex in (gM, gE): eigenvalues [-0.23, 698.7]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+          Camen2002   n1  7      4.64       1.16  chi^2 not convex in (gM, gE): eigenvalues [-0.02, 2604.57]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+          Camen2002 nfit  7      4.60       0.26   chi^2 not convex in (gM, gE): eigenvalues [-0.24, 918.28]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+Hallin1993_TabII(D)   n1 70    474.56       1.37  chi^2 not convex in (gM, gE): eigenvalues [-14.3, 4688.03]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+Hallin1993_TabII(D) nfit 70    234.70       0.14  chi^2 not convex in (gM, gE): eigenvalues [-0.23, 2335.78]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+    OlmosdeLeon2001   n1 10     16.56       0.02    chi^2 not convex in (gM, gE): eigenvalues [-0.68, 95.43]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+    OlmosdeLeon2001 nfit 10     14.16       0.01    chi^2 not convex in (gM, gE): eigenvalues [-0.39, 69.31]     NaN     NaN     NaN     NaN   NaN      NaN      NaN       NaN      NaN          NaN
+
+## g_E minimum at fixed g_M = 2.87 / 2.97 / 3.07 (parabola in g_E, n fitted) and the shift of the preferred value per +0.1 in g_M
+
+                set  N  gE_min_gM2.87  gE_err_gM2.87  chi2min_gM2.87  gE_min_gM2.97  gE_err_gM2.97  chi2min_gM2.97  gE_min_gM3.07  gE_err_gM3.07  chi2min_gM3.07  dgE_per_0.1gM  dREM_per_0.1gM
+  A2_Martel2015_S2x  4         -51.21          17.32            -5.8         -31.35          14.12            -2.1         -21.96          12.26            -0.5          14.63           33.32
+ A2_Paudyal2020_S2z 10          -1.76           0.49            15.2          -1.45           0.54            14.1          -1.10           0.60            13.3           0.33            0.75
+        LEGS2001_S3 79          -2.29           0.13           105.7          -2.01           0.13            86.8          -1.71           0.14            76.5           0.29            0.66
+        LEGS2001_CS 77          -2.94           0.22           496.6          -1.86           0.24           569.0          -0.86           0.25           659.2           1.04            2.37
+      Hunger1997_75 12          -1.28           0.88            15.8           0.64           0.93            15.0           2.62           1.00            16.0           1.95            4.44
+      Hunger1997_90  9          -2.11           0.85            24.0           0.04           0.88            18.8           2.13           0.94            16.4           2.12            4.83
+       Wissmann1999  8          -2.47           0.64             8.4          -1.15           0.57             8.9          -0.15           0.53             8.6           1.16            2.64
+          Camen2002  7          -1.79           0.45             4.9          -0.76           0.47             4.3           0.33           0.50             3.4           1.06            2.41
+Hallin1993_TabII(D) 70          -3.57           0.48           217.1          -1.77           0.46           231.9          -0.26           0.45           243.8           1.66            3.77
+    OlmosdeLeon2001 10            NaN            NaN             NaN            NaN            NaN             NaN         -25.81           4.44           -19.5            NaN             NaN
+
+## Sensitivity per 1 %% of R_EM (mean of the +-0.5 g_E changes / 1.14 %%)
+
+gE                                                                         per_1pct
+obs                                stat                                            
+S2X A2 15 (273-303 MeV)            max |abs. change|                          0.009
+S2X Martel thesis (315-346 MeV)    max |abs. change|                          0.012
+S2Z A2 20 (265-285 MeV)            max |abs. change|                          0.024
+S2Z A2 20 (285-305 MeV)            max |abs. change|                          0.025
+Sigma3 (LEGS energies, all angles) max |abs. change|                          0.019
+Sigma3 at 213.1 MeV, 60-140 deg    max |abs. change|                          0.011
+Sigma3 at 254.1 MeV, 60-140 deg    max |abs. change|                          0.016
+Sigma3 at 286.5 MeV, 60-140 deg    max |abs. change|                          0.019
+Sigma3 at 323.8 MeV, 60-140 deg    max |abs. change|                          0.018
+Sigma3 at 333.8 MeV, 60-140 deg    max |abs. change|                          0.017
+Sigma3(90) 250-350 MeV             max |abs. change|                          0.019
+dsigma CM 125                      max |rel. change| 250-350 MeV              0.045
+                                   mean rel. change at the peak (300-340)     0.039
+dsigma CM 75                       max |rel. change| 250-350 MeV              0.028
+                                   mean rel. change at the peak (300-340)     0.022
+dsigma CM 90                       max |rel. change| 250-350 MeV              0.026
+                                   mean rel. change at the peak (300-340)     0.020
+dsigma LAB 133.5                   max |rel. change| 250-350 MeV              0.060
+                                   mean rel. change at the peak (300-340)     0.054
+dsigma LAB 60                      max |rel. change| 250-350 MeV              0.028
+                                   mean rel. change at the peak (300-340)     0.023
+dsigma LAB 90                      max |rel. change| 250-350 MeV              0.031
+                                   mean rel. change at the peak (300-340)     0.024

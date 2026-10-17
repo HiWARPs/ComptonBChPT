@@ -124,7 +124,12 @@ else:
     DELTA_JSON = None
 
 # gamma N Delta magnetic coupling and its variation (lighter band)
-GM0, GM_LO, GM_HI = 2.97, 2.87, 3.07
+GM0, GM_LO, GM_HI = 2.97, 2.87, 3.07      # (the g_M band was the light band of the figures until 2026-10-17; gm_scan_running.py)
+# gamma N Delta electric coupling g_E (dng2) and its variation: the light band of the figures since 2026-10-17 (user decision) is the
+# E2/M1 uncertainty, R_EM = (M_D - M_N)/(2 (M_D + M_N)) g_E/g_M = 0.0677 g_E/g_M = -2.3 % for g_E = -1.0, varied by the PDG
+# uncertainty +-0.5 % (R_EM = -2.5(5) %), i.e. g_E = -1.0 -+ 0.22; each curve is the complete prediction at its own g_E.
+GE0, GE_LO, GE_HI = -1.0, -1.22, -0.78
+REM_PER_GE = (1232.0 - MP) / (2 * (1232.0 + MP)) / GM0      # dR_EM/dg_E = 0.0228 at g_M = 2.97
 
 # ---------------------------------------------------------------------------------------------
 # EFT-truncation band (LMP2015 Eq. (32) type; see delta_plots.md Sect. 2)
