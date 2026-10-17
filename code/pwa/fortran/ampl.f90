@@ -1230,7 +1230,7 @@
              calpha=0.d0; cbeta=0.d0; cgamEE=0.d0; cgamEM=0.d0
              cgamME=0.d0; cgamMM=0.d0; cgam0=0.d0; cgampi=0.d0
              Abase=(0.d0,0.d0)
-             CALL setdelta(0.d0)   ! deterministic LoopTools state (see audit, LoopTools Delta)
+             CALL setdelta(0.d0)   ! deterministic LoopTools state (LoopTools Delta)
              CALL computeAs(xx,rt,Abase)
              CALL hel_from_A(th,alphaQED*Abase,Mh(:,:,:,:,0))
              !* basis amplitudes: unit shift (1e-4 fm^3 or fm^4) of each polarisability
