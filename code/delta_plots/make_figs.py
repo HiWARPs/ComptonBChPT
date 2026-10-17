@@ -274,7 +274,7 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
     nc = 4
     nr = int(np.ceil(len(energies) / nc))
     below = legend_in_last and nr * nc - len(energies) < 3          # legend rows below the panels (part (b) with 11 panels)
-    fig, axs = plt.subplots(nr, nc, figsize=(W2, 1.32 * nr + 0.36 + (0.95 if below else 0)), sharex=True, layout='constrained')
+    fig, axs = plt.subplots(nr, nc, figsize=(W2, (1.2 if below else 1.32) * nr + 0.36 + (0.72 if below else 0)), sharex=True, layout='constrained')
     fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02)
     axs = axs.ravel()
     reg = {} if reg is None else reg
