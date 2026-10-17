@@ -298,10 +298,12 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
             draw_points(ax, lab, s.thp.values, s.vp.values, s.ep.values, reg)
         draw_forward(ax, forward_above('CS', E0, 3.0), reg, cm=True)
         ax.text(0.05, 0.93, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
+        fwd_pts = forward_above('CS', E0, 3.0)
         ymax = max(np.max(cv['cpl_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
-                   (sel.vp + sel.ep).max() if len(sel) else 0)
+                   (sel.vp + sel.ep).max() if len(sel) else 0,
+                   max([(v + e) / D.jac_cm_to_lab(E, 0.0) for E, v, e in fwd_pts], default=0))
         ax.set_ylim(0, 1.17 * ymax)
-        ax.set_xlim(0, 180)
+        ax.set_xlim(-6 if FWD_DF is not None else 0, 180)
         ax.xaxis.set_major_locator(plt.MultipleLocator(60))
         ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
         if k % nc == 0:
@@ -423,7 +425,7 @@ def fig4(df, cv, ix):
             for t, v in zip(sel.theta_lab, sel.value):
                 ax.add_patch(Rectangle((t - 2.5, yb), 5.0, 0.104 * abs(v), color='0.6', lw=0, zorder=2))
         ax.axhline(0, color='0.6', lw=0.4, zorder=0)
-        ax.set_xlim(0, 180)
+        ax.set_xlim(-6 if FWD_DF is not None else 0, 180)
         ax.xaxis.set_major_locator(plt.MultipleLocator(60))
         ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
         sym = r'\Sigma_{2x}' if o == 'S2X' else r'\Sigma_{2z}'
