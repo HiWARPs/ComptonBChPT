@@ -149,7 +149,7 @@ class Theory:
         self.H['D'][~self.isasym] = 0.0           # cross sections: denominator == 1
         self.hasVC = bool(np.max(np.abs(self.H['N'][:, IDX['D1'], IDX['D1']] - self.H['N'][:, IDX['D0'], IDX['D0']])
                                  / np.maximum(np.abs(self.H['N'][:, IDX['D1'], IDX['D1']]), 1e-30)) > 1e-9)
-        self._gm = None; self._ge = None
+        self._gm = None; self._ge = None; self._cpl = None
 
     # ------------------------------------------------------------------ evaluation
     def nd(self, c, d):
@@ -230,6 +230,21 @@ class Theory:
                 lo = np.minimum(lo, O); hi = np.maximum(hi, O)
         return lo, hi, parts
 
+    def coupling_runs(self):
+        """complete prediction at each (g_M, g_E) of config.BAND_GRID (g_M = 2.97 +- 0.10, g_E such that R_EM = -2.3 -+ 0.5 %),
+        each at its own static polarisabilities ('pred'): the light band of the figures since 2026-10-17 evening"""
+        if self._cpl is None:
+            out = {}
+            for gM, gE in C.BAND_GRID:
+                if abs(gM - C.GM0) < 1e-9 and abs(gE - C.GE0) < 1e-9:
+                    continue                                   # the central point is the main curve
+                T = runner.run(self.points, gM=gM, gE=gE, name='%s_NNLO_VC_gM%.2f_gE%.3f' % (self.tag, gM, gE))
+                Pg = T.Pref.copy() if C.MAIN == 'pred' else np.r_[C.ALPHA_FIT, C.BETA_FIT, T.Pref[2:]]
+                out[(gM, gE)] = T.predict_array(Pg)
+                out['Pref_gM%.2f_gE%.3f' % (gM, gE)] = T.Pref
+            self._cpl = out
+        return self._cpl
+
     def gE_runs(self):
         """complete prediction at g_E = GE_LO, GE_HI (R_EM = -2.3 -+ 0.5 %), each at its own static polarisabilities ('pred'):
         the light band of the figures since 2026-10-17 (before: the g_M = 2.97 +- 0.10 band of gM_runs)"""
@@ -261,11 +276,12 @@ class Theory:
         ab = self.ab_error()
         lo = main - np.sqrt((main - tlo) ** 2 + ab ** 2)
         hi = main + np.sqrt((thi - main) ** 2 + ab ** 2)
-        ge = self.gE_runs()
-        glo = np.minimum.reduce([main, ge[C.GE_LO], ge[C.GE_HI]])
-        ghi = np.maximum.reduce([main, ge[C.GE_LO], ge[C.GE_HI]])
-        out = dict(main=main, lo=lo, hi=hi, trunc_lo=tlo, trunc_hi=thi, ab=ab, ge_lo=glo, ge_hi=ghi,
-                   ge_m=ge[C.GE_LO], ge_p=ge[C.GE_HI], tree=self.tree(), fit=self.fit(),
+        cpl = self.coupling_runs()
+        runs = [v for k, v in cpl.items() if isinstance(k, tuple)]
+        glo = np.minimum.reduce([main] + runs)
+        ghi = np.maximum.reduce([main] + runs)
+        out = dict(main=main, lo=lo, hi=hi, trunc_lo=tlo, trunc_hi=thi, ab=ab, cpl_lo=glo, cpl_hi=ghi,
+                   tree=self.tree(), fit=self.fit(),
                    flag=self.full.flag.copy())
         for k, v in parts.items():
             out['shift_' + k] = v

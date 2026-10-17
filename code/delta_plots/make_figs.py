@@ -23,15 +23,19 @@ plt.style.use(C.STYLE)
 for d in (C.FIGDIR, C.PNG, C.RESULTS):
     os.makedirs(d, exist_ok=True)
 
-C_MAIN, C_BAND, C_GM = '#c0392b', '#f4aaa2', '#fde6e2'
-C_GM_EDGE = '#e7877c'
-C_TREE, C_NOVC = '#1f4e9c', '#4d4d4d'
-C_FIT = 'k'                        # the NNLO-fit curve: short-dashed black, distinct from the red band and from the blue tree-level dashes
+# colours (2026-10-17 evening, user: one presentation for all figures): the same as the below-threshold figures of work/fits
+# (s06_figures: prediction line '#444444' with the band '#9fb6dd' at alpha 0.6, NNLO fit dashed '#1f4e9c'); the tree-level
+# curve therefore moves from blue to green; the coupling band (R_EM, g_M) is light red, distinct from the blue NNLO band.
+C_MAIN, C_BAND, C_GM = '#444444', '#c5d3eb', '#f9c9c3'     # '#c5d3eb' = s06's '#9fb6dd' at alpha 0.6 on white, drawn opaque here
+BAND_ALPHA = 1.0                                               # so that the overlap with the light red coupling band stays clean
+C_GM_EDGE = '#e0877d'
+C_TREE, C_NOVC = '#2e8b57', '#4d4d4d'
+C_FIT = '#1f4e9c'                  # the NNLO-fit curve: dashed dark blue, as in the below-threshold figures
 # legend labels (short; the captions of the paper give the full description).  Since 2026-10-16 the main curve is
 # the parameter-free NNLO prediction (config.MAIN = 'pred'); in the legacy mode 'fit' the labels are swapped.
 LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'NNLO fit'
 LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
-LAB_GM = r'$R_{EM} = -2.3\pm0.5\,\%$'      # light band = E2/M1 uncertainty (g_E = -1.0 -+ 0.22) since 2026-10-17; before: $g_M = 2.97\pm0.10$
+LAB_GM = r'$R_{EM} = -2.3\pm0.5\,\%$, $g_M = 2.97\pm0.10$'      # light band = (g_M, g_E) grid of config.BAND_GRID (2026-10-17 evening)
 LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
 LAB_NOVC = r'no vertex corrections'
 LAB_RUN = r'running $\Delta$ parameters'
@@ -119,6 +123,32 @@ def build_points(df):
 BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0), 295.0: (285.0, 305.0)}
 
 
+# ============================================================== forward points above the pion threshold
+# work/data/db_forward_obs_above.csv (GHP forward amplitudes above threshold, when available): columns E_lab_MeV, obs (CS: lab
+# dsigma/dOmega(0) in nb/sr; S2Z: Sigma_2z(0)), value, stat_err.  Drawn as open black stars at theta = 0 (as the forward points
+# of the below-threshold figures) in Fig. 2 (c.m. cross section: converted with the 0-deg Jacobian) and Fig. 4 (Sigma_2z).
+FWD_ABOVE = os.path.join(C.DATA, 'db_forward_obs_above.csv')
+FWD_DF = pd.read_csv(FWD_ABOVE) if os.path.exists(FWD_ABOVE) else None
+FWD_LABEL = 'forward point'
+
+
+def forward_above(obs, E0, window):
+    """forward points of observable obs within +-window MeV of E0: list of (E, value, err)"""
+    if FWD_DF is None:
+        return []
+    q = FWD_DF[(FWD_DF.obs == obs) & (np.abs(FWD_DF.E_lab_MeV - E0) <= window + 1e-9)]
+    return [(float(r.E_lab_MeV), float(r.value), float(r.stat_err)) for r in q.itertuples()]
+
+
+def draw_forward(ax, pts, reg, cm=False, zorder=6):
+    for E, v, e in pts:
+        if cm:                                   # lab -> c.m. at theta = 0: dsigma_cm = dsigma_lab / J(0)
+            J = D.jac_cm_to_lab(E, 0.0); v, e = v / J, e / J
+        ax.errorbar([0.0], [v], [e], fmt='*', color='k', mfc='white', ms=6.5, mew=0.7, lw=0.7, zorder=zorder)
+    if pts and FWD_LABEL not in reg:
+        reg[FWD_LABEL] = Line2D([], [], ls='none', marker='*', color='k', mfc='white', ms=6.5, mew=0.7)
+
+
 # ============================================================== drawing helpers
 E_BAND_MAX = 450.0     # the bands of the vs-E figures end here (user decision 2026-10-17: upper limit of applicability)
 
@@ -128,10 +158,10 @@ def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False, band_
     x = np.asarray(x, float)
     m = np.ones(len(x), bool) if band_xmax is None else (x <= band_xmax + 1e-9)
     if gm:
-        ax.fill_between(x[m], cv['ge_lo'][idx][m], cv['ge_hi'][idx][m], color=C_GM, lw=0, zorder=1)
-        ax.plot(x[m], cv['ge_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(x[m], cv['ge_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-    ax.fill_between(x[m], cv['lo'][idx][m], cv['hi'][idx][m], color=C_BAND, lw=0, alpha=0.85, zorder=2)
+        ax.fill_between(x[m], cv['cpl_lo'][idx][m], cv['cpl_hi'][idx][m], color=C_GM, lw=0, zorder=1)
+        ax.plot(x[m], cv['cpl_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(x[m], cv['cpl_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+    ax.fill_between(x[m], cv['lo'][idx][m], cv['hi'][idx][m], color=C_BAND, lw=0, alpha=BAND_ALPHA, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
     if extra and has_extra(cv):
@@ -147,7 +177,7 @@ def theory_handles(fit=True, tree=True, gm=True, extra=False):
     h, l = [], []
     extra = extra and EXTRA_KEY is not None        # DP_EXTRA=none: never an extra entry
     hx = Line2D([], [], color=EXTRA_COLOR, ls=':', lw=EXTRA_LW)
-    h.append((Patch(facecolor=C_BAND, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.15))); l.append(LAB_MAIN)
+    h.append((Patch(facecolor=C_BAND, alpha=BAND_ALPHA, edgecolor='none'), Line2D([], [], color=C_MAIN, lw=1.15))); l.append(LAB_MAIN)
     if fit:
         h.append(Line2D([], [], color=C_FIT, ls='--', dashes=FIT_DASHES, lw=FIT_LW)); l.append(LAB_FIT)
     if extra and EXTRA_AFTER_FIT:
@@ -224,7 +254,7 @@ def fig1(df, cv, ix):
                 va='top', ha='left')
         ax.axvline(E_2PI, color='0.45', lw=0.5, ls=':', zorder=0.5)       # two-pion (pi0 pi0 p) threshold
         mb = E_GRID <= E_BAND_MAX
-        ymax = max(np.max(cv['ge_hi'][idx][mb]), np.max(cv['main'][idx]), np.max(cv['fit'][idx]), np.max(cv['tree'][idx]),
+        ymax = max(np.max(cv['cpl_hi'][idx][mb]), np.max(cv['main'][idx]), np.max(cv['fit'][idx]), np.max(cv['tree'][idx]),
                    (sel.value + sel.err).max() if len(sel) else 0)
         ax.set_ylim(0, 1.08 * ymax)
         ax.set_xlim(0, 800)
@@ -266,8 +296,9 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
         for lab in [l for l in D.ORDER if l in set(sel.label)]:
             s = sel[sel.label == lab]
             draw_points(ax, lab, s.thp.values, s.vp.values, s.ep.values, reg)
+        draw_forward(ax, forward_above('CS', E0, 3.0), reg, cm=True)
         ax.text(0.05, 0.93, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
-        ymax = max(np.max(cv['ge_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
+        ymax = max(np.max(cv['cpl_hi'][idx]), np.max(cv['hi'][idx]), np.max(cv['tree'][idx]),
                    (sel.vp + sel.ep).max() if len(sel) else 0)
         ax.set_ylim(0, 1.17 * ymax)
         ax.set_xlim(0, 180)
@@ -384,6 +415,9 @@ def fig4(df, cv, ix):
             s = sel[sel.label == lab]
             draw_points(ax, lab, s.theta_lab.values, s.value.values, s.err.values, reg, ms=3.8)
         if o == 'S2Z':
+            lo_, hi_ = BIN[E0]
+            draw_forward(ax, forward_above('S2Z', 0.5 * (lo_ + hi_), 0.5 * (hi_ - lo_)), reg)
+        if o == 'S2Z':
             # Paudyal 10.4% correlated scale uncertainty: grey bars at the bottom
             yb = -0.09
             for t, v in zip(sel.theta_lab, sel.value):
@@ -453,9 +487,9 @@ def fig6(df, cv, ix):
         mark_shown('Fig. 6 (dsigma ratio)', s)
         idx = np.array([ix[gid('f6', thr, '%.1f' % E)] for E in E6])
         m0 = cv['main'][idx]
-        ax.fill_between(E6, cv['ge_lo'][idx] / m0, cv['ge_hi'][idx] / m0, color=C_GM, lw=0, zorder=1)
-        ax.plot(E6, cv['ge_lo'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(E6, cv['ge_hi'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.fill_between(E6, cv['cpl_lo'][idx] / m0, cv['cpl_hi'][idx] / m0, color=C_GM, lw=0, zorder=1)
+        ax.plot(E6, cv['cpl_lo'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(E6, cv['cpl_hi'][idx] / m0, '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
         ax.fill_between(E6, cv['lo'][idx] / m0, cv['hi'][idx] / m0, color=C_BAND, lw=0, alpha=0.85, zorder=2)
         ax.axhline(1.0, color=C_MAIN, lw=1.0, zorder=3)
         for lab in [l for l in D.ORDER if l in set(s.label)]:
@@ -716,7 +750,7 @@ def main():
                    fit_key=C.FIT_KEY, static=T.static.tolist(), exe=C.EXE, v2opts=C.v2opts(True),
                    P_spinfit_validation_only=list(C.P_SPINFIT), cov_ab_fit=C.COV_AB.tolist(),
                    remove_static_ab=C.REMOVE_STATIC_AB, add_ab_error=C.ADD_AB_ERROR,
-                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_gE={k: list(v) for k, v in T.gE_runs().items() if str(k).startswith('Pref')}, gE_band=(C.GE_LO, C.GE_HI),
+                   Lambda_chi=C.LAMBDA_CHI, hasVC=T.hasVC, Pref_band={k: list(v) for k, v in T.coupling_runs().items() if str(k).startswith('Pref')}, band_grid=[list(x) for x in C.BAND_GRID],
                    extra=C.EXTRA, extra_irun=C.EXTRA_IRUN, extra_in_theta=C.EXTRA_THETA,
                    extra_v2opts=(C.v2opts(True, C.EXTRA_IRUN) if C.EXTRA_IRUN is not None else None),
                    Pref_extra=(list(T.full_run.Pref) if T.full_run is not None else None)),
@@ -727,13 +761,13 @@ def main():
     # data with theory
     dd = df[df.obs.isin(['CS', 'CSCM', 'S3', 'S2X', 'S2Z'])].copy()
     ii = np.array([ix[p] for p in dd.pid])
-    for k in ('main', 'lo', 'hi', 'ge_lo', 'ge_hi', 'fit', 'tree') + extra_cols:
+    for k in ('main', 'lo', 'hi', 'cpl_lo', 'cpl_hi', 'fit', 'tree') + extra_cols:
         dd['th_' + k] = cv[k][ii]
     dd.to_csv(os.path.join(C.RESULTS, 'data_with_theory.csv'), index=False)
     # curves for reproducibility
     cur = pd.DataFrame({'id': [p[0] for p in P], 'E': [p[1] for p in P], 'theta': [p[2] for p in P],
                         'obs': [p[3] for p in P], 'frame': [p[4] for p in P]})
-    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'ge_lo', 'ge_hi', 'fit', 'tree', 'flag') + extra_cols:
+    for k in ('main', 'lo', 'hi', 'trunc_lo', 'trunc_hi', 'ab', 'cpl_lo', 'cpl_hi', 'fit', 'tree', 'flag') + extra_cols:
         cur[k] = cv[k]
     cur[cur.id.str.startswith('g_')].to_csv(os.path.join(C.RESULTS, 'curves_grid.csv'), index=False, float_format='%.6g')
     ext = D.build_ext450()

@@ -1,0 +1,34 @@
+executable : <release>/code/code_v2/execs/ampl.exe
+&v2 options: pimassphys=t, nmassphys=t, dvertex=t
+main curve : NNLO prediction (P = Pref, nothing fitted)
+NNLO fit   : alpha, beta = 11.546219309667354 2.978140875236648  cov [ 0.20511821 -0.15920541 -0.15920541  0.17478391]  from <release>/code/fits/results/fits_L.json
+band       : LMP15-type envelope (static alpha, beta kept, no fit error)
+spin-fit set (validation only, not drawn): [10.98770122  3.11910408 -3.09171816  2.68548115 -1.25234984  2.59926079]
+extra curve: none ; also in the angular distributions
+points     : 10471
+  validation complete (VC), P=Pref (prediction) {'max rel. dev. (cross sections)': 6.932462081118781e-06, 'max abs. dev. (asymmetries)': 9.658242088317337e-07}
+  validation complete (VC), P=NNLO fit    {'max rel. dev. (cross sections)': 7.00361721052751e-06, 'max abs. dev. (asymmetries)': 9.440119688175486e-07}
+  validation complete (VC), P=spin fit (not drawn) {'max rel. dev. (cross sections)': 6.428541922141796e-06, 'max abs. dev. (asymmetries)': 8.410722134770695e-07}
+  validation complete without VC, P=main curve {'max rel. dev. (cross sections)': 7.160676818745536e-06, 'max abs. dev. (asymmetries)': 9.407550053408542e-07}
+  validation tree Born+pi0+D1             {'max rel. dev. (cross sections)': 1.66333603766664e-12, 'max abs. dev. (asymmetries)': 1.0628165014736624e-12}
+  validation Born+pi0+piN, d=NNLO fit     {'max rel. dev. (cross sections)': 1.7743436310914032e-12, 'max abs. dev. (asymmetries)': 1.620370504440416e-12}
+  validation Born+piN+D0+piD, d=NNLO fit  {'max rel. dev. (cross sections)': 6.595471003412065e-06, 'max abs. dev. (asymmetries)': 7.953907198639083e-07}
+  validation static pols per mechanism (piN, D1, piD) {'piN': [7.0998, -1.9743, -3.2806, -0.1239, 0.5397, 0.9139], 'D1': [-0.1097, 7.1501, -0.3996, 3.286, -0.4273, 0.3855], 'piD': [4.4253, -1.4466, 0.4343, -0.2229, 0.0577, -0.1668]}
+  validation Pref (complete)              [11.415433, 3.729126, -3.245879, 2.939187, 0.170077, 1.132566]
+  validation vertex corrections present   True
+  [runner] dp_NNLO_VC_gM2.87_gE-1.178 10471 points -> dp_NNLO_VC_gM2.87_gE-1.178_d2f750629722bd9c.out
+  [runner] dp_NNLO_VC_gM2.87_gE-0.966 10471 points -> dp_NNLO_VC_gM2.87_gE-0.966_6bde6ee9042a602d.out
+  [runner] dp_NNLO_VC_gM2.87_gE-0.754 10471 points -> dp_NNLO_VC_gM2.87_gE-0.754_504f9cfd21e1007a.out
+  [runner] dp_NNLO_VC_gM2.97_gE-1.219 10471 points -> dp_NNLO_VC_gM2.97_gE-1.219_da27fa623e2624b6.out
+  [runner] dp_NNLO_VC_gM2.97_gE-0.781 10471 points -> dp_NNLO_VC_gM2.97_gE-0.781_c57b7ca1288c7997.out
+  [runner] dp_NNLO_VC_gM3.07_gE-1.261 10471 points -> dp_NNLO_VC_gM3.07_gE-1.261_160123bce335633a.out
+  [runner] dp_NNLO_VC_gM3.07_gE-1.034 10471 points -> dp_NNLO_VC_gM3.07_gE-1.034_c8760a93710bdd86.out
+  [runner] dp_NNLO_VC_gM3.07_gE-0.807 10471 points -> dp_NNLO_VC_gM3.07_gE-0.807_045bbe72434049eb.out
+  extrapolated (flag=1) points: 464
+Traceback (most recent call last):
+  File "<release>/code/delta_plots/make_figs.py", line 767, in <module>
+    # curves for reproducibility
+  File "<release>/code/delta_plots/make_figs.py", line 731, in main
+    print('&v2 options:', C.v2opts(True))
+                        ^^^^^
+KeyError: 'ge_lo'
