@@ -14,7 +14,7 @@
 | Hallin1993_TabII | SAL 93 | CSCM (CM) | 28 | 130-170 | 51-141 (4) | c.m. angle & c.m. dsigma | 3.6% | yes | 6 | 6 |  |  |  |  | 15 |
 | Hallin1993_TabII_D | SAL 93 | CSCM (CM) | 55 | 171-291 | 31-141 (12) | c.m. angle & c.m. dsigma | 3.6% | yes | 13 | 21 |  |  |  |  | 55 |
 | Hunger1997_75 | MAMI 97 | CSCM (CM) | 17 | 207-399 | 75 | stat | 4.4% | yes | 18 | 5 |  |  |  |  | 17 |
-| Hunger1997_90 | MAMI 97 | CSCM (CM) | 13 | 250-396 | 90 | stat | 4.0% | yes | 17 | 9 |  |  |  |  | 13 |
+| Hunger1997_90 | MAMI 97 | CSCM (CM) | 13 | 250-396 | 90 | stat | 4.0% | yes | 17 | 10 |  |  |  |  | 13 |
 | Hyman1959 | MIT 59 | CS (LAB) | 12 | 60-128 | 50-90 (2) | KLP2018 total error | 10.0% | yes | 8 |  |  |  |  |  |  |
 | Kolb2000 | SAL 00 | CS (LAB) | 1 | 247 | 135 | stat (+) syst (3.8) per point | – | yes | 1 | 1 |  |  |  |  | 1 |
 | LEGS2001_CS | LEGS 01 | CSCM (CM) | 77 | 213-334 | 65-135 (7) | stat (+) pt syst | 2.0% | yes | 34 | 77 |  |  |  |  | 77 |

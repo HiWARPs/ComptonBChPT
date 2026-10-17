@@ -72,7 +72,7 @@ E_GRID = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.ar
 TH_GRID = np.r_[0.0, 1.0, np.arange(2.0, 178.01, 2.0), 179.0, 180.0]
 FIG1 = [('LAB', 60.0), ('LAB', 90.0), ('LAB', 133.5), ('CM', 75.0), ('CM', 90.0), ('CM', 125.0)]   # 125 cm (LARA, LEGS, SAL) replaces 138 cm since 2026-10-17
 FIG2A = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1]           # part (a): 2 rows x 4
-FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0]     # part (b): 3 rows x 4, legend in the free slots
+FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0, 444.4, 454.9]   # part (b): 3 rows x 4; 444.4/454.9 = LARA angular distributions (2026-10-18)
 FIG2 = FIG2A + FIG2B
 LEGS_E = [213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8]
 E3B = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 800.01, 2.0)]   # Fig. 3b: to 800 MeV (350 until 2026-10-17)
@@ -273,7 +273,8 @@ def fig1(df, cv, ix):
 def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
     nc = 4
     nr = int(np.ceil(len(energies) / nc))
-    fig, axs = plt.subplots(nr, nc, figsize=(W2, 1.32 * nr + 0.36), sharex=True, layout='constrained')
+    below = legend_in_last and nr * nc - len(energies) < 3          # legend rows below the panels (part (b) with 11 panels)
+    fig, axs = plt.subplots(nr, nc, figsize=(W2, 1.32 * nr + 0.36 + (0.95 if below else 0)), sharex=True, layout='constrained')
     fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02)
     axs = axs.ravel()
     reg = {} if reg is None else reg
@@ -316,7 +317,12 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
             axs[k].xaxis.set_tick_params(labelbottom=True)
     th, tl = theory_handles(extra=C.EXTRA_THETA and has_extra(cv))
     dh, dl = data_handles(reg)
-    if legend_in_last and len(energies) < len(axs):
+    if legend_in_last and len(axs) - len(energies) < 3:
+        # fewer than 3 free slots: legend rows below the panels (data sets of both parts of the figure)
+        for k in range(len(energies), len(axs)):
+            fig.delaxes(axs[k])
+        legend_rows(fig, th, tl, dh, dl, ncol_d=5)
+    elif legend_in_last and len(energies) < len(axs):
         # legend in the free panel slots of the last row (data sets of both parts of the figure)
         gs = axs[len(energies)].get_subplotspec().get_gridspec()
         for k in range(len(energies), len(axs)):
@@ -558,9 +564,6 @@ SETNAME = {
 SETORDER = ['A2_Martel2015_S2x', 'Martel_thesis_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'Barbiellini1968', 'LEGS2001_CS',
             'Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002', 'Kolb2000', 'Hallin1993_TabII(D)', 'Hallin1993_TabI',
             'OlmosdeLeon2001', 'Genzel1972', 'Gray1967', 'Baranov1966', 'Baranov1966_refined', 'Nagashima1964']
-FITREPORT = {'A2_Martel2015_S2x': 0.67, 'A2_Paudyal2020_S2z': 1.61, 'LEGS2001_S3': 2.52, 'LEGS2001_CS': 7.92,
-             'Hunger1997_75': 1.59, 'Hunger1997_90': 2.60, 'Wissmann1999': 1.26, 'Camen2002': 1.15,
-             'Hallin1993_TabII(D)': 3.64, 'OlmosdeLeon2001': 1.73}
 
 
 # rows of Table 'delta' of the paper (Appendix G), in its order and with its labels (\cite keys as in main.tex)
@@ -583,8 +586,7 @@ def _pf(v):
 
 def chi2_table(df, cv, ix):
     """chi^2/N per data set.  Columns: the main curve (config.MAIN; its band for 'incl. th.'), the other of the two
-    (prediction/fit) with n = 1 and n fitted, tree level, without vertex corrections.  The 'fit_report' column is
-    the v1 regression value for the NNLO-fit curve (fit_report Sect. 5.1)."""
+    (prediction/fit) with n = 1 and n fitted, tree level, without vertex corrections."""
     tabs = {}
     for key, (a, b) in {'350': (C.E_DELTA_MIN, C.E_DELTA_MAX), '400': (C.E_DELTA_MIN, 400.0)}.items():
         t = chi2_rows(df, cv, ix, a, b)
@@ -606,7 +608,6 @@ def chi2_table(df, cv, ix):
             t['n_%s' % EXTRA_KEY] = tr.n.values
         t['order'] = [SETORDER.index(x) if x in SETORDER else 99 for x in t.set]
         t = t.sort_values('order').drop(columns='order')
-        t['fit_report'] = [FITREPORT.get(x, np.nan) if key == '350' else np.nan for x in t.set]
         tabs[key] = t
         t.to_csv(os.path.join(C.RESULTS, 'chi2_table_E%s.csv' % key), index=False)
     mainlab = 'NNLO prediction' if C.MAIN == 'pred' else 'NNLO fit'
@@ -625,7 +626,7 @@ def chi2_table(df, cv, ix):
         runcol = 'chi2N_%s_n1' % EXTRA_KEY if EXTRA_KEY and ('chi2N_%s_n1' % EXTRA_KEY) in t else None
         if runcol:
             hdr += ' running Δ (irun=%d): χ²/N (n=1) | χ²/N (n fitted) | n |' % C.EXTRA_IRUN
-        hdr += (' fit_report §5.1 (v1, fit) |' if key == '350' else ' |')
+        hdr += ' |'
         L.append(hdr)
         L.append('|' + '---|' * (hdr.count('|') - 1))
         for r in t.itertuples():
@@ -642,7 +643,7 @@ def chi2_table(df, cv, ix):
             if runcol:
                 rr = getattr(r, 'chi2N_%s_nfit' % EXTRA_KEY); rn = getattr(r, 'n_%s' % EXTRA_KEY)
                 line += ' %.2f | %s | %s |' % (getattr(r, runcol), ('%.2f' % rr) if r.norm > 0 else '–', ('%.3f' % rn) if r.norm > 0 else '1')
-            fr = '' if np.isnan(r.fit_report) else '%.2f' % r.fit_report
+            fr = ''
             line += ' %s |' % fr
             L.append(line)
     open(os.path.join(C.RESULTS, 'chi2_table.md'), 'w').write('\n'.join(L) + '\n')
@@ -778,8 +779,11 @@ def main():
     lara = D.build_lara()
     print('  Fig. 1: plotting-only LARA (Bonn 01) points, digitized:', lara.groupby('theta_cm').E.agg(['size', 'min', 'max']).to_dict('index'))
     fig1(pd.concat([df, ext, lara], ignore_index=True), cv, ix)
-    c2a, reg2 = fig2(df, cv, ix, FIG2A, 'fig_delta_cs_vstheta_a')
-    c2b, _ = fig2(df, cv, ix, FIG2B, 'fig_delta_cs_vstheta_b', legend_in_last=True, reg=reg2)
+    lara_ang = D.build_lara_ang()
+    print('  Fig. 2: plotting-only LARA angular distributions (Bonn 01), digitized:', lara_ang.groupby('E').size().to_dict())
+    df2 = pd.concat([df, ext, lara_ang], ignore_index=True)       # + the plotting-only points above 400 MeV
+    c2a, reg2 = fig2(df2, cv, ix, FIG2A, 'fig_delta_cs_vstheta_a')
+    c2b, _ = fig2(df2, cv, ix, FIG2B, 'fig_delta_cs_vstheta_b', legend_in_last=True, reg=reg2)
     print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2a | c2b))
     fig3a(df, cv, ix)
     fig3b(df, cv, ix)
@@ -788,7 +792,7 @@ def main():
     fig6(df, cv, ix)
     tabs = chi2_table(df, cv, ix)
     pd.set_option('display.width', 250)
-    print(tabs['350'][['set', 'N', 'Erange', 'chi2N_n1', 'chi2N_nfit', 'n', 'chi2N_th', 'chi2N_fit_n1', 'chi2N_fit_nfit', 'n_fit', 'fit_report']].round(3).to_string(index=False))
+    print(tabs['350'][['set', 'N', 'Erange', 'chi2N_n1', 'chi2N_nfit', 'n', 'chi2N_th', 'chi2N_fit_n1', 'chi2N_fit_nfit', 'n_fit']].round(3).to_string(index=False))
     provenance(df)
     data_table(df)
     # bin-averaged vs nominal asymmetries (Fig. 4), for the notes

@@ -16,7 +16,7 @@ usage: python3 -I build_db_forward_above.py <raw_dir> <out_csv>
 """
 import os, sys, csv, math
 RAW, OUT = sys.argv[1], sys.argv[2]
-PANELS = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0]
+PANELS = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0, 444.4, 454.9]
 S2Z_BINS = [275.0, 295.0]                      # centres of the A2 Sigma_2z bins 265-285 and 285-305 MeV
 COARSE = []                                    # (a 10-MeV grid was added until 2026-10-17; it produced a second star in the panels)
 

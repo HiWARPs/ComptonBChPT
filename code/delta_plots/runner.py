@@ -24,7 +24,7 @@ PNAMES = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2']
 PAIRS = [(a, b) for a in range(7) for b in range(a, 7)]
 PIDX = {p: i for i, p in enumerate(PAIRS)}
 
-# identical to work/fits/lib/bchpt.py DEFAULT_TEMPLATE + a trailing &v2 group (code_v2 options; v1 executables
+# identical to work/fits/lib/bchpt.py DEFAULT_TEMPLATE + a trailing &v2 group (code_v2 options; executables without it
 # ignore it).  @V2OPTS@ is replaced by config.v2opts(dvertex).
 DEFAULT_TEMPLATE = """ &energy Emin=0.05,Emax=0.4,Edel=0.05,kvar=3/
  &angles thmin=20.,thmax=160.,thdel=2.,cmsangle=f/

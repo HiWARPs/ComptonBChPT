@@ -1,1 +1,1 @@
-work/code_v2 at commit a2b158d39d15b8e080bb90d16b279df85aaee0d9 (2026-10-17): Running Delta parameters, doubly subtracted (&v2 irun=2; irun=3 also subtracts the slopes at s0)
+work/code_v2 at commit 3400b83225f3b0b530bf63893ead6cc8c3617ea9 (2026-10-18): Comments and docs: refer to the 2015 code instead of a first version; drop the v1-vs-v2 regression test

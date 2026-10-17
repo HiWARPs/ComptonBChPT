@@ -3,7 +3,7 @@
 (ii) exploratory fit of the four spin polarisabilities to Sigma_2x (Martel) + Sigma_2z (Paudyal) (+ LEGS Sigma_3
      below the 2pi threshold), with gamma_0 = -0.929(105) [GHP], alpha+beta = 14.0(2) and alpha-beta from F1;
      with and without floating gM (interpolation over a grid of complete NNLO runs).
-     v1: the code lacks the gamma-N-Delta vertex corrections (LMP2015 Sect. 2.2): Sigma_2x off by 0.03-0.06 at
+     the 2015 code lacks the gamma-N-Delta vertex corrections (LMP2015 Sect. 2.2): Sigma_2x off by 0.03-0.06 at
      286-334 MeV; a 'vertex' theory error (0.03 Sigma_2x, 0.02 Sigma_2z, 0.01 Sigma_3) is added in a variant.
      v2 (profile 'v2'): vertex corrections included (dvertex=t); the same fits are repeated WITHOUT them ('_novtx',
      dvertex=f) to isolate their effect.

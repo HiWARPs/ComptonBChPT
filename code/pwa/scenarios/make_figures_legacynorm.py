@@ -1,5 +1,5 @@
 """Regenerate the PWA figures with the legacy-set normalisations floated (new PWA baseline).
-Old figures (fixed legacy normalisations) archived in figs_v1fixednorm/."""
+Old figures (fixed legacy normalisations) archived in figs_legacynorm/."""
 import sys, runpy
 sys.path.insert(0, '.')
 import update_fits as UF

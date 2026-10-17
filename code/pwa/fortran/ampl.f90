@@ -104,7 +104,7 @@
 
         Real, dimension(4) :: plzty_loop,plzty_delta, plzty_wzw
 
-        !* [2026-10 audit] optional fit-driver mode (see driver/README.md).
+        !* [2026-10] optional fit-driver mode (see driver/README.md).
         !* If the namelist &fitdriver is absent from in.dat, nothing changes.
         LOGICAL pointsmode, selftest, staticmode, helmode
         CHARACTER(len=256) pointsfile, outfile
@@ -157,7 +157,7 @@
         READ (5,isospin)
         READ (5,scalarPs)
         READ (5,spinPs)
-        !* [2026-10 audit] optional fit-driver namelist (defaults = off)
+        !* [2026-10] optional fit-driver namelist (defaults = off)
         pointsmode=.false.; selftest=.false.; staticmode=.false.; helmode=.false.
         pointsfile='points.txt'; outfile='points.out'
         refalphaE1=alphaNNLOfm; refbetaM1=betaNNLOfm
@@ -325,7 +325,7 @@
         CALL angular_points
         CALL ini_gamma
 
-        !* [2026-10 audit] fit-driver / static-polarisability modes; the original
+        !* [2026-10] fit-driver / static-polarisability modes; the original
         !* main loops below are skipped only if one of these modes is requested.
         IF(pointsmode.OR.staticmode.OR.helmode) THEN
            IF(staticmode) CALL run_static()
@@ -873,7 +873,7 @@
 
           !* Add the O(p4) LECs contribution (scalar polarizabilities):
 	    !write(*,*) 'LECs = ', calpha,cbeta,cgamEE,cgamEM,cgamME,cgamMM,cgam0,cgampi
-          !* [2026-10 audit] the contact-term formulas were moved verbatim into
+          !* [2026-10] the contact-term formulas were moved verbatim into
           !* SUBROUTINE add_LECs below, so that the fit driver (run_points) uses
           !* exactly the same expressions (single source of truth).
           CALL add_LECs(x,t,A,calpha,cbeta,cgamEM,cgamME,cgamMM,cgam0)
@@ -889,7 +889,7 @@
         SUBROUTINE add_LECs(x,t,A,ca,cb,cgEM,cgME,cgMM,cg0)
           !* O(p^4) contact (polarizability-LEC) contributions to the
           !* invariant amplitudes A1..A8 (nucleon-mass units, without alpha_em).
-          !* Moved verbatim from computeAs [2026-10 audit]; arithmetic unchanged.
+          !* Moved verbatim from computeAs [2026-10]; arithmetic unchanged.
           !*  ca, cb   : shifts of alpha_E1, beta_M1   (in units alpha_em/M^3)
           !*  cgEM,cgME,cgMM : shifts of gamma_E1M2, gamma_M1E2, gamma_M1M1
           !*  cg0      : shift of gamma_0 = -(gEE+gEM+gME+gMM)  (units alpha_em/M^4)
@@ -911,7 +911,7 @@
         END SUBROUTINE add_LECs
 
 !!=========================================================================
-!!  [2026-10 audit]  FIT-DRIVER SUPPORT ROUTINES
+!!  [2026-10]  FIT-DRIVER SUPPORT ROUTINES
 !!  run_points : reads a list of kinematic points, writes for every point the
 !!               observable as an exact quadratic form in the shifts of the six
 !!               dipole polarisabilities (see driver/README.md)

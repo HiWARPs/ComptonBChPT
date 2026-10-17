@@ -33,7 +33,7 @@ SUBROUTINE CovOneLoop(s,t,mpi2,gafac,A)
    !*   photons on the nucleon         -> pi0 p intermediate states: mass^2 = mpin2
    !*   nucleon self-energy (graph 4)  -> both: isospin weights 2 (pi+ n) : 1 (pi0 p)
    !*   two-photon/isoscalar pi-pi graphs -> charged pions only (mpi2)
-   !* ipimode=0 (default): mpin2 = mpi2, i.e. the v1 single-mass calculation (unchanged code path).
+   !* ipimode=0 (default): mpin2 = mpi2, i.e. the single-mass calculation of the 2015 code (unchanged code path).
    !*   with physical masses the pi+ n loops also use the neutron mass for the internal nucleon
    !*   (mN2c = (M_n/M_p)^2), so that the pi+ n cusp sits at the physical threshold (151.4 MeV)
    REAL*8 mpin2_c, mpin2, mnuc2_c, mN2c
@@ -1294,8 +1294,8 @@ SUBROUTINE CorrIsoCovOneDeltaLoop(s,t,mpi2,gafac,A,Delta)
   COMPLEX*16, PARAMETER :: CI=(0.d0,1.d0)
   REAL*8 x,nuclm,deltam, MD
   REAL*8 DeltaAux, sw1,facv,face
-  !* [v2] Delta mass inside the loops taken from the main program (baryon.dat), audit S1;
-  !*      LoopTools UV parameter restored on exit, audit B5
+  !* [v2] Delta mass inside the loops taken from the main program (baryon.dat);
+  !*      LoopTools UV parameter restored on exit
   REAL*8 dmloop, DeltaIn
   COMMON /v2loopmass/ dmloop
   REAL*8 m1s,m2s,m3s,m4s
@@ -1543,10 +1543,10 @@ SUBROUTINE CorrIsoCovOneDeltaLoop(s,t,mpi2,gafac,A,Delta)
   !* Isospin factor = -2/3
   !*
   !* [v2, 2026-10] The on-shell (p^2=M^2, real photon) subtraction constants of this
-  !* graph are kinematics-independent. v1 evaluated the C-functions at
+  !* graph are kinematics-independent. The 2015 code evaluated the C-functions at
   !* p1p2s = M^2 + 1e-4 (one-sided offset, needed because the LoopTools reduction is
   !* singular at q=0), which leaves an O(1e-4) UV-dependent remainder and violates the
-  !* Thomson limit (A1(0,0) = 1.4e-5, audit B1). They are now obtained from the
+  !* Thomson limit (A1(0,0) = 1.4e-5). They are now obtained from the
   !* symmetric average of p1p2s = M^2 +/- eps (error O(eps^2)) and cached
   !* (SUBROUTINE piD_onshell_consts below), which also saves ~40 LoopTools calls
   !* and two cache flushes per call.
@@ -2138,7 +2138,7 @@ SUBROUTINE CorrIsoCovOneDeltaLoop(s,t,mpi2,gafac,A,Delta)
 
   A=gafac*A
 
-  CALL Setdelta(DeltaIn)                ! [v2] no LoopTools state leak (audit B5)
+  CALL Setdelta(DeltaIn)                ! [v2] no LoopTools state leak
 
 END SUBROUTINE CorrIsoCovOneDeltaLoop
 
@@ -2146,12 +2146,12 @@ END SUBROUTINE CorrIsoCovOneDeltaLoop
 ! [v2, 2026-10] On-shell subtraction constants of the reducible gammaNN-vertex
 ! graphs of CorrIsoCovOneDeltaLoop (graph 4): B- and C-functions at p^2 = M^2
 ! with a real photon. LoopTools' C-reduction is singular for p1p2s = p1s, q^2=0
-! (zero Gram determinant), so v1 used p1p2s = M^2 + 1e-4 (one-sided).  Here the
+! (zero Gram determinant), so the 2015 code used p1p2s = M^2 + 1e-4 (one-sided).  Here the
 ! C-functions are the average over p1p2s = M^2 + eps and M^2 - eps (exact up to
 ! O(eps^2); the functions are analytic there, far below all thresholds).
 ! The results depend only on (mpi2, deltam, Delta, mu) and are cached.
 ! Mode/offset can be changed via COMMON /v2piDos/ (diagnostics only):
-!   iosmode = 0 : symmetric average (default);  1 : one-sided v1 prescription.
+!   iosmode = 0 : symmetric average (default);  1 : one-sided prescription of the 2015 code.
 !=============================================================================
 SUBROUTINE piD_onshell_consts(mpi2,deltam,Delta, &
      Bf00o,Bf001o,DEBf00o,DEBf001o, &

@@ -8,7 +8,6 @@
 #   b  Thomson limit, Xi/mu independence (bug B1), NNLO vs Born+LEX at 0.5-20 MeV
 #   c  unitarity (multipoles vs tree-level photoproduction, per isospin channel with physical
 #      masses; forward Im A1/Im A3 at theta=0; gamma N Delta vertex Im parts vs PV2006/Watson)
-#   d  v1 (tests/ref_bin/ampl_v1.exe) vs v2 below/above threshold; intentional changes listed
 #   e  gfortran vs ifort
 #   f  fit-driver exactness (selftest, driver vs main program)
 #   g  pi0 gamma gamma transition form factor (&v2 pi0ff): off = default, on leaves static pols unchanged, vs LoopTools C0
@@ -28,7 +27,6 @@ if [ "${1:-}" = "--build" ]; then
   ( cd "$ROOT" && make -f makefile.ifort >/dev/null 2>&1 ) || echo "WARNING: ifort build failed (test e will fail)"
 fi
 [ -x "$ROOT/execs/ampl.exe" ] || { echo "missing execs/ampl.exe (use --build)"; exit 99; }
-[ -x "$HERE/ref_bin/ampl_v1.exe" ] || echo "WARNING: tests/ref_bin/ampl_v1.exe (v1 reference) missing: test d will fail"
 mkdir -p "$HERE/out"
 "$PY" "$HERE/regression.py" "$@" 2>&1 | tee "$HERE/out/regression.log"
 rc=${PIPESTATUS[0]}

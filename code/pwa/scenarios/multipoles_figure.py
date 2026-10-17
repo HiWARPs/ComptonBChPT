@@ -257,8 +257,8 @@ def validate(B):
                             max_rel_dcs_J52=float(abs(R.dcs_J52).max()), max_abs_dS3_J52=float(abs(R.ds3_J52).max()),
                             max_rel_dcs_pwa10=float(abs(R.dcs_pwa10).max()), max_abs_dS3_pwa10=float(abs(R.ds3_pwa10).max()),
                             max_rel_dcs_J52_below140=float(abs(R[R.E < 140].dcs_J52).max()))
-    # (3) cross-check with the PWA projection (compton.pw_project) of the helicity amplitudes of the audited v1
-    #     code (results/bchpt_multipoles.csv): v2 pwa_gaga in v1 mode (no vertex corr., one-sided piDelta
+    # (3) cross-check with the PWA projection (compton.pw_project) of the helicity amplitudes of the 2015
+    #     code (results/bchpt_multipoles.csv): pwa_gaga in 2015-code mode (no vertex corr., one-sided piDelta
     #     subtraction, isospin-symmetric masses), pure NNLO amplitude (input = the code's reference values)
     v1opt = "dvertex=f, consts='LMP15', iosmode=1"
     Ec = np.array([30., 59., 89., 109., 135.])
@@ -269,9 +269,9 @@ def validate(B):
     dv = {}
     for k in L1:
         nm = f'f{k[0]}{k[1]}{"p" if k[2] == "+" else "m"}_re'
-        ref_v1 = np.interp(Ec, csv.E_lab.values, csv[nm].values)
-        dv['%s%d%s' % k] = (nbv1[k].real / ref_v1 - 1).tolist()
-    V['v1_projection_crosscheck'] = dict(E=Ec.tolist(), rel_dev=dv, note='v2 pwa_gaga (v1 mode) vs compton.pw_project of v1-copy helicity amplitudes (20-pt endpoint-avoiding Gauss)')
+        ref_2015 = np.interp(Ec, csv.E_lab.values, csv[nm].values)
+        dv['%s%d%s' % k] = (nbv1[k].real / ref_2015 - 1).tolist()
+    V['lmp2015_projection_crosscheck'] = dict(E=Ec.tolist(), rel_dev=dv, note='pwa_gaga (2015-code mode) vs compton.pw_project of the 2015-code helicity amplitudes (20-pt endpoint-avoiding Gauss)')
     # (4) KLP18 parametrisation of the PWA (pwa_model.Model.multipoles_at) with the BChPT static values and
     #     f^R_i = 0  vs the BChPT curve at low energy; BChPT-implied residual functions must stay finite as E -> 0
     st = dict(BV.REF, **BCHPT_FIT)
@@ -504,7 +504,7 @@ def main():
     o = V['observables']
     print('validation (2) dcs/S3 J<=5/2: %.2e / %.2e ; PWA-10: %.2e / %.2e ; J<=5/2 below 140 MeV: %.2e'
           % (o['max_rel_dcs_J52'], o['max_abs_dS3_J52'], o['max_rel_dcs_pwa10'], o['max_abs_dS3_pwa10'], o['max_rel_dcs_J52_below140']))
-    print('validation (3) v1 cross-check rel dev:', {k: [f'{x:.1e}' for x in v] for k, v in V['v1_projection_crosscheck']['rel_dev'].items()})
+    print('validation (3) 2015-code cross-check rel dev:', {k: [f'{x:.1e}' for x in v] for k, v in V['lmp2015_projection_crosscheck']['rel_dev'].items()})
     print('validation (4) param(fR=0) vs BChPT:')
     for k, v in V['param_vs_bchpt_lowE']['values'].items():
         print('   ', k, ' '.join(f'{a:.3f}/{b:.3f}' for a, b in zip(v['param'], v['bchpt'])))

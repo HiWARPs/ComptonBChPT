@@ -8,7 +8,7 @@ two such forms (asymmetries), and the amplitude is linear in the mechanisms and 
     A = sum_i c_i M_i + sum_k d_k C_k ,
     M = (Born, pi0, piN, D1, piD, D0)
         D1 = Delta pole with the gamma-N-Delta vertex corrections (code_v2 dvertex=t; the main amplitude)
-        D0 = Delta pole without them (dvertex=f, = v1),
+        D0 = Delta pole without them (dvertex=f, as in the 2015 code),
     C_k = O(p^4) contact term per unit shift of the k-th dipole polarisability (d = P - Pref).
 Driver runs of every single mechanism and every pair (dvertex=t: 5 + 10 runs; dvertex=f: the D0 single and
 the 4 pairs with D0) give by polarisation the real Gram matrix H (12 x 12) of each form at each point:
@@ -32,7 +32,7 @@ Curves (config.py; C.MAIN selects the main curve):
              C.MAIN = 'fit': alphaE1, betaM1 = NNLO fit, spin polarisabilities = NNLO (Pref)
   fit    : same amplitude at alphaE1, betaM1 of the NNLO fit, spin polarisabilities = NNLO ("NNLO fit" curve,
            thin dashed, no band)
-  noVC   : main with D0 instead of D1 ("without vertex corrections", = v1 amplitude with the v2 masses)
+  noVC   : main with D0 instead of D1 ("without vertex corrections", = the 2015 amplitude with the physical masses)
   trunc  : envelope over X in {piN, piD, VC = D1 - D0, sum} and +- of O(A +- delta(omega_cm) dA_X),
            delta = omega_cm / Lambda_chi; in 'fit' mode the static alphaE1, betaM1 of the loop shifts are removed
            (they are fitted), in 'pred' mode they stay (nothing is fitted)
@@ -119,7 +119,7 @@ class Theory:
         for T in list(R.values()) + ([self.full_run] if self.full_run is not None else []):
             assert np.array_equal(T.ids, self.full.ids)
         # static polarisabilities of the mechanisms: v2 sets Pref = static pols of the mechanisms switched on
-        # (incl. physical-mass shifts); v1 writes the complete NNLO values for every configuration -> header.
+        # (incl. physical-mass shifts); the 2015 code writes the complete NNLO values for every configuration -> header.
         self.static = np.zeros((NB, 6))
         v2pref = not np.allclose(R[frozenset(['piN'])].Pref, self.Pref)
         for b in ('piN', 'D1', 'piD', 'D0'):

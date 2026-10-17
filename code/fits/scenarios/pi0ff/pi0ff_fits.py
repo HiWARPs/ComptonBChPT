@@ -1,5 +1,5 @@
 """pi0ff_fits.py -- impact of the pi0 gamma gamma transition form factor of the proton triangle loop on the pi0-pole
-vertex (work/code_v2, &v2 pi0ff=t, CHANGES.md Sect. F; derivation in work/notes/pi0_formfactor.md) on the fits:
+vertex (work/code_v2, &v2 pi0ff=t, driver/README.md; derivation in work/notes/pi0_formfactor.md) on the fits:
  (1) NNLO fit of the paper's main configuration F2_d_all_thB (main database, forward points as data, truncation
      covariance) and the Baldin fit F1_d_all_thB, with and without pi0ff.  The truncation covariance (scheme B,
      LEC-matched, built from the order-by-order outputs Born+pi0 / NLO / NNLO) is recomputed with pi0ff=t, since the

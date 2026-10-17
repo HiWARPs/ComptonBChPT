@@ -9,7 +9,6 @@ Regression tests for ampl.exe v2 (called by run_regression.sh).
   c  unitarity: piN-loop multipoles vs tree-level photoproduction (isospin-symmetric and per
      channel with physical masses), forward Im A1 / Im A3 vs sigma_tot, sigma_1/2-sigma_3/2,
      gamma N Delta vertex Im parts (Fortran vs 60-digit PV2006, Watson at W = M_Delta)
-  d  v1 vs v2 (driver grid below and above threshold); intentional differences listed
   e  gfortran vs ifort (v2)
   f  driver exactness (selftest, quadratic forms vs main program)
   g  pi0 gamma gamma transition form factor (&v2 pi0ff): pi0ff=f identical to the default, pi0ff=t leaves the
@@ -29,7 +28,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..'))
 EXE = os.path.join(ROOT, 'execs', 'ampl.exe')
 EXE_IF = os.path.join(ROOT, 'execs', 'ampl_ifort.exe')
-EXE_V1 = os.path.join(HERE, 'ref_bin', 'ampl_v1.exe')
 DRV = os.path.join(ROOT, 'driver', 'run_points.sh')
 OUT = os.path.join(HERE, 'out')
 os.makedirs(os.path.join(OUT, 'tmp'), exist_ok=True)
@@ -143,7 +141,7 @@ def test_b():
     c0 = [float(l.split('c0=')[1]) for l in log.split('\n') if 'diag_thomson: mudim' in l]
     spread = max(c0) - min(c0)
     report(bool(spread < 1e-9), 'piDelta loops A1(0,0) independent of Xi and mu (bug B1): spread %.1e over %d settings '
-           '(v1: 4.9e-5); value %.1e (2-point extrapolation, LoopTools noise)' % (spread, len(c0), c0[0]))
+           '(2015 code: 4.9e-5); value %.1e (2-point extrapolation, LoopTools noise)' % (spread, len(c0), c0[0]))
     shutil.rmtree(d, ignore_errors=True)
     # full NNLO vs Born+pi0+contact terms carrying the analytic NNLO polarisabilities
     pts = ''.join('cs_%g_%g %g %g CS\n' % (E, th, E, th) for E in [0.5, 2, 5, 10, 12, 15, 17, 20] for th in [30, 60, 90, 150])
@@ -337,35 +335,7 @@ def cmp(A, B, flags=None):
     return out
 
 
-def test_d():
-    print('(d) v1 vs v2 (CS: relative, asymmetries: absolute differences)')
-    low = grid([20, 40, 60, 80, 100, 120, 140, 145], [0, 10, 30, 60, 90, 120, 150, 170, 180])
-    high = grid([160, 200, 250, 300, 350], [10, 30, 60, 90, 120, 150, 170])
-    v1l = driver(low, exe=EXE_V1); v1h = driver(high, exe=EXE_V1)
-    # v2 with the v1 one-sided subtraction and raw loops: should equal v1 up to LoopTools noise
-    v2l = driver(low, 'v2=iosmode=1,loopsafe=f'); v2h = driver(high, 'dvertex=f', 'v2=iosmode=1,loopsafe=f')
-    v2d = driver(low)
-    # regular points: outside the Gram-singular zones of both versions (v1 flag 0 and v2 flag 0)
-    reg = [x for x in cmp(v1l, v2l) if v1l[x[1]][1] == 0 and v2d[x[1]][1] == 0]
-    mx = max(reg)
-    report(bool(mx[0] < 1e-6), 'below threshold, v2 with v1 subtraction (iosmode=1, loopsafe=f) vs v1, %d regular points: '
-           'max %.1e (%s)' % (len(reg), mx[0], mx[1]))
-    mxh = max(cmp(v1h, v2h))
-    report(bool(mxh[0] < 1e-6), 'above threshold, dvertex=f, iosmode=1, loopsafe=f vs v1: max %.1e (%s)' % mxh[:2])
-    # intentional changes
-    c = cmp(v1l, v2d)
-    regp = [x for x in c if v1l[x[1]][1] == 0 and v2d[x[1]][1] == 0]
-    report(None, 'v2 default vs v1, below threshold, regular points (B1 on-shell subtraction fix): max %.1e (%s)' % max(regp)[:2])
-    fb = [x for x in c if v2d[x[1]][1] != 0 or v1l[x[1]][1] != 0]
-    report(None, 'near 0/180 deg (v1: observable extrapolation, v2: amplitude extrapolation): max %.1e (%s)' % max(fb)[:2])
-    v2v = driver(high)
-    report(None, 'above threshold, v2 default (gamma N Delta vertex corrections on) vs v1: max %.2e (%s)' % max(cmp(v1h, v2v))[:2])
-    # order switch at 3.5 = default
-    o35 = driver(low, 'order=3.5')
-    report(bool(max(cmp(v2d, o35))[0] == 0.0), 'order=3.5 identical to the default')
 
-
-# ------------------------------------------------------------------------------------------- e
 def test_e():
     print('(e) gfortran vs ifort (v2)')
     if not os.path.exists(EXE_IF):

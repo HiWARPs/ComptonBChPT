@@ -13,8 +13,8 @@ Expected agreement: ~1e-7 relative (8 significant digits in the main-program out
 single-precision acos for the lab->c.m. angle), independent of the size of the shifts.
 
 usage: python3 test_quadratic_exactness.py [path/to/ampl.exe] [--hardrefs]
-  --hardrefs : use the v1 hard-coded reference values (needed for v1 executables, whose main
-               program used them); v2 computes the references analytically in both modes.
+  --hardrefs : use the hard-coded reference values of the 2015 code (whose main program used
+               them); the present code computes the references analytically in both modes.
 """
 import os, sys, subprocess, tempfile, shutil
 import numpy as np

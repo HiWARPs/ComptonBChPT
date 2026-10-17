@@ -20,7 +20,7 @@
         USE gauss
         USE trigd
         IMPLICIT NONE       
-        !* [v2] physical constants are variables (default = v1/LMP2015 set); &v2 consts='PDG24'
+        !* [v2] physical constants are variables (default = LMP2015 set); &v2 consts='PDG24'
         !*      switches to PDG-2024 values (see SUBROUTINE set_constants_v2)
         REAL*8 :: smm=0.93827d0 ! protons mass in GeV
        !  REAL*8, PARAMETER :: hbarc=0.197327d0
@@ -34,13 +34,13 @@
         REAL*8 :: e2=1.d0/137.036d0
         REAL*8 :: alphaQED=1.d0/137.036d0
         REAL*8 :: hA=2.85
-        !* [v2] reference (NNLO) polarisabilities: v1 had them hard-coded (audit B4); they are now
+        !* [v2] reference (NNLO) polarisabilities: the 2015 code had them hard-coded; they are now
         !*      computed analytically from the actual constants (SUBROUTINE nnlo_static_pols) for the
         !*      mechanisms actually included (order switch). The old values are kept for printing only.
         REAL*8, PARAMETER :: alphaNNLOv1=11.2461d0,betaNNLOv1=3.87054d0, &
            gamEEv1=-3.34375d0,  gamMMv1=2.95934d0, gamEMv1=0.185504d0, gamMEv1=1.14328d0
         REAL*8 :: alphaNNLOfm,betaNNLOfm,gamEEfmNNLO,gamMMfmNNLO,gamEMfmNNLO,gamMEfmNNLO
-        !* [v2] options (namelist &v2, optional; defaults reproduce v1 apart from bug fixes)
+        !* [v2] options (namelist &v2, optional; defaults reproduce the 2015 code apart from bug fixes)
         !*   order   : 2 (Born, charge only), 3 (+ AMM Born, pi0 pole, piN loops), 3.5 (+ Delta pole, piDelta loops)
         !*   dvertex : Im parts of the gammaNDelta vertex loops (LMP2015 Fig. 4; NLO in the Delta region)
         !*   vxmode  : off-shell continuation of the vertex Im parts: 2 (default) = unitarity/Watson construction
@@ -62,8 +62,8 @@
         CHARACTER(len=8) :: consts='LMP15'
         INTEGER ios_v2
         !*   pimassphys: physical pion masses per isospin channel in the piN loops (pi0 p: m_pi0,
-        !*               pi+ n: m_pi+-); default .false. = v1 (charged mass in all loops)
-        !*   hA      : piNDelta coupling (default 2.85 as in v1; PDG24 refits it to Gamma=117 MeV unless given)
+        !*               pi+ n: m_pi+-); default .false. = 2015 code (charged mass in all loops)
+        !*   hA      : piNDelta coupling (default 2.85 as in LMP2015; PDG24 refits it to Gamma=117 MeV unless given)
         !*   nmassphys : in addition, the neutron mass for the internal nucleon of the pi+ n loops (physical
         !*               pi+ n threshold 151.4 MeV instead of 149.9 MeV); requires pimassphys
         LOGICAL :: pimassphys=.false., nmassphys=.false., hAuser=.false.
@@ -72,7 +72,7 @@
         !*   pi0ff   : pi0 -> gamma gamma transition form factor of the proton triangle loop (Steinberger) on the
         !*             pi0-pole (WZW) vertex: the pointlike vertex is multiplied by F(t) = -2 M^2 C0(0,0,t;M^2,M^2,M^2),
         !*             normalised to F(0) = 1 (anomaly strength at t = 0 kept, only the t dependence is new; the
-        !*             static dipole polarisabilities are unchanged).  FUNCTION pi0_formfactor; default .false. = v1
+        !*             static dipole polarisabilities are unchanged).  FUNCTION pi0_formfactor; default .false. = 2015 code
         !*             (pointlike vertex).  Not applied to the closed-form LEX expressions of LEXobservables.
         LOGICAL :: pi0ff=.false.
         REAL*8 hA_default
@@ -167,7 +167,7 @@
 
         Real, dimension(4) :: plzty_loop,plzty_delta, plzty_wzw
 
-        !* [2026-10 audit] optional fit-driver mode (see driver/README.md).
+        !* [2026-10] optional fit-driver mode (see driver/README.md).
         !* If the namelist &fitdriver is absent from in.dat, nothing changes.
         LOGICAL pointsmode, selftest, staticmode
         CHARACTER(len=256) pointsfile, outfile, ampsfile
@@ -220,7 +220,7 @@
         READ (5,isospin)
         READ (5,scalarPs)
         READ (5,spinPs)
-        !* [2026-10 audit] optional fit-driver namelist (defaults = off)
+        !* [2026-10] optional fit-driver namelist (defaults = off)
         pointsmode=.false.; selftest=.false.; staticmode=.false.
         pointsfile='points.txt'; outfile='points.out'; ampsfile=' '
         !* reference (=NNLO) polarisabilities for the driver; -999 = use the analytic NNLO
@@ -264,7 +264,7 @@
         CALL set_order_v2()
 
 ! set the polarizabilities
-!* [v2] the flag part of the v1 block stays here (before LoopTools is initialised); the numerical
+!* [v2] the flag part of the original block stays here (before LoopTools is initialised); the numerical
 !*      part (references from nnlo_static_pols, LECs) follows after the conversion to nucleon-mass
 !*      units, see SUBROUTINE set_LECs_v2.
 	   If(onlyLEX) then
@@ -306,7 +306,7 @@
         
         pionm2=msq(3)
         pionm=m(3)
-        !* [v2] Delta mass used inside the piDelta loops = pole mass (audit S1), LoopTools
+        !* [v2] Delta mass used inside the piDelta loops = pole mass, LoopTools
         !*      on-shell-offset options, hA for the PDG-2024 set, references and LECs
         dmloop=bary(3)%rm
         epsos_c=epsos; iosmode_c=iosmode
@@ -379,7 +379,7 @@
         CALL angular_points
         CALL ini_gamma
 
-        !* [2026-10 audit] fit-driver / static-polarisability modes; the original
+        !* [2026-10] fit-driver / static-polarisability modes; the original
         !* main loops below are skipped only if one of these modes is requested.
         IF(pointsmode.OR.staticmode.OR.LEN_TRIM(ampsfile).GT.0) THEN
            IF(LEN_TRIM(ampsfile).GT.0) CALL run_amps()
@@ -461,7 +461,7 @@
 
         Eminmem=Emin	
 		Do 777 iscalarPs=1,NscalarPs
-		Do 777 ixscalarPs=-NINT(SPinterval/SPdel),NINT(SPinterval/SPdel)   ! [v2] integer loop (audit B8)
+		Do 777 ixscalarPs=-NINT(SPinterval/SPdel),NINT(SPinterval/SPdel)   ! [v2] integer loop
 		xscalarPs=ixscalarPs*SPdel
 			!Write(*,*) ' xscalarPs =', xscalarPs
 		if(varyscalarPs) then
@@ -488,7 +488,7 @@
 			endif
 		endif		
 
-        DO WHILE (thmin.LE.thmax+1.d-6*dabs(thdel))   ! [v2] tolerance against accumulated rounding (audit S7)
+        DO WHILE (thmin.LE.thmax+1.d-6*dabs(thdel))   ! [v2] tolerance against accumulated rounding
            WRITE(*,*)
            IF(cmsangle) THEN
               WRITE(*,*) '--- THETA = ', thmin
@@ -499,7 +499,7 @@
            ENDIF
         
         Emin=Eminmem
-        DO WHILE (Emin.LE.Emax+1.d-6*dabs(Edel))   ! [v2] tolerance (audit S7)
+        DO WHILE (Emin.LE.Emax+1.d-6*dabs(Edel))   ! [v2] tolerance
            SELECT CASE(kvar)
            CASE(1)
               Tplab = Emin
@@ -536,7 +536,7 @@
               !     /(1.d0+Tglab*(1.d0-dcosd(thetad)) ))/180.d0
 			   costh=1.d0-(1.d0+2.d0*Tglab)*(1.d0-dcos(thLAB)) &
                    /(1.d0+Tglab*(1.d0-dcos(thLAB)) )
-              th=dacos(MAX(-1.d0,MIN(1.d0,costh)))   ! [v2] was acos(real(costh)) (single precision, audit B10)
+              th=dacos(MAX(-1.d0,MIN(1.d0,costh)))   ! [v2] was acos(real(costh)) (single precision)
 			  !write(*,*) 'printout 2', s,thLAB,th,costh,dacos(-1.d0)
               CALL ini_polar(th)
            ELSE
@@ -862,7 +862,7 @@
              A(8)=A(8) - gg/(pi0mass**2-t)
           ENDIF
 
-          !* [v2] covariant loops via loop_amps: identical to v1 away from the Gram-singular
+          !* [v2] covariant loops via loop_amps: identical to the 2015 code away from the Gram-singular
           !*      zones (|t|,|eta| < tausafe) and above elex; see SUBROUTINE loop_amps.
           IF(relchpt) THEN
              IF(oneNloop.OR.oneDloop) THEN
@@ -885,7 +885,7 @@
 
           !* Add the O(p4) LECs contribution (scalar polarizabilities):
 	    !write(*,*) 'LECs = ', calpha,cbeta,cgamEE,cgamEM,cgamME,cgamMM,cgam0,cgampi
-          !* [2026-10 audit] the contact-term formulas were moved verbatim into
+          !* [2026-10] the contact-term formulas were moved verbatim into
           !* SUBROUTINE add_LECs below, so that the fit driver (run_points) uses
           !* exactly the same expressions (single source of truth).
           CALL add_LECs(x,t,A,calpha,cbeta,cgamEM,cgamME,cgamMM,cgam0)
@@ -900,7 +900,7 @@
 
         SUBROUTINE loop_raw(x,t,sel,Al)
           !* [v2] covariant piN (sel=1), piDelta (sel=2) or both (sel=3) one-loop amplitudes,
-          !*      s- plus u-channel, exactly as in v1 computeAs (flags oneNloop/oneDloop respected)
+          !*      s- plus u-channel, exactly as in computeAs of the 2015 code (flags oneNloop/oneDloop respected)
           REAL*8, INTENT(in) :: x,t
           INTEGER, INTENT(in) :: sel
           COMPLEX*16, INTENT(out) :: Al(8)
@@ -921,8 +921,8 @@
         END SUBROUTINE loop_raw
 
         SUBROUTINE loop_amps(x,t,sel,Al,lflag)
-          !* [v2] numerically robust loop amplitudes (audit B2, B3):
-          !*  lflag=0: direct LoopTools evaluation (as v1)
+          !* [v2] numerically robust loop amplitudes:
+          !*  lflag=0: direct LoopTools evaluation (as in the 2015 code)
           !*  lflag=1: |t| < tausafe (forward) or |eta| < tausafe (backward), eta=(M^4-su)/M^2: the box
           !*           reduction is singular (zero Gram determinant) -> cubic Lagrange interpolation in t
           !*           at fixed s from the nodes t (or eta) = tausafe*(-2,-1,1,2) (the A_i are analytic
@@ -982,7 +982,7 @@
         SUBROUTINE add_LECs(x,t,A,ca,cb,cgEM,cgME,cgMM,cg0)
           !* O(p^4) contact (polarizability-LEC) contributions to the
           !* invariant amplitudes A1..A8 (nucleon-mass units, without alpha_em).
-          !* Moved verbatim from computeAs [2026-10 audit]; arithmetic unchanged.
+          !* Moved verbatim from computeAs [2026-10]; arithmetic unchanged.
           !*  ca, cb   : shifts of alpha_E1, beta_M1   (in units alpha_em/M^3)
           !*  cgEM,cgME,cgMM : shifts of gamma_E1M2, gamma_M1E2, gamma_M1M1
           !*  cg0      : shift of gamma_0 = -(gEE+gEM+gME+gMM)  (units alpha_em/M^4)
@@ -1033,7 +1033,7 @@
         END FUNCTION pi0_formfactor
 
 !!=========================================================================
-!!  [2026-10 audit]  FIT-DRIVER SUPPORT ROUTINES
+!!  [2026-10]  FIT-DRIVER SUPPORT ROUTINES
 !!  run_points : reads a list of kinematic points, writes for every point the
 !!               observable as an exact quadratic form in the shifts of the six
 !!               dipole polarisabilities (see driver/README.md)
@@ -1280,7 +1280,7 @@
           calpha=0.d0; cbeta=0.d0; cgamEE=0.d0; cgamEM=0.d0
           cgamME=0.d0; cgamMM=0.d0; cgam0=0.d0; cgampi=0.d0
           Abase=(0.d0,0.d0)
-          CALL setdelta(0.d0)   ! deterministic LoopTools state (see audit, LoopTools Delta)
+          CALL setdelta(0.d0)   ! deterministic LoopTools state (LoopTools Delta)
           CALL computeAs(xx,rt,Abase)
           CALL hel_from_A(th,alphaQED*Abase,Mh(:,:,:,:,0))
           DO k=1,NPAR
@@ -1360,7 +1360,7 @@
           !* Fit driver: see driver/README.md for the file formats.
           IMPLICIT NONE
           INTEGER, PARAMETER :: NPAR=6, NQ=28
-          !* [v2] the Gram-determinant safeguard of v1 (extrapolation of the observable coefficients
+          !* [v2] the Gram-determinant safeguard of the 2015 code (extrapolation of the observable coefficients
           !*      in t) is replaced by the amplitude-level treatment in SUBROUTINE loop_amps.
           CHARACTER(len=512) line
           CHARACTER(len=64) pid
@@ -1412,12 +1412,12 @@
           WRITE(92,'(a,6(1x,f12.6))') '#     piN loops    :',Pcmp(:,1)
           WRITE(92,'(a,6(1x,f12.6))') '#     Delta pole   :',Pcmp(:,2)
           WRITE(92,'(a,6(1x,f12.6))') '#     piDelta loops:',Pcmp(:,3)
-          WRITE(92,'(a,6(1x,f12.6))') '#   v1 hard-coded references (unused):',Phard
+          WRITE(92,'(a,6(1x,f12.6))') '#   hard-coded references of the 2015 code (unused):',Phard
           WRITE(92,'(a,6(1x,f12.6))') '# Puser =',Puser
           IF(.NOT.proton) THEN
              WRITE(92,'(a)') '# WARNING: proton=f: Born/anomaly use neutron charges, but the piN loops (CovOneLoop) are'
              WRITE(92,'(a)') '#          proton-only and Pref are proton values -> neutron results are NOT correct NNLO.'
-             WRITE(*,*) 'run_points: WARNING proton=f is not a complete neutron calculation (see audit)'
+             WRITE(*,*) 'run_points: WARNING proton=f is not a complete neutron calculation'
           ENDIF
           IF(order.LT.3.25d0) THEN
              WRITE(92,'(a,f4.1,a)') '# order-by-order mode: base amplitude = O(p^',order, &
@@ -1477,12 +1477,12 @@
                 CYCLE
              ENDIF
              IF(Elab.LT.elex.AND..NOT.loopsafe) WRITE(*,'(a,a,a,f8.3,a)') ' run_points: WARNING point ',TRIM(pid), &
-                  ': E_lab=',Elab,' MeV < elex with loopsafe=f: loop integrals numerically unreliable (see audit)'
+                  ': E_lab=',Elab,' MeV < elex with loopsafe=f: loop integrals numerically unreliable'
              !* target kinematics
              CALL set_kinematics(Elab,thdeg,labframe)
              thl_out=thLAB*180.d0/PI; thc_out=th*180.d0/PI
              !* [v2] near 0/180 deg and at low energy the loop amplitudes themselves are evaluated
-             !*      robustly (SUBROUTINE loop_amps); v1 extrapolated the observable coefficients here
+             !*      robustly (SUBROUTINE loop_amps); the 2015 code extrapolated the observable coefficients here
              CALL point_coeffs(Elab,thdeg,labframe,obs,dpar,cn,cd,vdir,selftest)
              iflag=lflag_last
              IF(iflag.NE.0) nextrap=nextrap+1
@@ -1521,7 +1521,7 @@
 !!  [v2, 2026-10] options: constants, order switch, references/LECs
 !!=========================================================================
         SUBROUTINE set_constants_v2()
-          !* consts='LMP15' (default): LMP2015 Table 2 values as used in v1 (alpha_em=1/137.036).
+          !* consts='LMP15' (default): LMP2015 Table 2 values (alpha_em=1/137.036).
           !* consts='PDG24': PDG 2024 / CODATA 2022 values. Called before the conversion to
           !* nucleon-mass units, so masses/fpi are set in GeV. hA is refitted to Gamma_Delta=117 MeV
           !* later (set_hA_from_width), gM, gE are kept (pion-photoproduction fit of PV 2006).
@@ -1567,7 +1567,7 @@
           !* Order switch (LMP2015 Table 1, low-energy counting):
           !*  order=2   : O(p^2)     nucleon Born graphs with charge couplings only (kappa=0)
           !*  order=3   : O(p^3)     + anomalous magnetic moments in the Born graphs, pi0 (WZW) pole, piN loops
-          !*  order=3.5 : O(p^7/2)   + Delta pole (s+u) and piDelta loops  (= v1; the flags of in.dat are used)
+          !*  order=3.5 : O(p^7/2)   + Delta pole (s+u) and piDelta loops  (= the 2015 code; the flags of in.dat are used)
           IF(order.LT.1.99d0.OR.order.GT.3.51d0) THEN
              WRITE(*,*) 'ERROR: &v2 order must be 2, 3 or 3.5; got ',order
              STOP
@@ -1616,7 +1616,7 @@
         END SUBROUTINE ref_pols_v2
 
         SUBROUTINE set_LECs_v2()
-          !* numerical part of the v1 polarisability block, with references computed analytically
+          !* numerical part of the original polarisability block, with references computed analytically
           REAL*8 Pr(6)
           LOGICAL complete
 	      inv_nmass_2fm=(1.d0/smm)*hbarc
@@ -1625,7 +1625,7 @@
           alphaNNLOfm=Pr(1); betaNNLOfm=Pr(2)
           gamEEfmNNLO=Pr(3); gamMMfmNNLO=Pr(4); gamEMfmNNLO=Pr(5); gamMEfmNNLO=Pr(6)
           WRITE(*,'(a,6f10.5)') ' [v2] reference polarisabilities (aE1,bM1,gE1E1,gM1M1,gE1M2,gM1E2):',Pr
-          WRITE(*,'(a,6f10.5)') ' [v2]   v1 hard-coded values                                  :', &
+          WRITE(*,'(a,6f10.5)') ' [v2]   hard-coded values of the 2015 code                      :', &
                alphaNNLOv1,betaNNLOv1,gamEEv1,gamMMv1,gamEMv1,gamMEv1
 	      alphaE1= alphaE1fm*polza2LECs
           betaM1= betaM1fm*polza2LECs
@@ -1650,7 +1650,7 @@
                .and.oneNloop.and.oneDloop.and.relchpt.and.nuclamm
           lec_active=.false.
           IF(onlyLEX) THEN
-             !* [v2] v1 zeroed these again in the completeness check below (onlyLEX switches the
+             !* [v2] the 2015 code zeroed these again in the completeness check below (onlyLEX switches the
              !*      Delta and the loops off), i.e. onlyLEX ignored the input polarisabilities
              calpha=alphaE1; cbeta=betaM1; cgamEE=gamEE; cgamEM=gamEM
              cgamME=gamME; cgamMM=gamMM; cgam0=gam0; cgampi=gampi
@@ -1680,11 +1680,11 @@
           IF(.NOT.proton) THEN
              WRITE(*,*) '[v2] WARNING proton=f: Born and pi0 pole use neutron charges, but the piN loops are'
              WRITE(*,*) '     proton-only (no isospin argument in CovOneLoop) and the references are proton'
-             WRITE(*,*) '     values: this is NOT a neutron calculation (audit B6, CHANGES.md).'
+             WRITE(*,*) '     values: this is NOT a neutron calculation.'
           ENDIF
           IF(.NOT.relchpt) THEN
              WRITE(*,*) '[v2] WARNING relchpt=f (heavy-baryon branch): legacy code, loop integrals vanish above'
-             WRITE(*,*) '     the pion threshold (Loops.f90 uses an unset np), no LECs (audit B9).'
+             WRITE(*,*) '     the pion threshold (Loops.f90 uses an unset np), no LECs.'
           ENDIF
         END SUBROUTINE set_LECs_v2
 
@@ -2355,7 +2355,7 @@
 				write(395,103) alphaE1/polza2LECs,(zLAB**2*SI_PERP-SI_PAR),zLAB**2*(SI_PERP+SI_PERP_LEX2)-SI_PAR-SI_PAR_LEX2
 			CASE(2)
 			    write(360,103) betaM1/polza2LECs,Sigma3Born,Sigma3Born+Sigma3LEX2 !,Sigma3Born+Sigma3LEX2+Sigma3LEX4
-				write(335,103) betaM1/polza2LECs, RTOT,0.5*(SI_PERP+SI_PAR+SI_PERP_LEX2+SI_PAR_LEX2)   ! [v2] was unit 325 (audit B8)
+				write(335,103) betaM1/polza2LECs, RTOT,0.5*(SI_PERP+SI_PAR+SI_PERP_LEX2+SI_PAR_LEX2)   ! [v2] was unit 325
 				write(385,103) betaM1/polza2LECs,(SI_PERP-SI_PAR),SI_PERP-SI_PAR+SI_PERP_LEX2-SI_PAR_LEX2
 				write(405,103) betaM1/polza2LECs,(zLAB**2*SI_PERP-SI_PAR),zLAB**2*(SI_PERP+SI_PERP_LEX2)-SI_PAR-SI_PAR_LEX2
 		  	END SELECT
@@ -2441,7 +2441,7 @@
           RTOT=RTOT*SCALE
           !RTOT_ERR=dsqrt(RTOT_ERR)*SCALE
           zLAB=dcos(thLAB)
-          !* [v2] (1+z)^2 -> (1+z^2)^2: dsigma/dalpha ~ (1+z^2), dsigma/dbeta ~ 2z (audit B7)
+          !* [v2] (1+z)^2 -> (1+z^2)^2: dsigma/dalpha ~ (1+z^2), dsigma/dbeta ~ 2z
           RTOT_ERR=4.d0*SCALE*(alphaQED**2) *omega*omegap *dsqrt( (1.d0+zLAB**2)**2+(2.d0*zLAB)**2 )
           RPOL_ERR=8.d0*SCALE*(alphaQED**2) *omega*omegap *dsin(thLAB)**2
           RBETA_ERR=8.d0*SCALE*(alphaQED**2) *omega*omegap *dsin(thLAB)**2*dabs(zLAB)

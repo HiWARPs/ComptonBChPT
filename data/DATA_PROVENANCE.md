@@ -91,5 +91,8 @@ excluded from the main database (`MAIN_DROP` in `code/fits/lib/common.py`); it i
 
 Wolf et al., Eur. Phys. J. A 12, 231 (2001) and Galler et al., Phys. Lett. B 503, 245 (2001) (LARA); the pilot beam
 asymmetry of Sokhoyan et al., Eur. Phys. J. A 53, 14 (2017); DeWire et al., Phys. Rev. 124, 909 (1961); the
-superseded LEGS 1996 release; the Baranov et al. 2001 compilation.  Details in `code/data/db_old_README.md`, Sec. 4,
+superseded LEGS 1996 release; the Baranov et al. 2001 compilation.  Of these, the LARA cross sections of Fig. 4 of Galler
+et al. (75°, 90°, 125° c.m.) and the angular distributions of Fig. 14 of Wolf et al. (385.8–454.9 MeV) have been recovered
+from the vector graphics of the published figures (`code/data/db_lara_digitized.csv`, `code/data/db_lara_wolf2001_angdist.csv`;
+scripts in `code/data/scripts/`); they are used for plotting only.  Details in `code/data/db_old_README.md`, Sec. 4,
 and `code/data/db_new_README.md`, Sec. 2.

@@ -173,11 +173,11 @@ The model follows KLP18 Eq. (nonBorn_multipoles_expansion).
 | Born+π⁰ and BχPT dσ/dΩ_lab vs curves digitised from PLB Fig. 5 (all 11 bins) | ≤ 1e-4 (≤ 3e-3 for BχPT at forward angles, 127–135 MeV); the panel labelled "149 MeV" is computed at 150 MeV |
 
 **Issues found in the Fortran code.**
-* **Loop amplitudes near 0° and 180°.** The NNLO loop amplitudes (πN and πΔ) are numerically unstable within about 2–3° of θ_cm = 0° (πN) and 180° (both). Values blow up by up to 1e9×. The code audit (`notes/code_audit.md`, B2) found the same.
+* **Loop amplitudes near 0° and 180°.** The NNLO loop amplitudes (πN and πΔ) are numerically unstable within about 2–3° of θ_cm = 0° (πN) and 180° (both). Values blow up by up to 1e9×. The check of the 2015 code found the same.
 * **Consequences.** Partial-wave projections must use endpoint-avoiding quadrature, and the BχPT dσ/dΩ at 180° (Zieger) must be taken from the resummed partial waves (done).
 * **`onlyLEX=t` does not work in the main program and `components_As`.** The NNLO-completeness check that follows the onlyLEX block zeroes all LEC shifts, so onlyLEX returns pure Born+π⁰. The fit driver `run_points` is not affected. LEX tests were therefore done with the full NNLO run and shifted polarisabilities.
 
-**Fortran usage.** My copy is `work/pwa/fortran/` (`work/code` and `SRC_MOD` were not modified). One addition: `run_helpoints` (namelist `&fitdriver helmode=t`) dumps the c.m. helicity amplitudes per mechanism. The interface is `fortran_runner.py`, with results cached.
+**Fortran usage.** My copy is `work/pwa/fortran/` (a copy of the 2015 code used for the validation; the original is not modified). One addition: `run_helpoints` (namelist `&fitdriver helmode=t`) dumps the c.m. helicity amplitudes per mechanism. The interface is `fortran_runner.py`, with results cached.
 
 ---
 
@@ -810,7 +810,7 @@ The "method" uncertainty quoted in the paper (±1.0 on α−β, ±0.5 on β, ±0
 variants `w30`, `bchptctr`, `l2zero`, `gEMfree`, `binsB`, `binmode`, `A2beamtimes` and `fwd_uncorr` in
 `main_fits_legacynorm.json` (0.98, 0.49, 0.51). Figures `paper/figs/pwa_{pulls,forward}.pdf` come from
 `scenarios/make_figures_legacynorm.py`; `paper/figs/fig_multipoles.pdf` from `scenarios/multipoles_figure.py`
-(see `paper/figs/collect_figs.sh`). The main fit was re-run on 2026-10-14 (audit) and is bit-identical.
+(see `paper/figs/collect_figs.sh`). The main fit was re-run on 2026-10-14 (check) and is bit-identical.
 
 **Main database (2026-10-14, later; `work/notes/pwa_mainfit_switch.md`).** By decision of the author both analyses
 now use the same main database: all data at E ≤ 150 MeV **minus the single 3σ outlier TAPS 108.42 MeV/133°**

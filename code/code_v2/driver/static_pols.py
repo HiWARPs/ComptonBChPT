@@ -83,8 +83,8 @@ def main(fn):
         for nm in ['piN loops', 'Delta pole', 'piDelta loops', 'TOTAL']:
             v = ana[nm]; g0 = -(v[2]+v[3]+v[4]+v[5]); gp = v[3]+v[5]-v[2]-v[4]
             print('%-15s %9.4f %9.4f %9.4f %9.4f %9.4f %9.4f %9.4f %9.4f' % (nm, *v, g0, gp))
-        print('NOTE: v1 executables: alphaE1(piDelta) from the amplitude is biased by ~+0.03 by the Thomson-limit')
-        print('      violation of the piDelta loops (one-sided p^2=M^2+1e-4 subtraction); fixed in v2.')
+        print('NOTE: the 2015 code: alphaE1(piDelta) from the amplitude is biased by ~+0.03 by the Thomson-limit')
+        print('      violation of the piDelta loops (one-sided p^2=M^2+1e-4 subtraction); fixed here.')
     except Exception as e:
         print('analytic comparison skipped:', e)
     p,_,_ = res['anomaly']

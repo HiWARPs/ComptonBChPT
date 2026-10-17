@@ -1,6 +1,6 @@
 """pi0ff_multipoles.py -- shift of the dynamical dipole polarisabilities (l = 1 non-Born multipoles of the paper's
 Fig. 'multipoles') caused by the pi0 gamma gamma transition form factor of the proton triangle loop on the pi0-pole
-vertex (work/code_v2 &v2 pi0ff=t, CHANGES.md Sect. F; work/notes/pi0_formfactor.md).
+vertex (work/code_v2 &v2 pi0ff=t, driver/README.md; work/notes/pi0_formfactor.md).
 
 Projection: bv2mult.py (copy of work/pwa/scenarios/bchpt_v2_multipoles.py: main program &multipoles pwa=t, J <= 5/2,
 16-point Gauss rule, printed multipoles -> fm).  Conventions of the paper figure (work/pwa/make_figures.DYN):

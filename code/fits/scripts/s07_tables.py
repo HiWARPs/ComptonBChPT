@@ -273,7 +273,7 @@ for kind in ['F2', 'F1']:
     labs = ['NNLO (reference) + trunc.', 'NLO amplitude + δα,δβ + trunc.', 'NLO + δα,δβ, spin pols matched to NNLO + trunc.',
             'NNLO without πΔ loops (static pols matched) + trunc.', 'gM = 2.87 + trunc.', 'gM = 3.07 + trunc.', 'gA = 1.2754 + trunc.',
             'fπ = 92.07 MeV + trunc.', PDGL + ' + trunc.', 'hA = 2.84 + trunc.', 'hA = 2.91 + trunc.',
-            'single (charged) pion mass in loops (v1 physics) + trunc.', 'spin pols = Paudyal 2020 + trunc.', 'spin pols = MRPP 2022 + trunc.',
+            'single (charged) pion mass in loops (as in the 2015 code) + trunc.', 'spin pols = Paudyal 2020 + trunc.', 'spin pols = MRPP 2022 + trunc.',
             'NNLO (no trunc.)', 'NLO + δα,δβ', 'NLO, spin matched', 'NNLO w/o πΔ loops', 'gM = 2.87', 'gM = 3.07', PDGL,
             'hA = 2.84', 'hA = 2.91', 'single pion mass', 'spin = Paudyal 2020', 'spin = MRPP 2022']
     table('Order-by-order fits, parameter and spin-polarisability variations (%s)' % kind, [n % kind for n in names], labs,

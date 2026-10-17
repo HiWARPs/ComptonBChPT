@@ -2,7 +2,6 @@
 bchpt.py -- thin, executable-agnostic interface to the NNLO BChPT Compton code (ampl.exe, fit-driver mode).
 
 * Profiles (environment variable FIT_PROFILE, default 'v2'):
-    v1 : work/code/execs/ampl.exe (audited v1), no &v2 namelist;
     v2 : work/code_v2/execs/ampl.exe with the MAIN v2 settings: gamma-N-Delta vertex corrections (dvertex=t),
          physical masses in the piN loops (pimassphys=t, nmassphys=t), LMP2015 constants (consts='LMP15').
   The executable can still be overridden with AMPL_EXE.
@@ -30,7 +29,7 @@ WORK = os.path.dirname(FITS)
 _AMPL = os.path.join(os.path.dirname(WORK), 'amplitudes')
 CACHE = os.environ.get('BCHPT_CACHE') or (_AMPL if os.path.isdir(_AMPL) else os.path.join(FITS, 'cache'))
 PROFILE = os.environ.get('FIT_PROFILE', 'v2')
-EXES = {'v1': os.path.join(WORK, 'code', 'execs', 'ampl.exe'), 'v2': os.path.join(WORK, 'code_v2', 'execs', 'ampl.exe')}
+EXES = {'v2': os.path.join(WORK, 'code_v2', 'execs', 'ampl.exe')}
 DEFAULT_EXE = EXES[PROFILE]
 
 PNAMES = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2']
@@ -64,7 +63,7 @@ BASE = dict(born=True, nuclamm=True, anomaly=True, oneNloop=True, oneDloop=True,
             gM=2.97, gE=-1.0, gA=1.27, fpi=0.09221, pi0mass=0.13498, pionm=0.13957, refs=None, Puser=None,
             # v2 namelist &v2 (None = not written)
             order=None, consts=None, dvertex=None, drunning=None, hA=None, v2x=None)   # drunning: bool or irun 0/1/2/3
-PROFILE_BASE = {'v1': {}, 'v2': dict(dvertex=True, consts='LMP15', v2x='pimassphys=t,nmassphys=t')}
+PROFILE_BASE = {'v2': dict(dvertex=True, consts='LMP15', v2x='pimassphys=t,nmassphys=t')}
 
 CONFIGS = {
     'NNLO': {},
@@ -89,7 +88,7 @@ if PROFILE == 'v2':
         'PDGconst': dict(consts='PDG24'), 'PDG24': dict(consts='PDG24'),
         'hA2.84': dict(hA=2.84), 'hA2.91': dict(hA=2.91),
         'novtx': dict(dvertex=False),              # without gamma-N-Delta vertex corrections
-        'singlemass': dict(v2x=''),                # one (charged) pion mass in the loops (v1 physics)
+        'singlemass': dict(v2x=''),                # one (charged) pion mass in the loops (as in the 2015 code)
         'pi0only': dict(v2x='pimassphys=t'),
         'v1equiv': dict(dvertex=False, v2x='iosmode=1,loopsafe=f'),
         'LO_flags': dict(nuclamm=False, anomaly=False, oneNloop=False, oneDloop=False, delta_pole=False),

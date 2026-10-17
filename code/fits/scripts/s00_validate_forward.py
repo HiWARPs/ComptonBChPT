@@ -21,8 +21,8 @@ AL, M, KAP, HBARC = 1 / 137.036, 938.27, 1.793, 197.33       # code constants (a
 EF = [50, 60, 70, 79, 90, 100, 110, 120, 130, 135, 145, 150]
 lines = ['# Validation of the theta = 0 evaluation (profile %s, executable %s)' % (PROFILE, bchpt.exe_path()), '',
          ('v2: theta = 0 is evaluated by extrapolating the LOOP AMPLITUDES A_i(s,t) (cubic in t at fixed s, nodes on the physical '
-          'side) into the Gram-singular zone (flag 1); v1: the observable itself was extrapolated in t by the driver.') if PROFILE == 'v2'
-         else 'v1: the driver extrapolates the observable (quadratic-form coefficients) cubically in t (flag 1).', '']
+          'side) into the Gram-singular zone (flag 1); the 2015 code extrapolated the observable itself in t.') if PROFILE == 'v2'
+         else '2015 code: the driver extrapolates the observable (quadratic-form coefficients) cubically in t (flag 1).', '']
 
 # (1) Born
 pts = [('b_%d_%s' % (E, o), E, 0.0, o, 'LAB') for E in EF for o in ['CS', 'S2Z']]
@@ -50,7 +50,7 @@ for E in EF:
             pts.append(('s_%d_%s_%d' % (E, o, th), E, th, o, 'LAB'))
 T = bchpt.run(pts, 'NNLO', name='val_fwd_nnlo')
 Ptests = {'NNLO': PREF_NNLO, 'shifted': PREF_NNLO + np.array([2.0, -2.0, 1.5, -1.5, 1.0, 1.0])}
-lines += ['## (2) NNLO at theta = 0: driver value (%s) vs independent' % ('loop amplitudes extrapolated in t at fixed s, v2' if PROFILE == 'v2' else 'observable extrapolated cubically in t from |t| = (1.5..5)x5e-5 M^2, v1'),
+lines += ['## (2) NNLO at theta = 0: driver value (%s) vs independent' % ('loop amplitudes extrapolated in t at fixed s, v2' if PROFILE == 'v2' else 'observable extrapolated cubically in t from |t| = (1.5..5)x5e-5 M^2, 2015 code'),
           'polynomial (degree 3) extrapolation in t of the 8 smallest directly evaluated (flag-0) angles between 7 and 40 deg', '',
           '| E [MeV] | P | CS driver | CS poly | rel. diff | S2z driver | S2z poly | diff | flags of direct pts |',
           '|---|---|---|---|---|---|---|---|---|']
@@ -78,8 +78,8 @@ for E in EF:
 lines += ['', 'E <= 145 MeV: max |rel. diff| CS: NNLO %.1e, shifted %.1e;  max |diff| S2z: NNLO %.1e, shifted %.1e' %
           (mx['NNLO'][0], mx['shifted'][0], mx['NNLO'][1], mx['shifted'][1]),
           'GHP data errors: CS 0.8-1.2 %, S2z 0.007-0.011, i.e. two orders of magnitude above these differences for E <= 145 MeV.', ''] + (
-          ['v1 note: at 150 MeV (the single-mass loop threshold 149.95 MeV) the t dependence is non-analytic; 145/150 MeV unusable.']
-          if PROFILE == 'v1' else
+          ['2015-code note: at 150 MeV (the single-mass loop threshold 149.95 MeV) the t dependence is non-analytic; 145/150 MeV unusable.']
+          if PROFILE != 'v2' else
           ['v2 (physical masses): cusps at 144.7 (pi0 p) and 151.4 MeV (pi+ n); 150 MeV lies 1.4 MeV below the pi+ n threshold, where the',
            'small-angle polynomial is less reliable (steep t dependence close to threshold); the loop-amplitude extrapolation is exact to ~1e-5.']) + ['']
 # (3) NNLO prediction at theta = 0 vs GHP points

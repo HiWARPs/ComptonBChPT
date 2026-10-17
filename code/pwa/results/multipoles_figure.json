@@ -23259,7 +23259,7 @@
    "max_abs_dS3_pwa10": 0.0040468556296818226,
    "max_rel_dcs_J52_below140": 0.0005352791808328483
   },
-  "v1_projection_crosscheck": {
+  "lmp2015_projection_crosscheck": {
    "E": [
     30.0,
     59.0,
@@ -23311,7 +23311,7 @@
      2.599719556517499e-06
     ]
    },
-   "note": "v2 pwa_gaga (v1 mode) vs compton.pw_project of v1-copy helicity amplitudes (20-pt endpoint-avoiding Gauss)"
+   "note": "pwa_gaga (2015-code mode) vs compton.pw_project of the 2015-code helicity amplitudes (20-pt endpoint-avoiding Gauss)"
   },
   "param_vs_bchpt_lowE": {
    "E": [

@@ -18,7 +18,7 @@
 #     ref="refalphaE1=..,refbetaM1=..,..."  override the reference values (default: analytic NNLO)
 #     exe=PATH      executable (default ../execs/ampl.exe relative to this script)
 #     keep=1        keep the temporary run directory
-#   [v2] options (namelist &v2 of ampl.exe; defaults reproduce v1 apart from the bug fixes):
+#   [v2] options (namelist &v2 of ampl.exe; defaults reproduce the 2015 code apart from the bug fixes):
 #     order=2|3|3.5 chiral order of the base amplitude (LMP2015 Table 1): 2 = Born (charges only),
 #                   3 = + AMM, pi0 pole, piN loops, 3.5 = + Delta pole, piDelta loops (NNLO, default)
 #     dvertex=t|f   Im parts of the gamma-N-Delta vertex loops (NLO in the Delta region, LMP2015 Fig. 4)
@@ -60,7 +60,7 @@ sed -e "s/@ALPHA@/$ALPHA/" -e "s/@BETA@/$BETA/" -e "s/@GEE@/$GEE/" -e "s/@GMM@/$
     -e "s/@GEM@/$GEM/" -e "s/@GME@/$GME/" -e "s/@SELFTEST@/$SELFTEST/" -e "s/@ONLYLEX@/$ONLYLEX/" \
     -e "s/@REFS@/$REFS/" -e "s/@ORDER@/$ORDER/" -e "s/@DVERTEX@/$DVERTEX/" -e "s/@DRUNNING@/$DRUNNING/" \
     -e "s/@CONSTS@/$CONSTS/" -e "s/@V2X@/$V2X/" "$HERE/in_driver.template" > "$WORK/in.dat"
-# (v1 executables simply ignore the trailing &v2 group)
+# (executables without the &v2 namelist simply ignore the trailing group)
 t0=$(date +%s.%N 2>/dev/null || date +%s)
 ( cd "$WORK" && "$EXE" > run.log 2>&1 ) || { echo "ampl.exe failed, see $WORK/run.log" >&2; exit 1; }
 t1=$(date +%s.%N 2>/dev/null || date +%s)

@@ -10,7 +10,7 @@ Environment (all optional; one command regenerates everything: work/delta_plots/
   DP_V2OPTS       entries of the &v2 namelist of code_v2 (default 'pimassphys=t, nmassphys=t');
                   dvertex is set by the pipeline itself: dvertex=t for the main curves, dvertex=f for the
                   "without vertex corrections" curve and the delta x (Delta-pole corrections) shift.
-                  A v1 executable ignores the &v2 group (then both coincide and are not drawn/used).
+                  An executable without the &v2 namelist ignores the group (then both coincide and are not drawn/used).
   DP_EXTRA        the extra dotted curve of the figures: 'none' (default since 2026-10-17 pm; 'run3' was the default on
                   2026-10-17 am) = no extra curve; 'run3' = the NNLO prediction with the
                   running gammaNDelta couplings and Delta mass of code_v2 (&v2 irun=3: dispersion relations doubly
@@ -54,7 +54,7 @@ V2OPTS = os.environ.get('DP_V2OPTS', 'pimassphys=t, nmassphys=t')
 
 def v2opts(dvertex, irun=None):
     """&v2 entries with the vertex-correction switch set explicitly.  irun (0-3) overrides any irun/drunning entry of
-    DP_V2OPTS (the running of the Delta parameters, code_v2 CHANGES.md Sect. G); irun=None leaves DP_V2OPTS as given,
+    DP_V2OPTS (the running of the Delta parameters, code_v2 driver/README.md); irun=None leaves DP_V2OPTS as given,
     i.e. the default amplitude (no running) unless the environment says otherwise (chi2_running.py)."""
     items = [x.strip() for x in V2OPTS.split(',') if x.strip() and not x.strip().lower().startswith('dvertex')]
     if irun is not None:
@@ -92,7 +92,7 @@ assert MAIN in ('pred', 'fit'), 'DP_MAIN must be pred or fit'
 # NNLO fit: alpha, beta (and their covariance) of work/fits/results/fits_L.json 'F2_d_all_thB' (fit_report
 # Sect. 0/4.1, F2 + truncation covariance): alpha = 11.59(47), beta = 2.94(43), rho = -0.83.  The file is read by
 # default when present (DP_FITS_JSON overrides the path, DP_FIT_KEY the key); the DP_ALPHA/DP_BETA/DP_COV_AB
-# values (v1-era defaults 11.69, 2.88) are used only when no file is found -- a warning is printed in that case.
+# values (fallback values 11.69, 2.88) are used only when no file is found -- a warning is printed in that case.
 ALPHA_FIT = float(os.environ.get('DP_ALPHA', 11.69))
 BETA_FIT = float(os.environ.get('DP_BETA', 2.88))
 _c = _vec('DP_COV_AB', [0.2206, -0.1688, 0.1880])
