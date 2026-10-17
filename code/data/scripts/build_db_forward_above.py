@@ -2,10 +2,9 @@
 """Build db_forward_obs_above.csv: the empirical forward Compton observables ABOVE the pion-production threshold, from the
 Supplemental Material of Gryniuk, Hagelstein, Pascalutsa, PRD 94 (2016) 034043 [Gryniuk:2016gnm] (ten text files, format
 "X  Y  dY" with X = nu in GeV; downloaded with the user's permission on 2026-10-17 into work/data/raw/GHP2016_supplement/;
-ds_2.txt, f_1.txt, f_2.txt there are copies from the supplement of PRD 92 (2015) 074031 provided by the user, without errors):
+all ten files provided by the user from the APS supplement pages of papers I and II; the paper-I files have no error column):
   ds_1.txt, ds_2.txt           unpolarised forward cross section dsigma/dOmega_lab(0) [nb/sr] for the two photoabsorption fits
-  Sigma2z_ds_1.txt, _2.txt     'polarised forward CS cross section' (Sigma_2z(0) itself, or Sigma_2z * dsigma -- detected by
-                               the magnitude: |Y| <= 1 everywhere -> asymmetry)
+  Sigma2z_ds_1.txt, _2.txt     polarised forward cross section -2 Re(f g*) [nb/sr] for the two fits (-> Sigma_2z(0) = ratio to ds_n)
   f_1.txt, f_2.txt, g.txt, cs_abs_1/2.txt, heldiffcs_abs.txt   amplitudes and photoabsorption cross sections (not needed here)
 Like the below-threshold forward points (build_db_forward.py), the value is the MEAN of fits I and II with half their
 difference added in quadrature to the mean quoted error; with only one fit available the file is marked 'fitI only'.
@@ -89,23 +88,26 @@ if ds1 or ds2:
         rows.append(dict(obs='CS', E_lab_MeV=k, E_panel=E, theta_lab_deg=0.0, value=round(y, 4), stat_err=round(e, 4), units='nb/sr', frame='lab',
                          source=src, notes='dsigma/dOmega_lab(0) = |f|^2 + |g|^2 above threshold; ' + note + '; PLOTTING ONLY'))
 if s1 or s2:
-    # asymmetry or asymmetry * cross section?
-    d = s1 or s2
-    is_asym = all(abs(v[0]) <= 1.0 + 1e-9 for v in d.values())
+    # the 2016 files Sigma2z_ds_1/2.txt tabulate the polarised forward cross section -2 Re(f g*) [nb/sr] (header checked);
+    # Sigma_2z(0) = (-2 Re f g*)/(|f|^2 + |g|^2) is formed PER FIT and then the two fits are combined as for the cross section.
+    def ratio(sd, dd):
+        if not (sd and dd):
+            return None
+        out = {}
+        for k, (y, e) in sd.items():
+            if k in dd and dd[k][0] > 0:
+                yd, ed = dd[k]
+                r = y / yd
+                out[k] = (r, abs(r) * math.sqrt((e / y) ** 2 + (ed / yd) ** 2) if y != 0 else e / yd)
+        return out
+    r1, r2 = ratio(s1, ds1), ratio(s2, ds2)
     for E in sorted(set(S2Z_BINS + COARSE)):
-        c = combine(s1, s2, E)
+        c = combine(r1, r2, E)
         if c is None:
             continue
         k, y, e, note = c
-        if not is_asym:
-            cds = combine(ds1, ds2, E)
-            if cds is None:
-                continue
-            _, yd, ed, _ = cds
-            y, e = y / yd, math.hypot(e / yd, y * ed / yd ** 2)
-            note += '; Sigma_2z = (polarised)/(unpolarised) forward cross section'
         rows.append(dict(obs='S2Z', E_lab_MeV=k, E_panel=E, theta_lab_deg=0.0, value=round(y, 5), stat_err=round(e, 5), units='1', frame='lab',
-                         source=src, notes='Sigma_2z(0) = -2 Re(f g*)/(|f|^2+|g|^2), sigma_3/2 - sigma_1/2 convention as below threshold; ' + note + '; PLOTTING ONLY'))
+                         source=src, notes='Sigma_2z(0) = -2 Re(f g*)/(|f|^2+|g|^2) from Sigma2z_ds_n.txt / ds_n.txt per fit, sigma_3/2 - sigma_1/2 convention as below threshold; ' + note + '; PLOTTING ONLY'))
 with open(OUT, 'w', newline='') as f:
     w = csv.DictWriter(f, fieldnames=['obs', 'E_lab_MeV', 'E_panel', 'theta_lab_deg', 'value', 'stat_err', 'units', 'frame', 'source', 'notes'])
     w.writeheader(); w.writerows(rows)
