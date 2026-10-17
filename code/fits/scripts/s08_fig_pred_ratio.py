@@ -33,7 +33,7 @@ PAPER_FIGS = os.path.join(os.path.dirname(os.path.dirname(FITS)), 'paper', 'figs
 W1, W2 = 246 / 72.27, 510 / 72.27          # final printed widths [in] (as in s06_figures.py)
 C_NNLO, C_F2, C_BAND = '#444444', '#c0392b', '#9fb6dd'
 C_A2, C_HIGS = '#1f4e9c', '#d62e8a'         # MARK colours of s06: A2 22 blue circles, HIgS 22 magenta squares
-YLIM = (0.7, 1.3)                           # common y-range; points outside are marked and reported
+YLIM = (0.75, 1.25)                         # common y-range (narrowed 2026-10-17); points outside are marked and reported
 
 df = load_db()
 FL = json.load(open(os.path.join(RES, 'fits_L.json')))
@@ -155,8 +155,7 @@ if outside:
                         arrowprops=dict(arrowstyle='->', color=C_HIGS, lw=0.8, shrinkA=0, shrinkB=0))
         txt = ', '.join('%.2f(%.0f)' % (r.ratio, 100 * r.eratio) for r in sorted(above, key=lambda r: r.ratio))
         assert all(r.dobs == 'SPAR' and r.theta_lab == 90.0 for r in above), [r.pid for r in above]
-        ax.text(0.97, 0.93, '$d\\sigma_\\parallel(90^\\circ)$:\n%s' % txt, transform=ax.transAxes, ha='right', va='top',
-                linespacing=1.1)
+        print('  off-scale points (arrows only; values quoted in the caption): dsigma_par(90): %s' % txt)   # no in-panel text (user, 2026-10-17)
 
 # legends: theory (upper row), data (lower row); both outside the panels
 h_th = [Line2D([], [], color=C_F2, lw=1.2), Patch(facecolor=C_BAND, alpha=0.6, lw=0),

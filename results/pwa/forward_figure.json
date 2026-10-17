@@ -1,0 +1,266 @@
+{
+ "pwa_points": [
+  {
+   "E": 59.0,
+   "f": -2.763007,
+   "df": 0.009084,
+   "g": -0.308415,
+   "dg": 0.009936,
+   "cs": 19.850378,
+   "dcs": 0.129437,
+   "s2z": -0.220498,
+   "ds2z": 0.006984
+  },
+  {
+   "E": 69.0,
+   "f": -2.661952,
+   "df": 0.009922,
+   "g": -0.362923,
+   "dg": 0.009951,
+   "cs": 18.536419,
+   "dcs": 0.136387,
+   "s2z": -0.267698,
+   "ds2z": 0.007165
+  },
+  {
+   "E": 79.0,
+   "f": -2.539039,
+   "df": 0.012473,
+   "g": -0.418062,
+   "dg": 0.009938,
+   "cs": 17.005244,
+   "dcs": 0.163433,
+   "s2z": -0.320615,
+   "ds2z": 0.007415
+  },
+  {
+   "E": 89.0,
+   "f": -2.395703,
+   "df": 0.012473,
+   "g": -0.474406,
+   "dg": 0.009955,
+   "cs": 15.317843,
+   "dcs": 0.15467,
+   "s2z": -0.381103,
+   "ds2z": 0.007671
+  },
+  {
+   "E": 99.0,
+   "f": -2.225678,
+   "df": 0.012471,
+   "g": -0.529771,
+   "dg": 0.009961,
+   "cs": 13.442669,
+   "dcs": 0.144282,
+   "s2z": -0.450528,
+   "ds2z": 0.007959
+  },
+  {
+   "E": 109.0,
+   "f": -2.021058,
+   "df": 0.015685,
+   "g": -0.583543,
+   "dg": 0.009974,
+   "cs": 11.364742,
+   "dcs": 0.164611,
+   "s2z": -0.533027,
+   "ds2z": 0.008566
+  },
+  {
+   "E": 117.0,
+   "f": -1.830242,
+   "df": 0.015765,
+   "g": -0.624088,
+   "dg": 0.009977,
+   "cs": 9.603153,
+   "dcs": 0.150603,
+   "s2z": -0.610938,
+   "ds2z": 0.0089
+  },
+  {
+   "E": 127.0,
+   "f": -1.541394,
+   "df": 0.020406,
+   "g": -0.666171,
+   "dg": 0.009978,
+   "cs": 7.24147,
+   "dcs": 0.164021,
+   "s2z": -0.728333,
+   "ds2z": 0.010138
+  },
+  {
+   "E": 135.0,
+   "f": -1.265072,
+   "df": 0.021721,
+   "g": -0.688463,
+   "dg": 0.00997,
+   "cs": 5.327423,
+   "dcs": 0.144374,
+   "s2z": -0.839722,
+   "ds2z": 0.010403
+  },
+  {
+   "E": 143.0,
+   "f": -0.896797,
+   "df": 0.030249,
+   "g": -0.662947,
+   "dg": 0.018313,
+   "cs": 3.194167,
+   "dcs": 0.150811,
+   "s2z": -0.956031,
+   "ds2z": 0.012415
+  },
+  {
+   "E": 150.0,
+   "f": -0.377302,
+   "df": 0.02901,
+   "g": -0.515224,
+   "dg": 0.019294,
+   "cs": 1.047338,
+   "dcs": 0.074721,
+   "s2z": -0.953355,
+   "ds2z": 0.024921
+  }
+ ],
+ "pwa_fit": {
+  "chi2": 199.03138072199593,
+  "npts": 253,
+  "nf": 0.8272941437706717,
+  "ng": 0.23853851644367197
+ },
+ "nnlo_vs_ghp": {
+  "below": {
+   "Re_f": {
+    "max_abs": 0.06534150000000016,
+    "E": 130.0,
+    "nnlo": -1.400216,
+    "ghp": -1.4655575,
+    "ghp_err": 0.024563750662812047,
+    "max_pull": 4.1345881798385875
+   },
+   "Im_f": {
+    "max_abs": 0.0015733600000000002,
+    "E": 150.0,
+    "nnlo": 0.005874125,
+    "ghp": 0.004300765,
+    "ghp_err": 8.608967679112287e-05,
+    "max_pull": 18.275826540938265
+   },
+   "Re_g": {
+    "max_abs": 0.07433241000000002,
+    "E": 150.0,
+    "nnlo": -0.4475327,
+    "ghp": -0.52186511,
+    "ghp_err": 0.02309559,
+    "max_pull": 3.308477855084273
+   },
+   "Im_g": {
+    "max_abs": 0.006531409,
+    "E": 150.0,
+    "nnlo": 0.005874899,
+    "ghp": -0.00065651,
+    "ghp_err": 8.594e-05,
+    "max_pull": 117.9593930635838
+   },
+   "abs_f": {
+    "max_abs": 0.06534150000000016,
+    "E": 130.0
+   },
+   "abs_g": {
+    "max_abs": 0.07461880781635005,
+    "E": 150.0
+   },
+   "cs_rel": {
+    "max_abs": 0.19871288968210554,
+    "E": 150.0,
+    "nnlo": 0.9057267,
+    "ghp": 1.1303397849999999,
+    "ghp_err": 0.09718850451251797
+   },
+   "s2z": {
+    "max_abs": 0.020334850576057772,
+    "E": 150.0,
+    "nnlo": -0.9907049,
+    "ghp": -0.9703700494239422,
+    "ghp_err": 0.11798675630541336
+   }
+  },
+  "above": {
+   "Re_f": {
+    "max_abs": 2.68756584,
+    "E": 305.0,
+    "nnlo": 3.933159,
+    "ghp": 1.2455931599999999,
+    "ghp_err": 0.2750525388546129,
+    "max_pull": 14.372539207094805
+   },
+   "Im_f": {
+    "max_abs": 1.6789463800000002,
+    "E": 270.0,
+    "nnlo": 5.873618,
+    "ghp": 7.55256438,
+    "ghp_err": 0.20884426391517733,
+    "max_pull": 13.012719117798843
+   },
+   "Re_g": {
+    "max_abs": 1.4930444,
+    "E": 420.0,
+    "nnlo": 0.6821242,
+    "ghp": 2.1751686,
+    "ghp_err": 0.15881997,
+    "max_pull": 19.410313635348977
+   },
+   "Im_g": {
+    "max_abs": 1.2549644,
+    "E": 275.0,
+    "nnlo": -2.160441,
+    "ghp": -3.4154054,
+    "ghp_err": 0.17018294,
+    "max_pull": 9.981951952270647
+   },
+   "abs_f": {
+    "max_abs": 2.7617813447357222,
+    "E": 300.0
+   },
+   "abs_g": {
+    "max_abs": 1.5560925253183262,
+    "E": 440.0
+   },
+   "cs_rel": {
+    "max_abs": 0.2202257528297683,
+    "E": 220.0,
+    "nnlo": 43.43568,
+    "ghp": 55.702891135,
+    "ghp_err": 1.8406212491830742
+   },
+   "s2z": {
+    "max_abs": 0.1250362232446559,
+    "E": 155.0,
+    "nnlo": -0.8241764,
+    "ghp": -0.6991401767553441,
+    "ghp_err": 0.04898374457168762
+   }
+  },
+  "Imf_peak": {
+   "nnlo": {
+    "E": 325.0,
+    "value": 14.37449
+   },
+   "ghp": {
+    "E": 325.0,
+    "value": 14.093891785
+   }
+  },
+  "Img_min": {
+   "nnlo": {
+    "E": 320.0,
+    "value": -6.173608
+   },
+   "ghp": {
+    "E": 320.0,
+    "value": -6.15115977
+   }
+  }
+ },
+ "note": "Forward Compton scattering off the proton, 50-450 MeV (paper figure pwa_forward, redesign of 2026-10-17):\nthe empirical forward amplitudes of Gryniuk, Hagelstein, Pascalutsa (GHP: PRD 92 (2015) 074031 and PRD 94 (2016) 034043,\nSupplemental Material in work/data/raw/GHP2016_supplement, photoabsorption fits I and II combined as in\nwork/data/scripts/build_db_forward_above.py: mean, error = mean quoted error (+) half the difference in quadrature),\nthe forward points used in the fits (work/data/db_forward_obs.csv, 50-150 MeV), the PWA main fit of the paper at its bin\ncentres (legacy normalisations floated, configuration main_fits.MAIN, as in multipoles_figure.py; non-Born f, g of\nmake_figures.forward_model + GHP Born terms) and the parameter-free NNLO BChPT prediction (work/pwa/results/\nnnlo_forward_amplitudes.csv, written by nnlo_forward.py; exact forward amplitudes of the v2 code at the NNLO static\npolarisabilities).\nPanels: left dsigma/dOmega_lab(0) (log) and Sigma_2z(0); right f(nu) and g(nu), Re solid, Im dashed.  GHP conventions.\n"
+}

@@ -47,7 +47,7 @@ SHORT = {'OlmosdeLeon2001': 'TAPS 01', 'Federspiel1991': 'Illinois 91', 'Zieger1
          'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64'}
 # theory legend entries shared by the angular-distribution figures (Figs. cs, sigma3 and higs of the paper); the
 # forward and Emax figures use the first two / the first entry only (no PWA curve there)
-TH_LAB = ['NNLO B$\\chi$PT, $\\delta\\alpha_{E1},\\delta\\beta_{M1}=\\pm0.7$', 'NNLO fit', 'PWA fit']
+TH_LAB = ['NNLO B$\\chi$PT', 'NNLO fit', 'PWA fit']      # band = LEC uncertainty, stated in the captions (user, 2026-10-17)
 DLEC = 0.7   # natural size of the O(p^4) LECs (LP 2010, Eq. 25): band of the prediction in Figs. cs and sigma3
 # PWA fit of this work (work/pwa/scenarios/main_fits_legacynorm.py, fit MAIN): bare curves without normalisation
 # factors, evaluated at the panel energies with the residual functions of the nearest PWA bin by
@@ -293,8 +293,8 @@ for i, E in enumerate(Es):
     else:
         d = df[(df.dataset == 'A2_2022_S3') & np.isclose(df.E, E)]
         hA = ax.errorbar(d.theta_lab, d.value, d.err_pt, fmt='o', color='#1f4e9c', ms=3.5, label='A2 22')
-    ax.text(0.5, 0.95, '%.1f MeV' % E, transform=ax.transAxes, ha='center', va='top')
-    ax.set_xlim(15, 180); ax.set_ylim(-1.2, 0.45)
+    ax.text(0.97, 0.05, '%.1f MeV' % E, transform=ax.transAxes, ha='right', va='bottom')   # bottom right: free of curves and data at all four energies
+    ax.set_xlim(15, 180); ax.set_ylim(-1.08, 0.08)                                           # slightly below -1 to slightly above 0 (user, 2026-10-17)
     if i >= 2:
         ax.set_xlabel('$\\theta_{\\rm lab}$ [deg]')
     if i % 2 == 0:

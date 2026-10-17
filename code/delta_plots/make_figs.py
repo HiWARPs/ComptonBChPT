@@ -35,8 +35,8 @@ C_FIT = '#1f4e9c'                  # the NNLO-fit curve: dashed dark blue, as in
 # the parameter-free NNLO prediction (config.MAIN = 'pred'); in the legacy mode 'fit' the labels are swapped.
 LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'NNLO fit'
 LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
-LAB_GM = r'$R_{EM} = -2.3\pm0.5\,\%$, $g_M = 2.97\pm0.10$'      # light band = (g_M, g_E) grid of config.BAND_GRID (2026-10-17 evening)
-LAB_TREE = r'Born + $\pi^0$ + $\Delta$ pole'
+LAB_GM = r'$\gamma N\Delta$ couplings'      # light band = (g_M, g_E) grid of config.BAND_GRID; the ranges are stated in the captions (user, 2026-10-17)
+LAB_TREE = r'no loops'                  # tree level: Born, pi0 pole, Delta pole (user wording, 2026-10-17)
 LAB_NOVC = r'no vertex corrections'
 LAB_RUN = r'running $\Delta$ parameters'
 # extra dotted curve (config.EXTRA, 2026-10-17): 'run3' = the prediction with the running Delta parameters (irun=3), dotted
@@ -369,7 +369,7 @@ def fig3a(df, cv, ix):
 
 
 def fig3b(df, cv, ix):
-    fig, ax = plt.subplots(figsize=(W1, 2.65), layout='constrained')
+    fig, ax = plt.subplots(figsize=(W1, 2.45), layout='constrained')
     reg = {}
     idx = np.array([ix[gid('f3b', '%.2f' % E)] for E in E3B])
     draw_theory(ax, E3B, cv, idx, extra=True, band_xmax=E_BAND_MAX)
@@ -388,8 +388,9 @@ def fig3b(df, cv, ix):
     ax.set_xlabel(r'$E_\gamma$ [MeV]'); ax.set_ylabel(r'$\Sigma_3(\theta_{\rm cm}=90^\circ)$')
     th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
-    fig.legend(th, tl, loc='outside upper center', ncol=2, handlelength=2.0, columnspacing=1.0)
-    ax.legend(dh, dl, loc='upper right', handlelength=1.0, handletextpad=0.35, borderaxespad=0.5)   # empty region (to 800 MeV)
+    # one legend (curves and data) inside the axes, lower centre-right: free of the curves (user, 2026-10-17)
+    ax.legend(th + dh, tl + dl, loc='lower center', bbox_to_anchor=(0.62, 0.02), ncol=2, handlelength=1.8, handletextpad=0.5,
+              columnspacing=1.0, borderaxespad=0.3, fontsize=7.5)
     save(fig, 'fig_delta_S3_90_vsE', exact=True)
     return s3
 

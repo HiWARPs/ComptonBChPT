@@ -365,9 +365,37 @@ def pw_from_multipoles(f, Jmax2):
     return pw
 
 
+# ---------------- double-polarisation asymmetries Sigma_2x, Sigma_2z (added 2026-10-17) ----------------
+# Conventions of the A2 data and of the Fortran fit driver (observable codes S2X, S2Z; work/code_v2/driver/README.md
+# Sect. 3; Lensky-McGovern-Pascalutsa 2015, Babusci et al. 1998): Sigma_2x = (sigma_R - sigma_L)/(sigma_R + sigma_L)
+# for a circularly polarised beam (R/L = photon helicity +1/-1) and the target spin along +x (in the scattering plane,
+# perpendicular to the beam, towards the scattered photon); Sigma_2z the same with the target spin along +z (beam
+# direction).  S2_from_M implements the bilinear forms of ampl.f90 (SUBROUTINE bilin_obs: ob(4)/ob(1), ob(5)/ob(1))
+# on the helicity array; S2_from_phis is HMP16 Eq. (3.50a,b).  Both reproduce the driver's S2X, S2Z for the
+# Born + pi0 amplitude to 2e-13 (work/pwa/validation/validate_S2.py; NNLO: l-truncation accuracy).
+def S2_from_M(M):
+    """M[...,i,j,hp,h] (any normalisation) -> dict(S2X=Sigma_2x, S2Z=Sigma_2z), conventions above."""
+    cs = 0.25 * np.sum(np.abs(M)**2, axis=(-4, -3, -2, -1))                   # unpolarised, sum|M|^2/4
+    sgn = np.array([1.0, -1.0])                                                  # incoming photon index j: 0 -> R, 1 -> L
+    sa = M[..., :, :, :, 0] + M[..., :, :, :, 1]                                 # target spin in the plane: sum over h
+    num_x = -0.25 * np.einsum('...ijp,j->...', np.abs(sa)**2, sgn)               # (sigma_R - sigma_L)/2, spin along +x
+    num_z = -0.5 * np.einsum('...ijp,j->...', np.abs(M[..., :, :, :, 0])**2, sgn)   # the same, spin along +z
+    return dict(S2X=num_x / cs, S2Z=num_z / cs)
+
+
+def S2_from_phis(P):
+    """Phi_1..6 -> dict(S2X, S2Z) (HMP16 Eq. 3.50a,b):  dsigma Sigma_2x = Re[Phi4 (Phi1 - Phi5)* - (Phi2 + Phi6) Phi3*],
+    dsigma Sigma_2z = -(|Phi1|^2 + |Phi2|^2 - |Phi5|^2 - |Phi6|^2)/2, dsigma = the unpolarised c.m. cross section."""
+    a = np.abs(P)**2
+    cs = 0.5 * a[..., 0] + 0.5 * a[..., 1] + a[..., 2] + a[..., 3] + 0.5 * a[..., 4] + 0.5 * a[..., 5]
+    nx = np.real(P[..., 3] * np.conj(P[..., 0] - P[..., 4]) - (P[..., 1] + P[..., 5]) * np.conj(P[..., 2]))
+    nz = -0.5 * (a[..., 0] + a[..., 1] - a[..., 4] - a[..., 5])
+    return dict(S2X=nx / cs, S2Z=nz / cs)
+
+
 # ---------------- observables ----------------
 def obs_from_M(M, k):
-    """M[...,i,j,hp,h] in fm; returns dict with cs_cm, cs_lab, cs_par_lab, cs_perp_lab (nb/sr), S3."""
+    """M[...,i,j,hp,h] in fm; returns dict with cs_cm, cs_lab, cs_par_lab, cs_perp_lab (nb/sr), S3, S2X, S2Z."""
     cs = 0.25 * np.sum(np.abs(M)**2, axis=(-4, -3, -2, -1))
     Mx = -(M[..., :, 0, :, :] - M[..., :, 1, :, :]) / np.sqrt(2)
     My = -1j * (M[..., :, 0, :, :] + M[..., :, 1, :, :]) / np.sqrt(2)
@@ -377,17 +405,20 @@ def obs_from_M(M, k):
     out = dict(cs_cm=cs * NB_PER_FM2, cs_lab=cs * lf * NB_PER_FM2,
                cs_par_lab=spar * lf * NB_PER_FM2, cs_perp_lab=sperp * lf * NB_PER_FM2,
                S3=(spar - sperp) / (spar + sperp))
+    out.update(S2_from_M(M))                 # S2X, S2Z (2026-10-17); the other entries are unchanged
     return out
 
 
 def obs_from_phis(P, k):
-    """same, from Phi_1..6 (HMP16 Eqs. 3.10, 3.16)."""
+    """same, from Phi_1..6 (HMP16 Eqs. 3.10, 3.16, 3.50)."""
     a = np.abs(P)**2
     cs = 0.5 * a[..., 0] + 0.5 * a[..., 1] + a[..., 2] + a[..., 3] + 0.5 * a[..., 4] + 0.5 * a[..., 5]
     S3num = -np.real((P[..., 0] + P[..., 4]) * np.conj(P[..., 2]) + (P[..., 1] - P[..., 5]) * np.conj(P[..., 3]))
     lf = lab_factor(k)
-    return dict(cs_cm=cs * NB_PER_FM2, cs_lab=cs * lf * NB_PER_FM2, S3=S3num / cs,
-                cs_par_lab=(cs + S3num) * lf * NB_PER_FM2, cs_perp_lab=(cs - S3num) * lf * NB_PER_FM2)
+    out = dict(cs_cm=cs * NB_PER_FM2, cs_lab=cs * lf * NB_PER_FM2, S3=S3num / cs,
+               cs_par_lab=(cs + S3num) * lf * NB_PER_FM2, cs_perp_lab=(cs - S3num) * lf * NB_PER_FM2)
+    out.update(S2_from_phis(P))              # S2X, S2Z (2026-10-17); the other entries are unchanged
+    return out
 
 
 # ---------------- Fortran interface ----------------
