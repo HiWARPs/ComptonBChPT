@@ -1,1 +1,2 @@
 work/code_v2 at commit 3400b83225f3b0b530bf63893ead6cc8c3617ea9 (2026-10-18): Comments and docs: refer to the 2015 code instead of a first version; drop the v1-vs-v2 regression test
+code/code_v2/looptools/ added from work/code_v2 commit 572446c (2026-10-18): LoopTools-dq build script, double-precision front end, stability self-check
