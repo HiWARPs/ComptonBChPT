@@ -1,0 +1,38 @@
+MAIN                               N=237 chi2/N=0.855 a-b= 9.09(1.14) b=2.53(0.56) gpi= 5.90(1.74) a+b=14.16(0.17) g0=-0.864(0.098) gEE=-2.52 gMM=0.89(0.37) gME=2.49 gEM=0.00
+w30                                N=237 chi2/N=0.830 a-b= 9.60(1.39) b=2.27(0.69) gpi= 6.40(2.64) a+b=14.14(0.17) g0=-0.874(0.100) gEE=-2.76 gMM=1.03(0.67) gME=2.60 gEM=0.00
+bchptctr                           N=237 chi2/N=0.853 a-b= 9.90(1.14) b=2.13(0.56) gpi= 8.50(1.72) a+b=14.17(0.17) g0=-0.867(0.098) gEE=-3.82 gMM=2.59(0.37) gME=2.10 gEM=0.00
+bchptctr_w30                       N=237 chi2/N=0.828 a-b=10.27(1.40) b=1.94(0.69) gpi= 8.79(2.64) a+b=14.15(0.17) g0=-0.875(0.100) gEE=-3.96 gMM=2.66(0.67) gME=2.17 gEM=0.00
+l2zero                             N=237 chi2/N=0.849 a-b= 9.16(1.14) b=2.47(0.56) gpi= 6.15(1.70) a+b=14.10(0.17) g0=-0.870(0.098) gEE=-2.64 gMM=0.76(0.37) gME=2.75 gEM=0.00
+gEMfree                            N=237 chi2/N=0.855 a-b= 9.06(1.28) b=2.55(0.63) gpi= 5.74(3.41) a+b=14.16(0.17) g0=-0.863(0.099) gEE=-2.66 gMM=0.82(1.31) gME=2.48 gEM=0.22
+binsB                              N=237 chi2/N=0.884 a-b= 8.99(1.14) b=2.59(0.56) gpi= 6.05(1.74) a+b=14.18(0.17) g0=-0.871(0.098) gEE=-2.59 gMM=0.92(0.37) gME=2.54 gEM=0.00
+binmode                            N=237 chi2/N=0.873 a-b= 9.37(1.15) b=2.38(0.56) gpi= 6.38(1.73) a+b=14.14(0.17) g0=-0.903(0.098) gEE=-2.74 gMM=1.02(0.36) gME=2.62 gEM=0.00
+A2beamtimes                        N=333 chi2/N=0.826 a-b= 9.15(1.07) b=2.50(0.53) gpi= 5.85(1.64) a+b=14.15(0.17) g0=-0.863(0.098) gEE=-2.49 gMM=0.86(0.36) gME=2.50 gEM=0.00
+fwd_uncorr                         N=237 chi2/N=0.849 a-b= 9.07(1.11) b=2.47(0.57) gpi= 5.99(1.76) a+b=14.01(0.20) g0=-0.928(0.105) gEE=-2.53 gMM=0.87(0.39) gME=2.59 gEM=0.00
+exact_constraints                  N=237 chi2/N=0.869 a-b= 9.11(1.06) b=2.44(0.53) gpi= 6.26(1.67) a+b=14.00(0.00) g0=-0.929(0.000) gEE=-2.66 gMM=0.87(0.37) gME=2.72 gEM=0.00
+no_float_norm                      N=237 chi2/N=0.889 a-b= 9.22(0.81) b=2.48(0.41) gpi= 5.76(1.38) a+b=14.18(0.17) g0=-0.867(0.097) gEE=-2.44 gMM=0.76(0.30) gME=2.55 gEM=0.00
+db_allpts                          N=238 chi2/N=0.906 a-b= 9.40(1.13) b=2.38(0.56) gpi= 5.99(1.72) a+b=14.16(0.17) g0=-0.873(0.098) gEE=-2.56 gMM=0.88(0.37) gME=2.55 gEM=0.00
+db_3sigma                          N=236 chi2/N=0.787 a-b= 8.12(1.18) b=3.02(0.58) gpi= 4.83(1.84) a+b=14.16(0.17) g0=-0.912(0.099) gEE=-1.96 gMM=0.82(0.39) gME=2.06 gEM=0.00
+db_pruned                          N=227 chi2/N=0.701 a-b= 7.07(1.22) b=3.53(0.60) gpi= 4.39(1.94) a+b=14.14(0.17) g0=-0.949(0.100) gEE=-1.72 gMM=0.78(0.40) gME=1.89 gEM=0.00
+db_modern                          N=189 chi2/N=0.759 a-b= 7.71(1.31) b=3.22(0.64) gpi= 5.17(1.93) a+b=14.14(0.18) g0=-0.923(0.101) gEE=-2.12 gMM=0.93(0.39) gME=2.12 gEM=0.00
+db_new_only                        N=112 chi2/N=0.791 a-b= 8.94(1.41) b=2.62(0.69) gpi= 7.25(2.23) a+b=14.18(0.18) g0=-0.895(0.102) gEE=-3.18 gMM=1.15(0.51) gME=2.92 gEM=0.00
+db_A2_only                         N= 96 chi2/N=0.741 a-b= 7.31(1.63) b=3.41(0.80) gpi= 5.88(2.51) a+b=14.14(0.18) g0=-0.925(0.103) gEE=-2.48 gMM=1.15(0.54) gME=2.25 gEM=0.00
+db_withHIGS                        N=253 chi2/N=0.861 a-b= 9.63(1.08) b=2.28(0.53) gpi= 6.37(1.67) a+b=14.18(0.17) g0=-0.856(0.098) gEE=-2.76 gMM=0.91(0.37) gME=2.71 gEM=0.00
+db_noTAPS                          N=183 chi2/N=0.812 a-b= 9.17(1.23) b=2.49(0.61) gpi= 6.49(1.98) a+b=14.14(0.18) g0=-0.856(0.099) gEE=-2.82 gMM=0.92(0.43) gME=2.75 gEM=0.00
+db_noA2                            N=141 chi2/N=0.863 a-b=10.66(1.53) b=1.64(0.76) gpi= 6.38(2.28) a+b=13.95(0.19) g0=-0.903(0.101) gEE=-2.74 gMM=1.10(0.50) gME=2.54 gEM=0.00
+db_noLegacy                        N=198 chi2/N=0.821 a-b= 7.99(1.29) b=3.08(0.63) gpi= 4.84(1.93) a+b=14.14(0.17) g0=-0.928(0.101) gEE=-1.96 gMM=0.89(0.39) gME=2.00 gEM=0.00
+db_old_only                        N=141 chi2/N=0.863 a-b=10.66(1.53) b=1.64(0.76) gpi= 6.38(2.28) a+b=13.95(0.19) g0=-0.903(0.101) gEE=-2.74 gMM=1.10(0.50) gME=2.54 gEM=0.00
+db_old_only_pruned                 N=131 chi2/N=0.637 a-b= 7.00(1.70) b=3.49(0.85) gpi= 3.61(2.69) a+b=13.98(0.19) g0=-0.956(0.102) gEE=-1.33 gMM=0.61(0.55) gME=1.67 gEM=0.00
+db_pruned_withHIGS                 N=243 chi2/N=0.730 a-b= 8.03(1.15) b=3.07(0.56) gpi= 5.31(1.82) a+b=14.16(0.17) g0=-0.930(0.100) gEE=-2.19 gMM=0.82(0.38) gME=2.30 gEM=0.00
+   influence drop Oxley                         a-b=7.43 b=3.36 gpi=4.05
+   influence drop Oxley 60/150                  a-b=8.12 b=3.02 gpi=4.83
+   influence keep TAPS 108.4/133 (all points)   a-b=9.40 b=2.38 gpi=5.99
+   influence add HIGS 2022 (former main database) a-b=9.63 b=2.28 gpi=6.37
+   influence drop Baranov 150deg                a-b=8.80 b=2.67 gpi=6.23
+   influence drop Bernardini                    a-b=9.07 b=2.54 gpi=5.91
+   influence drop Goldansky                     a-b=9.79 b=2.18 gpi=6.63
+   influence drop Oxley+Goldansky               a-b=8.11 b=3.02 gpi=4.85
+   influence drop A2 Sigma3                     a-b=8.80 b=2.68 gpi=5.35
+   PG TAPS {'all_key': 'MAIN', 'chi2_all': 202.69, 'chi2_sub': 49.0, 'chi2_rest': 148.65, 'dchi2': 5.03, 'N_sub': 54, 'N_rest': 183, 'amb_sub': 8.99, 'amb_rest': 9.17, 'e_amb_sub': 2.44, 'e_amb_rest': 1.23, 'gpi_sub': 4.1, 'gpi_rest': 6.49, 'b_sub': 2.5, 'b_rest': 2.49}
+   PG A2 {'all_key': 'MAIN', 'chi2_all': 202.69, 'chi2_sub': 71.16, 'chi2_rest': 121.63, 'dchi2': 9.9, 'N_sub': 96, 'N_rest': 141, 'amb_sub': 7.31, 'amb_rest': 10.66, 'e_amb_sub': 1.63, 'e_amb_rest': 1.53, 'gpi_sub': 5.88, 'gpi_rest': 6.38, 'b_sub': 3.41, 'b_rest': 1.64}
+   PG HIGS {'all_key': 'db_withHIGS', 'chi2_all': 217.8, 'chi2_sub': 13.07, 'chi2_rest': 202.69, 'dchi2': 2.03, 'N_sub': 16, 'N_rest': 237, 'amb_sub': 19.46, 'amb_rest': 9.09, 'e_amb_sub': 5.66, 'e_amb_rest': 1.14, 'gpi_sub': 28.86, 'gpi_rest': 5.9, 'b_sub': -2.72, 'b_rest': 2.53}
+   PG new vs old {'all_key': 'db_withHIGS', 'chi2_all': 217.8, 'chi2_sub': 88.57, 'chi2_rest': 121.63, 'dchi2': 7.6, 'N_sub': 112, 'N_rest': 141, 'amb_sub': 8.94, 'amb_rest': 10.66, 'e_amb_sub': 1.41, 'e_amb_rest': 1.53, 'gpi_sub': 7.25, 'gpi_rest': 6.38, 'b_sub': 2.62, 'b_rest': 1.64}

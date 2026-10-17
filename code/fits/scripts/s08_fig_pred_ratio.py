@@ -50,11 +50,15 @@ sel['pred'] = T.predict_array(PREF_NNLO, idx)
 assert np.allclose(sel['pred'].values, T.value_file[idx])
 sel['ratio'] = sel.value / sel.pred
 sel['eratio'] = sel.err_pt / sel.pred
-# truncation sigma at the data points (identical to FIT['sig_th'] at the same pids; checked below)
+# truncation sigma at the data points (identical to FIT['sig_th'] at the pids that are in the fit; checked below.
+# Since 2026-10-17 the HIgS data are not part of the main database, so only the A2 points are in FIT['pids'];
+# the 'NNLO fit' curve of the HIgS panel is then a prediction of the main fit for the HIgS data.)
 _, tr = truncation_for(df, sel, tag='db')
 sel['sig_th'] = tr['sigma']
 fit_sig = dict(zip(FIT['pids'], FIT['sig_th']))
-assert np.allclose(sel.sig_th.values, [fit_sig[p] for p in sel.pid])
+_infit = sel.pid.isin(fit_sig).values
+assert _infit.sum() == 60 and not sel[_infit].dataset.isin(['HIGS_2022_CIRC', 'HIGS_2022_LIN']).any(), int(_infit.sum())
+assert np.allclose(sel.sig_th.values[_infit], [fit_sig[p] for p in sel.pid[_infit]])
 
 # ---- curves on a fine angular grid: CS at the panel energies
 E_A2 = sorted(df[df.dataset == 'A2_2022_CS'].E.unique())          # 92.2, 103.2, 113.6, 124.1, 135.3

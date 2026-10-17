@@ -1,39 +1,74 @@
 {
- "A2 2022 dsigma": {
-  "N_pwa": 60,
-  "chi2_pwa": 48.913918757828384,
-  "N_bchpt": 60,
-  "chi2_bchpt": 49.43646332921427
+ "main": {
+  "A2 2022 dsigma": {
+   "N_pwa": 60,
+   "chi2_pwa": 47.863512776591165,
+   "N_bchpt": 60,
+   "chi2_bchpt": 48.19589542009042
+  },
+  "A2 2022 Sigma3": {
+   "N_pwa": 36,
+   "chi2_pwa": 25.779033445994468,
+   "N_bchpt": 36,
+   "chi2_bchpt": 26.654149981427285
+  },
+  "TAPS 2001": {
+   "N_pwa": 54,
+   "chi2_pwa": 52.934059907523896,
+   "N_bchpt": 54,
+   "chi2_bchpt": 54.68549016658617
+  },
+  "Saskatoon (Hallin 93 + MacGibbon 95)": {
+   "N_pwa": 31,
+   "chi2_pwa": 14.609989389877553,
+   "N_bchpt": 31,
+   "chi2_bchpt": 15.598648047464787
+  },
+  "total": {
+   "N_pwa": 181,
+   "chi2_pwa": 141.18659551998707,
+   "N_bchpt": 181,
+   "chi2_bchpt": 145.13418361556867,
+   "bchpt_key": "F1_d_all"
+  }
  },
- "A2 2022 Sigma3": {
-  "N_pwa": 36,
-  "chi2_pwa": 25.4059742085424,
-  "N_bchpt": 36,
-  "chi2_bchpt": 26.58629758344992
- },
- "HIGS 2022": {
-  "N_pwa": 16,
-  "chi2_pwa": 16.14991375984026,
-  "N_bchpt": 16,
-  "chi2_bchpt": 19.473442825200557
- },
- "TAPS 2001": {
-  "N_pwa": 54,
-  "chi2_pwa": 52.698542098237276,
-  "N_bchpt": 54,
-  "chi2_bchpt": 53.956841852863484
- },
- "Saskatoon (Hallin 93 + MacGibbon 95)": {
-  "N_pwa": 31,
-  "chi2_pwa": 14.903994592956296,
-  "N_bchpt": 31,
-  "chi2_bchpt": 15.85162610315649
- },
- "total": {
-  "N_pwa": 197,
-  "chi2_pwa": 158.07234341740462,
-  "N_bchpt": 197,
-  "chi2_bchpt": 165.3046716938847,
-  "bchpt_key": "F1_d_all"
+ "withHIGS": {
+  "A2 2022 dsigma": {
+   "N_pwa": 60,
+   "chi2_pwa": 48.913918757828384,
+   "N_bchpt": 60,
+   "chi2_bchpt": 49.43646332921427
+  },
+  "A2 2022 Sigma3": {
+   "N_pwa": 36,
+   "chi2_pwa": 25.4059742085424,
+   "N_bchpt": 36,
+   "chi2_bchpt": 26.58629758344992
+  },
+  "HIGS 2022": {
+   "N_pwa": 16,
+   "chi2_pwa": 16.14991375984026,
+   "N_bchpt": 16,
+   "chi2_bchpt": 19.473442825200557
+  },
+  "TAPS 2001": {
+   "N_pwa": 54,
+   "chi2_pwa": 52.698542098237276,
+   "N_bchpt": 54,
+   "chi2_bchpt": 53.956841852863484
+  },
+  "Saskatoon (Hallin 93 + MacGibbon 95)": {
+   "N_pwa": 31,
+   "chi2_pwa": 14.903994592956296,
+   "N_bchpt": 31,
+   "chi2_bchpt": 15.85162610315649
+  },
+  "total": {
+   "N_pwa": 197,
+   "chi2_pwa": 158.07234341740462,
+   "N_bchpt": 197,
+   "chi2_bchpt": 165.3046716938847,
+   "bchpt_key": "F1_j_withHIGS"
+  }
  }
 }

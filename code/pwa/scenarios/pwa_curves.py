@@ -83,6 +83,9 @@ def main():
     worst = 0.0
     for ds, obs, key in CHECK:
         s = pulls[(pulls.dataset == ds) & (pulls.obs == obs)]
+        if len(s) == 0:        # HIGS 2022 is not part of the main database (2026-10-17): the curve is a PWA prediction (N = 1)
+            print('  %-15s %-7s not in the main fit (HIgS excluded since 2026-10-17): curve = prediction of the PWA fit, no check' % (ds, obs))
+            continue
         for E, sE in s.groupby('E'):
             ib = nearest_bin(m, E)
             assert np.all(sE.ibin.values == ib), 'bin assignment differs from the fit'
@@ -93,7 +96,8 @@ def main():
             print('  %-15s %-7s E = %6.2f MeV (bin %3g, N = %.4f): %2d pts, max |curve*N/pred - 1| = %.1e' % (
                 ds, obs, E, m.bins[ib], N, len(sE), dev.max()))
     assert worst < 1e-8, 'bare curve times normalisation does not reproduce the fitted values'
-    print('check passed: curve * N_k reproduces the fitted values at all data points (max rel. dev. %.1e)' % worst)
+    assert not pulls.dataset.isin(UF.HIGS).any(), 'HIGS data found in the main fit (excluded since 2026-10-17)'
+    print('check passed: curve * N_k reproduces the fitted values at all data points of the main fit (max rel. dev. %.1e)' % worst)
     # ---- curves ----
     rows = []
     for obs, key, Es, th in GRIDS:

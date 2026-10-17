@@ -17,6 +17,14 @@
   Sects. V.1–V.6 are those of the all-points fit (now 'd_allpts', formerly 'd_all') and are superseded where they
   differ — the complete OLD → NEW list is in `work/notes/mainfit_switch.md`.
 
+- **MAIN-DATABASE CHANGE (2026-10-17, author decision): the HIγS 2022 data (Li et al.) are no longer part of the
+  main database.** 'd_all' = pre-2015 world data + A2 2022 minus MAIN_DROP (245 angular points + 22 forward
+  points, N = 267); HIγS is kept as a test and as the variant 'j_withHIGS' (= the former main, 283 points). The
+  new main result is α = 11.16(48)(30), β = 3.30(44)(28), α+β = 14.46(25), α−β = 7.86(89), χ² = 201.1/249
+  (= the former variant "without HIγS"); every OLD → NEW number, the code changes and the regenerated figures are
+  listed in `work/notes/main_without_HIGS.md`. The numbers quoted below (Sects. V.1–V.9) are those of the
+  former main database with HIγS and are superseded where they differ.
+
 Units: α, β in 10⁻⁴ fm³; γ in 10⁻⁴ fm⁴.
 
 ---

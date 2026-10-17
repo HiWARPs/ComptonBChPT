@@ -22,6 +22,12 @@ A2 = ['A2_2022_CS', 'A2_2022_S3']
 A2PB = ['A2_2018Mar_CS', 'A2_2018Jul_CS', 'A2_2018Mar_S3', 'A2_2018Jul_S3']
 HIGS = ['HIGS_2022_CIRC', 'HIGS_2022_LIN']
 FWD = ['GHP_fwd_CS', 'GHP_fwd_S2Z']
+# MAIN DATABASE (angular sets) = pre-2015 world data + A2 2022.  The HIgS 2022 sets (Li et al.) are EXCLUDED from the
+# main database since 2026-10-17 (author decision): they are kept as a test (HIgS alone, HIgS predicted from the main
+# fit, parameter-goodness-of-fit) and as the database variant 'j_withHIGS' (= the former main database) in
+# scripts/s03_fits_L.py.  MAIN_L_SETS does not include the forward points (FWD) nor the per-beamtime A2 sets (A2PB).
+MAIN_L_SETS = OLD_L + A2
+MAIN_L_SETS_WITH_HIGS = OLD_L + A2 + HIGS
 D_SETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_CS', 'LEGS2001_S3', 'Hunger1997_75', 'Hunger1997_90',
           'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001',
           'Gray1967', 'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964']
@@ -32,7 +38,8 @@ PREF_NNLO = bchpt.run([('pref', 100.0, 90.0, 'CS', 'LAB')], 'NNLO', name='pref',
 PAUDYAL = np.array([-2.87, 2.70, -0.85, 2.04])
 BALDIN = (14.0, 0.2)
 GHP_G0 = (-0.929, 0.105)
-# MAIN DATABASE = all region-L data minus MAIN_DROP.  MAIN_DROP holds the pid(s) flagged by the 3-sigma rule
+# MAIN DATABASE = MAIN_L_SETS (pre-2015 + A2 2022; HIgS 2022 excluded since 2026-10-17, see above) minus MAIN_DROP.
+# MAIN_DROP holds the pid(s) flagged by the 3-sigma rule
 # (|pull| > 3 w.r.t. the main-configuration fit F2 + truncation covariance, two passes) applied ONCE to the
 # all-points database; it was determined on 2026-10-14 and is held fixed here (s03_fits_L.py verifies it at every
 # run and stops if the all-points search gives a different list).  The single point is TAPS (Olmos de Leon 2001)

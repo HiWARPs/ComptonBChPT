@@ -1,15 +1,17 @@
 """Figure: coverage check of the truncation uncertainty (paper Fig. "coverage").
 
-Uses the NNLO fit 'F2_d_all_thB' of results/fits_L.json (main database, truncation covariance, scheme B).  For each
-ANGULAR data point of the fit (forward points of FWD excluded): the residual r = y - n t (data minus model with the
-fitted normalisation, 'resid'), the experimental error sigma_exp = err_pt of the database row (statistical (+)
-point-to-point systematic) and the truncation sigma_th = 'sig_th' (sqrt of the diagonal of the truncation
-covariance).  In 10-MeV bins of the photon lab energy from 50 to 150 MeV (the last bin includes 150 MeV; a bin with
-fewer than MIN_N points is merged with its neighbour):
+Uses the NNLO fit 'F2_d_all_thB' of results/fits_L.json (main database = pre-2015 + A2 2022 minus the 3-sigma outlier,
+HIgS 2022 excluded since 2026-10-17; truncation covariance, scheme B).  For each ANGULAR data point of the fit (forward
+points of FWD excluded; 245 points): the residual r = y - n t (data minus model with the fitted normalisation,
+'resid'), the experimental error sigma_exp = err_pt of the database row (statistical (+) point-to-point systematic)
+and the truncation sigma_th = 'sig_th' (sqrt of the diagonal of the truncation covariance).  In 10-MeV bins of the
+photon lab energy from 50 to 150 MeV (the last bin includes 150 MeV; a bin with fewer than MIN_N points is merged
+with its neighbour):
   upper panel: the pulls r/sqrt(sigma_exp^2 + sigma_th^2) of all points (gray dots) and the bin-wise rms of the
                pull with sigma_exp only (open markers, dashed) and with sigma_exp (+) sigma_th (filled, solid);
-  lower panel: for the cross sections only (dobs CS, CSCM and the HIgS polarised cross sections SPAR, SPERP; the
-               asymmetries Sigma_3 are excluded) the bin-wise rms of r/t, sigma_exp/t and sigma_th/t in per cent
+  lower panel: for the cross sections only (dobs CS, CSCM; SPAR, SPERP would be included if polarised cross sections
+               were in the fit -- the HIgS ones are not; the asymmetries Sigma_3 are excluded) the bin-wise rms of
+               r/t, sigma_exp/t and sigma_th/t in per cent
                of the model t = n * theory (residual solid black, experimental dotted, truncation dashed red).
 Prints the table of bin values and writes it to results/s09_coverage_bins.txt.
 Writes work/fits/figs/fig_coverage.pdf and paper/figs/fig_coverage.pdf (final printed size, single column).
@@ -45,7 +47,9 @@ FIT = FL['F2_d_all_thB']
 s = df.set_index('pid').loc[FIT['pids']].reset_index()
 s['resid'] = FIT['resid']; s['model'] = FIT['model']; s['sig_th'] = FIT['sig_th']
 ang = s[~s.dataset.isin(FWD)].copy()
-assert len(ang) == 261, len(ang)
+# main database since 2026-10-17: pre-2015 + A2 2022 minus the 3-sigma outlier = 245 angular points (261 with HIgS until then)
+assert len(ang) == 245, len(ang)
+assert not ang.dataset.isin(HIGS).any(), 'HIgS data are not part of the main database'
 nlow = int((ang.E < EDGES[0]).sum())
 ang = ang[(ang.E >= EDGES[0]) & (ang.E <= EDGES[-1])].copy()
 ang['pull_exp'] = ang.resid / ang.err_pt
@@ -132,7 +136,7 @@ plt.close(fig)
 
 # ---- report
 lines = ['coverage check, NNLO fit F2_d_all_thB: %d angular points, %d of them in 50-150 MeV (%d below 50 MeV omitted)'
-         % (261, len(ang), nlow),
+         % (len(ang) + nlow, len(ang), nlow),
          'bins: %s' % ('%d-MeV bins' % (EDGES[1] - EDGES[0]) + ('; merged: %s' % ', '.join(merged) if merged else '; no bin merged')),
          'cross-section-like points (CS, CSCM, SPAR, SPERP) in the lower panel: %d; asymmetries excluded there: %d'
          % (int(ang.cs.sum()), int((~ang.cs).sum())),

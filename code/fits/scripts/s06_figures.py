@@ -347,9 +347,9 @@ for ax, E, obs in [(axs[0], 83.4, ['SPAR', 'SPERP']), (axs[1], 81.3, ['CS'])]:
     ax.set_xlabel('$\\theta_{\\rm lab}$ [deg]'); ax.set_xlim(-6, 180)
 hd.append(hf); ld.append('forward point')
 axs[0].set_ylabel('$d\\sigma/d\\Omega_{\\rm lab}$ [nb/sr]')
-axs[0].text(0.5, 0.95, '$E_\\gamma=83.4$ MeV, linear polarisation', transform=axs[0].transAxes, ha='center', va='top')
+axs[0].text(0.5, 0.95, '83.4 MeV, linear polarization', transform=axs[0].transAxes, ha='center', va='top')
 axs[0].set_ylim(0, 26)
-axs[1].text(0.04, 0.95, '$E_\\gamma=81.3$ MeV, unpolarised', transform=axs[1].transAxes, va='top')
+axs[1].text(0.04, 0.95, '81.3 MeV, unpolarized', transform=axs[1].transAxes, va='top')
 axs[1].set_ylim(4, 21); axs[1].yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(5))
 fig.legend(th_handles() + [Line2D([], [], color=C_HFIT, ls='-.', lw=1.0)], TH_LAB + ['fit to HI$\\gamma$S only'],
            loc='outside upper center', ncol=4, columnspacing=2.0)
@@ -383,8 +383,18 @@ h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$P
 ax.plot(*r['P'][:2], 'o', color=C_F1, ms=2)
 # NNLO prediction: the amplitude used here (physical masses, second row of Table NNLOpols) with the LMP15 uncertainty
 h_nnlo = ax.errorbar(PREF_NNLO[0], PREF_NNLO[1], 0.7, 0.7, fmt='P', color='k', ms=5, lw=0.7, label='NNLO B$\\chi$PT')
-# determinations that involve the new data (A2 2022, HIGS 2022), and the PWA of this work
-others = [((11.59, 0.80), (2.58, 0.77), '#c0392b', 'X', 'PWA, this work'),
+# determinations that involve the new data (A2 2022, HIGS 2022), and the PWA of this work.  The PWA point (central value,
+# total error = stat (+) method) is read from work/pwa/results/main_total_errors.json (written by work/pwa/make_tables.py
+# from scenarios/main_fits_legacynorm.py, the PWA fit of the paper); the literal values are only the fallback.
+_pwa_json = os.path.join(os.path.dirname(FITS), 'pwa', 'results', 'main_total_errors.json')
+if os.path.exists(_pwa_json):
+    _pw = json.load(open(_pwa_json))
+    PWA_PT = ((_pw['alphaE1']['central'], _pw['alphaE1']['total']), (_pw['betaM1']['central'], _pw['betaM1']['total']))
+    print('fig4_alpha_beta: PWA point from %s: alpha = %.2f(%.2f), beta = %.2f(%.2f)' % (_pwa_json, *PWA_PT[0], *PWA_PT[1]))
+else:
+    PWA_PT = ((11.59, 0.80), (2.58, 0.77))
+    print('fig4_alpha_beta: WARNING %s not found, PWA point = fallback literals' % _pwa_json)
+others = [(PWA_PT[0], PWA_PT[1], '#c0392b', 'X', 'PWA, this work'),
           ((10.99, np.hypot(0.16, np.hypot(0.47, np.hypot(0.17, 0.34)))), (3.14, np.hypot(0.21, np.hypot(0.24, np.hypot(0.20, 0.35)))), '#1f4e9c', 'v', 'A2 22'),
           ((13.8, 1.25), (0.2, 1.25), '#d62e8a', '^', 'HI$\\gamma$S 22'),
           ((12.7, 0.8), (2.4, 0.6), '#e08e0b', '>', 'MRPP 22 (DR)'),

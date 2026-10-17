@@ -1,0 +1,143 @@
+python3 scripts/s01_build_db.py
+fitdb.csv: 624 rows; fitdb_pb.csv: 720 rows
+                   dataset         obs   N  N150  N170  N350            E frame   norm  nflag
+0          OlmosdeLeon2001          CS  65    55    65    65   58.9-163.7   LAB   3.0%      1
+1           Federspiel1991          CS  16    16    16    16    33.5-70.0   LAB   2.0%      1
+2               Zieger1992          CS   2     2     2     2   98.0-132.0   LAB      -      0
+3      Baranov1974_75_th90          CS   3     3     3     3   80.9-109.9   LAB   8.0%      0
+4     Baranov1974_75_th150          CS   4     4     4     4   81.9-111.1   LAB   8.0%      4
+5         Hallin1993_TabII        CSCM  28    13    28    28  130.0-170.0    CM   3.6%     15
+6     MacGibbon1995_tagged          CS   8     8     8     8    73.2-96.8   LAB   4.0%      0
+7   MacGibbon1995_untagged          CS  10    10    10    10  105.0-145.0   LAB   2.9%      0
+8                 Pugh1957          CS  16    16    16    16   55.0-135.0   LAB  10.0%      0
+9                Hyman1959          CS  12    12    12    12   60.0-128.0   LAB  10.0%      0
+10           Goldansky1960          CS   5     5     5     5    55.0-55.0   LAB   8.0%      0
+11               Oxley1958          CS   4     4     4     4    60.0-60.0   LAB  10.0%      4
+12          Bernardini1960          CS   2     2     2     2  120.0-139.0   LAB  10.0%      2
+13              A2_2022_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+14              A2_2022_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+15           A2_2018Mar_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+16           A2_2018Jul_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+17           A2_2018Mar_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+18           A2_2018Jul_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+19          HIGS_2022_CIRC          CS   8     8     8     8    81.3-81.3   LAB   2.2%      0
+20           HIGS_2022_LIN  SPAR/SPERP   8     8     8     8    83.4-83.4   LAB   2.2%      0
+21              GHP_fwd_CS          CS  12    12    12    12   50.0-150.0   LAB      -      0
+22             GHP_fwd_S2Z         S2Z  12    12    12    12   50.0-150.0   LAB      -      0
+23       A2_Martel2015_S2x         S2X   4     0     0     4  288.0-288.0   LAB      -      0
+24      A2_Paudyal2020_S2z         S2Z  10     0     0    10  275.0-295.0   LAB  10.4%      0
+25             LEGS2001_S3          S3  79     0     0    79  213.1-333.8    CM      -      0
+26             LEGS2001_CS        CSCM  77     0     0    77  213.1-333.8    CM   2.0%      0
+27           Hunger1997_75        CSCM  17     0     0    12  207.3-399.1    CM   4.4%      0
+28           Hunger1997_90        CSCM  13     0     0     9  250.4-396.3    CM   4.0%      0
+29            Wissmann1999          CS  11     0     0     8  199.1-390.8   LAB   3.0%      0
+30               Camen2002          CS  10     0     0     7  211.1-388.5   LAB   4.4%      0
+31      Hallin1993_TabII_D        CSCM  55     0     0    55  171.0-291.0    CM   3.6%     55
+32                Gray1967        CSCM   5     0     0     5  210.0-310.0    CM   5.0%      0
+33              Genzel1972        CSCM  19     0     0    14  236.9-386.5    CM   5.0%      0
+34             Baranov1966        CSCM  10     0     0    10  212.9-249.2    CM  20.0%      0
+35                Kolb2000          CS   1     0     0     1  247.0-247.0   LAB      -      0
+36           Nagashima1964        CSCM   2     0     0     1  314.0-351.0    CM   5.0%      0
+python3 scripts/s02_run_driver.py
+executable: <release>/code/code_v2/execs/ampl.exe
+NNLO           624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_LO) -> db_LO_081b4e386a889ae3.out
+LO             624 points, 0 extrapolated
+NLO            624 points, 26 extrapolated
+BornPi0        624 points, 0 extrapolated
+  [bchpt] computed 624 points (db_NNLO_noPiD) -> db_NNLO_noPiD_d58afa99189e8e91.out
+NNLO_noPiD     624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_NNLO_noDpole) -> db_NNLO_noDpole_4fb8b8e81075eeba.out
+NNLO_noDpole   624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.87) -> db_gM2.87_8cf37eae56b0c32c.out
+gM2.87         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.07) -> db_gM3.07_de2ff5a97547bf9c.out
+gM3.07         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_PDG24) -> db_PDG24_0bfeba7b08475ad1.out
+PDG24          624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_hA2.84) -> db_hA2.84_90c63b2613e5f5ed.out
+hA2.84         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_hA2.91) -> db_hA2.91_fab8a484a2f38bb6.out
+hA2.91         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_singlemass) -> db_singlemass_705de902b673a3b2.out
+singlemass     624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_novtx) -> db_novtx_880a4a652af01df0.out
+novtx          624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.50) -> db_gM2.50_76a6cf3b11bd11e2.out
+gM2.50         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.60) -> db_gM2.60_3f1bb31fd1ed09c3.out
+gM2.60         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.70) -> db_gM2.70_1481cb2645179141.out
+gM2.70         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.75) -> db_gM2.75_ca812a0c6f784d4b.out
+gM2.75         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.80) -> db_gM2.80_a454cd96be8ec2f6.out
+gM2.80         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.85) -> db_gM2.85_dc2cb27e1b404a7a.out
+gM2.85         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.90) -> db_gM2.90_64932b7de95a5226.out
+gM2.90         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.95) -> db_gM2.95_1e079ad3fcce5cfa.out
+gM2.95         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.97) -> db_gM2.97_b08a2c54260e9e0a.out
+gM2.97         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.00) -> db_gM3.00_3429fa1f9790cbc7.out
+gM3.00         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.05) -> db_gM3.05_10c3bc2121bc9773.out
+gM3.05         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.10) -> db_gM3.10_0af34067ce7d7040.out
+gM3.10         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.15) -> db_gM3.15_dafb5088fddec10f.out
+gM3.15         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.20) -> db_gM3.20_0c1ee925090e45d7.out
+gM3.20         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.30) -> db_gM3.30_db5ec97cad43c95e.out
+gM3.30         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.40) -> db_gM3.40_15d4ae7309741cec.out
+gM3.40         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.50) -> db_gM3.50_40e95587064ccfb5.out
+gM3.50         624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.50nv) -> db_gM2.50nv_d93f8673cc827a55.out
+gM2.50nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.60nv) -> db_gM2.60nv_cb18f4905c5ff241.out
+gM2.60nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.70nv) -> db_gM2.70nv_fd45c9d292102d0b.out
+gM2.70nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.75nv) -> db_gM2.75nv_9d398082d53cb210.out
+gM2.75nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.80nv) -> db_gM2.80nv_c0852aa974e6d350.out
+gM2.80nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.85nv) -> db_gM2.85nv_ae161f3acde8b9c8.out
+gM2.85nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.90nv) -> db_gM2.90nv_5caa35624799f092.out
+gM2.90nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.95nv) -> db_gM2.95nv_57d59e2f6dff4efa.out
+gM2.95nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM2.97nv) -> db_gM2.97nv_880a4a652af01df0.out
+gM2.97nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.00nv) -> db_gM3.00nv_a95e60e24dca85f3.out
+gM3.00nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.05nv) -> db_gM3.05nv_e515430b4a961b2f.out
+gM3.05nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.10nv) -> db_gM3.10nv_fad908f8c110135d.out
+gM3.10nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.15nv) -> db_gM3.15nv_5de148d8f0c2ed26.out
+gM3.15nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.20nv) -> db_gM3.20nv_2987ad46a683a4e2.out
+gM3.20nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.30nv) -> db_gM3.30nv_61fd46a12826f0f8.out
+gM3.30nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.40nv) -> db_gM3.40nv_2cdda17efa69a9df.out
+gM3.40nv       624 points, 26 extrapolated
+  [bchpt] computed 624 points (db_gM3.50nv) -> db_gM3.50nv_d4e00883e3514d79.out
+gM3.50nv       624 points, 26 extrapolated
+  [bchpt] computed 720 points (dbpb_LO) -> dbpb_LO_e21c2b630e6a538e.out
+  [bchpt] computed 720 points (dbpb_NLO) -> dbpb_NLO_4b53f787a1fa6bb4.out
+  [bchpt] computed 720 points (dbpb_BornPi0) -> dbpb_BornPi0_9460acd598f1bad2.out
+done in 33.3 s
+python3 scripts/s00_validate_forward.py > /dev/null
+python3 scripts/s03_fits_L.py > results/s03_log.txt
+python3 scripts/s04_theory_lengths.py > results/s04_log.txt
+python3 scripts/s05_delta.py > results/s05_log.txt
+python3 scripts/s06_figures.py > results/s06_log.txt
+python3 scripts/s07_tables.py > /dev/null

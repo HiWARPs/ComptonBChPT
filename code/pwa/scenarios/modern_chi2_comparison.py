@@ -21,22 +21,34 @@ GROUPS = [('A2 2022 dsigma', ['A2_2022_CS'], ['A2_2022_CS']),
           ('Saskatoon (Hallin 93 + MacGibbon 95)', ['Hallin1993', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged'],
            ['Hallin1993_TabII', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged'])]
 
-pwa = json.load(open('results/main_fits_legacynorm.json'))['MAIN']['per_dataset']
-bch = json.load(open(FITS_L))[BCHPT_KEY]['perset']
-rows, out = [], {}
-NP = NB = CP = CB = 0
-for lab, sp, sb in GROUPS:
-    np_, cp = sum(pwa[s]['N'] for s in sp), sum(pwa[s]['chi2'] for s in sp)
-    nb, cb = sum(bch[s]['N'] for s in sb), sum(bch[s]['chi2'] for s in sb)
-    out[lab] = dict(N_pwa=np_, chi2_pwa=cp, N_bchpt=nb, chi2_bchpt=cb)
-    rows.append(f'| {lab} | {np_} | {cp:.1f} | {nb} | {cb:.1f} |')
-    NP += np_; NB += nb; CP += cp; CB += cb
-out['total'] = dict(N_pwa=NP, chi2_pwa=CP, N_bchpt=NB, chi2_bchpt=CB, bchpt_key=BCHPT_KEY)
-md = [f'### chi^2 of the modern experiments: PWA fit (main database) vs BChPT `{BCHPT_KEY}` (Baldin sum rule, no truncation covariance; main database)\n',
-      'Data chi^2 only (normalisation penalties excluded); both fits float the normalisations and use the same error model.\n',
-      '| data set | N (PWA) | chi2 (PWA) | N (BChPT) | chi2 (BChPT) |', '|---|---|---|---|---|'] + rows + \
-     [f'| **total** | **{NP}** | **{CP:.1f}** | **{NB}** | **{CB:.1f}** |']
-assert NP == NB, (NP, NB)
+PWAJ = json.load(open('results/main_fits_legacynorm.json'))
+BCHJ = json.load(open(FITS_L))
+# since 2026-10-17 the HIGS 2022 data are NOT part of the main database: the main comparison skips the HIGS row (the
+# sets are in neither fit); the former comparison incl. HIGS is repeated with the with-HIGS fits ('db_withHIGS' /
+# BCHPT_KEY with 'd_all' -> 'j_withHIGS') for reference.
+out, md = {}, []
+for tag, pwa, bch, bkey, title in (('main', PWAJ['MAIN']['per_dataset'], BCHJ[BCHPT_KEY]['perset'], BCHPT_KEY,
+                                    'main database (HIGS 2022 excluded since 2026-10-17)'),
+                                   ('withHIGS', PWAJ['db_withHIGS']['per_dataset'], BCHJ[BCHPT_KEY.replace('d_all', 'j_withHIGS')]['perset'],
+                                    BCHPT_KEY.replace('d_all', 'j_withHIGS'), 'main database + HIGS 2022 (the former main database; for reference)')):
+    rows, o = [], {}
+    NP = NB = CP = CB = 0
+    for lab, sp, sb in GROUPS:
+        if not all(s in pwa for s in sp) and not all(s in bch for s in sb):
+            rows.append(f'| {lab} | -- | -- | -- | -- | (not in the main database) |')
+            continue
+        np_, cp = sum(pwa[s]['N'] for s in sp), sum(pwa[s]['chi2'] for s in sp)
+        nb, cb = sum(bch[s]['N'] for s in sb), sum(bch[s]['chi2'] for s in sb)
+        o[lab] = dict(N_pwa=np_, chi2_pwa=cp, N_bchpt=nb, chi2_bchpt=cb)
+        rows.append(f'| {lab} | {np_} | {cp:.1f} | {nb} | {cb:.1f} |')
+        NP += np_; NB += nb; CP += cp; CB += cb
+    o['total'] = dict(N_pwa=NP, chi2_pwa=CP, N_bchpt=NB, chi2_bchpt=CB, bchpt_key=bkey)
+    out[tag] = o
+    assert NP == NB, (NP, NB)
+    md += [f'### chi^2 of the modern experiments: PWA fit vs BChPT `{bkey}` (Baldin sum rule, no truncation covariance); {title}\n',
+           'Data chi^2 only (normalisation penalties excluded); both fits float the normalisations and use the same error model.\n',
+           '| data set | N (PWA) | chi2 (PWA) | N (BChPT) | chi2 (BChPT) |', '|---|---|---|---|---|'] + rows + \
+          [f'| **total** | **{NP}** | **{CP:.1f}** | **{NB}** | **{CB:.1f}** |', '']
 open('results/modern_chi2_comparison.md', 'w').write('\n'.join(md) + '\n')
 json.dump(out, open('results/modern_chi2_comparison.json', 'w'), indent=1)
 print('\n'.join(md))

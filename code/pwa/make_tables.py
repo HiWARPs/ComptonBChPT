@@ -1,8 +1,9 @@
 """Markdown + LaTeX tables from results/plb_reproduction.json, results/update_fits.json, results/main_fits.json and
 results/main_fits_legacynorm.json.
 
-Two configurations are tabulated, both on the MAIN DATABASE (all data at E <= 150 MeV minus the 3-sigma outlier
-TAPS 108.42/133 = update_fits.MAIN_DROP; 'db_allpts' keeps it):
+Two configurations are tabulated, both on the MAIN DATABASE (pre-2015 world data + A2 2022 at E <= 150 MeV minus the
+3-sigma outlier TAPS 108.42/133 = update_fits.MAIN_DROP; HIGS 2022 excluded since 2026-10-17; 'db_allpts' keeps the
+outlier, 'db_withHIGS' adds the HIGS sets = the former main):
   P-*  the PWA fit of the paper: all normalisations floated, incl. the pre-1961 sets (main_fits_legacynorm.json);
        its method uncertainty goes to results/main_total_errors.json;
   D/M/S/V/I/F/C  the fixed-legacy-normalisation configuration (main_fits.json; Sections 5-10 of pwa_report.md); in the
@@ -32,8 +33,9 @@ def ftex(v, e=None, nd=1):
     return f'${v:.{nd}f}$' if e is None or e == 0 else f'${v:.{nd}f}\\pm{e:.{nd}f}$'
 
 
-md.append(f'Main database: all data at E <= 150 MeV minus the 3-sigma outlier ({DROP}; BChPT pid OlmosdeLeon2001_029). '
-          'All fits below (except the KLP18 reproduction and the rows marked "all points") are on the main database.\n')
+md.append(f'Main database: pre-2015 world data + A2 2022 at E <= 150 MeV minus the 3-sigma outlier ({DROP}; BChPT pid OlmosdeLeon2001_029); '
+          'the HIGS 2022 sets (Li et al., 16 points) are EXCLUDED since 2026-10-17 (author decision) and appear only as tests / the variant "with HIGS". '
+          'All fits below (except the KLP18 reproduction and the rows marked "all points", "with HIGS", "A2 + HIGS", "HIGS only") are on the main database.\n')
 
 # ---------------- T1: reproduction of KLP18 ----------------
 md.append('### Table R1. Reproduction of KLP18 (PLB 782 (2018) 34), Tables II and III\n')
@@ -66,18 +68,18 @@ for name in ['Fit 0', 'Fit 1', 'Fit 1_3s(PLB 4 pts)', "Fit 1'", "Fit 1''", 'Fit 
 tex.append('\\end{tabular}\n')
 
 d = pd.read_csv('results/db_update.csv')
-MV = [('MAIN', 'MAIN: all data of the main database, floating norms, forward points as chi2 data (correlated nuisances)'),
-      ('db_allpts', f'all points incl. the 3-sigma outlier ({DROP})'),
+MV = [('MAIN', 'MAIN: all data of the main database (no HIGS), floating norms, forward points as chi2 data (correlated nuisances)'),
+      ('db_allpts', f'main database incl. the 3-sigma outlier ({DROP})'),
       ('db_3sigma', '3-sigma rule rerun on the main database (check; = MAIN when nothing is flagged)'),
+      ('db_withHIGS', 'main database + HIGS 2022 (the former main fit; HIGS excluded from the main database since 2026-10-17)'),
       ('db_pruned', 'McGovern pruning (no Oxley, Bernardini, Baranov 150, TAPS 108.4/133)'),
-      ('db_modern', 'modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2, HIGS)'),
-      ('db_new_only', 'A2 2022 + HIGS 2022 only'),
+      ('db_modern', 'modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2)'),
       ('db_A2_only', 'A2 2022 only'),
-      ('db_noHIGS', 'without HIGS 2022'),
+      ('db_new_only', 'A2 2022 + HIGS 2022 only (test)'),
       ('db_noTAPS', 'without TAPS 2001'),
       ('db_noA2', 'without A2 2022'),
       ('db_noLegacy', 'without pre-1961 legacy sets (Oxley, Goldansky, Bernardini, Pugh, Hyman)'),
-      ('db_pruned_noHIGS', 'pruned and without HIGS'),
+      ('db_pruned_withHIGS', 'pruned, with HIGS 2022'),
       ('db_old_only', 'pre-2015 data only'),
       ('db_old_only_pruned', 'pre-2015 data only, pruned')]
 ITEMS = [('statistical (incl. norms, forward-point nuisances n_f, n_g, residual priors)', None),
@@ -156,7 +158,7 @@ def config_tables(M, pre, title, errfile):
                    (f'database (not added): all points incl. the outlier ({DROP})', 'db_allpts'),
                    ('database (not added): McGovern pruning', 'db_pruned'),
                    ('database (not added): modern sets only', 'db_modern'),
-                   ('database (not added): without HIGS', 'db_noHIGS'),
+                   ('database (not added): with HIGS 2022 (former main)', 'db_withHIGS'),
                    ('database (not added): without legacy sets', 'db_noLegacy')):
         md.append(f'| {lab} | {M[t]["val"]["alpha_m_beta"]-base["alpha_m_beta"]:+.2f} | {M[t]["val"]["gamma_pi"]-base["gamma_pi"]:+.2f} | '
                   f'{M[t]["val"]["betaM1"]-base["betaM1"]:+.2f} | {M[t]["val"]["alphaE1"]-base["alphaE1"]:+.2f} |')
@@ -168,7 +170,7 @@ def config_tables(M, pre, title, errfile):
     SYS['alpha_p_beta'] = dict(central=float(base['alpha_p_beta']), stat=float(main['err']['alpha_p_beta']))
     SYS['gamma0'] = dict(central=float(base['gamma0']), stat=float(main['err']['gamma0']))
     SYS['_config'] = title
-    SYS['_main_database'] = f'all data at E <= 150 MeV minus {DROP}; N = {main["npts"]}'
+    SYS['_main_database'] = f'pre-2015 + A2 2022 at E <= 150 MeV minus {DROP}, HIGS 2022 excluded (2026-10-17); N = {main["npts"]}'
     SYS['_method_variants'] = METHOD
     json.dump(SYS, open(errfile, 'w'), indent=1)
     # ---- V: method variants
@@ -209,10 +211,11 @@ def config_tables(M, pre, title, errfile):
                   f'{r.get("ng", float("nan")):.2f} | {r["chi2pt"]:.3f} |')
     # ---- C: PG tests
     md.append(f'\n### Table {pre}C. Compatibility (parameter-goodness-of-fit) tests, data chi2 only ({title})\n')
-    md.append('| subset | N sub / rest | chi2(all) | chi2(subset) | chi2(rest) | Delta chi2 | alpha-beta subset / rest | beta_M1 subset / rest | gamma_pi subset / rest |')
-    md.append('|---|---|---|---|---|---|---|---|---|')
+    md.append('"all" = MAIN for subsets of the main database, the with-HIGS fit (db_withHIGS) for the HIGS-containing subsets.\n')
+    md.append('| subset | all | N sub / rest | chi2(all) | chi2(subset) | chi2(rest) | Delta chi2 | alpha-beta subset / rest | beta_M1 subset / rest | gamma_pi subset / rest |')
+    md.append('|---|---|---|---|---|---|---|---|---|---|')
     for k, v in M['PG'].items():
-        md.append(f'| {k} | {v["N_sub"]} / {v["N_rest"]} | {v["chi2_all"]:.1f} | {v["chi2_sub"]:.1f} | {v["chi2_rest"]:.1f} | {v["dchi2"]:.1f} | '
+        md.append(f'| {k} | {v.get("all_key", "MAIN")} | {v["N_sub"]} / {v["N_rest"]} | {v["chi2_all"]:.1f} | {v["chi2_sub"]:.1f} | {v["chi2_rest"]:.1f} | {v["dchi2"]:.1f} | '
                   f'{v["amb_sub"]:.2f}({v["e_amb_sub"]:.2f}) / {v["amb_rest"]:.2f}({v["e_amb_rest"]:.2f}) | {v["b_sub"]:.2f} / {v["b_rest"]:.2f} | '
                   f'{v["gpi_sub"]:.2f} / {v["gpi_rest"]:.2f} |')
     return SYS
@@ -228,10 +231,13 @@ VAR = [('old_raw', 'pre-2015 data, TAPS stat. errors only (cf. KLP18 Fit 1)'),
        ('old_std', 'pre-2015 data, stat(+)syst'),
        ('old_pruned', "pre-2015 data, pruned (cf. KLP18 Fit 1'')"),
        ('TAPS_only', 'TAPS 2001 only'),
-       ('new_only', 'A2 2022 + HIGS 2022 only'),
+       ('new_only', 'A2 2022 + HIGS 2022 only (test)'),
        ('new_only_A2', 'A2 2022 (dsigma + Sigma3) only'),
-       ('all_std', 'all data'),
-       ('all_std_norm', 'all data, floating norms (exact sum-rule constraints)'),
+       ('new_only_HIGS', 'HIGS 2022 only (test)'),
+       ('all_std', 'all data of the main database (no HIGS)'),
+       ('all_std_norm', 'main database, floating norms (exact sum-rule constraints)'),
+       ('all_withHIGS', 'main database + HIGS 2022 (former main)'),
+       ('all_withHIGS_norm', 'main database + HIGS 2022, floating norms (former all_std_norm)'),
        ('all_3sigma_norm', 'all data, floating norms, 3 sigma outliers removed'),
        ('all_pruned_norm', 'all data, floating norms, McGovern pruning'),
        ('all_noTAPS', 'all data without TAPS 2001'),

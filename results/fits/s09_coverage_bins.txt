@@ -1,17 +1,17 @@
-coverage check, NNLO fit F2_d_all_thB: 261 angular points, 253 of them in 50-150 MeV (8 below 50 MeV omitted)
+coverage check, NNLO fit F2_d_all_thB: 245 angular points, 237 of them in 50-150 MeV (8 below 50 MeV omitted)
 bins: 10-MeV bins; no bin merged
-cross-section-like points (CS, CSCM, SPAR, SPERP) in the lower panel: 217; asymmetries excluded there: 36
+cross-section-like points (CS, CSCM, SPAR, SPERP) in the lower panel: 201; asymmetries excluded there: 36
 lower-panel statistic: rms of the relative quantities (in per cent of the model t = n * theory)
 E [MeV]      N  Ncs     rms pull     rms pull   rms |r|/t rms s_exp/t  rms s_th/t
                          (s_exp) (s_exp+s_th)         [%]         [%]         [%]
- 50- 60    15   15         0.71         0.71        4.60        7.98        0.16
- 60- 70    13   13         1.06         1.05        5.98       12.07        0.28
- 70- 80    14   14         0.91         0.90        8.26       14.73        0.44
- 80- 90    31   31         1.00         1.00       20.10       16.49        0.72
- 90-100    37   25         0.64         0.63        9.39       13.97        1.03
-100-110    35   23         0.89         0.87        7.08       11.93        1.43
-110-120    25   25         0.99         0.93       10.75       21.09        2.04
-120-130    36   24         1.04         0.92       12.69       21.91        2.72
-130-140    28   28         1.01         0.81       13.14       17.15        3.60
-140-150    19   19         0.59         0.56       12.96       18.26        4.44
-all        253  217         0.90         0.85       12.22       16.59        2.26
+ 50- 60    15   15         0.71         0.70        4.64        7.98        0.15
+ 60- 70    13   13         1.08         1.08        6.08       12.05        0.25
+ 70- 80    14   14         0.92         0.92        8.27       14.69        0.40
+ 80- 90    15   15         0.96         0.95        9.26       13.09        0.70
+ 90-100    37   25         0.64         0.64        9.24       13.92        0.93
+100-110    35   23         0.89         0.87        7.18       11.92        1.29
+110-120    25   25         0.98         0.94       10.78       21.06        1.84
+120-130    36   24         0.98         0.90       12.63       21.76        2.44
+130-140    28   28         0.91         0.77       12.89       17.05        3.21
+140-150    19   19         0.56         0.54       12.88       18.19        3.93
+all        237  201         0.87         0.83       10.20       16.30        2.09

@@ -1,13 +1,17 @@
-"""Updated PWA fits (A2 2022 + HIGS 2022 + pre-2015 world data), variants for database choices,
+"""Updated PWA fits (A2 2022 + pre-2015 world data; HIGS 2022 as a test), variants for database choices,
 normalisations, outliers, sum-rule treatment, binning and regularisation.
 Writes results/update_fits.json, results/update/pulls_<tag>.csv and results/update/p_<tag>.npy
 
-MAIN DATABASE (author decision 2026-10-14, same as the BChPT fits, work/fits/lib/common.py MAIN_DROP): all data at
-E <= 150 MeV MINUS the single 3-sigma outlier, the TAPS (Olmos de Leon 2001) cross section at 108.42 MeV, 133 deg
-(BChPT pid OlmosdeLeon2001_029).  `select()` drops MAIN_DROP unless keep_outlier=True, so EVERY selection built
-through it (main fit, method variants, subsets containing TAPS, influence and PG tests, figures) is a subset of the
-main database; the GMPF-pruned selections never contained the point.  keep_outlier=True gives the all-points
-database (variant 'db_allpts')."""
+MAIN DATABASE (author decisions 2026-10-14 and 2026-10-17, same as the BChPT fits, work/fits/lib/common.py):
+pre-2015 world data + A2 2022 at E <= 150 MeV MINUS the single 3-sigma outlier, the TAPS (Olmos de Leon 2001) cross
+section at 108.42 MeV, 133 deg (MAIN_DROP; BChPT pid OlmosdeLeon2001_029).  The HIGS 2022 sets (Li et al.,
+HIGS_2022_circ and HIGS_2022_lin, 16 points) are EXCLUDED from the main database since 2026-10-17 (author decision);
+until then the main database was all data minus MAIN_DROP.  `select()` drops MAIN_DROP unless keep_outlier=True and
+drops the HIGS sets unless with_higs=True or they are named explicitly in `sets`, so EVERY selection built through it
+(main fit, method variants, subsets containing TAPS, influence and PG tests, figures) is a subset of the main
+database; the GMPF-pruned selections never contained the point.  keep_outlier=True gives the all-points database
+(variant 'db_allpts'); with_higs=True gives the former main database (variants 'all_withHIGS' here, 'db_withHIGS' in
+main_fits*.py); sets=HIGS gives the HIGS-alone test ('new_only_HIGS')."""
 import json
 import sys
 import numpy as np
@@ -20,6 +24,7 @@ BINS_A = [59, 69, 79, 89, 99, 109, 117, 127, 135, 143, 150]          # KLP18 bin
 BINS_B = [59, 69, 81, 92, 103, 113, 124, 135, 143, 150]              # re-centred on the HIGS/A2 energies
 KEYS = ['alphaE1', 'betaM1', 'alpha_m_beta', 'gamma_pi', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2', 'alpha_p_beta', 'gamma0']
 MAIN_DROP = [('TAPS2001', 108.42, 133.0)]      # (dataset, E [MeV], theta_lab [deg]) of the point(s) excluded from the main database
+HIGS = ['HIGS_2022_circ', 'HIGS_2022_lin']     # HIGS 2022 (Li et al.): excluded from the main database since 2026-10-17 (test only)
 PRUNE = dict(drop_sets=['Oxley', 'Bernardini', 'Baranov1974_th150'], drop_points=[('TAPS2001', 108.42, 133.0)])
 
 
@@ -28,13 +33,16 @@ def load(per_beamtime=False):
 
 
 def select(d, sets=None, exclude_sets=(), drop_points=(), odl_stat_only=False, new_only=False, old_only=False,
-           keep_outlier=False):
-    """data selection; MAIN_DROP is removed from every selection unless keep_outlier=True (see module docstring)"""
+           keep_outlier=False, with_higs=False):
+    """data selection: MAIN_DROP is removed from every selection unless keep_outlier=True, and the HIGS 2022 sets are
+    removed unless with_higs=True or they are named explicitly in `sets` (see module docstring)"""
     d = d.copy()
     keep = np.ones(len(d), bool)
     if sets is not None:
         keep &= d.dataset.isin(sets).values
     keep &= ~d.dataset.isin(list(exclude_sets)).values
+    if not with_higs and not (sets is not None and any(s in HIGS for s in sets)):
+        keep &= ~d.dataset.isin(HIGS).values            # HIGS 2022 not in the main database (2026-10-17)
     for ds, E, th in list(drop_points) + ([] if keep_outlier else list(MAIN_DROP)):
         keep &= ~((d.dataset == ds) & (abs(d.E - E) < 0.05) & (abs(d.theta_lab - th) < 0.5)).values
     if new_only:
@@ -113,8 +121,8 @@ def main():
     go('old_raw', select(d, old_only=True, odl_stat_only=True))            # analogue of KLP18 Fit 1
     go('old_std', select(d, old_only=True))
     go('old_pruned', select(d, old_only=True, exclude_sets=PRUNE['drop_sets'], drop_points=PRUNE['drop_points']))
-    go('new_only', select(d, new_only=True))
-    go('new_only_A2', select(d, sets=['A2_2022_CS', 'A2_2022_S3']))
+    go('new_only', select(d, new_only=True, with_higs=True))               # A2 2022 + HIGS 2022 (test: HIGS not in the main database)
+    go('new_only_A2', select(d, sets=['A2_2022_CS', 'A2_2022_S3']))        # the new data of the main database
     go('new_only_A2CS', select(d, sets=['A2_2022_CS']))
     go('new_only_HIGS', select(d, sets=['HIGS_2022_circ', 'HIGS_2022_lin']))
     go('TAPS_only', select(d, sets=['TAPS2001']))
@@ -149,10 +157,11 @@ def main():
     go('all_noTAPS', select(d, exclude_sets=['TAPS2001']))
     go('all_noA2', select(d, exclude_sets=['A2_2022_CS', 'A2_2022_S3']))
     go('all_noA2S3', select(d, exclude_sets=['A2_2022_S3']))
-    go('all_noHIGS', select(d, exclude_sets=['HIGS_2022_circ', 'HIGS_2022_lin']))
+    go('all_withHIGS', select(d, with_higs=True))                          # main database + HIGS 2022 (the former main)
+    go('all_withHIGS_norm', select(d, with_higs=True), float_norm=True)    # (former all_std_norm)
     go('all_noLegacy', select(d, exclude_sets=['Oxley', 'Goldansky', 'Bernardini', 'Pugh', 'Hyman']))
     go('modern', select(d, sets=['TAPS2001', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged', 'Hallin1993', 'Federspiel1991',
-                                 'A2_2022_CS', 'A2_2022_S3', 'HIGS_2022_circ', 'HIGS_2022_lin']))
+                                 'A2_2022_CS', 'A2_2022_S3']))
     # ---------- per-beamtime A2 ----------
     dbt = load(per_beamtime=True)
     go('all_std_A2beamtimes_norm', select(dbt), float_norm=True)
@@ -195,12 +204,14 @@ def main():
     go('old_noTAPS', select(d, old_only=True, exclude_sets=['TAPS2001']))
     # ---------- parameter-goodness-of-fit (compatibility) tests, data chi2 only ----------
     pg = {}
-    for name, sub in (('TAPS', ['TAPS2001']), ('A2', ['A2_2022_CS', 'A2_2022_S3']), ('HIGS', ['HIGS_2022_circ', 'HIGS_2022_lin']),
-                      ('new', ['A2_2022_CS', 'A2_2022_S3', 'HIGS_2022_circ', 'HIGS_2022_lin'])):
+    # 'all' = the fit to subset + rest: the main database (all_std) for subsets of it, the with-HIGS fit for the
+    # HIGS-containing subsets (HIGS 2022 is not part of the main database since 2026-10-17)
+    for name, sub, allkey in (('TAPS', ['TAPS2001'], 'all_std'), ('A2', ['A2_2022_CS', 'A2_2022_S3'], 'all_std'),
+                              ('HIGS', HIGS, 'all_withHIGS'), ('new', ['A2_2022_CS', 'A2_2022_S3'] + HIGS, 'all_withHIGS')):
         rA, _, _ = fit_variant('pgA', select(d, sets=sub))
         rB, _, _ = fit_variant('pgB', select(d, exclude_sets=sub))
-        pg[name] = dict(chi2_all=out['all_std']['chi2'], chi2_sub=rA['chi2'], chi2_rest=rB['chi2'],
-                        dchi2=out['all_std']['chi2'] - rA['chi2'] - rB['chi2'],
+        pg[name] = dict(all_key=allkey, chi2_all=out[allkey]['chi2'], chi2_sub=rA['chi2'], chi2_rest=rB['chi2'],
+                        dchi2=out[allkey]['chi2'] - rA['chi2'] - rB['chi2'],
                         amb_sub=rA['val']['alpha_m_beta'], amb_rest=rB['val']['alpha_m_beta'],
                         gpi_sub=rA['val']['gamma_pi'], gpi_rest=rB['val']['gamma_pi'])
         print('PG', name, pg[name], flush=True)

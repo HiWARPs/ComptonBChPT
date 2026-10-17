@@ -830,3 +830,17 @@ regenerated with unchanged layout. The χ² comparison with the BχPT Baldin fit
 165.3) is in `results/modern_chi2_comparison.md` (`scenarios/modern_chi2_comparison.py`). The KLP18 reproduction
 (Sec. 3) is unaffected (rerun, bit-identical). Every OLD → NEW number of the paper is listed in
 `work/notes/pwa_mainfit_switch.md`.
+
+## 13. Addendum (2026-10-17): HIγS 2022 dropped from the main database
+
+By decision of the author (2026-10-17) the HIγS 2022 sets (`HIGS_2022_circ`, `HIGS_2022_lin`, 16 points) are no
+longer part of the main database of either analysis. `update_fits.select` now drops them from every selection
+unless `with_higs=True` (or they are named explicitly in `sets`); the paper's PWA fit (`main_fits_legacynorm.json`,
+key `MAIN`) is therefore N = 237, χ²/N = 0.771, α−β = 8.15 ± 1.26 (stat) ± 1.05 (method), β = 2.99 ± 0.62 ± 0.53,
+α = 11.14 ± 0.65 ± 0.53, α+β = 14.14(17), γ0 = −0.921(101), γπ = 4.97(1.89), n_f = 0.68, n_g = 0.07 (= the former
+variant `db_noHIGS`). The former main fit (N = 253, 9.01/2.58) is kept as the variant **`db_withHIGS`**
+(`db_pruned_withHIGS`, `all_withHIGS[_norm]` in `update_fits.json`); `db_new_only` (A2 + HIγS) and `new_only_HIGS`
+remain as tests; the PG tests of the HIγS-containing subsets use the with-HIγS fit as "all". MAIN_DROP is re-derived
+on the new database (verified; nothing else flagged). Every OLD → NEW number of the paper (Table pwa, Eq. pwamain,
+the pulls/forward/multipole figures, the modern-χ² comparison: 181 points, PWA 141.2 vs BχPT 145.1) is listed in
+`work/notes/main_without_HIGS.md`; the numbers of Sections 1–12 above refer to the former main database.

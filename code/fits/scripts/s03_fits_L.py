@@ -6,23 +6,36 @@ F3 : F2 + gamma_M1M1 and gamma_E1E1 free (gamma_0 constrained by the forward Sig
 F3b: F1 + gamma_pi free at fixed gamma_0 (direction dgM1M1 = -dgE1E1 = 1/2)
 F3c: F1 + gamma_M1M1 free alone (MPG-2013 style)
 F4 : F1/F2 with E <= 170 MeV (OdL to 164 MeV, Hallin <= 150 MeV as in MPG Set III; variant Hallin <= 170)
-Database variants a-i (see report).  Also: Mornacchi benchmark, theory-covariance fits, order-by-order fits,
+Database variants a-j (see report).  Also: Mornacchi benchmark, theory-covariance fits, order-by-order fits,
 parameter variations.
 
-MAIN DATABASE (since 2026-10-14): 'd_all' denotes the main database = all region-L data MINUS the 3-sigma outlier(s)
-MAIN_DROP (lib/common.py; currently the single TAPS point OlmosdeLeon2001_029 at 108.42 MeV, 133 deg).  MAIN_DROP was
-determined once from the all-points fit (F2 + truncation covariance, two-pass 3-sigma rule) and is held fixed; this
-script re-derives it from the all-points fit at every run ('F2_d_allpts_thB') and stops if the list differs.
-The drop is applied inside rows_for(), i.e. to EVERY fit built through do_fit() -- the whole 'd_all' family
-(d_all, d_all_thB, the truncation-model, order, parameter, spin, forward-point, F4 and E_max-scan variants, F2pi/F3*,
-fixsum, HIGS test) with UNCHANGED key names, and also to every subset that contains the TAPS set (a_pre2015,
-g_A2perbeam, i_noHIGS, F1_TAPSonly, pre2015+HIGS, pre2015+A2, LM14_type*; the GMPF-pruned sets never contained the
-point, which carries the flag GMPF_out).  Subsets without TAPS (b_A2only, c_HIGSonly, e_noTAPS, A2+HIGS, bench_*)
-are unaffected.  The all-points database is kept as the variant 'd_allpts' (keep_outlier=True), with and without the
-truncation covariance, for F1 and F2.  The 'h_3sigma' / 'h_3sigma_thBmain' variants now run the 3-sigma search on the
-main database (check that nothing else is flagged; 'removed' is then empty and the entry equals the d_all fit).
-Downstream scripts (s05-s07, delta_plots, radcorr, scenarios/asym_role.py) therefore use the new main fit
-automatically; scripts that select rows directly (not through rows_for) must drop MAIN_DROP themselves.
+MAIN DATABASE (since 2026-10-17): 'd_all' denotes the MAIN database = pre-2015 world data (OLD_L) + A2 2022 (A2),
+E_lab <= 150 MeV, MINUS the 3-sigma outlier(s) MAIN_DROP (lib/common.py; the single TAPS point OlmosdeLeon2001_029 at
+108.42 MeV, 133 deg), plus the GHP forward points (F2/F3 kinds).  The HIgS 2022 sets (Li et al., HIGS_2022_CIRC and
+HIGS_2022_LIN, 16 points) are EXCLUDED from the main database since 2026-10-17 (author decision); until then the
+main database was OLD_L + A2 + HIGS (minus MAIN_DROP).  The KEY NAMES of the 'd_all' family are UNCHANGED, so that
+every consumer of 'F2_d_all_thB' (s05-s11, scenarios, delta_plots, sigma_tot, pwa/scenarios/multipoles_figure.py,
+radcorr) picks up the new main fit automatically.  The former main database is kept as the variant 'j_withHIGS'
+(= OLD_L + A2 + HIGS, F1/F2 with and without the truncation covariance, F3 in the HIGS test); the HIgS data remain
+as the test 'c_HIGSonly' / '*_HIGS_free*' (HIgS alone) and in the 'HIGS test' block (shift of alpha, beta when HIgS
+is added, chi2 of the 16 HIgS points predicted from the main fit at n = 1 and with fitted normalisations,
+parameter-goodness-of-fit of HIgS vs the main database).  The former variant 'i_noHIGS' coincides with 'd_all' and
+is dropped.  'g_A2perbeam' = OLD_L + A2PB (no HIgS); 'e_noTAPS', 'f_GMPFpruned', the F4, forward-point,
+truncation-model, order, parameter, spin and E_max-scan variants and the error budget are all built from the new
+main database (ALL).
+
+MAIN_DROP (since 2026-10-14) was determined once from the all-points fit (F2 + truncation covariance, two-pass
+3-sigma rule) and is held fixed; this script re-derives it from the all-points fit at every run ('F2_d_allpts_thB',
+now on the main database without HIgS) and stops if the list differs.  The drop is applied inside rows_for(), i.e.
+to EVERY fit built through do_fit() -- the whole 'd_all' family (d_all, d_all_thB, the truncation-model, order,
+parameter, spin, forward-point, F4 and E_max-scan variants, F2pi/F3*, fixsum, HIGS test) with UNCHANGED key names,
+and also to every subset that contains the TAPS set (a_pre2015, g_A2perbeam, j_withHIGS, F1_TAPSonly,
+pre2015+HIGS, pre2015+A2, LM14_type*; the GMPF-pruned sets never contained the point, which carries the flag
+GMPF_out).  Subsets without TAPS (b_A2only, c_HIGSonly, e_noTAPS, A2+HIGS, bench_*) are unaffected.  The all-points
+database is kept as the variant 'd_allpts' (keep_outlier=True), with and without the truncation covariance, for F1
+and F2.  The 'h_3sigma' / 'h_3sigma_thBmain' variants run the 3-sigma search on the main database (check that
+nothing else is flagged; 'removed' is then empty and the entry equals the d_all fit).  Scripts that select rows
+directly (not through rows_for) must drop MAIN_DROP and the HIgS sets themselves.
 """
 import os, sys, copy
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lib'))
@@ -111,18 +124,22 @@ def do_fit(name, sets, kind='F1', Emax=150.0, excl=(), P0=PREF_NNLO, dfx=None, T
     return out
 
 
-ALL = OLD_L + A2 + HIGS
+# 'd_all' = MAIN database = pre-2015 world data + A2 2022 (minus MAIN_DROP, + forward points for F2/F3);
+# HIgS 2022 excluded since 2026-10-17 (author decision).  ALLH = the former main database (with HIgS) = 'j_withHIGS'.
+ALL = list(MAIN_L_SETS)                      # = OLD_L + A2 (lib/common.py)
+ALLH = list(MAIN_L_SETS_WITH_HIGS)           # = OLD_L + A2 + HIGS (former main, variant j)
+assert ALL == OLD_L + A2 and ALLH == OLD_L + A2 + HIGS
 NOTAPS = [k for k in ALL if k != 'OlmosdeLeon2001']
 VARIANTS = {
     'a_pre2015': dict(sets=OLD_L),
     'b_A2only': dict(sets=A2),
-    'c_HIGSonly': dict(sets=HIGS),
+    'c_HIGSonly': dict(sets=HIGS),                            # test: HIgS alone (not part of the main database)
     'd_all': dict(sets=ALL),                                  # MAIN database = ALL minus MAIN_DROP (rows_for)
     'd_allpts': dict(sets=ALL, keep_outlier=True),            # (d') all points incl. the 3-sigma outlier
     'e_noTAPS': dict(sets=NOTAPS),
     'f_GMPFpruned': dict(sets=ALL, excl=('GMPF_out',)),
-    'g_A2perbeam': dict(sets=OLD_L + A2PB + HIGS, dfx='pb'),
-    'i_noHIGS': dict(sets=OLD_L + A2),
+    'g_A2perbeam': dict(sets=OLD_L + A2PB, dfx='pb'),         # main database with the A2 data per beam time
+    'j_withHIGS': dict(sets=ALLH),                            # (j) main database + HIgS 2022 (the former main)
 }
 
 
@@ -207,7 +224,9 @@ if __name__ == '__main__':
     do_fit('LM14_type', OLD_L, 'F1', Emax=170, excl=('GMPF_out',), baldin=(13.8, 0.4))
     do_fit('LM14_type_B14', OLD_L, 'F1', Emax=170, excl=('GMPF_out',))
 
-    print('=== MAIN database = all region-L data minus MAIN_DROP =', MAIN_DROP, '(all-points variant: d_allpts) ===')
+    print('=== MAIN database = pre-2015 world data + A2 2022 (HIgS 2022 excluded since 2026-10-17) minus MAIN_DROP =', MAIN_DROP,
+          '(all-points variant: d_allpts; with HIgS: j_withHIGS) ===')
+    print('    angular sets:', ALL)
     for kind in ['F1', 'F2']:
         print('=== %s database variants ===' % kind)
         for vn, v in VARIANTS.items():
@@ -260,7 +279,8 @@ if __name__ == '__main__':
         do_fit('%s_d_allpts_thB' % kind, ALL, kind, thcov=True, keep_outlier=True)   # (d') all points incl. outlier
         do_fit('%s_f_GMPFpruned_thB' % kind, ALL, kind, excl=('GMPF_out',), thcov=True)
         do_fit('%s_e_noTAPS_thB' % kind, NOTAPS, kind, thcov=True)
-        do_fit('%s_g_A2perbeam_thB' % kind, OLD_L + A2PB + HIGS, kind, dfx=dfp, TT=Tp, thcov=True)
+        do_fit('%s_g_A2perbeam_thB' % kind, OLD_L + A2PB, kind, dfx=dfp, TT=Tp, thcov=True)
+        do_fit('%s_j_withHIGS_thB' % kind, ALLH, kind, thcov=True)          # (j) with HIgS 2022 = the former main fit
         do_fit('%s_d_all_thB_diag' % kind, ALL, kind, thcov=True, thopts=dict(corr=False))
         do_fit('%s_d_all_thB_L600' % kind, ALL, kind, thcov=True, thopts=dict(Lam=600.0))
         do_fit('%s_d_all_thB_L900' % kind, ALL, kind, thcov=True, thopts=dict(Lam=900.0))
@@ -329,24 +349,29 @@ if __name__ == '__main__':
     do_fit('F2_F4_pruned_thB', ALL, 'F2', Emax=170, excl=('GMPF_out',), thcov=True)
     do_fit('F2_F4_all_Hallin170_thB', ALL, 'F2', Emax=170, thcov=True)
 
-    print('=== HIGS test: all data excluding HIGS 2022 (Li:2022vnz), parameter-goodness-of-fit, HIGS pulls ===')
+    print('=== HIGS test: MAIN database (no HIgS) vs main + HIgS 2022 (Li:2022vnz, variant j), HIgS alone, PG test, HIgS pulls ===')
+    # Since 2026-10-17 the HIgS data are NOT part of the main database: 'main' = d_all (OLD_L + A2 minus MAIN_DROP,
+    # + forward points), 'withHIGS' = j_withHIGS (the former main).  shift = P(withHIGS) - P(main) is the shift of
+    # the result when the HIgS data are ADDED; the 16 HIgS points are predicted from the main fit (n = 1 and n fitted
+    # within the 2.24 % normalisation prior); PG = chi2(withHIGS) - chi2(HIgS alone) - chi2(main), dof 2 (alpha, beta).
     HT = {}
+    from scipy.stats import chi2 as _c2
     for th in [False, True]:
         sfx = '_thB' if th else ''
         for kind in ['F1', 'F2', 'F3']:
-            if not th and kind in ('F1', 'F2'):
-                r_no = RESULTS['%s_i_noHIGS' % kind]
-            else:
-                r_no = run_variant(kind, 'i_noHIGS' + sfx, VARIANTS['i_noHIGS'], thcov=th)
-            r_all = RESULTS['%s_d_all%s' % (kind, sfx)]
-            # HIGS alone, alpha and beta free, no sum constraint (the Baldin/forward information is attributed to 'rest')
+            r_main = RESULTS['%s_d_all%s' % (kind, sfx)]
+            if '%s_j_withHIGS%s' % (kind, sfx) in RESULTS:
+                r_with = RESULTS['%s_j_withHIGS%s' % (kind, sfx)]
+            else:                                                    # F3 (with and without truncation covariance)
+                r_with = run_variant(kind, 'j_withHIGS' + sfx, VARIANTS['j_withHIGS'], thcov=th)
+            # HIGS alone, alpha and beta free, no sum constraint (the Baldin/forward information is attributed to 'rest');
+            # the same fit for every kind (kept under the three names for the consumers, e.g. s06: 'F1_HIGS_free')
             r_h = do_fit('%s_HIGS_free%s' % (kind, sfx), HIGS, 'F1', baldin=(14.0, 1e3), thcov=th, decompose=False)
-            pg = r_all['chi2'] - r_h['chi2'] - r_no['chi2']
-            from scipy.stats import chi2 as _c2
-            # predicted HIGS points from the no-HIGS fit
+            pg = r_with['chi2'] - r_h['chi2'] - r_main['chi2']
+            # the HIGS points predicted from the MAIN fit (no HIgS in the fit)
             sH = select(df, HIGS)
             idxH = T.subset(sH.pid.values)
-            tH = T.predict_array(np.array(r_no['P']), idxH)
+            tH = T.predict_array(np.array(r_main['P']), idxH)
             pull1 = (sH.value.values - tH) / sH.err_pt.values
             nfit = {}
             pulln = np.empty(len(sH))
@@ -357,28 +382,33 @@ if __name__ == '__main__':
                 nfit[ds] = n
                 pulln[m] = (y - n * t) / e
             chiH1 = float(np.sum(pull1 ** 2)); chiHn = float(np.sum(pulln ** 2) + sum(((nfit[k] - 1) / 0.0224) ** 2 for k in HIGS))
-            HT[kind + sfx] = dict(P_all=r_all['P'], P_noHIGS=r_no['P'], dP_noHIGS=r_no['dP'], shift=np.array(r_no['P']) - np.array(r_all['P']),
-                                  chi2_all=r_all['chi2'], dof_all=r_all['dof'], chi2_noHIGS=r_no['chi2'], dof_noHIGS=r_no['dof'],
+            HT[kind + sfx] = dict(P_main=r_main['P'], dP_main=r_main['dP'], P_withHIGS=r_with['P'], dP_withHIGS=r_with['dP'],
+                                  shift=np.array(r_with['P']) - np.array(r_main['P']),           # shift when HIgS is ADDED
+                                  chi2_main=r_main['chi2'], dof_main=r_main['dof'], chi2_withHIGS=r_with['chi2'], dof_withHIGS=r_with['dof'],
                                   chi2_HIGSfree=r_h['chi2'], dof_HIGSfree=r_h['dof'], P_HIGSfree=r_h['P'], dP_HIGSfree=r_h['dP'],
                                   PG=pg, PG_dof=2, PG_p=float(_c2.sf(pg, 2)),
                                   HIGS_pids=list(sH.pid), HIGS_E=list(sH.E), HIGS_th=list(sH.theta_lab), HIGS_obs=list(sH.dobs),
                                   HIGS_y=list(sH.value), HIGS_err=list(sH.err_pt), HIGS_pred=tH, pull_n1=pull1, pull_nfit=pulln,
                                   n_HIGS_fit=nfit, chi2_HIGS_pred_n1=chiH1, chi2_HIGS_pred_nfit=chiHn,
-                                  norms_noHIGS={k: (v['n'], v['dn']) for k, v in r_no['perset'].items()})
-            print('   %s%s: PG chi2 = %.2f - %.2f - %.2f = %.2f (dof 2, p = %.3f); HIGS predicted from no-HIGS fit: chi2 = %.1f/16 (n=1), %.1f (n fitted %s)'
-                  % (kind, sfx, r_all['chi2'], r_h['chi2'], r_no['chi2'], pg, _c2.sf(pg, 2), chiH1, chiHn,
+                                  chi2_HIGS_in_withHIGS={k: r_with['perset'][k]['chi2'] for k in HIGS if k in r_with['perset']},
+                                  n_HIGS_in_withHIGS={k: (r_with['perset'][k]['n'], r_with['perset'][k]['dn']) for k in HIGS if k in r_with['perset']},
+                                  norms_main={k: (v['n'], v['dn']) for k, v in r_main['perset'].items()},
+                                  norms_withHIGS={k: (v['n'], v['dn']) for k, v in r_with['perset'].items()})
+            print('   %s%s: main a=%.2f b=%.2f; +HIgS a=%.2f b=%.2f (shift %+.2f, %+.2f); PG chi2 = %.2f - %.2f - %.2f = %.2f (dof 2, p = %.3f); '
+                  'HIgS predicted from the main fit: chi2 = %.1f/16 (n=1), %.1f (n fitted %s)'
+                  % (kind, sfx, r_main['P'][0], r_main['P'][1], r_with['P'][0], r_with['P'][1], r_with['P'][0] - r_main['P'][0],
+                     r_with['P'][1] - r_main['P'][1], r_with['chi2'], r_h['chi2'], r_main['chi2'], pg, _c2.sf(pg, 2), chiH1, chiHn,
                      ', '.join('%.3f' % v for v in nfit.values())))
         # fixed-sum PG (alpha+beta = 14.0 exactly in all three fits; one parameter alpha-beta; dof 1)
-        ra = do_fit('F1_d_all_fixsum' + sfx, ALL, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
-        rn = do_fit('F1_i_noHIGS_fixsum' + sfx, OLD_L + A2, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
+        rw = do_fit('F1_j_withHIGS_fixsum' + sfx, ALLH, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
+        rm = do_fit('F1_d_all_fixsum' + sfx, ALL, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
         rh = do_fit('F1_HIGS_fixsum' + sfx, HIGS, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
-        pg = ra['chi2'] - rn['chi2'] - rh['chi2']
-        from scipy.stats import chi2 as _c2
-        HT['F1_fixsum' + sfx] = dict(PG=pg, PG_dof=1, PG_p=float(_c2.sf(pg, 1)), chi2_all=ra['chi2'], chi2_noHIGS=rn['chi2'],
-                                     chi2_HIGS=rh['chi2'], amb_all=ra['P'][0] - ra['P'][1], amb_noHIGS=rn['P'][0] - rn['P'][1],
+        pg = rw['chi2'] - rm['chi2'] - rh['chi2']
+        HT['F1_fixsum' + sfx] = dict(PG=pg, PG_dof=1, PG_p=float(_c2.sf(pg, 1)), chi2_withHIGS=rw['chi2'], chi2_main=rm['chi2'],
+                                     chi2_HIGS=rh['chi2'], amb_withHIGS=rw['P'][0] - rw['P'][1], amb_main=rm['P'][0] - rm['P'][1],
                                      amb_HIGS=rh['P'][0] - rh['P'][1])
-        print('   F1 fixed sum%s: PG = %.2f (dof 1, p = %.3f); alpha-beta: all %.2f, noHIGS %.2f, HIGS %.2f'
-              % (sfx, pg, _c2.sf(pg, 1), ra['P'][0] - ra['P'][1], rn['P'][0] - rn['P'][1], rh['P'][0] - rh['P'][1]))
+        print('   F1 fixed sum%s: PG = %.2f (dof 1, p = %.3f); alpha-beta: with HIgS %.2f, main %.2f, HIgS alone %.2f'
+              % (sfx, pg, _c2.sf(pg, 1), rw['P'][0] - rw['P'][1], rm['P'][0] - rm['P'][1], rh['P'][0] - rh['P'][1]))
     RESULTS['HIGS_test'] = HT
 
     print('=== single-observable / subset variants (with and without theory covariance) ===')

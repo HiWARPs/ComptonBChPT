@@ -1,7 +1,10 @@
 """Publication figures for the updated PWA (work/pwa/figs/*.pdf), shared style work/figstyle.mplstyle.
-All fits are on the MAIN DATABASE (update_fits.select drops UF.MAIN_DROP = TAPS 108.42/133 by default); the pulls
-figure draws the excluded point as an open symbol with its chi2 at the fitted parameters.  The paper's configuration
-(legacy normalisations floated) is obtained by running this file through scenarios/make_figures_legacynorm.py."""
+All fits are on the MAIN DATABASE (update_fits.select drops UF.MAIN_DROP = TAPS 108.42/133 and, since 2026-10-17, the
+HIGS 2022 sets by default; 'new' = A2 + HIGS is kept as a test with with_higs=True); the pulls figure draws the
+excluded TAPS point as an open symbol with its chi2 at the fitted parameters (the HIGS points are not drawn there: they
+are not part of the database of the fit).  The HIGS panels of fig_cs show the PWA fit as a prediction.  The paper's
+configuration (legacy normalisations floated) is obtained by running this file through
+scenarios/make_figures_legacynorm.py."""
 import os as _os  # [release] paths relative to this file: _WORK = <release>/code (the former work/), _ROOT = <release>
 _WORK = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 _ROOT = _os.path.dirname(_WORK)
@@ -58,7 +61,7 @@ def fits():
     m = UF.build_model(UF.select(d), **MAIN); F['main'] = (m, m.fit())
     m = UF.build_model(UF.select(d, exclude_sets=UF.PRUNE['drop_sets'], drop_points=UF.PRUNE['drop_points']), **MAIN)
     F['pruned'] = (m, m.fit())
-    m = UF.build_model(UF.select(d, new_only=True), **MAIN); F['new'] = (m, m.fit())
+    m = UF.build_model(UF.select(d, new_only=True, with_higs=True), **MAIN); F['new'] = (m, m.fit())   # A2 + HIGS (test)
     d0 = PI.load_klp2018()
     m = RP.make_model(RP.select(d0, '1')); F['plb1'] = (m, m.fit())
     m = RP.make_model(RP.select(d0, "1''")); F['plb1pp'] = (m, m.fit())

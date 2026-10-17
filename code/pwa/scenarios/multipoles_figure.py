@@ -5,8 +5,9 @@ size, delta alpha_E1 = delta beta_M1 = +-DLEC = +-0.7 (Lensky-Pascalutsa 2010, E
 amplitude (central differences at REF +- 0.7 e_k, added in quadrature; it is drawn in the alpha_E1(w), beta_M1(w)
 panels only -- the LECs do not shift the spin multipoles, which is checked at run time); the BChPT main fit
 ("NNLO fit": alpha_E1, beta_M1 from work/fits/results/fits_L.json['F2_d_all_thB'], spin polarisabilities at NNLO;
-dashed, blue); the PWA fit of the paper ("PWA fit": main database = all data minus the 3-sigma outlier
-TAPS 108.42/133 (update_fits.MAIN_DROP), legacy normalisations floated, configuration main_fits.MAIN); and the
+dashed, blue); the PWA fit of the paper ("PWA fit": main database = pre-2015 + A2 2022 minus the 3-sigma outlier
+TAPS 108.42/133 (update_fits.MAIN_DROP), HIGS 2022 excluded since 2026-10-17 (update_fits.HIGS), legacy
+normalisations floated, configuration main_fits.MAIN); and the
 published KLP18 Fit 1 and Fit 1'' (PLB 782 (2018) 34, Fig. 4, recovered from the vector graphics).
 Until 2026-10-16 the fit was the main (solid) curve, with the band from the (alpha, beta) fit covariance, and the
 prediction dashed; that version is kept in work/backups/*_before_predmain.*  The fit-covariance band is still
@@ -476,7 +477,7 @@ def main():
                    raw_band_fit_fm={'%s%d%s' % k: B['raw_band'][k] for k in L1},
                    raw_band_lec_fm={'%s%d%s' % k: B['raw_lec'][k] for k in L1}),
         pwa_main=dict(config='main_fits.MAIN + floating normalisations of the legacy sets ' + str(LEG) +
-                             '; main database = all points minus ' + str(UF.MAIN_DROP), **P),
+                             '; main database = pre-2015 + A2 2022 minus ' + str(UF.MAIN_DROP) + ', HIGS 2022 excluded (2026-10-17)', **P),
         pwa_prior_variants=variants,
         klp18_published=dict(source='KLP18 Fig. 4 (arXiv source polarizabilities_NEW_v2.pdf), vector-digitised; errors as published '
                                     '(global parameters only, residual functions fixed)',
