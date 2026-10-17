@@ -118,16 +118,9 @@
    1.145352
   ]
  },
- "extra": "run3",
- "extra_irun": 3,
+ "extra": "none",
+ "extra_irun": null,
  "extra_in_theta": true,
- "extra_v2opts": "pimassphys=t, nmassphys=t, irun=3, dvertex=t",
- "Pref_extra": [
-  11.415433,
-  3.729127,
-  -3.24588,
-  2.939188,
-  0.170077,
-  1.132567
- ]
+ "extra_v2opts": null,
+ "Pref_extra": null
 }

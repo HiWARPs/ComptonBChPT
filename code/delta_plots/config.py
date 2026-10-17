@@ -11,7 +11,8 @@ Environment (all optional; one command regenerates everything: work/delta_plots/
                   dvertex is set by the pipeline itself: dvertex=t for the main curves, dvertex=f for the
                   "without vertex corrections" curve and the delta x (Delta-pole corrections) shift.
                   A v1 executable ignores the &v2 group (then both coincide and are not drawn/used).
-  DP_EXTRA        the extra dotted curve of the figures (2026-10-17): 'run3' (default) = the NNLO prediction with the
+  DP_EXTRA        the extra dotted curve of the figures: 'none' (default since 2026-10-17 pm; 'run3' was the default on
+                  2026-10-17 am) = no extra curve; 'run3' = the NNLO prediction with the
                   running gammaNDelta couplings and Delta mass of code_v2 (&v2 irun=3: dispersion relations doubly
                   subtracted, values AND slopes fixed at s0 = M_N^2, all six static polarisabilities unchanged;
                   work/notes/delta_running2.md), evaluated at the static polarisabilities of the main curve;
@@ -64,7 +65,7 @@ def v2opts(dvertex, irun=None):
 # extra dotted curve of the figures (DP_EXTRA, see the module doc).  'run3' is the variant shown in the paper
 # (2026-10-17): same static polarisabilities as the main curve by construction, only the energy dependence of the
 # Delta parameters between the threshold and the resonance is added.
-EXTRA = os.environ.get('DP_EXTRA', 'run3').strip().lower()
+EXTRA = os.environ.get('DP_EXTRA', 'none').strip().lower()     # 'none' since 2026-10-17 (user: no running curve in the figures)
 assert EXTRA in ('run3', 'run2', 'run1', 'novc', 'none'), 'DP_EXTRA must be run3, run2, run1, novc or none'
 EXTRA_IRUN = int(EXTRA[3:]) if EXTRA.startswith('run') else None      # &v2 irun of the extra curve (None: no run)
 EXTRA_THETA = os.environ.get('DP_EXTRA_THETA', '0' if EXTRA == 'novc' else '1').strip() == '1'

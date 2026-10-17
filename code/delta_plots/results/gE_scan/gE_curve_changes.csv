@@ -1,0 +1,231 @@
+gE,mode,obs,stat,value
+0.0,full,dsigma LAB 60,max |rel. change| 250-350 MeV,0.06012642310088734
+0.0,full,dsigma LAB 60,mean rel. change at the peak (300-340),-0.04941192625187859
+0.0,full,dsigma LAB 90,max |rel. change| 250-350 MeV,0.06699395649445528
+0.0,full,dsigma LAB 90,mean rel. change at the peak (300-340),-0.05256348481079086
+0.0,full,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.1287329864648169
+0.0,full,dsigma LAB 133.5,mean rel. change at the peak (300-340),-0.11361765668087258
+0.0,full,dsigma CM 75,max |rel. change| 250-350 MeV,0.059882962937096273
+0.0,full,dsigma CM 75,mean rel. change at the peak (300-340),-0.0482668879525922
+0.0,full,dsigma CM 90,max |rel. change| 250-350 MeV,0.05518585826616651
+0.0,full,dsigma CM 90,mean rel. change at the peak (300-340),-0.04273121445818756
+0.0,full,dsigma CM 125,max |rel. change| 250-350 MeV,0.09744930392313478
+0.0,full,dsigma CM 125,mean rel. change at the peak (300-340),-0.08374258687877122
+0.0,full,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.045639478968344
+0.0,full,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.025736653573345397
+0.0,full,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.03862619739635584
+0.0,full,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.04497785555959666
+0.0,full,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.04393519685433994
+0.0,full,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.04234657092306887
+0.0,full,Sigma3(90) 250-350 MeV,max |abs. change|,0.04565603493853726
+0.0,full,S2X A2 15 (273-303 MeV),max |abs. change|,0.023397564726323983
+0.0,full,S2X Martel thesis (315-346 MeV),max |abs. change|,0.03148500511004387
+0.0,full,S2Z A2 20 (265-285 MeV),max |abs. change|,0.055324955433172895
+0.0,full,S2Z A2 20 (285-305 MeV),max |abs. change|,0.058384787225991275
+0.0,P0,dsigma LAB 60,max |rel. change| 250-350 MeV,0.059417339295172567
+0.0,P0,dsigma LAB 60,mean rel. change at the peak (300-340),-0.04886709483935186
+0.0,P0,dsigma LAB 90,max |rel. change| 250-350 MeV,0.07229142748893458
+0.0,P0,dsigma LAB 90,mean rel. change at the peak (300-340),-0.054966032819621105
+0.0,P0,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.1373829925354031
+0.0,P0,dsigma LAB 133.5,mean rel. change at the peak (300-340),-0.11273161525173418
+0.0,P0,dsigma CM 75,max |rel. change| 250-350 MeV,0.05921342717622158
+0.0,P0,dsigma CM 75,mean rel. change at the peak (300-340),-0.04791339857109046
+0.0,P0,dsigma CM 90,max |rel. change| 250-350 MeV,0.05708631333015313
+0.0,P0,dsigma CM 90,mean rel. change at the peak (300-340),-0.044224521213848594
+0.0,P0,dsigma CM 125,max |rel. change| 250-350 MeV,0.10561623051213476
+0.0,P0,dsigma CM 125,mean rel. change at the peak (300-340),-0.08512398708566257
+0.0,P0,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.03908694373498667
+0.0,P0,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.018281275648357298
+0.0,P0,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.03099481875303506
+0.0,P0,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.038095481976261225
+0.0,P0,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.03770924667916037
+0.0,P0,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.03595904132301103
+0.0,P0,Sigma3(90) 250-350 MeV,max |abs. change|,0.03920014508092831
+0.0,P0,S2X A2 15 (273-303 MeV),max |abs. change|,0.01534386030534346
+0.0,P0,S2X Martel thesis (315-346 MeV),max |abs. change|,0.028337335541605002
+0.0,P0,S2Z A2 20 (265-285 MeV),max |abs. change|,0.043680658587717525
+0.0,P0,S2Z A2 20 (285-305 MeV),max |abs. change|,0.05086397863214903
+-0.5,full,dsigma LAB 60,max |rel. change| 250-350 MeV,0.03117615517596839
+-0.5,full,dsigma LAB 60,mean rel. change at the peak (300-340),-0.025243947991152815
+-0.5,full,dsigma LAB 90,max |rel. change| 250-350 MeV,0.03431861870555364
+-0.5,full,dsigma LAB 90,mean rel. change at the peak (300-340),-0.027016452805691676
+-0.5,full,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.06654139247436697
+-0.5,full,dsigma LAB 133.5,mean rel. change at the peak (300-340),-0.05904280003180208
+-0.5,full,dsigma CM 75,max |rel. change| 250-350 MeV,0.03104362297995167
+-0.5,full,dsigma CM 75,mean rel. change at the peak (300-340),-0.024652958109747356
+-0.5,full,dsigma CM 90,max |rel. change| 250-350 MeV,0.02834225525002665
+-0.5,full,dsigma CM 90,mean rel. change at the peak (300-340),-0.021816745062313708
+-0.5,full,dsigma CM 125,max |rel. change| 250-350 MeV,0.05015301330867117
+-0.5,full,dsigma CM 125,mean rel. change at the peak (300-340),-0.04338682338999285
+-0.5,full,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.02226790975136872
+-0.5,full,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.012484154226499622
+-0.5,full,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.018916547551483996
+-0.5,full,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.021992727781474042
+-0.5,full,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.02127219863216634
+-0.5,full,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.02042363658135876
+-0.5,full,Sigma3(90) 250-350 MeV,max |abs. change|,0.02226732985158139
+-0.5,full,S2X A2 15 (273-303 MeV),max |abs. change|,0.010908407187637137
+-0.5,full,S2X Martel thesis (315-346 MeV),max |abs. change|,0.01494017990148011
+-0.5,full,S2Z A2 20 (265-285 MeV),max |abs. change|,0.027547624949787353
+-0.5,full,S2Z A2 20 (285-305 MeV),max |abs. change|,0.028867122233451725
+-0.5,P0,dsigma LAB 60,max |rel. change| 250-350 MeV,0.03072551791746292
+-0.5,P0,dsigma LAB 60,mean rel. change at the peak (300-340),-0.025008949347978874
+-0.5,P0,dsigma LAB 90,max |rel. change| 250-350 MeV,0.03734791599961418
+-0.5,P0,dsigma LAB 90,mean rel. change at the peak (300-340),-0.028186151958417532
+-0.5,P0,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.07167408141045029
+-0.5,P0,dsigma LAB 133.5,mean rel. change at the peak (300-340),-0.058373928021455856
+-0.5,P0,dsigma CM 75,max |rel. change| 250-350 MeV,0.030616258608968994
+-0.5,P0,dsigma CM 75,mean rel. change at the peak (300-340),-0.024511127158925703
+-0.5,P0,dsigma CM 90,max |rel. change| 250-350 MeV,0.02940766025890551
+-0.5,P0,dsigma CM 90,mean rel. change at the peak (300-340),-0.022577479249890814
+-0.5,P0,dsigma CM 125,max |rel. change| 250-350 MeV,0.05488913296938536
+-0.5,P0,dsigma CM 125,mean rel. change at the peak (300-340),-0.043942693019986476
+-0.5,P0,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.019204754235313454
+-0.5,P0,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.009183979997449382
+-0.5,P0,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.015463298746159437
+-0.5,P0,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.01881836428149089
+-0.5,P0,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.018206479558643685
+-0.5,P0,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.017187249778331193
+-0.5,P0,Sigma3(90) 250-350 MeV,max |abs. change|,0.019217254201649825
+-0.5,P0,S2X A2 15 (273-303 MeV),max |abs. change|,0.007307415392771299
+-0.5,P0,S2X Martel thesis (315-346 MeV),max |abs. change|,0.013511551930056903
+-0.5,P0,S2Z A2 20 (265-285 MeV),max |abs. change|,0.021704116473867496
+-0.5,P0,S2Z A2 20 (285-305 MeV),max |abs. change|,0.02506078327960415
+-1.0,full,dsigma LAB 60,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma LAB 60,mean rel. change at the peak (300-340),0.0
+-1.0,full,dsigma LAB 90,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma LAB 90,mean rel. change at the peak (300-340),0.0
+-1.0,full,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.0
+-1.0,full,dsigma CM 75,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma CM 75,mean rel. change at the peak (300-340),0.0
+-1.0,full,dsigma CM 90,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma CM 90,mean rel. change at the peak (300-340),0.0
+-1.0,full,dsigma CM 125,max |rel. change| 250-350 MeV,0.0
+-1.0,full,dsigma CM 125,mean rel. change at the peak (300-340),0.0
+-1.0,full,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.0
+-1.0,full,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,full,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,full,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,full,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,full,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,full,Sigma3(90) 250-350 MeV,max |abs. change|,0.0
+-1.0,full,S2X A2 15 (273-303 MeV),max |abs. change|,0.0
+-1.0,full,S2X Martel thesis (315-346 MeV),max |abs. change|,0.0
+-1.0,full,S2Z A2 20 (265-285 MeV),max |abs. change|,0.0
+-1.0,full,S2Z A2 20 (285-305 MeV),max |abs. change|,0.0
+-1.0,P0,dsigma LAB 60,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma LAB 60,mean rel. change at the peak (300-340),0.0
+-1.0,P0,dsigma LAB 90,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma LAB 90,mean rel. change at the peak (300-340),0.0
+-1.0,P0,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.0
+-1.0,P0,dsigma CM 75,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma CM 75,mean rel. change at the peak (300-340),0.0
+-1.0,P0,dsigma CM 90,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma CM 90,mean rel. change at the peak (300-340),0.0
+-1.0,P0,dsigma CM 125,max |rel. change| 250-350 MeV,0.0
+-1.0,P0,dsigma CM 125,mean rel. change at the peak (300-340),0.0
+-1.0,P0,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.0
+-1.0,P0,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,P0,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,P0,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,P0,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,P0,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.0
+-1.0,P0,Sigma3(90) 250-350 MeV,max |abs. change|,0.0
+-1.0,P0,S2X A2 15 (273-303 MeV),max |abs. change|,0.0
+-1.0,P0,S2X Martel thesis (315-346 MeV),max |abs. change|,0.0
+-1.0,P0,S2Z A2 20 (265-285 MeV),max |abs. change|,0.0
+-1.0,P0,S2Z A2 20 (285-305 MeV),max |abs. change|,0.0
+-1.5,full,dsigma LAB 60,max |rel. change| 250-350 MeV,0.03355105027788574
+-1.5,full,dsigma LAB 60,mean rel. change at the peak (300-340),0.026385216339101424
+-1.5,full,dsigma LAB 90,max |rel. change| 250-350 MeV,0.036061435451464785
+-1.5,full,dsigma LAB 90,mean rel. change at the peak (300-340),0.02857847021964185
+-1.5,full,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.07104471668970214
+-1.5,full,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.06369896415780889
+-1.5,full,dsigma CM 75,max |rel. change| 250-350 MeV,0.03339596980526771
+-1.5,full,dsigma CM 75,mean rel. change at the peak (300-340),0.025757035600102736
+-1.5,full,dsigma CM 90,max |rel. change| 250-350 MeV,0.02995244004032349
+-1.5,full,dsigma CM 90,mean rel. change at the peak (300-340),0.02278787986962097
+-1.5,full,dsigma CM 125,max |rel. change| 250-350 MeV,0.053129730333957514
+-1.5,full,dsigma CM 125,mean rel. change at the peak (300-340),0.04656266939363667
+-1.5,full,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.021089564080967182
+-1.5,full,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.011675982261220047
+-1.5,full,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.01807013848776508
+-1.5,full,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.020929541611336477
+-1.5,full,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.019794207090296778
+-1.5,full,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.01883055309637205
+-1.5,full,Sigma3(90) 250-350 MeV,max |abs. change|,0.021098645041455005
+-1.5,full,S2X A2 15 (273-303 MeV),max |abs. change|,0.010105932219756364
+-1.5,full,S2X Martel thesis (315-346 MeV),max |abs. change|,0.013302051617018695
+-1.5,full,S2Z A2 20 (265-285 MeV),max |abs. change|,0.02730901764066762
+-1.5,full,S2Z A2 20 (285-305 MeV),max |abs. change|,0.028241758405709638
+-1.5,P0,dsigma LAB 60,max |rel. change| 250-350 MeV,0.03283723710117403
+-1.5,P0,dsigma LAB 60,mean rel. change at the peak (300-340),0.026218633989364498
+-1.5,P0,dsigma LAB 90,max |rel. change| 250-350 MeV,0.03989796750504038
+-1.5,P0,dsigma LAB 90,mean rel. change at the peak (300-340),0.029686112154776616
+-1.5,P0,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.07794960169842158
+-1.5,P0,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.06258780782686306
+-1.5,P0,dsigma CM 75,max |rel. change| 250-350 MeV,0.03271352728734489
+-1.5,P0,dsigma CM 75,mean rel. change at the peak (300-340),0.02567875711229742
+-1.5,P0,dsigma CM 90,max |rel. change| 250-350 MeV,0.03123401317738783
+-1.5,P0,dsigma CM 90,mean rel. change at the peak (300-340),0.023575026933661838
+-1.5,P0,dsigma CM 125,max |rel. change| 250-350 MeV,0.05928093691970604
+-1.5,P0,dsigma CM 125,mean rel. change at the peak (300-340),0.046853047619683286
+-1.5,P0,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.018456937235998727
+-1.5,P0,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.009261483057655118
+-1.5,P0,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.01536460233489522
+-1.5,P0,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.018299590792303283
+-1.5,P0,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.016828115873381844
+-1.5,P0,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.01552348405091225
+-1.5,P0,Sigma3(90) 250-350 MeV,max |abs. change|,0.018470592545709513
+-1.5,P0,S2X A2 15 (273-303 MeV),max |abs. change|,0.0066031753937191295
+-1.5,P0,S2X Martel thesis (315-346 MeV),max |abs. change|,0.012230841919975172
+-1.5,P0,S2Z A2 20 (265-285 MeV),max |abs. change|,0.02145903189622156
+-1.5,P0,S2Z A2 20 (285-305 MeV),max |abs. change|,0.02437529894747653
+-2.0,full,dsigma LAB 60,max |rel. change| 250-350 MeV,0.06964300246999544
+-2.0,full,dsigma LAB 60,mean rel. change at the peak (300-340),0.05398850642180022
+-2.0,full,dsigma LAB 90,max |rel. change| 250-350 MeV,0.07397686468376219
+-2.0,full,dsigma LAB 90,mean rel. change at the peak (300-340),0.058821071036233935
+-2.0,full,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.14675379994381843
+-2.0,full,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.13225189746236266
+-2.0,full,dsigma CM 75,max |rel. change| 250-350 MeV,0.06930930254932632
+-2.0,full,dsigma CM 75,mean rel. change at the peak (300-340),0.052694683076416435
+-2.0,full,dsigma CM 90,max |rel. change| 250-350 MeV,0.06164103989048364
+-2.0,full,dsigma CM 90,mean rel. change at the peak (300-340),0.046626415673827595
+-2.0,full,dsigma CM 125,max |rel. change| 250-350 MeV,0.10936517587963968
+-2.0,full,dsigma CM 125,mean rel. change at the peak (300-340),0.09645487355032052
+-2.0,full,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.04092330435819963
+-2.0,full,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.022498833359216347
+-2.0,full,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.03522884149712292
+-2.0,full,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.040719342115756896
+-2.0,full,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.038027265443760117
+-2.0,full,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.03598065392291627
+-2.0,full,Sigma3(90) 250-350 MeV,max |abs. change|,0.04097101566547362
+-2.0,full,S2X A2 15 (273-303 MeV),max |abs. change|,0.01998669424028965
+-2.0,full,S2X Martel thesis (315-346 MeV),max |abs. change|,0.025039389762621156
+-2.0,full,S2Z A2 20 (265-285 MeV),max |abs. change|,0.05436730156137792
+-2.0,full,S2Z A2 20 (285-305 MeV),max |abs. change|,0.05590529556598883
+-2.0,P0,dsigma LAB 60,max |rel. change| 250-350 MeV,0.06788101660477142
+-2.0,P0,dsigma LAB 60,mean rel. change at the peak (300-340),0.05371560028816166
+-2.0,P0,dsigma LAB 90,max |rel. change| 250-350 MeV,0.08251062922897145
+-2.0,P0,dsigma LAB 90,mean rel. change at the peak (300-340),0.06097682590301429
+-2.0,P0,dsigma LAB 133.5,max |rel. change| 250-350 MeV,0.1625056696150078
+-2.0,P0,dsigma LAB 133.5,mean rel. change at the peak (300-340),0.12959839609431847
+-2.0,P0,dsigma CM 75,max |rel. change| 250-350 MeV,0.06761932832437756
+-2.0,P0,dsigma CM 75,mean rel. change at the peak (300-340),0.052593742033206645
+-2.0,P0,dsigma CM 90,max |rel. change| 250-350 MeV,0.06440970776228161
+-2.0,P0,dsigma CM 90,mean rel. change at the peak (300-340),0.048225196141227125
+-2.0,P0,dsigma CM 125,max |rel. change| 250-350 MeV,0.12320337293293915
+-2.0,P0,dsigma CM 125,mean rel. change at the peak (300-340),0.0967766135609012
+-2.0,P0,"Sigma3 (LEGS energies, all angles)",max |abs. change|,0.036095366919137506
+-2.0,P0,"Sigma3 at 213.1 MeV, 60-140 deg",max |abs. change|,0.0185911766110807
+-2.0,P0,"Sigma3 at 254.1 MeV, 60-140 deg",max |abs. change|,0.03059942875732473
+-2.0,P0,"Sigma3 at 286.5 MeV, 60-140 deg",max |abs. change|,0.03601963857935489
+-2.0,P0,"Sigma3 at 323.8 MeV, 60-140 deg",max |abs. change|,0.03219832453326882
+-2.0,P0,"Sigma3 at 333.8 MeV, 60-140 deg",max |abs. change|,0.02930846486692351
+-2.0,P0,Sigma3(90) 250-350 MeV,max |abs. change|,0.03620260100975664
+-2.0,P0,S2X A2 15 (273-303 MeV),max |abs. change|,0.012514757143395894
+-2.0,P0,S2X Martel thesis (315-346 MeV),max |abs. change|,0.023170233770596682
+-2.0,P0,S2Z A2 20 (265-285 MeV),max |abs. change|,0.04266905563808315
+-2.0,P0,S2Z A2 20 (285-305 MeV),max |abs. change|,0.04814090312524477

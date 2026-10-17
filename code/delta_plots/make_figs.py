@@ -120,12 +120,18 @@ BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0)
 
 
 # ============================================================== drawing helpers
-def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False):
+E_BAND_MAX = 450.0     # the bands of the vs-E figures end here (user decision 2026-10-17: upper limit of applicability)
+
+
+def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False, band_xmax=None):
+    """band_xmax: draw the two bands only for x <= band_xmax (vs-E figures: E_BAND_MAX); the curves continue"""
+    x = np.asarray(x, float)
+    m = np.ones(len(x), bool) if band_xmax is None else (x <= band_xmax + 1e-9)
     if gm:
-        ax.fill_between(x, cv['gm_lo'][idx], cv['gm_hi'][idx], color=C_GM, lw=0, zorder=1)
-        ax.plot(x, cv['gm_lo'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(x, cv['gm_hi'][idx], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-    ax.fill_between(x, cv['lo'][idx], cv['hi'][idx], color=C_BAND, lw=0, alpha=0.85, zorder=2)
+        ax.fill_between(x[m], cv['gm_lo'][idx][m], cv['gm_hi'][idx][m], color=C_GM, lw=0, zorder=1)
+        ax.plot(x[m], cv['gm_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        ax.plot(x[m], cv['gm_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+    ax.fill_between(x[m], cv['lo'][idx][m], cv['hi'][idx][m], color=C_BAND, lw=0, alpha=0.85, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
     if extra and has_extra(cv):
@@ -206,7 +212,7 @@ def fig1(df, cv, ix):
     for k, (fr, th0) in enumerate(FIG1):
         ax = axs.ravel()[k]
         idx = np.array([ix[gid('f1', fr, th0, '%.2f' % E)] for E in E_GRID])
-        draw_theory(ax, E_GRID, cv, idx, extra=True)
+        draw_theory(ax, E_GRID, cv, idx, extra=True, band_xmax=E_BAND_MAX)
         col = 'theta_lab' if fr == 'LAB' else 'theta_cm'
         sel = cs[(cs.frame == fr) & (np.abs(cs[col] - th0) <= C.WIN_THETA + 1e-6)]
         mark_shown('Fig. 1 (dsigma vs E)', sel)
@@ -217,7 +223,9 @@ def fig1(df, cv, ix):
         ax.text(0.05, 0.93, r'$%g^\circ$ %s' % (th0, 'lab' if fr == 'LAB' else 'c.m.'), transform=ax.transAxes,
                 va='top', ha='left')
         ax.axvline(E_2PI, color='0.45', lw=0.5, ls=':', zorder=0.5)       # two-pion (pi0 pi0 p) threshold
-        ymax = max(np.max(cv['gm_hi'][idx]), (sel.value + sel.err).max() if len(sel) else 0)
+        mb = E_GRID <= E_BAND_MAX
+        ymax = max(np.max(cv['gm_hi'][idx][mb]), np.max(cv['main'][idx]), np.max(cv['fit'][idx]), np.max(cv['tree'][idx]),
+                   (sel.value + sel.err).max() if len(sel) else 0)
         ax.set_ylim(0, 1.08 * ymax)
         ax.set_xlim(0, 800)
         if k % 3 == 0:
@@ -306,7 +314,7 @@ def fig3a(df, cv, ix):
             s = sel[sel.label == lab]
             draw_points(ax, lab, s.theta_cm.values, s.value.values, s.err.values, reg)
         ax.axhline(0, color='0.6', lw=0.4, zorder=0)
-        ax.text(0.05, 0.94, r'%g MeV' % E0, transform=ax.transAxes, va='top', ha='left')
+        ax.text(0.05, 0.94, r'%g' % E0, transform=ax.transAxes, va='top', ha='left')    # energy in MeV (units in the caption)
         ax.set_xlim(0, 180)
         ax.xaxis.set_major_locator(plt.MultipleLocator(60))
         ax.xaxis.set_minor_locator(plt.MultipleLocator(15))
@@ -315,7 +323,7 @@ def fig3a(df, cv, ix):
         if k >= 8:
             ax.set_xlabel(r'$\theta_{\rm cm}$ [deg]')
     # common y range per row, with headroom for the energy labels
-    for r, (lo, hi) in enumerate([(-0.40, 0.46), (-0.25, 0.42), (-0.05, 0.80)]):
+    for r, (lo, hi) in enumerate([(-0.40, 0.46), (-0.25, 0.42), (-0.05, 0.60)]):    # third row 0.80 -> 0.60 (2026-10-17)
         for a in axs[4 * r:4 * r + 4]:
             a.set_ylim(min(lo, a.get_ylim()[0]), hi)
     th, tl = theory_handles(extra=has_extra(cv))
@@ -331,7 +339,7 @@ def fig3b(df, cv, ix):
     fig, ax = plt.subplots(figsize=(W1, 2.65), layout='constrained')
     reg = {}
     idx = np.array([ix[gid('f3b', '%.2f' % E)] for E in E3B])
-    draw_theory(ax, E3B, cv, idx, extra=True)
+    draw_theory(ax, E3B, cv, idx, extra=True, band_xmax=E_BAND_MAX)
     s3 = df[(df.obs == 'S3') & (np.abs(df.theta_cm - 90.0) <= C.WIN_THETA + 1e-6)]
     mark_shown('Fig. 3b (Sigma3(90) vs E)', s3)
     for lab in [l for l in D.ORDER if l in set(s3.label)]:
@@ -343,6 +351,7 @@ def fig3b(df, cv, ix):
     ax.axhline(0, color='0.6', lw=0.4, zorder=0)
     ax.set_xlim(0, 800); ax.set_ylim(-1.05, 0.75)
     ax.xaxis.set_major_locator(plt.MultipleLocator(200))
+    ax.yaxis.set_major_locator(plt.MultipleLocator(0.5))
     ax.set_xlabel(r'$E_\gamma$ [MeV]'); ax.set_ylabel(r'$\Sigma_3(\theta_{\rm cm}=90^\circ)$')
     th, tl = theory_handles(extra=has_extra(cv))
     dh, dl = data_handles(reg)
