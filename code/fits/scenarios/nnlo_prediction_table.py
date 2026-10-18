@@ -5,7 +5,8 @@ Columns per set: N; chi2 with n = 1; chi2 with the normalisation floated within 
 the same with the truncation covariance (Appendix C, default settings); fitted n in the last case.
 Also: global values for the MAIN database (pre-2015 + A2 2022 minus MAIN_DROP, + forward points; keys GLOBAL,
 GLOBAL_angular) and for the main database + HIgS (keys GLOBAL_withHIGS, GLOBAL_angular_withHIGS) with all
-normalisations/nuisances floated, with and without the truncation covariance.
+normalisations/nuisances floated, with and without the truncation covariance; GLOBAL_allpts (main database with the
+3-sigma outlier) and GLOBAL_pre2015 (data prior to 2015), each with the forward points, for the fits table.
 Writes scenarios/nnlo_prediction_table.{txt,json,tex}"""
 import os, sys, json, numpy as np, pandas as pd
 here = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(here, '..', 'lib')); os.chdir(os.path.join(here, '..'))
@@ -50,6 +51,12 @@ for sfx, sLx in (('', sL), ('_withHIGS', sLH)):
     out['GLOBAL' + sfx] = dict(N=A['N'], fixed=A['chi2_fixed'], float=A['chi2_float'], th=B['chi2_float'], th_data=B['chi2_float_data'])
     AL = evaluate(sLx, thcov=False); BL = evaluate(sLx, thcov=True)
     out['GLOBAL_angular' + sfx] = dict(N=AL['N'], fixed=AL['chi2_fixed'], float=AL['chi2_float'], th=BL['chi2_float'])
+# the database variants of the fits table: all points incl. the 3-sigma outlier, and the data prior to 2015 only (each with the forward points)
+sAP = select(df, list(MAIN_L_SETS), Emax=150.0)
+sOL = select(df, list(OLD_L), Emax=150.0); sOL = sOL[~sOL.pid.isin(MAIN_DROP)]
+for key, sx in (('GLOBAL_allpts', sAP), ('GLOBAL_pre2015', sOL)):
+    A = evaluate(pd.concat([sx, sF]), thcov=False); B = evaluate(pd.concat([sx, sF]), thcov=True)
+    out[key] = dict(N=A['N'], fixed=A['chi2_fixed'], float=A['chi2_float'], th=B['chi2_float'], th_data=B['chi2_float_data'])
 
 lines = ['Pref = ' + ' '.join('%.3f' % x for x in PREF_NNLO),
          'main database = pre-2015 + A2 2022 minus %s (HIgS 2022 excluded since 2026-10-17, listed as a test); forward points E <= %.0f MeV'

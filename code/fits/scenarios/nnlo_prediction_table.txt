@@ -23,3 +23,5 @@ GLOBAL                      267  164827.3   17199.1     224.6
 GLOBAL_angular              245     261.3     194.4     192.0         
 GLOBAL_withHIGS             283  164850.6   17219.5     244.6         
 GLOBAL_angular_withHIGS     261     284.6     214.8     212.1         
+GLOBAL_allpts               268  164851.4   17222.9     246.8         
+GLOBAL_pre2015              171  164743.9   17127.3     153.3         
