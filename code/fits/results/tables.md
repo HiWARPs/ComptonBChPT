@@ -39,6 +39,7 @@ points incl. the outlier; "j_withHIGS" = main database + HIγS 2022 (the former 
 | (g) A2 per beamtime | 363 | 11.02(46) | 3.13(43) | 14.15(19) | 7.89(87) | 271.7/343 | 1.00 | +0.12 | -0.11 |
 | (h) 3σ rule on the main database (check) | 267 | 10.89(47) | 3.23(44) | 14.13(19) | 7.66(89) | 198.0/249 | 0.99 | +0.00 | +0.00 |
 | (j) main + HIγS 2022 (the former main database) | 283 | 11.28(44) | 2.89(41) | 14.17(19) | 8.39(83) | 218.3/263 | 0.98 | +0.39 | -0.34 |
+| (k) main − bremsstrahlung data of 1957–1960 | 228 | 10.80(48) | 3.32(45) | 14.12(19) | 7.48(90) | 176.7/215 | 0.97 | -0.10 | +0.09 |
 | F4: E ≤ 170 MeV (Hallin ≤ 150) | 277 | 10.84(47) | 3.29(44) | 14.13(19) | 7.54(88) | 209.2/259 | 0.99 | -0.06 | +0.06 |
 | F4 + GMPF pruning | 266 | 10.65(47) | 3.46(44) | 14.12(19) | 7.19(90) | 184.2/251 | 1.00 | -0.24 | +0.23 |
 | F4 with Hallin ≤ 170 | 292 | 10.49(46) | 3.62(43) | 14.11(19) | 6.87(88) | 270.1/274 | 0.55 | -0.40 | +0.39 |
@@ -57,6 +58,7 @@ points incl. the outlier; "j_withHIGS" = main database + HIγS 2022 (the former 
 | (g) A2 per beamtime | 363 | 9.80(24) | 3.42(24) | 13.23(3) | 6.38(48) | 6286.0/343 | 0.00 | +0.15 | -0.15 |
 | (h) 3σ rule on the main database (check) | 267 | 9.65(24) | 3.58(24) | 13.23(3) | 6.07(48) | 6210.0/249 | 0.00 | +0.00 | +0.00 |
 | (j) main + HIγS 2022 (the former main database) | 283 | 9.81(24) | 3.42(23) | 13.23(3) | 6.40(47) | 6236.0/263 | 0.00 | +0.16 | -0.16 |
+| (k) main − bremsstrahlung data of 1957–1960 | 228 | 9.60(24) | 3.63(24) | 13.23(3) | 5.97(49) | 6187.3/215 | 0.00 | -0.05 | +0.05 |
 | F4: E ≤ 170 MeV (Hallin ≤ 150) | 277 | 9.56(24) | 3.66(24) | 13.23(3) | 5.90(48) | 6224.5/259 | 0.00 | -0.09 | +0.09 |
 | F4 + GMPF pruning | 266 | 9.47(24) | 3.76(24) | 13.23(3) | 5.71(48) | 6197.2/251 | 0.00 | -0.18 | +0.18 |
 | F4 with Hallin ≤ 170 | 292 | 9.30(24) | 3.93(23) | 13.23(3) | 5.37(47) | 6324.9/274 | 0.00 | -0.35 | +0.35 |
@@ -75,6 +77,7 @@ points incl. the outlier; "j_withHIGS" = main database + HIγS 2022 (the former 
 | (g) A2 per beamtime | 341 | 11.05(46) | 3.12(44) | 14.17(19) | 7.93(87) | 269.0/324 | 0.99 | +0.12 | -0.10 |
 | (h) 3σ rule on the main database (check) | 245 | 10.93(47) | 3.22(44) | 14.15(19) | 7.71(89) | 195.3/230 | 0.95 | +0.00 | +0.00 |
 | (j) main + HIγS 2022 (the former main database) | 261 | 11.32(44) | 2.88(42) | 14.20(19) | 8.44(84) | 215.5/244 | 0.91 | +0.39 | -0.34 |
+| (k) main − bremsstrahlung data of 1957–1960 | 206 | 10.83(48) | 3.31(45) | 14.15(20) | 7.52(91) | 174.1/196 | 0.87 | -0.10 | +0.09 |
 | F4: E ≤ 170 MeV (Hallin ≤ 150) | 255 | 10.87(47) | 3.28(44) | 14.15(19) | 7.59(89) | 206.6/240 | 0.94 | -0.06 | +0.06 |
 
 ### Database variants, F1 (Baldin), without truncation covariance
@@ -91,6 +94,7 @@ points incl. the outlier; "j_withHIGS" = main database + HIγS 2022 (the former 
 | (g) A2 per beamtime | 341 | 10.72(29) | 3.53(24) | 14.25(19) | 7.19(50) | 274.4/324 | 0.98 | +0.12 | -0.09 |
 | (h) 3σ rule on the main database (check) | 245 | 10.60(30) | 3.62(24) | 14.23(19) | 6.98(51) | 200.4/230 | 0.92 | +0.00 | +0.00 |
 | (j) main + HIγS 2022 (the former main database) | 261 | 10.80(29) | 3.49(24) | 14.28(19) | 7.31(50) | 222.8/244 | 0.83 | +0.19 | -0.14 |
+| (k) main − bremsstrahlung data of 1957–1960 | 206 | 10.55(30) | 3.66(24) | 14.21(19) | 6.89(52) | 178.5/196 | 0.81 | -0.05 | +0.04 |
 | F4: E ≤ 170 MeV (Hallin ≤ 150) | 255 | 10.50(30) | 3.71(24) | 14.21(19) | 6.79(50) | 215.6/240 | 0.87 | -0.10 | +0.09 |
 | F4 + GMPF pruning | 244 | 10.40(30) | 3.80(24) | 14.20(19) | 6.60(51) | 189.2/232 | 0.98 | -0.20 | +0.18 |
 | F4 with Hallin ≤ 170 | 270 | 10.18(29) | 3.98(24) | 14.17(19) | 6.20(50) | 318.5/255 | 0.00 | -0.42 | +0.36 |
@@ -151,13 +155,13 @@ Central values: αE1 = 10.89, βM1 = 3.23
 | EFT truncation (covariance in χ²) | 0.29 | 0.29 |
 | = total fit error | 0.47 | 0.44 |
 | truncation-model choice (Λ_b, δ, c̄, ℓ) | 0.27 | 0.13 |
-| database selection (half range d,d',e,f,g,h,F4) | 0.17 | 0.15 |
+| database selection (half range d,d',e,f,g,h,F4,j,k) | 0.30 | 0.27 |
 | spin polarisabilities (γπ free: 7.1(0.9)) | 0.19 | 0.17 |
 | γNΔ coupling gM ± 0.1 | 0.12 | 0.15 |
 | constants → PDG24 (gA, fπ, masses, hA refit) | 0.01 | 0.00 |
 | hA ± (Γ_Δ = 114–120 MeV: hA = 2.84–2.91) | 0.00 | 0.00 |
 | forward-error model (½|corr−uncorr|) | 0.00 | 0.01 |
-| **TOTAL** | 0.61 | 0.53 |
+| **TOTAL** | 0.66 | 0.58 |
 
 ### Error budget: variant F1 (Baldin)
 
@@ -171,12 +175,12 @@ Central values: αE1 = 10.93, βM1 = 3.22
 | EFT truncation (covariance in χ²) | 0.29 | 0.29 |
 | = total fit error | 0.47 | 0.44 |
 | truncation-model choice (Λ_b, δ, c̄, ℓ) | 0.09 | 0.11 |
-| database selection (half range d,d',e,f,g,h,F4) | 0.17 | 0.15 |
+| database selection (half range d,d',e,f,g,h,F4,j,k) | 0.30 | 0.27 |
 | spin polarisabilities (γπ free: 7.1(0.9)) | 0.19 | 0.17 |
 | γNΔ coupling gM ± 0.1 | 0.15 | 0.15 |
 | constants → PDG24 (gA, fπ, masses, hA refit) | 0.01 | 0.00 |
 | hA ± (Γ_Δ = 114–120 MeV: hA = 2.84–2.91) | 0.00 | 0.00 |
-| **TOTAL** | 0.56 | 0.53 |
+| **TOTAL** | 0.61 | 0.57 |
 
 ### HIγS 2022 test (HIγS = Li:2022vnz, CIRC + LIN sets, 16 points; NOT part of the main database since 2026-10-17)
 
@@ -198,6 +202,10 @@ F1_fixsum (α+β = 14.01 fixed in all three fits; one shared parameter α−β):
 F1_fixsum_thB (α+β = 14.01 fixed in all three fits; one shared parameter α−β): χ²_PG = 5.71 (dof 1, p = 0.017); α−β: +HIγS 8.32, main 7.61, HIγS alone 13.56
 
 HIγS alone (α, β free, no sum constraint, + trunc. cov.): α = 15.20(1.74), β = 2.02(1.97), χ² = 13.6/13 (cf. Li et al. HBχPT: 15.4(1.8), 2.1(2.0)); without trunc. cov.: α = 15.20(1.73), β = 2.00(1.96), χ² = 13.6/13.
+
+HIγS + forward points, HIγS normalisations FREE (+ trunc. cov.): α = 12.31(2.45), β = 1.67(2.43), χ² = 15.4/32, n_HIγS = HIGS_2022_CIRC 0.927, HIGS_2022_LIN 0.985
+
+main + HIγS, HIγS normalisations FREE (+ trunc. cov.): α = 10.94(46), β = 3.19(43), χ² = 211.5/263, n_HIγS = HIGS_2022_CIRC 0.901, HIGS_2022_LIN 0.951
 
 HIγS normalisations in the +HIγS fit (F2 + trunc. cov.): HIGS_2022_CIRC 0.972(19), HIGS_2022_LIN 0.988(19)
 
@@ -347,14 +355,14 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.969, LIN 0.985
 | pre-2015 + HIγS (Baldin) | 165 | 11.31(39) | 2.73(38) | 14.04(20) | 8.59(74) | 141.3/150 | 0.68 |
 | pre-2015 + A2 (Baldin) | 245 | 10.60(30) | 3.62(24) | 14.23(19) | 6.98(51) | 200.4/230 | 0.92 |
 | A2 + HIγS (Baldin) | 112 | 10.55(37) | 3.69(30) | 14.24(20) | 6.85(64) | 100.2/107 | 0.67 |
-| all, no sum constraint | 245 | 11.54(48) | 3.68(24) | 15.22(44) | 7.86(61) | 194.3/230 | 0.96 |
+| all, no sum constraint | 245 | 11.54(48) | 3.68(24) | 15.22(44) | 7.86(61) | 194.3/229 | 0.95 |
 | A2 dσ only + trunc. | 60 | 10.39(67) | 3.71(63) | 14.11(20) | 6.68(1.29) | 46.8/58 | 0.85 |
 | A2 Σ3 only + trunc. | 36 | 10.88(1.23) | 3.14(1.21) | 14.02(21) | 7.74(2.44) | 26.2/34 | 0.83 |
 | TAPS only + trunc. | 54 | 11.62(78) | 2.40(77) | 14.01(21) | 9.22(1.54) | 51.2/52 | 0.50 |
 | pre-2015 + HIγS + trunc. | 165 | 11.78(52) | 2.25(52) | 14.04(20) | 9.53(1.03) | 137.4/150 | 0.76 |
 | pre-2015 + A2 + trunc. | 245 | 10.93(47) | 3.22(44) | 14.15(19) | 7.71(89) | 195.3/230 | 0.95 |
 | A2 + HIγS + trunc. | 112 | 11.21(54) | 2.97(51) | 14.18(20) | 8.23(1.03) | 94.5/107 | 0.80 |
-| all, no sum constraint + trunc. | 245 | 11.80(64) | 3.39(45) | 15.19(56) | 8.41(95) | 191.4/230 | 0.97 |
+| all, no sum constraint + trunc. | 245 | 11.80(64) | 3.39(45) | 15.19(56) | 8.41(95) | 191.4/229 | 0.97 |
 
 ### Outlier analysis (3σ rule, two passes)
 

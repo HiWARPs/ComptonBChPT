@@ -118,7 +118,7 @@ VN = [('a_pre2015', '(a) pre-2015 only'), ('b_A2only', '(b) A2 2022 only'), ('c_
       ('d_all', '(d) MAIN database (pre-2015 + A2 2022, 3σ outlier removed, no HIγS)'), ('d_allpts', "(d') main database incl. the 3σ outlier"),
       ('e_noTAPS', '(e) main − TAPS'), ('f_GMPFpruned', '(f) GMPF/McGovern pruning'),
       ('g_A2perbeam', '(g) A2 per beamtime'), ('h_3sigma', '(h) 3σ rule on the main database (check)'),
-      ('j_withHIGS', '(j) main + HIγS 2022 (the former main database)')]
+      ('j_withHIGS', '(j) main + HIγS 2022 (the former main database)'), ('k_noLegacy', '(k) main − bremsstrahlung data of 1957–1960')]
 for kind, lab in [('F2', 'main configuration (F2)'), ('F1', 'F1 (Baldin)')]:
     names = []; labs = []
     for v, l in VN:
@@ -166,9 +166,10 @@ def budget(kind):
     tv = ['L600', 'L900', 'fixed048', 'max', 'l50', 'l12', 'l100']
     dv = np.array([np.array(FL['%s_d_all_thB_%s' % (kind, v)]['P'][:2]) - np.array(m['P'][:2]) for v in tv])
     tmodel = np.sqrt(np.mean(dv ** 2, axis=0))
-    # database selection: half range over d (main), d' (all points incl. the outlier), e, f, g, h, F4
+    # database selection: half range over d (main), d' (all points incl. the outlier), e, f, g, h, F4, and j (with HIgS 2022;
+    # included since 2026-10-19, user decision: no data set is excluded from the error budget) and k (without the 1957-60 data)
     dbv = ['%s_d_all_thB', '%s_d_allpts_thB', '%s_e_noTAPS_thB', '%s_f_GMPFpruned_thB', '%s_g_A2perbeam_thB', '%s_h_3sigma_thBmain',
-           '%s_F4_all_thB']
+           '%s_F4_all_thB', '%s_j_withHIGS_thB', '%s_k_noLegacy_thB']
     Pv = np.array([FL[x % kind]['P'][:2] for x in dbv])
     dbs = 0.5 * (Pv.max(0) - Pv.min(0))
     # spin polarisabilities: freeing gamma_pi at fixed gamma_0 (data-driven, gamma_pi = 7.3(1.0))
@@ -186,7 +187,7 @@ def budget(kind):
     comps = [('stat. (exp., point-to-point)', stat), ('normalisations', norm),
              ('forward points (nuisances λ_f, λ_g)' if kind == 'F2' else 'Baldin sum rule ' + BAL_TXT, con),
              ('EFT truncation (covariance in χ²)', trunc), ('= total fit error', tot),
-             ('truncation-model choice (Λ_b, δ, c̄, ℓ)', tmodel), ("database selection (half range d,d',e,f,g,h,F4)", dbs),
+             ('truncation-model choice (Λ_b, δ, c̄, ℓ)', tmodel), ("database selection (half range d,d',e,f,g,h,F4,j,k)", dbs),
              ('spin polarisabilities (γπ free: ' + ('%.1f(%.1f)' % (FL[sp]['gpi'], FL[sp]['dgpi'])) + ')', spinp),
              ('γNΔ coupling gM ± 0.1', gm),
              ('constants → PDG24 (gA, fπ, masses, hA refit)' if V2 else 'constants gA, fπ → PDG', const),
@@ -238,6 +239,11 @@ md('', 'HIγS alone (α, β free, no sum constraint, + trunc. cov.): α = %s, β
       HT['F2_thB']['chi2_HIGSfree'], HT['F2_thB']['dof_HIGSfree'],
       pe(HT['F2']['P_HIGSfree'][0], HT['F2']['dP_HIGSfree'][0]), pe(HT['F2']['P_HIGSfree'][1], HT['F2']['dP_HIGSfree'][1]),
       HT['F2']['chi2_HIGSfree'], HT['F2']['dof_HIGSfree']))
+for k, lab in (('F2_c_HIGSonly_freenorm_thB', 'HIγS + forward points, HIγS normalisations FREE (+ trunc. cov.)'),
+               ('F2_j_withHIGS_freenorm_thB', 'main + HIγS, HIγS normalisations FREE (+ trunc. cov.)')):
+    f = FL[k]; nh = {s: f['perset'][s]['n'] for s in f['perset'] if s.startswith('HIGS')}
+    md('', '%s: α = %s, β = %s, χ² = %.1f/%d, n_HIγS = %s' % (lab, pe(f['P'][0], f['dP'][0]), pe(f['P'][1], f['dP'][1]), f['chi2'], f['dof'],
+                                                           ', '.join('%s %.3f' % (s, v) for s, v in nh.items())))
 h = HT['F2_thB']
 md('', 'HIγS normalisations in the +HIγS fit (F2 + trunc. cov.): ' + ', '.join('%s %s' % (k, pe(v[0], v[1], 3)) for k, v in h['n_HIGS_in_withHIGS'].items()))
 md('', '#### Pulls of the 16 HIγS points predicted by the MAIN fit (F2 + trunc. cov., no HIγS in the fit)', '',

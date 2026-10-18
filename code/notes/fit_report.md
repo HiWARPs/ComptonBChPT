@@ -21,6 +21,12 @@
   listed in `work/notes/main_without_HIGS.md`. The numbers quoted below (Sects. V.1–V.9) are those of the
   former main database with HIγS and are superseded where they differ.
 
+- **FORWARD POINTS 2026 (2026-10-18): the forward points come from the 2026 ForwardRCS evaluation (FWD_SOURCE=2026).** Current
+  main result α = 10.89(47)(39), β = 3.23(44)(30), α+β = 14.13(19), α−β = 7.66(89), χ² = 198.0/249; PWA α−β = 8.05(1.22)(1.02),
+  β = 3.08(61)(52). Every OLD → NEW number is in `work/notes/forward2026_update.md`; the team audit of 2026-10-18 is in
+  `work/notes/audit_2026-10-18_team.md`. Variant (k) 'main − bremsstrahlung data of 1957–1960' and the HIγS free-normalisation
+  fits were added to s03 on 2026-10-18 (see `results/tables.md`).
+
 Units: α, β in 10⁻⁴ fm³; γ in 10⁻⁴ fm⁴.
 
 ---

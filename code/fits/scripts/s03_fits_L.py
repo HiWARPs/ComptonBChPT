@@ -69,15 +69,17 @@ def rows_for(dfx, sets, kind, Emax=150.0, excl=(), fwdEmax=FWD_EMAX, extra_mask=
 
 def do_fit(name, sets, kind='F1', Emax=150.0, excl=(), P0=PREF_NNLO, dfx=None, TT=None, thcov=False,
            fwd_mode='nuisance', fwdEmax=FWD_EMAX, baldin=BALDIN, extra_mask=None, Toffset=None, store=True,
-           decompose=True, drop_pids=(), thopts=None, keep_outlier=False, extra_cons=()):
+           decompose=True, drop_pids=(), thopts=None, keep_outlier=False, extra_cons=(), norm_free=()):
     dfx = df if dfx is None else dfx
     TT = T if TT is None else TT
     s = rows_for(dfx, sets, kind, Emax, excl, fwdEmax, extra_mask, keep_outlier=keep_outlier)
     if len(drop_pids):
         s = s[~s['pid'].isin(drop_pids)]
+    if len(norm_free):                                   # normalisations of these sets free (prior width 1000 %)
+        s = s.copy(); s.loc[s['dataset'].isin(norm_free), 'norm'] = 10.0
     free = ['alphaE1', 'betaM1']
     cons = []
-    if kind in ('F1', 'F3b', 'F3c'):
+    if kind in ('F1', 'F3b', 'F3c') and baldin is not None:
         cons.append((C_BALDIN, baldin[0], baldin[1], 'Baldin'))
     if kind == 'F3':
         free += ['gM1M1', 'gE1E1']
@@ -101,7 +103,7 @@ def do_fit(name, sets, kind='F1', Emax=150.0, excl=(), P0=PREF_NNLO, dfx=None, T
     if decompose:
         out['dP_stat'] = np.sqrt(np.clip(np.diag(R.covP_stat), 0, None))
         out['dP_statnorm'] = np.sqrt(np.clip(np.diag(R.covP_statnorm), 0, None))
-        if kind in ('F1', 'F3b', 'F3c'):
+        if kind in ('F1', 'F3b', 'F3c') and baldin is not None:
             # Baldin part: refit with alpha+beta fixed (sigma -> 1e-4)
             F2_ = build_fit(s, TT, P0, free, constraints=[(C_BALDIN, baldin[0], 1e-4, 'Baldin')], fwd_mode=fwd_mode,
                             thcov=C_th, Toffset=Toffset)
@@ -131,6 +133,8 @@ ALL = list(MAIN_L_SETS)                      # = OLD_L + A2 (lib/common.py)
 ALLH = list(MAIN_L_SETS_WITH_HIGS)           # = OLD_L + A2 + HIGS (former main, variant j)
 assert ALL == OLD_L + A2 and ALLH == OLD_L + A2 + HIGS
 NOTAPS = [k for k in ALL if k != 'OlmosdeLeon2001']
+LEGACY = ['Pugh1957', 'Oxley1958', 'Hyman1959', 'Goldansky1960', 'Bernardini1960']   # bremsstrahlung data of 1957-1960
+NOLEGACY = [k for k in ALL if k not in LEGACY]
 VARIANTS = {
     'a_pre2015': dict(sets=OLD_L),
     'b_A2only': dict(sets=A2),
@@ -141,6 +145,7 @@ VARIANTS = {
     'f_GMPFpruned': dict(sets=ALL, excl=('GMPF_out',)),
     'g_A2perbeam': dict(sets=OLD_L + A2PB, dfx='pb'),         # main database with the A2 data per beam time
     'j_withHIGS': dict(sets=ALLH),                            # (j) main database + HIgS 2022 (the former main)
+    'k_noLegacy': dict(sets=NOLEGACY),                        # (k) main database without the data prior to 1961
 }
 
 
@@ -282,6 +287,7 @@ if __name__ == '__main__':
         do_fit('%s_e_noTAPS_thB' % kind, NOTAPS, kind, thcov=True)
         do_fit('%s_g_A2perbeam_thB' % kind, OLD_L + A2PB, kind, dfx=dfp, TT=Tp, thcov=True)
         do_fit('%s_j_withHIGS_thB' % kind, ALLH, kind, thcov=True)          # (j) with HIgS 2022 = the former main fit
+        do_fit('%s_k_noLegacy_thB' % kind, NOLEGACY, kind, thcov=True)      # (k) without the bremsstrahlung data of 1957-1960
         do_fit('%s_d_all_thB_diag' % kind, ALL, kind, thcov=True, thopts=dict(corr=False))
         do_fit('%s_d_all_thB_L600' % kind, ALL, kind, thcov=True, thopts=dict(Lam=600.0))
         do_fit('%s_d_all_thB_L900' % kind, ALL, kind, thcov=True, thopts=dict(Lam=900.0))
@@ -421,7 +427,10 @@ if __name__ == '__main__':
         do_fit('F1_pre2015+HIGS' + sfx, OLD_L + HIGS, 'F1', thcov=th)
         do_fit('F1_pre2015+A2' + sfx, OLD_L + A2, 'F1', thcov=th)
         do_fit('F1_A2+HIGS' + sfx, A2 + HIGS, 'F1', thcov=th)
-        do_fit('F1_d_free' + sfx, ALL, 'F1', baldin=(14.0, 1e3), thcov=th, decompose=False)   # no sum constraint
+        do_fit('F1_d_free' + sfx, ALL, 'F1', baldin=None, thcov=th, decompose=False)   # no sum constraint (no dummy constraint: dof = N - 2 - norms)
+    # HIgS normalisations free (Sec. IV B): the HIgS data alone + forward points, and the main database + HIgS
+    do_fit('F2_c_HIGSonly_freenorm_thB', HIGS, 'F2', thcov=True, norm_free=HIGS, decompose=False)
+    do_fit('F2_j_withHIGS_freenorm_thB', ALLH, 'F2', thcov=True, norm_free=HIGS, decompose=False)
     # the NNLO fit with and without the forward points: the angular data alone (main database, no forward points, no sum
     # constraint), the forward points alone (they fix alpha+beta only; alpha-beta held at the main fit, its value does not
     # matter), and the parameter-goodness-of-fit test of the two (one common direction, alpha+beta: dof 1)

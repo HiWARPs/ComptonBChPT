@@ -844,3 +844,13 @@ remain as tests; the PG tests of the HIγS-containing subsets use the with-HIγS
 on the new database (verified; nothing else flagged). Every OLD → NEW number of the paper (Table pwa, Eq. pwamain,
 the pulls/forward/multipole figures, the modern-χ² comparison: 181 points, PWA 141.2 vs BχPT 145.1) is listed in
 `work/notes/main_without_HIGS.md`; the numbers of Sections 1–12 above refer to the former main database.
+
+## 14. Addendum (2026-10-18): forward points from the 2026 ForwardRCS evaluation; team audit
+
+With FWD_SOURCE=2026 (see `work/notes/forward2026_update.md`) the paper's PWA fit (`main_fits_legacynorm.json`, key `MAIN`) is
+N = 237, χ²/N = 0.772, α−β = 8.05 ± 1.22 (stat) ± 1.02 (method), β = 3.08 ± 0.61 ± 0.52, α = 11.13 ± 0.62 ± 0.52,
+α+β = 14.21(18), γ0 = −1.008(101), γπ = 5.25(1.89), n_f = 0.95, n_g = 0.16; the modern-χ² comparison is 141.5 (PWA) vs
+145.0 (BχPT with Baldin, no truncation covariance) for 181 points. The numbers of Sect. 13 are superseded by these.
+`results/influence.json` (Oct 14, GHP2016 source) was stale and has been moved to `work/_to_delete/stale_results_2026-10-18/`;
+the live influence table is `main_fits_legacynorm.json['influence']`. Team audit: `work/notes/audit_2026-10-18_team.md`.
+

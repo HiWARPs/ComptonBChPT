@@ -54,7 +54,9 @@ for sfx, sLx in (('', sL), ('_withHIGS', sLH)):
 # the database variants of the fits table: all points incl. the 3-sigma outlier, and the data prior to 2015 only (each with the forward points)
 sAP = select(df, list(MAIN_L_SETS), Emax=150.0)
 sOL = select(df, list(OLD_L), Emax=150.0); sOL = sOL[~sOL.pid.isin(MAIN_DROP)]
-for key, sx in (('GLOBAL_allpts', sAP), ('GLOBAL_pre2015', sOL)):
+sNL = select(df, [k for k in MAIN_L_SETS if k not in ('Pugh1957', 'Oxley1958', 'Hyman1959', 'Goldansky1960', 'Bernardini1960')], Emax=150.0)
+sNL = sNL[~sNL.pid.isin(MAIN_DROP)]                        # main database without the bremsstrahlung data of 1957-1960
+for key, sx in (('GLOBAL_allpts', sAP), ('GLOBAL_pre2015', sOL), ('GLOBAL_noLegacy', sNL)):
     A = evaluate(pd.concat([sx, sF]), thcov=False); B = evaluate(pd.concat([sx, sF]), thcov=True)
     out[key] = dict(N=A['N'], fixed=A['chi2_fixed'], float=A['chi2_float'], th=B['chi2_float'], th_data=B['chi2_float_data'])
 
