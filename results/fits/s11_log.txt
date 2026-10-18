@@ -2,35 +2,35 @@ wrote <release>/paper/figs/fig_pred_S2_abs.pdf
 wrote <release>/code/fits/figs/fig_pred_S2_abs.pdf
 wrote <release>/code/fits/figs/fig_pred_S2_abs.png
 max |PWA - NNLO| (at theta), |fit - NNLO|, band max, PWA fit error max:
-  S2X 100 MeV: PWA-NNLO 0.0074 at  70 deg (PWA -0.4452, NNLO -0.4527, band 0.0048, PWA err 0.0099) | fit-NNLO 0.0029 at  65 deg | band max 0.0056 | PWA err max 0.0160
-  S2X 120 MeV: PWA-NNLO 0.0044 at  65 deg (PWA -0.4496, NNLO -0.4540, band 0.0076, PWA err 0.0175) | fit-NNLO 0.0028 at  65 deg | band max 0.0080 | PWA err max 0.0232
-  S2X 140 MeV: PWA-NNLO 0.0044 at  90 deg (PWA -0.7311, NNLO -0.7267, band 0.0137, PWA err 0.0272) | fit-NNLO 0.0086 at  15 deg | band max 0.0166 | PWA err max 0.0286
-  S2Z 100 MeV: PWA-NNLO 0.0073 at  40 deg (PWA -0.5280, NNLO -0.5353, band 0.0099, PWA err 0.0072) | fit-NNLO 0.0067 at  25 deg | band max 0.0109 | PWA err max 0.0163
-  S2Z 120 MeV: PWA-NNLO 0.0051 at  30 deg (PWA -0.6937, NNLO -0.6988, band 0.0219, PWA err 0.0083) | fit-NNLO 0.0141 at   0 deg | band max 0.0251 | PWA err max 0.0142
-  S2Z 140 MeV: PWA-NNLO 0.0089 at   0 deg (PWA -0.9123, NNLO -0.9034, band 0.0510, PWA err 0.0145) | fit-NNLO 0.0262 at   0 deg | band max 0.0510 | PWA err max 0.0226
+  S2X 100 MeV: PWA-NNLO 0.0066 at  70 deg (PWA -0.4461, NNLO -0.4527, band 0.0048, PWA err 0.0098) | fit-NNLO 0.0039 at  65 deg | band max 0.0056 | PWA err max 0.0159
+  S2X 120 MeV: PWA-NNLO 0.0032 at  60 deg (PWA -0.3930, NNLO -0.3962, band 0.0073, PWA err 0.0160) | fit-NNLO 0.0032 at  65 deg | band max 0.0080 | PWA err max 0.0233
+  S2X 140 MeV: PWA-NNLO 0.0061 at  90 deg (PWA -0.7328, NNLO -0.7267, band 0.0136, PWA err 0.0282) | fit-NNLO 0.0127 at  20 deg | band max 0.0166 | PWA err max 0.0298
+  S2Z 100 MeV: PWA-NNLO 0.0072 at  40 deg (PWA -0.5282, NNLO -0.5353, band 0.0099, PWA err 0.0041) | fit-NNLO 0.0099 at  25 deg | band max 0.0109 | PWA err max 0.0162
+  S2Z 120 MeV: PWA-NNLO 0.0057 at 125 deg (PWA +0.5715, NNLO +0.5658, band 0.0068, PWA err 0.0127) | fit-NNLO 0.0209 at   0 deg | band max 0.0251 | PWA err max 0.0140
+  S2Z 140 MeV: PWA-NNLO 0.0082 at   0 deg (PWA -0.9116, NNLO -0.9034, band 0.0510, PWA err 0.0159) | fit-NNLO 0.0391 at   0 deg | band max 0.0510 | PWA err max 0.0225
 forward points: {
  "100": {
-  "value": -0.45931,
-  "err": 0.00799,
-  "NNLO": -0.463188,
-  "sig": 0.0105599,
-  "PWA": -0.459071,
-  "pwa_err": 0.00830587
+  "value": -0.4578231112449503,
+  "err": 0.0035132602538695,
+  "NNLO": -0.463185,
+  "sig": 0.0105568,
+  "PWA": -0.45965,
+  "pwa_err": 0.00340852
  },
  "120": {
-  "value": -0.64094,
-  "err": 0.00918,
-  "NNLO": -0.646837,
-  "sig": 0.0250702,
-  "PWA": -0.644344,
-  "pwa_err": 0.00978758
+  "value": -0.6399381197551881,
+  "err": 0.0079208429841076,
+  "NNLO": -0.646835,
+  "sig": 0.0250652,
+  "PWA": -0.644485,
+  "pwa_err": 0.00751224
  },
  "140": {
-  "value": -0.9158397301741035,
-  "err": 0.011304999999999999,
+  "value": -0.9089356577942066,
+  "err": 0.01346967782257065,
   "NNLO": -0.903392,
-  "sig": 0.0510376,
-  "PWA": -0.912321,
-  "pwa_err": 0.0145136
+  "sig": 0.0510327,
+  "PWA": -0.911594,
+  "pwa_err": 0.0158564
  }
 }

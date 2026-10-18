@@ -20,7 +20,7 @@ Environment (all optional; one command regenerates everything: work/delta_plots/
                   'novc' = the prediction without the gammaNDelta vertex corrections (the dotted curve until
                   2026-10-17); 'none' = no extra curve.  The chi^2 tables always keep the no-VC column.
   DP_EXTRA_THETA  '1' (default for the running variants) / '0' (default for 'novc', as before): draw the extra
-                  curve also in the angular distributions fig_delta_cs_vstheta_a/b
+                  curve also in the angular distributions fig_delta_cs_vstheta
   DP_MAIN         main curve (red solid + dark band): 'pred' (default) = the parameter-free NNLO prediction, all
                   six static polarisabilities at the NNLO values of the amplitude (driver Pref, physical masses);
                   'fit' = alphaE1, betaM1 from the NNLO fit (the main curve before 2026-10-16)

@@ -4,8 +4,11 @@ following Krupina, Lensky, Pascalutsa, PLB 782 (2018) 34 (KLP18):
   * Born + pi0-pole amplitudes exact (compton.born_amplitudes)
   * non-Born multipoles l=1 parametrised by static polarisabilities + residual functions f^R_i per energy bin
     (KLP18 Eq. nonBorn_multipoles_expansion), l=2 (EE,MM) fixed to BChPT or zero, higher neglected
-  * forward sum rules (GHP 2015/2016): either exact linear constraints eliminating f^R_2, f^R_3 and
-    alpha+beta, gamma_M1M1 (KLP18), or forward amplitudes as chi^2 points with correlated nuisances.
+  * forward sum rules (source sumrules.SOURCE: ForwardRCS 2026 update by default, GHP 2015/2016 with FWD_SOURCE=ghp2016):
+    either exact linear constraints eliminating f^R_2, f^R_3 and alpha+beta, gamma_M1M1 (KLP18), or forward amplitudes
+    as chi^2 points with correlated nuisances.  Defaults ab, g0, sig_ab, sig_g0 = sumrules.AB_SR, G0_SR, SIG_AB, SIG_G0
+    (2026: 14.009(208), -1.025(102); ghp2016: 14.0(2), -0.929(105)); fwd_unc=None takes the uncorrelated part of the
+    forward amplitudes per bin from fwd.split() (ghp2016: 0.0029 mub GeV, the value used until 2026-10-18).
 Parameter vector p (all polarisabilities in 1e-4 fm^3 / fm^4, residuals in 1e-4 fm^3 (i=1..4), 1e-4 fm^4 (i=5,6)):
   global: D = alpha-beta, gEE, gEM, gME   [+ nf, ng in 'chi2' sum-rule mode]
   per bin: fR1, fR4, fR5, fR6            [+ fR2, fR3 in 'chi2' mode]
@@ -15,7 +18,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import least_squares
 import compton as C
-from sumrules import ForwardAmps, HBARC_MEV
+from sumrules import ForwardAmps, HBARC_MEV, AB_SR, SIG_AB, G0_SR, SIG_G0
 
 HBARC = HBARC_MEV
 MN = C.MN_GEV * 1e3                   # MeV (same as Fortran / Born)
@@ -39,8 +42,8 @@ def unit_phis(theta_cm_rad):
 
 class Model:
     def __init__(self, data, bins, l2='bchpt', energy_mode='actual', fix_gEM=0.0, sr_mode='constraint',
-                 ab=14.0, g0=-0.929, sig_ab=0.2, sig_g0=0.105, fwd=None, float_norm=False,
-                 prior_w=(10., 10., 10., 10., 1., 1.), fwd_err='nuisance', fwd_unc=0.0029 / 1973.27,
+                 ab=AB_SR, g0=G0_SR, sig_ab=SIG_AB, sig_g0=SIG_G0, fwd=None, float_norm=False,
+                 prior_w=(10., 10., 10., 10., 1., 1.), fwd_err='nuisance', fwd_unc=None,
                  bchpt=None, l2_scale=1.0, prior_center='zero', smooth_w=None, fwd_scale=1.0):
         self.d = data.reset_index(drop=True).copy()
         self.bins = np.array(sorted(bins), float)
@@ -227,6 +230,10 @@ class Model:
         Eb = self.bins
         fb_t = self.fwd.fbar(Eb); gb_t = self.fwd.gbar(Eb)
         ef, eg = self.fwd.err(Eb)
+        if self.fwd_err == 'nuisance':
+            cf, cg, uf, ug = self.fwd.split(Eb)
+            if self.fwd_unc is not None:
+                uf = ug = np.full(len(Eb), self.fwd_unc)
         rows_A, rows_a, y, sig, nus = [], [], [], [], []
         npm = self.ng + self.nr * self.nb
         for b, E in enumerate(Eb):
@@ -239,9 +246,9 @@ class Model:
                 Af[j] = fj[0] - f0[0]; Ag[j] = gj[0] - g0[0]
             # nuisance shift of the data: y + n * sigma  <=> model - n*sigma
             if self.fwd_err == 'nuisance':
-                Af[self.names.index('nf')] -= ef[b]
-                Ag[self.names.index('ng')] -= eg[b]
-                sf = sg = self.fwd_unc
+                Af[self.names.index('nf')] -= cf[b]
+                Ag[self.names.index('ng')] -= cg[b]
+                sf, sg = uf[b], ug[b]
             else:
                 sf, sg = ef[b] * self.fwd_scale, eg[b] * self.fwd_scale
             rows_A += [Af, Ag]; rows_a += [f0[0], g0[0]]; y += [fb_t[b], gb_t[b]]; sig += [sf, sg]

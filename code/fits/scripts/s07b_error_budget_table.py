@@ -9,7 +9,7 @@ Writes results/error_budget_table.tex (complete revtex table environment, \\tabl
 import os, sys, json
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lib'))
-from common import RES  # noqa: E402
+from common import RES, BAL_TXT  # noqa: E402
 
 EB = json.load(open(os.path.join(RES, 'error_budget.json')))
 
@@ -65,7 +65,7 @@ L = [
     'the Baldin sum rule (\\Tabref{fits}), in units of $10^{-4}$\\,fm$^3$. The fit uncertainty is the $\\De\\chi^2=1$',
     'uncertainty with the normalizations and nuisance parameters marginalized; its components are the statistical',
     '(point-to-point) uncertainties, the normalizations, the forward points (nuisance parameters $n_f$, $n_g$; for the',
-    'Baldin fit, the sum rule $\\al_{E1}+\\be_{M1}=14.0(2)$ instead), and the truncation uncertainty of',
+    'Baldin fit, the sum rule $\\al_{E1}+\\be_{M1}=%s$ instead), and the truncation uncertainty of' % BAL_TXT,
     'Appendix~\\secref{truncapp}. For the NNLO fit these four components add in quadrature to the fit uncertainty; for',
     'the Baldin fit the sum-rule component is defined as the quadrature difference between the fit and the fit with',
     '$\\al_{E1}+\\be_{M1}$ fixed, which overlaps with the other components. The systematic uncertainty combines in',

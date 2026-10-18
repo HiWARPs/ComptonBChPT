@@ -12,6 +12,14 @@ Energies kept: the panel energies of the Delta-region figures (work/delta_plots 
 interpolated on the 5-MeV grid of the supplement, plus a coarse 10-MeV grid 155-400 MeV for the notes.
 PLOTTING ONLY (open stars at theta = 0 in Figs. deltacstheta and deltaS2); never used in a fit.
 
+SINCE 2026-10-18 (default input): the 2026 update of the empirical forward amplitudes (public repository
+github.com/HiWARPs/ForwardRCS, files copied to work/data/raw/ForwardRCS2026/).  When <raw_dir> contains obs.txt, the rows are
+built from obs.txt (dsigma/dOmega_lab(0) [nb/sr], Sigma_2z(0), exp+fit errors on the 5-MeV grid), obs_selection.txt (their
+data-selection systematic, from f) and the PWA-model systematic of g below 0.2 GeV (pol_g_pwa_model.txt, propagated to
+dsigma(0) and Sigma_2z(0) with the tabulated f, g of unpol_f.txt / pol_g.txt; signed modes, so linear propagation); the three
+are added in quadrature; values and errors interpolated linearly to the panel energies as before.  The GHP-based file
+(<raw_dir> = work/data/raw/GHP2016_supplement) is kept as db_forward_obs_above_ghp2016.csv.
+
 usage: python3 -I build_db_forward_above.py <raw_dir> <out_csv>
 """
 import os, sys, csv, math
@@ -74,6 +82,47 @@ def combine(d1, d2, E):
         return None
     return E, v[0], v[1], 'fit %s only; interpolated on the 5-MeV grid' % ('I' if v1 else 'II')
 
+
+def build_2026():
+    """rows from the ForwardRCS 2026 tables (see the module docstring)"""
+    def rd(fn):
+        return {round(1000 * float(l.split()[0]), 3): [float(x) for x in l.split()[1:]] for l in open(os.path.join(RAW, fn))
+                if l.strip() and l.split()[0][0].isdigit()}
+    o, osel, f, g, gp = rd('obs.txt'), rd('obs_selection.txt'), rd('unpol_f.txt'), rd('pol_g.txt'), rd('pol_g_pwa_model.txt')
+    K = 1000 / 389.379                          # nb/sr per (mub GeV)^2
+    cs, s2 = {}, {}
+    for E in sorted(o):
+        if E not in osel or E not in gp:
+            continue
+        c, ec, n, en, s, es = o[E]
+        rf, imf, rg, img = f[E][0], f[E][2], g[E][0], g[E][2]
+        dRg, dIg = gp[E][0], gp[E][1]                       # signed PWA-model mode of g
+        dc = 2 * K * (rg * dRg + img * dIg)                  # d|g|^2 -> dsigma(0)
+        dn = -2 * K * (rf * dRg + imf * dIg)                 # d(-2 Re f g*) [nb/sr]
+        ds = dn / c - s * dc / c
+        cs[E] = (c, math.sqrt(ec ** 2 + osel[E][0] ** 2 + dc ** 2))
+        s2[E] = (s, math.sqrt(es ** 2 + osel[E][2] ** 2 + ds ** 2))
+    src = 'ForwardRCS 2026 update (github.com/HiWARPs/ForwardRCS), obs.txt (+) obs_selection.txt (+) PWA model of g (pol_g_pwa_model.txt)'
+    out = []
+    for obs, tab, Es, nd in (('CS', cs, PANELS, 4), ('S2Z', s2, S2Z_BINS, 5)):
+        for E in Es:
+            v = interp(tab, E)
+            if v is None:
+                continue
+            out.append(dict(obs=obs, E_lab_MeV=E, E_panel=E, theta_lab_deg=0.0, value=round(v[0], nd), stat_err=round(v[1], nd),
+                            units='nb/sr' if obs == 'CS' else '1', frame='lab', source=src,
+                            notes=('dsigma/dOmega_lab(0) = |f|^2 + |g|^2' if obs == 'CS' else 'Sigma_2z(0) = -2 Re(f g*)/(|f|^2+|g|^2), sigma_3/2 - sigma_1/2')
+                            + ' above threshold; error = exp+fit (+) data selection (+) PWA model of g; interpolated linearly on the 5-MeV grid; PLOTTING ONLY'))
+    return out
+
+
+if os.path.exists(os.path.join(RAW, 'obs.txt')):
+    rows = build_2026()
+    with open(OUT, 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=['obs', 'E_lab_MeV', 'E_panel', 'theta_lab_deg', 'value', 'stat_err', 'units', 'frame', 'source', 'notes'])
+        w.writeheader(); w.writerows(rows)
+    print('2026 tables; rows:', len(rows), ' CS:', sum(r['obs'] == 'CS' for r in rows), ' S2Z:', sum(r['obs'] == 'S2Z' for r in rows))
+    sys.exit(0)
 
 ds1, ds2 = read('ds_1.txt'), read('ds_2.txt')
 s1, s2 = read('Sigma2z_ds_1.txt'), read('Sigma2z_ds_2.txt')

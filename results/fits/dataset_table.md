@@ -21,8 +21,8 @@
 | A2_2018Jul_S3 | A2 Jul18 Σ3 | S3 | 36 | 36 | 36 | 36 | 92.2-129.5 | 35-145 | LAB | 2.9% | 0 | thesis per-beamtime; stat (+) p2p; scale 5%/sqrt3 |
 | HIGS_2022_CIRC | HIγS 22 dσ (Li) | CS | 8 | 8 | 8 | 8 | 81.3-81.3 | 55-125 | LAB | 2.2% | 0 | stat (+) p2p syst; norm 2.24% |
 | HIGS_2022_LIN | HIγS 22 dσ∥,⊥ (Li) | SPAR/SPERP | 8 | 8 | 8 | 8 | 83.4-83.4 | 55-125 | LAB | 2.2% | 0 | stat (+) p2p syst; norm 2.24% (independent of circular) |
-| GHP_fwd_CS | GHP dσ(0°) | CS | 12 | 12 | 12 | 12 | 50.0-150.0 | 0-0 | LAB | - | 0 | GHP 2016 forward amplitudes; strongly correlated errors (nuisance model) |
-| GHP_fwd_S2Z | GHP Σ2z(0°) | S2Z | 12 | 12 | 12 | 12 | 50.0-150.0 | 0-0 | LAB | - | 0 | GHP 2016 forward amplitudes; strongly correlated errors (nuisance model) |
+| GHP_fwd_CS | forward dσ(0°) | CS | 12 | 12 | 12 | 12 | 50.0-150.0 | 0-0 | LAB | - | 0 | forward amplitudes, ForwardRCS 2026 update; strongly correlated errors (nuisance model) |
+| GHP_fwd_S2Z | forward Σ2z(0°) | S2Z | 12 | 12 | 12 | 12 | 50.0-150.0 | 0-0 | LAB | - | 0 | forward amplitudes, ForwardRCS 2026 update; strongly correlated errors (nuisance model) |
 | A2_Martel2015_S2x | A2 15 Σ2x (Martel) | S2X | 4 | 0 | 0 | 4 | 288.0-288.0 | 90-150 | LAB | - | 0 | error = stat (+) beam/target-pol syst (2.1% scale already inside); not floated |
 | A2_Paudyal2020_S2z | A2 20 Σ2z (Paudyal) | S2Z | 10 | 0 | 0 | 10 | 275.0-295.0 | 88-148 | LAB | 10.4% | 0 | Rand. (+) [Syst. (-) 10.4% scale]; scale 10.4% floated |
 | LEGS2001_S3 | LEGS 01 Σ3 | S3 | 79 | 0 | 0 | 79 | 213.1-333.8 | 52-127 | CM | - | 0 | stat (+) pt syst; no scale |

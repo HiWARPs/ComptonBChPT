@@ -1,7 +1,7 @@
 """Step 5: Delta region D (150 < E_lab <= 350 MeV).
 (i)  chi^2 per data set of the parameter-free NNLO prediction and of the F1/F2 best fits (alpha, beta from region L).
 (ii) exploratory fit of the four spin polarisabilities to Sigma_2x (Martel) + Sigma_2z (Paudyal) (+ LEGS Sigma_3
-     below the 2pi threshold), with gamma_0 = -0.929(105) [GHP], alpha+beta = 14.0(2) and alpha-beta from F1;
+     below the 2pi threshold), with gamma_0 = GHP_G0, alpha+beta = BALDIN (lib/common.py; 2026: -1.025(102), 14.01(21)) and alpha-beta from F1;
      with and without floating gM (interpolation over a grid of complete NNLO runs).
      the 2015 code lacks the gamma-N-Delta vertex corrections (LMP2015 Sect. 2.2): Sigma_2x off by 0.03-0.06 at
      286-334 MeV; a 'vertex' theory error (0.03 Sigma_2x, 0.02 Sigma_2z, 0.01 Sigma_3) is added in a variant.
@@ -143,7 +143,7 @@ if __name__ == '__main__':
         print('--- gM scan, vertex corrections =', vtx)
         print(R_[R_.vtx == vtx].pivot(index='gM', columns='set', values='chi2').round(1).to_string())
 
-    print('=== exploratory spin-polarisability fits (alpha-beta from main fit F2, alpha+beta = 14.0(2); gamma_0 = -0.929(105)) ===')
+    print('=== exploratory spin-polarisability fits (alpha-beta from main fit F2, alpha+beta = %s; gamma_0 = %s) ===' % (BAL_TXT, G0_TXT))
     A = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z']
     AL = A + ['LEGS2001_S3']
     two = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1']

@@ -29,7 +29,9 @@ V2OPTS = "dvertex=t, consts='LMP15', pimassphys=t, nmassphys=t"
 # reference (= NNLO) static polarisabilities of the v2 amplitude with physical pion/neutron masses, as
 # printed by ampl.exe ("[v2] reference polarisabilities"); spin polarisabilities are passed at these values
 # so that their LECs vanish identically
-REF = dict(alphaE1=11.41543, betaM1=3.72913, gE1E1=-3.24588, gM1M1=2.93919, gE1M2=0.17008, gM1E2=1.13257)
+# 2026-10-18: values of the executable rebuilt with LoopTools-dq (code_v2, ampl.exe of 2026-10-18 00:57); the build before
+# printed alphaE1=11.41543, betaM1=3.72913, gE1E1=-3.24588 (gM1M1, gE1M2, gM1E2 unchanged)
+REF = dict(alphaE1=11.41553, betaM1=3.72902, gE1E1=-3.26075, gM1M1=2.93919, gE1M2=0.17008, gM1E2=1.13257)
 
 BARYON = ("&hadr exch=t,t,f,nq=-1,1,1,rm=0.93827,wid=0.,cutf=2.2,gstr=13.8,gem=0./\n"
           "&hadr exch=f,f,f,nq=-1,1,1,rm=1.47,wid=.2,cutf=1.7,gstr=2.6,gem=-1./\n"

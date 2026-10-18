@@ -1,0 +1,10 @@
+make_figures.py:226: UserWarning: Legend does not support handles for str instances.
+A proxy artist may be used instead.
+See: https://matplotlib.org/stable/users/explain/axes/legend_guide.html#controlling-the-legend-entries
+  axs[7].legend(hh.values(), hh.keys(), loc='center', fontsize=7)
+fig_pulls: excluded point TAPS2001 108.42 MeV 133.0 deg: pull -4.21, chi2 17.7 at the main-fit parameters
+main main           chi2/pt=0.772 ( 182.9/237)  aE1= 11.13(0.62) bM1= 3.08(0.61) gEE=-2.12(0.95) gMM= 0.96(0.38) gEM= 0.00(0.00) gME= 2.17(0.77) a-b= 8.05(1.22) gpi= 5.25(1.89)
+pruned pruned         chi2/pt=0.689 ( 156.5/227)  aE1= 10.72(0.63) bM1= 3.45(0.62) gEE=-2.07(0.98) gMM= 0.93(0.39) gEM= 0.00(0.00) gME= 2.16(0.79) a-b= 7.27(1.24) gpi= 5.15(1.94)
+new new            chi2/pt=0.797 (  89.3/112)  aE1= 11.51(0.71) bM1= 2.70(0.68) gEE=-3.31(1.11) gMM= 1.26(0.51) gEM= 0.00(0.00) gME= 3.06(0.87) a-b= 8.81(1.38) gpi= 7.64(2.22)
+plb1 plb1           chi2/pt=1.357 ( 187.2/138)  aE1= 12.32(0.51) bM1= 1.68(0.51) gEE=-2.97(0.96) gMM= 1.43(0.41) gEM= 0.00(0.00) gME= 2.46(0.85) a-b=10.63(1.03) gpi= 6.87(1.92)
+plb1pp plb1pp         chi2/pt=0.688 (  87.4/127)  aE1= 10.87(0.64) bM1= 3.13(0.64) gEE=-2.04(1.15) gMM= 0.91(0.46) gEM= 0.00(0.00) gME= 2.05(0.99) a-b= 7.74(1.27) gpi= 5.00(2.30)

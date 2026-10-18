@@ -1,0 +1,1 @@
+$PY scenarios/main_fits_legacynorm.py > scenarios/main_fits_legacynorm.log 2>  3.32s user 0.10s system 99% cpu 3.447 total

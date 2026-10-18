@@ -1,0 +1,15 @@
+PWA main fit (paper): N = 237, chi2 = 182.9158 (json 182.9158), npar = 84
+make_figures 'main' fit: N = 237, chi2 = 203.6781
+  S2X  E = 100.0 MeV -> bin  99 MeV: value -0.622 .. -0.000, fit error 0.0000 .. 0.0159, max |main(make_figures) - paper| = 0.0109
+  S2X  E = 120.0 MeV -> bin 117 MeV: value -0.685 .. -0.000, fit error 0.0000 .. 0.0233, max |main(make_figures) - paper| = 0.0147
+  S2X  E = 140.0 MeV -> bin 143 MeV: value -0.755 .. 0.021, fit error 0.0000 .. 0.0298, max |main(make_figures) - paper| = 0.0152
+  S2Z  E = 100.0 MeV -> bin  99 MeV: value -0.531 .. 0.884, fit error 0.0034 .. 0.0162, max |main(make_figures) - paper| = 0.0120
+  S2Z  E = 120.0 MeV -> bin 117 MeV: value -0.700 .. 0.963, fit error 0.0063 .. 0.0140, max |main(make_figures) - paper| = 0.0094
+  S2Z  E = 140.0 MeV -> bin 143 MeV: value -0.917 .. 1.000, fit error 0.0009 .. 0.0225, max |main(make_figures) - paper| = 0.0065
+written <release>/code/pwa/results/pwa_curves_S2.csv (438 rows)
+  S2X  at the bin centre  99 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.     -0.3377 -0.5979 -0.548  -0.2942 -0.    ]
+  S2X  at the bin centre 117 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.     -0.3868 -0.656  -0.6085 -0.3366 -0.    ]
+  S2X  at the bin centre 143 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.     -0.462  -0.7367 -0.6948 -0.3986 -0.    ]
+  S2Z  at the bin centre  99 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.452  -0.4834 -0.0719  0.4823  0.792   0.8792]
+  S2Z  at the bin centre 117 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.6119 -0.5854 -0.1003  0.4926  0.8476  0.9547]
+  S2Z  at the bin centre 143 MeV, theta = 0, 60, 90, 120, 150, 180: [-0.9547 -0.6639 -0.1306  0.4666  0.867   0.9989]

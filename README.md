@@ -40,7 +40,8 @@ can be rerun in a few minutes without compiling the Fortran code.
 ```
 README.md, CITATION.cff, LICENSE, LICENSE-DATA, requirements.txt
 data/           fitdb.csv, fitdb_pb.csv (the fit database with provenance columns), db_forward_obs.csv,
-                db_forward_amp.csv (the forward points and amplitudes), DATA_PROVENANCE.md
+                db_forward_amp.csv (the forward points and amplitudes, from the 2026 evaluation of the empirical
+                forward amplitudes, https://github.com/HiWARPs/ForwardRCS), DATA_PROVENANCE.md
 amplitudes/     the tabulated amplitudes (README.md there describes the format and the configurations)
 code/           the analysis code; this directory is the author's former `work/` directory, so that all relative
                 paths of the scripts are unchanged:
@@ -54,7 +55,9 @@ code/           the analysis code; this directory is the author's former `work/`
   radcorr/        one-loop QED (radiative) corrections and their effect on the fits
   sigma_tot/      total γp → γp cross section and its contribution to the Baldin integral
   delta_plots/    the Δ-region figures and χ² tables (needs the executable, see below)
-  data/           the curated source tables db_*.csv with their READMEs and build scripts
+  data/           the curated source tables db_*.csv with their READMEs and build scripts; raw/ForwardRCS2026
+                  holds the ForwardRCS results from which scripts/build_db_forward.py builds the forward points
+                  (FWD_SOURCE=ghp2016 selects the 2015/2016 tables instead)
   notes/          fit_report.md and pwa_report.md: the working notes that describe the two pipelines
   figstyle*.mplstyle  shared matplotlib styles
 results/        frozen reference copies of code/fits/results (fits_L.json: every fit of the paper; tables.md/.tex;
@@ -83,12 +86,14 @@ make                                     # the complete pipeline: database assem
                                          #   all found in amplitudes/), forward validation (s00), fits (s03),
                                          #   truncation correlation lengths (s04), Δ region (s05), figures (s06)
                                          #   and tables incl. the error budget (s07); ~40 s
-python3 scripts/s07b_error_budget_table.py   # the error-budget table of Appendix D from results/error_budget.json
+python3 scripts/s07b_error_budget_table.py   # the error-budget table of Appendix C from results/error_budget.json
 ```
 
-Expected numbers (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`): NNLO fit α_E1 = 11.59(47),
-β_M1 = 2.94(43), χ² = 219.7 for 263 degrees of freedom (283 points); Baldin fit (`F1_d_all_thB`) 11.34(45),
-2.83(43); parameter-free NNLO prediction χ² = 227.2 for the 283 points with normalizations and nuisance parameters
+Expected numbers (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`): NNLO fit α_E1 = 10.89(47),
+β_M1 = 3.23(44), χ² = 198.0 for 249 degrees of freedom (267 points: 245 angular data and 22 forward points); the
+same fit without the forward points (`F2_d_nofwd_thB`) 11.80(64), 3.39(45), and the parameter-goodness-of-fit test
+of the angular data against the forward points (`FWD_test`, 2.1σ); Baldin fit (`F1_d_all_thB`) 10.93(47),
+3.22(44); parameter-free NNLO prediction χ² = 224.6 for the 267 points with normalizations and nuisance parameters
 floated and the truncation covariance (`scenarios/nnlo_prediction_table.txt`, line GLOBAL).
 
 Other analyses that run from the shipped tables and results:
@@ -98,7 +103,7 @@ cd code/radcorr   && python3 run_radcorr_fit.py        # QED corrections: shifts
 cd code/sigma_tot && python3 sigma_tot.py && python3 plot_sigma_tot.py   # total cross section, Baldin integral
 cd code/pwa       && python3 scenarios/main_fits_legacynorm.py           # the PWA fit of the paper (~5 s)
 cd code/fits      && python3 scripts/s08_fig_pred_ratio.py && python3 scripts/s09_fig_coverage.py \
-                  && python3 scripts/s10_fig_pred_S2.py    # further figures of the paper
+                  && python3 scripts/s10_fig_pred_S2.py && python3 scripts/s11_fig_pred_S2_abs.py   # further figures
 ```
 
 Scripts that need the executable: `code/delta_plots/make_all.sh` (the Δ-region figures; its own amplitude cache,
@@ -124,8 +129,8 @@ tests/run_regression.sh                   # regression suite (~20 s)
 quad-precision core behind the usual double-precision interface, and it removes the precision loss of the box tensor
 coefficients near 0° and 180° and at low energies. To link the plain double-precision LoopTools instead, set `LT` to
 its prefix. Compared with that library, the results change by ≤ 4×10⁻⁶ and the run takes 3.5 times longer; see
-`code/code_v2/looptools/README.md`.  The amplitude tables shipped here were computed with the double-precision
-library.
+`code/code_v2/looptools/README.md`.  The amplitude tables shipped here were computed with LoopTools-dq, by the
+executable built from the commit in `GIT_COMMIT.txt` (as the results of the paper).
 
 `code/fits/lib/bchpt.py` looks for the executable at `code/code_v2/execs/ampl.exe` (override with the environment
 variable `AMPL_EXE`).  A table is recomputed only when it is missing from `amplitudes/`: delete the tables to be
@@ -156,7 +161,8 @@ The scripts `code/pwa/digitize_plb.py` and `code/pwa/scenarios/klp18_fig4_digiti
 
 ## Not included
 
-The raw downloads behind the curated tables (`work/data/raw`, 155 MB: HEPData records, arXiv sources, theses) and
+The raw downloads behind the curated tables (`work/data/raw`, 155 MB: HEPData records, arXiv sources, theses; only
+`raw/ForwardRCS2026`, 0.35 MB, is included) and
 the text extractions of the theses; the reference papers of `code/radcorr/refs`; the Δ-region amplitude cache of
 `code/delta_plots` (0.9 GB); the binaries, build directories and run directories of the Fortran code (including
 the copy under `code/pwa/fortran` used for the PWA validation, of which the sources are kept); the archived
@@ -168,11 +174,11 @@ The tables in `amplitudes/` were generated by replaying the complete pipeline (`
 `sigma_tot.py`, the figure scripts) in a copy of this package with the executable built from `code/code_v2` at
 the commit of `GIT_COMMIT.txt`.  The tables of the main database computed by that executable are identical, value
 by value, to the tables used for the paper.  The package as shipped was then tested in a fresh copy without any
-executable (2026-10-15, macOS, Python 3.13.15, package versions of `requirements.txt`):
+executable (2026-10-18, macOS, Python 3.13.15, package versions of `requirements.txt`):
 
 | step | result |
 |---|---|
-| `python3 scripts/s03_fits_L.py` (13 s) | NNLO fit α_E1 = 11.59(47), β_M1 = 2.94(43), χ²/dof = 219.7/263; Baldin fit 11.34(45), 2.83(43), 214.8/244; all 219 fits of `fits_L.json` identical to the paper's (23 314 numbers, maximal difference 0) |
-| `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 227.2 for the 283 points (normalizations and nuisances floated, truncation covariance); table identical |
-| `make all` (41 s) | database, forward validation, fits, correlation lengths, Δ region, figures, tables and error budget regenerated; `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
-| `s07b`, `s08`, `s09`, `s10`; `sigma_tot.py`; `run_radcorr_fit.py` (9 s); PWA `main_fits_legacynorm.py` (5 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results (apart from recorded file paths) |
+| `python3 scripts/s03_fits_L.py` (9 s) | NNLO fit α_E1 = 10.89(47), β_M1 = 3.23(44), χ²/dof = 198.0/249; without the forward points 11.80(64), 3.39(45); Baldin fit 10.93(47), 3.22(44), 195.3/230; all 222 entries of `fits_L.json` identical to the paper's (224 805 numbers, maximal relative difference 2×10⁻¹⁵) |
+| `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 224.6 for the 267 points (normalizations and nuisances floated, truncation covariance); table identical |
+| `make all` (29 s) | database, forward validation, fits, correlation lengths, Δ region, figures, tables and error budget regenerated; `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
+| `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |

@@ -1,0 +1,30 @@
+PWA main fit: N = 237, chi2 = 182.9158 (json 182.9158), npar = 84
+  A2_2022_CS      CS      E =  92.20 MeV (bin  89, N = 0.9810): 12 pts, max |curve*N/pred - 1| = 1.2e-15
+  A2_2022_CS      CS      E = 103.20 MeV (bin  99, N = 0.9810): 12 pts, max |curve*N/pred - 1| = 4.9e-16
+  A2_2022_CS      CS      E = 113.60 MeV (bin 117, N = 0.9810): 12 pts, max |curve*N/pred - 1| = 1.6e-15
+  A2_2022_CS      CS      E = 124.10 MeV (bin 127, N = 0.9810): 12 pts, max |curve*N/pred - 1| = 2.1e-15
+  A2_2022_CS      CS      E = 135.30 MeV (bin 135, N = 0.9810): 12 pts, max |curve*N/pred - 1| = 1.1e-15
+  A2_2022_S3      S3      E =  92.20 MeV (bin  89, N = 0.9987): 12 pts, max |curve*N/pred - 1| = 9.6e-16
+  A2_2022_S3      S3      E = 108.50 MeV (bin 109, N = 0.9987): 12 pts, max |curve*N/pred - 1| = 8.8e-16
+  A2_2022_S3      S3      E = 129.50 MeV (bin 127, N = 0.9987): 12 pts, max |curve*N/pred - 1| = 1.3e-15
+  HIGS_2022_circ  CS      not in the main fit (HIgS excluded since 2026-10-17): curve = prediction of the PWA fit, no check
+  HIGS_2022_lin   CS_PAR  not in the main fit (HIgS excluded since 2026-10-17): curve = prediction of the PWA fit, no check
+  HIGS_2022_lin   CS_PERP not in the main fit (HIgS excluded since 2026-10-17): curve = prediction of the PWA fit, no check
+check passed: curve * N_k reproduces the fitted values at all data points of the main fit (max rel. dev. 2.1e-15)
+  CS    E =  81.30 MeV -> bin  79 MeV (residuals f^R_i of this bin); value range 10.502 .. 18.472, fit error (stat.) 0.060 .. 0.295
+  CS    E =  92.20 MeV -> bin  89 MeV (residuals f^R_i of this bin); value range 10.396 .. 18.378, fit error (stat.) 0.078 .. 0.338
+  CS    E = 103.20 MeV -> bin  99 MeV (residuals f^R_i of this bin); value range 10.195 .. 18.374, fit error (stat.) 0.097 .. 0.358
+  CS    E = 113.60 MeV -> bin 117 MeV (residuals f^R_i of this bin); value range 9.811 .. 18.771, fit error (stat.) 0.114 .. 0.359
+  CS    E = 124.10 MeV -> bin 127 MeV (residuals f^R_i of this bin); value range 7.953 .. 19.581, fit error (stat.) 0.127 .. 0.348
+  CS    E = 135.30 MeV -> bin 135 MeV (residuals f^R_i of this bin); value range 5.320 .. 20.366, fit error (stat.) 0.134 .. 0.370
+  CS    E = 149.87 MeV -> bin 150 MeV (residuals f^R_i of this bin); value range 1.119 .. 23.084, fit error (stat.) 0.128 .. 1.003
+  CS    E =  58.94 MeV -> bin  59 MeV (residuals f^R_i of this bin); value range 10.763 .. 19.927, fit error (stat.) 0.032 .. 0.193
+  CS    E =  79.19 MeV -> bin  79 MeV (residuals f^R_i of this bin); value range 10.528 .. 18.527, fit error (stat.) 0.057 .. 0.284
+  CS    E = 108.42 MeV -> bin 109 MeV (residuals f^R_i of this bin); value range 9.903 .. 17.877, fit error (stat.) 0.106 .. 0.413
+  S3    E =  83.40 MeV -> bin  79 MeV (residuals f^R_i of this bin); value range -0.816 .. -0.003, fit error (stat.) 0.000 .. 0.006
+  S3    E =  92.20 MeV -> bin  89 MeV (residuals f^R_i of this bin); value range -0.783 .. -0.003, fit error (stat.) 0.000 .. 0.007
+  S3    E = 108.50 MeV -> bin 109 MeV (residuals f^R_i of this bin); value range -0.714 .. -0.003, fit error (stat.) 0.000 .. 0.010
+  S3    E = 129.50 MeV -> bin 127 MeV (residuals f^R_i of this bin); value range -0.617 .. -0.002, fit error (stat.) 0.000 .. 0.015
+  SPAR  E =  83.40 MeV -> bin  79 MeV (residuals f^R_i of this bin); value range 1.931 .. 18.368, fit error (stat.) 0.033 .. 0.305
+  SPERP E =  83.40 MeV -> bin  79 MeV (residuals f^R_i of this bin); value range 16.361 .. 19.173, fit error (stat.) 0.090 .. 0.306
+written <release>/code/pwa/results/pwa_curves.csv (1104 rows)

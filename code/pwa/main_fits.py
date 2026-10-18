@@ -1,6 +1,6 @@
 """MAIN configuration of the updated PWA (user decision 2026-10-14):
 all data, floating normalisations, GHP forward amplitudes Re f, Re g as chi^2 DATA at the bin centres with
-correlated nuisances n_f, n_g (alpha+beta = 14.0 + 0.2 n_f, gamma0 = -0.929 + 0.105 n_g move with them),
+correlated nuisances n_f, n_g (alpha+beta = AB_SR + SIG_AB n_f, gamma0 = G0_SR + SIG_G0 n_g move with them; sumrules.py: 2026 14.009(208), -1.025(102); ghp2016 14.0(2), -0.929(105)),
 f^R_2, f^R_3 free per bin (wide prior), KLP18 widths for f^R_1,4,5,6.
 Runs: uncertainty budget around MAIN, database variants, influence of single sets, parameter-goodness-of-fit.
 Writes results/main_fits.json (and results/update/{pulls,p,cov}_M_<tag>.*).

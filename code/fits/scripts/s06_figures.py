@@ -156,7 +156,7 @@ def plot_data(ax, rows, conv=to_lab, seen=None, ms=3.5):
 
 # ---------------------------------------------------------------- (i) angular distributions dsigma/dOmega_lab
 def forward_point(E):
-    """empirical forward cross section of GHP (rows 'GHP_fwd_CS' of the database) interpolated to energy E:
+    """empirical forward cross section (rows 'GHP_fwd_CS' of the database, source FWD_SOURCE) interpolated to energy E:
     cubic spline through the 12 tabulated values, uncertainty linearly interpolated (the quoted errors)."""
     from scipy.interpolate import CubicSpline
     d = df[df.dataset == 'GHP_fwd_CS'].sort_values('E')
@@ -165,7 +165,7 @@ def forward_point(E):
 
 def fig_cs(energies, fname, window, title_fmt='%.1f MeV', ylim=None, omit=(), fwd=False, own_range=()):
     """angular distributions; ylim: common y-range of all panels (extended minimally if anything would be clipped);
-    omit: data sets not drawn (they stay in the fit); fwd: add the GHP forward point at theta = 0 (open star);
+    omit: data sets not drawn (they stay in the fit); fwd: add the forward point at theta = 0 (open star);
     own_range: energies whose panel gets its own y-range instead of the common one."""
     th = np.arange(0.0 if fwd else 20.0, 175.1, 2.5)
     spec = [('cs', E, t, 'CS', 'LAB') for E in energies for t in th]
@@ -368,16 +368,28 @@ def ellipse(ax, P, cov, **kw):
     return e
 
 
-fig, ax = plt.subplots(figsize=(W1, 3.85), layout='constrained')
+fig, ax = plt.subplots(figsize=(W1, 4.0), layout='constrained')
 a = np.linspace(8, 16, 50)
-h_bal = ax.fill_between(a, 14.0 - 0.2 - a, 14.0 + 0.2 - a, color='#dddddd', lw=0, label='Baldin SR, average 14.0(2)')
-# the two photoabsorption fits of Gryniuk et al. 2015 (fit I: MAID below the 2pi threshold; fit II: SAID), hatched
+# gray band: the Baldin sum rule of the forward-amplitude source (lib/common.py BALDIN; since 2026-10-18 the ForwardRCS
+# 2026 update, 14.01(21) = exp+fit (+) data selection; with FWD_SOURCE=ghp2016 the GHP15 average 14.0(2))
+h_bal = ax.fill_between(a, BALDIN[0] - BALDIN[1] - a, BALDIN[0] + BALDIN[1] - a, color='#dddddd', lw=0,
+                        label='Baldin SR, ' + (BAL_TXT if forward.SOURCE == '2026' else 'average 14.0(2)'))
+# the two photoabsorption fits of Gryniuk et al. 2015 (fit I: MAID below the 2pi threshold; fit II: SAID), hatched; one
+# legend entry for both (the two hatches overlaid)
+from matplotlib.legend_handler import HandlerTuple  # noqa: E402
 with plt.rc_context({'hatch.linewidth': 0.5}):
     h_b1 = ax.fill_between(a, 14.29 - 0.27 - a, 14.29 + 0.27 - a, facecolor='none', edgecolor='#8c8c8c', hatch='////', lw=0,
                            label='Baldin SR, fit I 14.29(27)')
     h_b2 = ax.fill_between(a, 13.85 - 0.22 - a, 13.85 + 0.22 - a, facecolor='none', edgecolor='#8c8c8c', hatch='\\\\\\\\', lw=0,
                            label='Baldin SR, fit II 13.85(22)')
-# the NNLO fit of this work (68% joint CL)
+# the NNLO fit of this work (68% joint CL), with and without the forward points, and the alpha+beta band of the forward
+# points alone (s03: F2_d_nofwd_thB, F2_fwdonly_thB; their conflict, FL['FWD_test'], is 2.1 sigma)
+rf = FL['F2_fwdonly_thB']
+h_fwd, = ax.plot(a, rf['apb'] - rf['dapb'] - a, color=C_F1, lw=0.8, label='B$\\chi$PT, forward points only')
+ax.plot(a, rf['apb'] + rf['dapb'] - a, color=C_F1, lw=0.8)
+r0 = FL['F2_d_nofwd_thB']
+h_ang = ellipse(ax, r0['P'], r0['covP'], ec=C_F1, ls='--', lw=1.4, label='B$\\chi$PT fit, no forward points')
+ax.plot(*r0['P'][:2], 'o', color=C_F1, ms=2)
 r = FL['F2_d_all_thB']
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
 ax.plot(*r['P'][:2], 'o', color=C_F1, ms=2)
@@ -405,9 +417,10 @@ for (av, ae), (bv, be), c, m, lab in others:
 ax.set_xlim(9.5, 15.2); ax.set_ylim(-0.5, 5.0)
 ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1)); ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1))
 ax.set_xlabel('$\\alpha_{E1}$ [$10^{-4}$ fm$^3$]'); ax.set_ylabel('$\\beta_{M1}$ [$10^{-4}$ fm$^3$]')
-handles = [h_bal, h_b1, h_b2, h_nnlo, h_fit] + hs
-fig.legend(handles, [h.get_label() for h in handles], loc='outside lower center', ncol=2, handlelength=2.0,
-           handletextpad=0.5, columnspacing=1.0)
+handles = [h_bal, (h_b1, h_b2), h_nnlo, h_fit, h_ang, h_fwd] + hs
+labels = [h_bal.get_label(), 'GHP15 fits I, II'] + [h.get_label() for h in [h_nnlo, h_fit, h_ang, h_fwd] + hs]
+fig.legend(handles, labels, loc='outside lower center', ncol=2, handlelength=2.0,
+           handletextpad=0.5, columnspacing=1.0, handler_map={tuple: HandlerTuple(ndivide=1)})
 save_exact(fig, 'fig4_alpha_beta')
 
 # ---------------------------------------------------------------- (v) Delta region: Sigma_2x, Sigma_2z vs angle
@@ -547,7 +560,7 @@ g = grid_rows([('fw', e, 0.0, o, 'LAB') for o in ['CS', 'S2Z'] for e in Ef])
 cv = curves(g, 'fig_fwd', {'F2': P_F2, 'F2n': np.array(FL['F2_d_all']['P'])}, band=False)
 Eg, fv, dfv, gv, dgv = FWDLIB.amplitudes()
 emp = dict(zip(['CS', 'S2Z'], FWDLIB.obs(CubicSpline(Eg, fv)(Ef), CubicSpline(Eg, gv)(Ef))))
-# GHP points shifted by the fitted nuisances of the main fit: y - lam_f s_f - lam_g s_g (model = n t + lam.s)
+# forward points shifted by the fitted nuisances of the main fit: y - lam_f s_f - lam_g s_g (model = n t + lam.s)
 rm = FL['F2_d_all_thB']
 dg = df[df.dataset.isin(FWD)].sort_values(['dataset', 'E']).reset_index(drop=True)
 _, sh, _ = FWDLIB.model(dg, mode='nuisance')

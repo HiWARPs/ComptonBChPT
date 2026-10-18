@@ -2,131 +2,131 @@
  "pwa_points": [
   {
    "E": 59.0,
-   "f": -2.764508,
-   "df": 0.009155,
-   "g": -0.310044,
-   "dg": 0.009986,
-   "cs": 19.874266,
-   "dcs": 0.130602,
-   "s2z": -0.221517,
-   "ds2z": 0.007011
+   "f": -2.767559,
+   "df": 0.003411,
+   "g": -0.311091,
+   "dg": 0.00059,
+   "cs": 19.919285,
+   "dcs": 0.048457,
+   "s2z": -0.222008,
+   "ds2z": 0.000498
   },
   {
    "E": 69.0,
-   "f": -2.663595,
-   "df": 0.010002,
-   "g": -0.364551,
-   "dg": 0.01,
-   "cs": 18.561933,
-   "dcs": 0.137647,
-   "s2z": -0.268695,
-   "ds2z": 0.00719
+   "f": -2.665992,
+   "df": 0.004752,
+   "g": -0.365754,
+   "dg": 0.000978,
+   "cs": 18.596997,
+   "dcs": 0.065025,
+   "s2z": -0.269316,
+   "ds2z": 0.000848
   },
   {
    "E": 79.0,
-   "f": -2.541073,
-   "df": 0.012587,
-   "g": -0.420016,
-   "dg": 0.010007,
-   "cs": 17.035998,
-   "dcs": 0.165157,
-   "s2z": -0.32179,
-   "ds2z": 0.007451
+   "f": -2.544204,
+   "df": 0.006369,
+   "g": -0.421069,
+   "dg": 0.001533,
+   "cs": 17.079154,
+   "dcs": 0.083174,
+   "s2z": -0.322178,
+   "ds2z": 0.001371
   },
   {
    "E": 89.0,
-   "f": -2.397822,
-   "df": 0.012577,
-   "g": -0.476022,
-   "dg": 0.010004,
-   "cs": 15.347871,
-   "dcs": 0.1562,
-   "s2z": -0.381991,
-   "ds2z": 0.007692
+   "f": -2.399648,
+   "df": 0.008307,
+   "g": -0.476817,
+   "dg": 0.002316,
+   "cs": 15.372313,
+   "dcs": 0.102332,
+   "s2z": -0.382311,
+   "ds2z": 0.002145
   },
   {
    "E": 99.0,
-   "f": -2.227809,
-   "df": 0.012575,
-   "g": -0.531376,
-   "dg": 0.010009,
-   "cs": 13.471421,
-   "dcs": 0.145737,
-   "s2z": -0.45136,
-   "ds2z": 0.007978
+   "f": -2.228761,
+   "df": 0.010622,
+   "g": -0.532379,
+   "dg": 0.003414,
+   "cs": 13.485051,
+   "dcs": 0.121589,
+   "s2z": -0.451948,
+   "ds2z": 0.003281
   },
   {
    "E": 109.0,
-   "f": -2.023717,
-   "df": 0.015818,
-   "g": -0.585175,
-   "dg": 0.010024,
-   "cs": 11.397265,
-   "dcs": 0.166343,
-   "s2z": -0.533693,
-   "ds2z": 0.008585
+   "f": -2.026394,
+   "df": 0.013408,
+   "g": -0.586543,
+   "dg": 0.004972,
+   "cs": 11.42922,
+   "dcs": 0.139761,
+   "s2z": -0.534151,
+   "ds2z": 0.00495
   },
   {
    "E": 117.0,
-   "f": -1.832933,
-   "df": 0.015899,
-   "g": -0.625725,
-   "dg": 0.010026,
-   "cs": 9.633722,
-   "dcs": 0.152228,
-   "s2z": -0.611495,
-   "ds2z": 0.008918
+   "f": -1.836436,
+   "df": 0.01607,
+   "g": -0.627348,
+   "dg": 0.006722,
+   "cs": 9.671962,
+   "dcs": 0.152243,
+   "s2z": -0.611824,
+   "ds2z": 0.006827
   },
   {
    "E": 127.0,
-   "f": -1.544867,
-   "df": 0.020581,
-   "g": -0.66781,
-   "dg": 0.010027,
-   "cs": 7.274608,
-   "dcs": 0.165925,
-   "s2z": -0.728436,
-   "ds2z": 0.010159
+   "f": -1.552718,
+   "df": 0.020184,
+   "g": -0.67,
+   "dg": 0.009998,
+   "cs": 7.344592,
+   "dcs": 0.163196,
+   "s2z": -0.72754,
+   "ds2z": 0.010081
   },
   {
    "E": 135.0,
-   "f": -1.268773,
-   "df": 0.021907,
-   "g": -0.690115,
-   "dg": 0.01002,
-   "cs": 5.357357,
-   "dcs": 0.146162,
-   "s2z": -0.839483,
-   "ds2z": 0.01043
+   "f": -1.272767,
+   "df": 0.024407,
+   "g": -0.688951,
+   "dg": 0.014165,
+   "cs": 5.379303,
+   "dcs": 0.165242,
+   "s2z": -0.837275,
+   "ds2z": 0.013136
   },
   {
    "E": 143.0,
-   "f": -0.901965,
-   "df": 0.030511,
-   "g": -0.666079,
-   "dg": 0.018411,
-   "cs": 3.228734,
-   "dcs": 0.153155,
-   "s2z": -0.955741,
-   "ds2z": 0.012449
+   "f": -0.91173,
+   "df": 0.03041,
+   "g": -0.670651,
+   "dg": 0.021925,
+   "cs": 3.289913,
+   "dcs": 0.158385,
+   "s2z": -0.954631,
+   "ds2z": 0.013552
   },
   {
    "E": 150.0,
-   "f": -0.382253,
-   "df": 0.029261,
-   "g": -0.518532,
-   "dg": 0.019399,
-   "cs": 1.065778,
-   "dcs": 0.076198,
-   "s2z": -0.955248,
-   "ds2z": 0.024336
+   "f": -0.400812,
+   "df": 0.040751,
+   "g": -0.518843,
+   "dg": 0.040655,
+   "cs": 1.10393,
+   "dcs": 0.134236,
+   "s2z": -0.96759,
+   "ds2z": 0.03199
   }
  ],
  "pwa_fit": {
-  "chi2": 182.63431623143217,
+  "chi2": 182.9157645221619,
   "npts": 237,
-  "nf": 0.6793524554506192,
-  "ng": 0.07330032793198818
+  "nf": 0.9475918353192622,
+  "ng": 0.16061875353709554
  },
  "nnlo_vs_ghp": {
   "below": {
@@ -262,5 +262,139 @@
    }
   }
  },
- "note": "Forward Compton scattering off the proton, 50-450 MeV (paper figure pwa_forward, redesign of 2026-10-17):\nthe empirical forward amplitudes of Gryniuk, Hagelstein, Pascalutsa (GHP: PRD 92 (2015) 074031 and PRD 94 (2016) 034043,\nSupplemental Material in work/data/raw/GHP2016_supplement, photoabsorption fits I and II combined as in\nwork/data/scripts/build_db_forward_above.py: mean, error = mean quoted error (+) half the difference in quadrature),\nthe forward points used in the fits (work/data/db_forward_obs.csv, 50-150 MeV), the PWA main fit of the paper at its bin\ncentres (legacy normalisations floated, configuration main_fits.MAIN, as in multipoles_figure.py; non-Born f, g of\nmake_figures.forward_model + GHP Born terms) and the parameter-free NNLO BChPT prediction (work/pwa/results/\nnnlo_forward_amplitudes.csv, written by nnlo_forward.py; exact forward amplitudes of the v2 code at the NNLO static\npolarisabilities).\nPanels: left dsigma/dOmega_lab(0) (log) and Sigma_2z(0); right f(nu) and g(nu), Re solid, Im dashed.  GHP conventions.\n"
+ "nnlo_vs_2026": {
+  "below": {
+   "Re_f": {
+    "max_abs": 0.07798864999999999,
+    "E": 135.0,
+    "nnlo": -1.220898,
+    "ghp": -1.29888665,
+    "ghp_err": 0.027567749389184822,
+    "max_pull": 5.244620623046734
+   },
+   "Im_f": {
+    "max_abs": 0.0017666549999999998,
+    "E": 150.0,
+    "nnlo": 0.005874125,
+    "ghp": 0.00410747,
+    "ghp_err": 8.283855744760408e-05,
+    "max_pull": 21.32648194794339
+   },
+   "Re_g": {
+    "max_abs": 0.07787856999999998,
+    "E": 150.0,
+    "nnlo": -0.4475327,
+    "ghp": -0.52541127,
+    "ghp_err": 0.04097328653276058,
+    "max_pull": 2.548531165472446
+   },
+   "Im_g": {
+    "max_abs": 0.006788619,
+    "E": 150.0,
+    "nnlo": 0.005874899,
+    "ghp": -0.00091372,
+    "ghp_err": 0.00039707789424746375,
+    "max_pull": 17.09644152532261
+   },
+   "abs_f": {
+    "max_abs": 0.07798864999999999,
+    "E": 135.0
+   },
+   "abs_g": {
+    "max_abs": 0.07817388958707414,
+    "E": 150.0
+   },
+   "cs_rel": {
+    "max_abs": 0.25528080134652964,
+    "E": 150.0,
+    "nnlo": 0.9057267,
+    "ghp": 1.21619894,
+    "ghp_err": 0.15046819682662163
+   },
+   "s2z": {
+    "max_abs": 0.006899079999999946,
+    "E": 120.0,
+    "nnlo": -0.6468372,
+    "ghp": -0.63993812,
+    "ghp_err": 0.007933511180439397
+   }
+  },
+  "above": {
+   "Re_f": {
+    "max_abs": 2.62936264,
+    "E": 305.0,
+    "nnlo": 3.933159,
+    "ghp": 1.30379636,
+    "ghp_err": 0.07739106069275443,
+    "max_pull": 35.12958683035094
+   },
+   "Im_f": {
+    "max_abs": 1.6158156900000007,
+    "E": 270.0,
+    "nnlo": 5.873618,
+    "ghp": 7.48943369,
+    "ghp_err": 0.11465134721908243,
+    "max_pull": 18.2090667294184
+   },
+   "Re_g": {
+    "max_abs": 1.8485603100000003,
+    "E": 405.0,
+    "nnlo": 0.8933644,
+    "ghp": 2.74192471,
+    "ghp_err": 0.19578242391929876,
+    "max_pull": 32.7028483052707
+   },
+   "Im_g": {
+    "max_abs": 1.54044815,
+    "E": 275.0,
+    "nnlo": -2.160441,
+    "ghp": -3.70088915,
+    "ghp_err": 0.13151419,
+    "max_pull": 23.911970593986926
+   },
+   "abs_f": {
+    "max_abs": 2.684616818468862,
+    "E": 300.0
+   },
+   "abs_g": {
+    "max_abs": 1.888128605729071,
+    "E": 420.0
+   },
+   "cs_rel": {
+    "max_abs": 0.23699759758994354,
+    "E": 220.0,
+    "nnlo": 43.43568,
+    "ghp": 56.92731748,
+    "ghp_err": 1.8672072750096689
+   },
+   "s2z": {
+    "max_abs": 0.11071948,
+    "E": 185.0,
+    "nnlo": -0.183693,
+    "ghp": -0.07297352,
+    "ghp_err": 0.03656304412689078
+   }
+  },
+  "Imf_peak": {
+   "nnlo": {
+    "E": 325.0,
+    "value": 14.37449
+   },
+   "ghp": {
+    "E": 325.0,
+    "value": 13.97877188
+   }
+  },
+  "Img_min": {
+   "nnlo": {
+    "E": 320.0,
+    "value": -6.173608
+   },
+   "ghp": {
+    "E": 320.0,
+    "value": -6.61681031
+   }
+  }
+ },
+ "note": "Forward Compton scattering off the proton, 50-450 MeV (paper figure pwa_forward, redesign of 2026-10-17; since 2026-10-18 with\nboth empirical evaluations): the 2026 update of the empirical forward amplitudes (public repository github.com/HiWARPs/ForwardRCS,\ntables in work/data/raw/ForwardRCS2026: unpol_f.txt, pol_g.txt, obs.txt with exp+fit errors; their systematics unpol_selection.txt\n(data selection, f), pol_g_pwa_model.txt (PWA model of g below 0.2 GeV, propagated to the observables), obs_selection.txt; band =\nexp+fit (+) systematics in quadrature; green), and\nthe empirical forward amplitudes of Gryniuk, Hagelstein, Pascalutsa (GHP: PRD 92 (2015) 074031 and PRD 94 (2016) 034043,\nSupplemental Material in work/data/raw/GHP2016_supplement, photoabsorption fits I and II combined as in\nwork/data/scripts/build_db_forward_above.py: mean, error = mean quoted error (+) half the difference in quadrature; orange),\nthe forward points used in the fits (work/data/db_forward_obs.csv, 50-150 MeV; since 2026-10-18 from the 2026 update), the PWA main fit of the paper at its bin\ncentres (legacy normalisations floated, configuration main_fits.MAIN, as in multipoles_figure.py; non-Born f, g of\nmake_figures.forward_model + GHP Born terms) and the parameter-free NNLO BChPT prediction (work/pwa/results/\nnnlo_forward_amplitudes.csv, written by nnlo_forward.py; exact forward amplitudes of the v2 code at the NNLO static\npolarisabilities).\nPanels: left dsigma/dOmega_lab(0) (log) and Sigma_2z(0); right f(nu) and g(nu), Re solid, Im dashed.  GHP conventions.\n"
 }

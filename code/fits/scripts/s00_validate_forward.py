@@ -77,15 +77,15 @@ for E in EF:
         lines.append('| %d | %s | %.5f | %.5f | %.1e | %.5f | %.5f | %.1e | %d,%d |' % (E, pk, cd, cp, cd / cp - 1, sd, sp, sd - sp, f1, f2))
 lines += ['', 'E <= 145 MeV: max |rel. diff| CS: NNLO %.1e, shifted %.1e;  max |diff| S2z: NNLO %.1e, shifted %.1e' %
           (mx['NNLO'][0], mx['shifted'][0], mx['NNLO'][1], mx['shifted'][1]),
-          'GHP data errors: CS 0.8-1.2 %, S2z 0.007-0.011, i.e. two orders of magnitude above these differences for E <= 145 MeV.', ''] + (
+          'Forward-point errors (2026): CS 0.2-6 %, S2z 0.0003-0.014 (GHP 2016: CS 0.8-1.2 %, S2z 0.007-0.011), i.e. above these differences for E <= 145 MeV (smallest ratio about 4: Sigma_2z at 50 MeV).', ''] + (
           ['2015-code note: at 150 MeV (the single-mass loop threshold 149.95 MeV) the t dependence is non-analytic; 145/150 MeV unusable.']
           if PROFILE != 'v2' else
           ['v2 (physical masses): cusps at 144.7 (pi0 p) and 151.4 MeV (pi+ n); 150 MeV lies 1.4 MeV below the pi+ n threshold, where the',
            'small-angle polynomial is less reliable (steep t dependence close to threshold); the loop-amplitude extrapolation is exact to ~1e-5.']) + ['']
 # (3) NNLO prediction at theta = 0 vs GHP points
 fo = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'db_forward_obs.csv'))
-lines += ['## (3) NNLO prediction (polarisabilities = NNLO) at theta = 0 vs GHP forward points', '',
-          '| E | dsigma(0) NNLO | GHP | pull | Sigma2z(0) NNLO | GHP | pull |', '|---|---|---|---|---|---|---|']
+lines += ['## (3) NNLO prediction (polarisabilities = NNLO) at theta = 0 vs the forward points (db_forward_obs.csv, FWD_SOURCE)', '',
+          '| E | dsigma(0) NNLO | fwd point | pull | Sigma2z(0) NNLO | fwd point | pull |', '|---|---|---|---|---|---|---|']
 v = T.predict_array(PREF_NNLO)
 for E in EF:
     c = fo[(fo.obs == 'CS') & (fo.E_lab_MeV == E)].iloc[0]; z = fo[(fo.obs == 'S2Z') & (fo.E_lab_MeV == E)].iloc[0]

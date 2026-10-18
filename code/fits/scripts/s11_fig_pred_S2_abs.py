@@ -38,7 +38,7 @@ from common import FITS, RES, FIGS, STYLE, load_db  # noqa
 plt.style.use(STYLE)
 ROOT = os.path.dirname(os.path.dirname(FITS))
 PAPER_FIGS = os.path.join(ROOT, 'paper', 'figs')
-PWA_CSV = os.path.join(ROOT, 'work', 'pwa', 'results', 'pwa_curves_S2.csv')
+PWA_CSV = os.path.join(os.path.dirname(FITS), 'pwa', 'results', 'pwa_curves_S2.csv')   # work/pwa (code/pwa in the package)
 os.makedirs(FIGS, exist_ok=True)
 
 C_NNLO, C_F2, C_BAND, C_PWA = '#444444', '#1f4e9c', '#9fb6dd', '#6b8e23'   # prediction, fit, band, PWA

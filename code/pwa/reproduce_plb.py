@@ -51,7 +51,7 @@ def select(d, which):
 
 def make_model(d, l2='bchpt', gEM_free=False):
     return PM.Model(d, PI.BINS, l2=l2, energy_mode='bin', fix_gEM=None if gEM_free else 0.0,
-                    sr_mode='constraint', fwd=PI.PLBForward())
+                    sr_mode='constraint', fwd=PI.PLBForward(), ab=14.0, g0=-0.929)   # KLP18 sum-rule values (fixed)
 
 
 def mc_fit(m, seed, ndraw=400000, batch=20000, means=None, widths=None):

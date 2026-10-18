@@ -1,0 +1,1 @@
+$PY main_fits.py > $L/main_fits.log 2>&1  3.04s user 0.10s system 99% cpu 3.155 total

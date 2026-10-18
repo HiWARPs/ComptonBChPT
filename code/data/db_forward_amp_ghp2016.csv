@@ -1,0 +1,25 @@
+dataset,texkey,obs,E_lab_MeV,dE_MeV,theta_lab_deg,theta_cm_deg,frame_of_cs,value,stat_err,sys_err_pt,norm_err_frac,units,source,notes
+GHP_forward,Gryniuk:2015eza,FWD_REF,50,,0,0,na,-2.8450,0.0112,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.84) and fit II (-2.85); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,50,,0,0,na,-0.2600,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,60,,0,0,na,-2.7600,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.76) and fit II (-2.76); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,60,,0,0,na,-0.3200,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,70,,0,0,na,-2.6550,0.0112,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.65) and fit II (-2.66); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,70,,0,0,na,-0.3700,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,79,,0,0,na,-2.5500,0.0141,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.54) and fit II (-2.56); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,79,,0,0,na,-0.4200,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,90,,0,0,na,-2.3900,0.0141,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.38) and fit II (-2.4); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,90,,0,0,na,-0.4800,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,100,,0,0,na,-2.2200,0.0141,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.21) and fit II (-2.23); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,100,,0,0,na,-0.5400,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,110,,0,0,na,-2.0150,0.0180,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-2.0) and fit II (-2.03); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,110,,0,0,na,-0.5900,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,120,,0,0,na,-1.7650,0.0180,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-1.75) and fit II (-1.78); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,120,,0,0,na,-0.6400,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,130,,0,0,na,-1.4650,0.0250,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-1.45) and fit II (-1.48); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,130,,0,0,na,-0.6800,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,135,,0,0,na,-1.2850,0.0250,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-1.27) and fit II (-1.3); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,135,,0,0,na,-0.6900,0.0100,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,145,,0,0,na,-0.8100,0.0361,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-0.79) and fit II (-0.83); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,145,,0,0,na,-0.6500,0.0200,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g
+GHP_forward,Gryniuk:2015eza,FWD_REF,150,,0,0,na,-0.4050,0.0335,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),"Re f, mean of fit I (-0.39) and fit II (-0.42); err = quoted (+) half-difference"
+GHP_forward,Gryniuk:2016gnm,FWD_REG,150,,0,0,na,-0.5200,0.0200,0,0,mub*GeV,arXiv:1604.00789 Table (tab:values_forward_amps),Re g

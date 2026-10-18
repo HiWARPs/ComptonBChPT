@@ -21,6 +21,7 @@ Unified columns of the fit database (fitdb.csv):
 import os, math
 import numpy as np
 import pandas as pd
+from forward import SOURCE as FWD_SOURCE, SUFFIX as FWD_SUFFIX
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WORK = os.path.dirname(os.path.dirname(HERE))
@@ -50,7 +51,7 @@ EXPT = {
     'A2_2022_CS': 'A2 22 dσ (Mornacchi)', 'A2_2022_S3': 'A2 22 Σ3 (Mornacchi)',
     'A2_2018Mar_CS': 'A2 Mar18 dσ', 'A2_2018Jul_CS': 'A2 Jul18 dσ', 'A2_2018Mar_S3': 'A2 Mar18 Σ3', 'A2_2018Jul_S3': 'A2 Jul18 Σ3',
     'HIGS_2022_CIRC': 'HIγS 22 dσ (Li)', 'HIGS_2022_LIN': 'HIγS 22 dσ∥,⊥ (Li)',
-    'GHP_fwd_CS': 'GHP dσ(0°)', 'GHP_fwd_S2Z': 'GHP Σ2z(0°)',
+    'GHP_fwd_CS': 'forward dσ(0°)', 'GHP_fwd_S2Z': 'forward Σ2z(0°)',   # set keys kept (GHP_*); source: FWD_SOURCE
     'A2_Martel2015_S2x': 'A2 15 Σ2x (Martel)', 'A2_Paudyal2020_S2z': 'A2 20 Σ2z (Paudyal)',
     'LEGS2001_CS': 'LEGS 01 dσ', 'LEGS2001_S3': 'LEGS 01 Σ3', 'Hunger1997_75': 'MAMI 97 75°cm (Hünger)',
     'Hunger1997_90': 'MAMI 97 90°cm (Hünger)', 'Wissmann1999': 'MAMI 99 (Wissmann)', 'Camen2002': 'MAMI 02 (Camen/Kossert)',
@@ -220,7 +221,9 @@ def _rows_new(per_beamtime=False):
 
 
 def _rows_forward():
-    d = pd.read_csv(os.path.join(DATA, 'db_forward_obs.csv'))
+    d = pd.read_csv(os.path.join(DATA, 'db_forward_obs%s.csv' % FWD_SUFFIX))
+    prov = ('forward amplitudes, ForwardRCS 2026 update' if FWD_SOURCE == '2026' else 'GHP 2016 forward amplitudes') + \
+        '; strongly correlated errors (nuisance model)'
     out = []
     for i, r in d.iterrows():
         isS = (r['obs'] == 'S2Z')
@@ -228,7 +231,7 @@ def _rows_forward():
                         theta_lab=0.0, theta_cm=0.0, value=float(r['value']), err_stat=float(r['stat_err']),
                         err_syspt=0.0, norm=0.0, flags=['FWD'],
                         dataset='GHP_fwd_S2Z' if isS else 'GHP_fwd_CS',
-                        prov='GHP 2016 forward amplitudes; strongly correlated errors (nuisance model)'))
+                        prov=prov))
     return out
 
 

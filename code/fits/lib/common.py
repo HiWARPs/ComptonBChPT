@@ -36,8 +36,19 @@ PREF_NNLO_V1 = np.array([11.246404, 3.870657, -3.335106, 2.942725, 0.178734, 1.1
 # NNLO static polarisabilities of the base amplitude of the active profile (v2: incl. the physical-mass shift)
 PREF_NNLO = bchpt.run([('pref', 100.0, 90.0, 'CS', 'LAB')], 'NNLO', name='pref', verbose=False).Pref.copy()
 PAUDYAL = np.array([-2.87, 2.70, -0.85, 2.04])
-BALDIN = (14.0, 0.2)
-GHP_G0 = (-0.929, 0.105)
+# Sum-rule constraints (Baldin alpha+beta [1e-4 fm^3]; forward spin polarisability gamma_0 [1e-4 fm^4]); source switch
+# FWD_SOURCE (lib/forward.py, environment).  '2026' (default since 2026-10-18): ForwardRCS 2026 update
+# (work/data/raw/ForwardRCS2026/unpol_sumrules.json: alpha+beta = 14.0092 +- 0.1814 (exp+fit) +- 0.1022 (data selection);
+# pol_sumrules.json 'unconstrained': gamma_0 = -102.479 +- 8.013 (exp+fit) +- 6.248 (PWA model) 1e-6 fm^4), errors added in
+# quadrature.  'ghp2016': GHP15 average 14.0(2) and GHP16 gamma_0 = -0.929(105).  (The name GHP_G0 is kept for the consumers.)
+if forward.SOURCE == '2026':
+    BALDIN = (14.0092, 0.2082)
+    GHP_G0 = (-1.0248, 0.1016)
+else:
+    BALDIN = (14.0, 0.2)
+    GHP_G0 = (-0.929, 0.105)
+BAL_TXT = '%.1f(%d)' % (BALDIN[0], round(10 * BALDIN[1])) if forward.SOURCE == 'ghp2016' else '%.2f(%d)' % (BALDIN[0], round(100 * BALDIN[1]))
+G0_TXT = '%.3f(%d)' % (GHP_G0[0], round(1000 * GHP_G0[1]))
 # MAIN DATABASE = MAIN_L_SETS (pre-2015 + A2 2022; HIgS 2022 excluded since 2026-10-17, see above) minus MAIN_DROP.
 # MAIN_DROP holds the pid(s) flagged by the 3-sigma rule
 # (|pull| > 3 w.r.t. the main-configuration fit F2 + truncation covariance, two passes) applied ONCE to the

@@ -95,9 +95,10 @@ REF = {
 }
 # marker style per label: (marker, color, filled)
 TEAL, ORANGE, GREY, MAG, GREEN, PURPLE, BROWN = '#138d90', '#d9800b', '#3d3d3d', '#c2185b', '#2e7d32', '#6a3d9a', '#8c564b'
+RED, BLUE, GOLD = '#d62728', '#3060d0', '#b39b00'     # MAMI 99, MAMI 02, TAPS 01: no longer all teal (user, 2026-10-18)
 STYLE = {
-    'LEGS 01': ('D', ORANGE, False), 'MAMI 97': ('o', TEAL, True), 'MAMI 99': ('^', TEAL, True),
-    'MAMI 02': ('v', TEAL, True), 'MAMI 92': ('*', TEAL, True), 'TAPS 01': ('h', TEAL, True),
+    'LEGS 01': ('D', ORANGE, False), 'MAMI 97': ('o', TEAL, True), 'MAMI 99': ('^', RED, True),
+    'MAMI 02': ('v', BLUE, True), 'MAMI 92': ('*', TEAL, True), 'TAPS 01': ('h', GOLD, True),
     'A2 22': ('s', TEAL, True), 'A2 15': ('o', TEAL, True), 'Martel thesis (unpubl.)': ('o', TEAL, False),
     'A2 20': ('s', TEAL, True),
     'SAL 93': ('s', GREY, False), 'SAL 93 (Tab. I)': ('s', GREY, False), 'SAL 95': ('o', GREY, False),

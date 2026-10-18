@@ -65,12 +65,12 @@ the author's own data files used in Lensky and Pascalutsa, Eur. Phys. J. C 65, 1
 | `A2_2022_CS`, `A2_2022_S3` | A2 at MAMI, Mornacchi et al., Phys. Rev. Lett. 128, 132503 (2022) | 60 + 36 (60 + 36) | Supplemental Material, Tables I and II (`raw/new/Mornacchi2022`) | stat ⊕ point-to-point syst; norm 3% (dσ); 5% uniform scale → Gaussian 2.9% (Σ3) |
 | `A2_2018Mar_*`, `A2_2018Jul_*` (`fitdb_pb.csv` only) | the same data per beam time | 60 + 36 each | E. Mornacchi, PhD thesis, JGU Mainz 2021, Appendices A and B | as above, per beam time |
 | `HIGS_2022_CIRC`, `HIGS_2022_LIN` | HIγS, X. Li et al., Phys. Rev. Lett. 128, 132502 (2022), Table I | 8 + 8 (8 + 8) | published table (`raw/new/Li2022`) | stat ⊕ point-to-point syst; norm 2.24% per set; unpolarized dσ at 81.3 MeV (circular beam), dσ∥ (5) and dσ⊥ (3) at 83.4 MeV (linear beam) |
-| `GHP_fwd_CS`, `GHP_fwd_S2Z` | forward points from the empirical forward amplitudes: Re f, Gryniuk, Hagelstein, Pascalutsa, Phys. Rev. D 92, 074031 (2015); Re g, Phys. Rev. D 94, 034043 (2016) | 12 + 12 (11 + 11: the point at 150 MeV is not used) | table of arXiv:1604.00789; dσ(0) = \|f\|² + \|g\|², Σ2z(0) = −2fg/(f² + g²); Re f = mean of fits I and II with half the difference added to the error | errors of different energies strongly correlated: two common nuisance parameters n_f, n_g (Appendix D of the paper); only the rounding of the table is uncorrelated |
+| `GHP_fwd_CS`, `GHP_fwd_S2Z` | forward points from the empirical forward amplitudes Re f, Re g in their 2026 evaluation, https://github.com/HiWARPs/ForwardRCS (O. Gryniuk, V. Pascalutsa), which updates Gryniuk, Hagelstein, Pascalutsa, Phys. Rev. D 92, 074031 (2015) and Phys. Rev. D 94, 034043 (2016) (the dataset names are kept) | 12 + 12 (11 + 11: the point at 150 MeV is not used) | `code/data/raw/ForwardRCS2026/forward_points.json` (unrounded values and covariances), built by `code/data/scripts/build_db_forward.py`; dσ(0) = \|f\|² + \|g\|², Σ2z(0) = −2fg/(f² + g²) | error = exp+fit ⊕ systematic (data selection for Re f, multipole model for Re g); strongly correlated over the energies: two common nuisance parameters n_f, n_g carry the leading eigenmode ⊕ the systematic (Appendix C of the paper), the remainder is uncorrelated. Not included: the one-sided elastic-channel shift `miss_f` of the json (see the paper). The 2015/2016 tables: `FWD_SOURCE=ghp2016` (files `*_ghp2016.csv`) |
 
 Note a: the TAPS point at 108.42 MeV, 133° (10.84 ± 0.94 nb/sr) is the only point flagged by the 3σ rule and is
 excluded from the main database (`MAIN_DROP` in `code/fits/lib/common.py`); it is kept in `fitdb.csv`.
 
-## 4. Data sets in the Δ region (comparison with the parameter-free prediction, Sec. IV D and Appendix G)
+## 4. Data sets in the Δ region (comparison with the parameter-free prediction, Sec. IV E and Appendix E)
 
 | dataset | experiment and reference | N (E ≤ 350 MeV) | origin of the numbers | error model, normalization |
 |---|---|---|---|---|

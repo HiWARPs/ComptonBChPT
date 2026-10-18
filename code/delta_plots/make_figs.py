@@ -71,8 +71,8 @@ def mark_shown(fig, sel):
 E_GRID = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 800.01, 2.0)]   # Fig. 1: to 800 MeV (450 until 2026-10-17)
 TH_GRID = np.r_[0.0, 1.0, np.arange(2.0, 178.01, 2.0), 179.0, 180.0]
 FIG1 = [('LAB', 60.0), ('LAB', 90.0), ('LAB', 133.5), ('CM', 75.0), ('CM', 90.0), ('CM', 125.0)]   # 125 cm (LARA, LEGS, SAL) replaces 138 cm since 2026-10-17
-FIG2A = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1]           # part (a): 2 rows x 4
-FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0, 444.4, 454.9]   # part (b): 3 rows x 4; 444.4/454.9 = LARA angular distributions (2026-10-18)
+FIG2A = [160.0, 182.0, 213.1, 224.3, 234.7, 244.8, 254.1, 265.1]             # rows 1-2 of the angular distributions (part (a) until 2026-10-18)
+FIG2B = [275.6, 286.5, 298.2, 310.1, 323.8, 333.8, 350.5, 370.5, 389.0, 444.4, 454.9]   # rows 3-5 (part (b) until 2026-10-18); 444.4/454.9 = LARA angular distributions (2026-10-18)
 FIG2 = FIG2A + FIG2B
 LEGS_E = [213.1, 224.3, 234.7, 244.8, 254.1, 265.1, 275.6, 286.5, 298.2, 310.1, 323.8, 333.8]
 E3B = np.r_[np.arange(10.0, 140.0, 5.0), np.arange(140.0, 156.0, 0.25), np.arange(156.0, 800.01, 2.0)]   # Fig. 3b: to 800 MeV (350 until 2026-10-17)
@@ -159,8 +159,9 @@ def draw_theory(ax, x, cv, idx, tree=True, fit=True, gm=True, extra=False, band_
     m = np.ones(len(x), bool) if band_xmax is None else (x <= band_xmax + 1e-9)
     if gm:
         ax.fill_between(x[m], cv['cpl_lo'][idx][m], cv['cpl_hi'][idx][m], color=C_GM, lw=0, zorder=1)
-        ax.plot(x[m], cv['cpl_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
-        ax.plot(x[m], cv['cpl_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=1.5)
+        # edges above the opaque blue band: where the coupling band lies inside it (e.g. above 440 MeV) it stays visible
+        ax.plot(x[m], cv['cpl_lo'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=2.5)
+        ax.plot(x[m], cv['cpl_hi'][idx][m], '-', color=C_GM_EDGE, lw=0.35, zorder=2.5)
     ax.fill_between(x[m], cv['lo'][idx][m], cv['hi'][idx][m], color=C_BAND, lw=0, alpha=BAND_ALPHA, zorder=2)
     if tree:
         ax.plot(x, cv['tree'][idx], '--', color=C_TREE, lw=0.9, zorder=3, dashes=(4, 2))
@@ -270,14 +271,17 @@ def fig1(df, cv, ix):
     return reg
 
 
-def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
+def fig2(df, cv, ix, energies, name):
+    """all angular distributions in one grid (parts (a) and (b) until 2026-10-18), equally spaced rows; the legend fills
+    the free slot(s) of the last row, under the x labels of the panel above (user, 2026-10-18)"""
     nc = 4
     nr = int(np.ceil(len(energies) / nc))
-    below = legend_in_last and nr * nc - len(energies) < 3          # legend rows below the panels (part (b) with 11 panels)
-    fig, axs = plt.subplots(nr, nc, figsize=(W2, (1.2 if below else 1.32) * nr + 0.36 + (0.72 if below else 0)), sharex=True, layout='constrained')
-    fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02)
+    assert len(energies) < nr * nc, 'fig2: the legend needs a free slot in the last row'
+    fig, axs = plt.subplots(nr, nc, figsize=(W2, 1.22 * nr + 0.3), sharex=True, layout='constrained')
+    # rect: room on the right for the half of the '180' tick label of the panel above the free slot (labelled after the layout)
+    fig.get_layout_engine().set(h_pad=0.03, w_pad=0.03, hspace=0.02, wspace=0.02, rect=(0, 0, 0.988, 1))
     axs = axs.ravel()
-    reg = {} if reg is None else reg
+    reg = {}
     cs = df[df.is_cs & (df.dataset != 'Hallin1993_TabI')].copy()
     # each point assigned to the nearest panel energy of ALL Fig. 2 panels (no point shown twice)
     Ep = np.array(FIG2)
@@ -311,30 +315,48 @@ def fig2(df, cv, ix, energies, name, legend_in_last=False, reg=None):
             ax.set_ylabel(r'$d\sigma/d\Omega_{\rm cm}$ [nb/sr]')
     for k in range(len(energies), len(axs)):
         axs[k].axis('off')
-    for k in range(len(energies)):
-        if k >= len(energies) - nc or (k + nc >= len(energies) and k + nc < len(axs)):
+    bottom = [k for k in range(len(energies)) if k >= len(energies) - nc]      # lowest panel of each column
+    above = [k for k in bottom if k + nc < len(axs)]                            # ... with a free slot below it
+    for k in bottom:
+        if k not in above:
             axs[k].set_xlabel(r'$\theta_{\rm cm}$ [deg]')
             axs[k].xaxis.set_tick_params(labelbottom=True)
+    # freeze the layout before labelling the panels above the free slots, so that all rows stay equally spaced;
+    # their x labels then occupy the top of the free slot, and the legend goes below them
+    fig.get_layout_engine().execute(fig)
+    fig.set_layout_engine('none')
+    for k in above:
+        axs[k].set_xlabel(r'$\theta_{\rm cm}$ [deg]')
+        axs[k].xaxis.set_tick_params(labelbottom=True)
+    fig.canvas.draw()
+    inv = fig.transFigure.inverted()
+    r = fig.canvas.get_renderer()
+    y_top = min(inv.transform(axs[k].get_tightbbox(r).get_points())[0, 1] for k in above)
+    x_left = inv.transform(axs[len(energies) - 1].get_tightbbox(r).get_points())[1, 0]   # right end of the last panel
     th, tl = theory_handles(extra=C.EXTRA_THETA and has_extra(cv))
     dh, dl = data_handles(reg)
-    if legend_in_last and len(axs) - len(energies) < 3:
-        # fewer than 3 free slots: legend rows below the panels (data sets of both parts of the figure)
-        for k in range(len(energies), len(axs)):
-            fig.delaxes(axs[k])
-        legend_rows(fig, th, tl, dh, dl, ncol_d=5)
-    elif legend_in_last and len(energies) < len(axs):
-        # legend in the free panel slots of the last row (data sets of both parts of the figure)
-        gs = axs[len(energies)].get_subplotspec().get_gridspec()
-        for k in range(len(energies), len(axs)):
-            fig.delaxes(axs[k])
-        axl = fig.add_subplot(gs[nr - 1, len(energies) % nc:])
-        axl.axis('off')
-        l1 = axl.legend(th, tl, loc='center left', handlelength=2.0, borderaxespad=0.0, bbox_to_anchor=(0.04, 0.5))
-        axl.add_artist(l1)
-        axl.legend(dh, dl, loc='center right', ncol=2, handlelength=1.0, columnspacing=1.0,
-                   handletextpad=0.35, borderaxespad=0.0, bbox_to_anchor=(0.98, 0.5))
+    # theory in one column, the data sets in two columns below it (one slot is too narrow for 2 x (curve + label))
+    kw = dict(fontsize=7.0, labelspacing=0.25, borderaxespad=0.0, loc='upper left')
+    lt = fig.legend(th, tl, bbox_to_anchor=(x_left, y_top - 0.012), handlelength=1.8, handletextpad=0.4, **kw)
+    fig.canvas.draw()
+    bt = inv.transform(lt.get_window_extent(r).get_points())
+    ld = fig.legend(dh, dl, bbox_to_anchor=(x_left, bt[0, 1] - 0.006), ncol=2, handlelength=1.0, handletextpad=0.3,
+                    columnspacing=0.8, **kw)
+    fig.canvas.draw()
+    bd = inv.transform(ld.get_window_extent(r).get_points())
+    # common left edge: the pair centred under the panel above, but inside the free region
+    w = max(bt[1, 0] - bt[0, 0], bd[1, 0] - bd[0, 0])
+    pa = axs[above[-1]].get_position()
+    x0 = min(max((pa.x0 + pa.x1 - w) / 2, x_left), 1.0 - w)
+    lt.set_bbox_to_anchor((x0, y_top - 0.012), transform=fig.transFigure)
+    ld.set_bbox_to_anchor((x0, bt[0, 1] - 0.006), transform=fig.transFigure)
+    fig.canvas.draw()
+    lb = np.r_[inv.transform(lt.get_window_extent(r).get_points()), inv.transform(ld.get_window_extent(r).get_points())]
+    print('  %s: legend box x %.3f-%.3f (free %.3f-1), y %.3f-%.3f (free 0-%.3f)' % (
+        name, lb[:, 0].min(), lb[:, 0].max(), x_left, lb[:, 1].min(), lb[:, 1].max(), y_top))
+    assert lb[:, 0].min() >= x_left - 1e-3 and lb[:, 0].max() <= 1.0 + 1e-3 and lb[:, 1].min() >= 0.0, 'fig2: legend overflows'
     save(fig, name, exact=True)
-    return conv_labels, reg
+    return conv_labels
 
 
 def fig3a(df, cv, ix):
@@ -782,9 +804,8 @@ def main():
     lara_ang = D.build_lara_ang()
     print('  Fig. 2: plotting-only LARA angular distributions (Bonn 01), digitized:', lara_ang.groupby('E').size().to_dict())
     df2 = pd.concat([df, ext, lara_ang], ignore_index=True)       # + the plotting-only points above 400 MeV
-    c2a, reg2 = fig2(df2, cv, ix, FIG2A, 'fig_delta_cs_vstheta_a')
-    c2b, _ = fig2(df2, cv, ix, FIG2B, 'fig_delta_cs_vstheta_b', legend_in_last=True, reg=reg2)
-    print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2a | c2b))
+    c2 = fig2(df2, cv, ix, FIG2, 'fig_delta_cs_vstheta')
+    print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2))
     fig3a(df, cv, ix)
     fig3b(df, cv, ix)
     fig4(df, cv, ix)

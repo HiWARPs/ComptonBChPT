@@ -73,21 +73,21 @@ N = points in the main fit (the excluded point is not counted).
 
 | dataset | texkey | obs | N | E [MeV] | theta_lab [deg] | norm [%] | chi2 / N (main) | norm factor (main) |
 |---|---|---|---|---|---|---|---|---|
-| TAPS2001 | OlmosdeLeon:2001zn | CS | 54 | 58.9-149.9 | 59-155 | 3.0 | 52.9/54 | 1.005(14) |
+| TAPS2001 | OlmosdeLeon:2001zn | CS | 54 | 58.9-149.9 | 59-155 | 3.0 | 53.0/54 | 1.004(14) |
 | Federspiel1991 | Federspiel:1991yd | CS | 8 | 55.0-70.0 | 60-135 | 2.0 | 2.6/8 | 0.995(17) |
 | Zieger1992 | Zieger:1992jq | CS | 2 | 98.0-132.0 | 180-180 | 0.0 | 1.4/2 | -- |
-| Baranov1974_th90 | Baranov:1974ec | CS | 3 | 80.9-109.9 | 90-90 | 8.0 | 7.8/3 | 0.962(23) |
-| Baranov1974_th150 | Baranov:1974ec | CS | 4 | 81.9-111.1 | 150-150 | 8.0 | 9.8/4 | 0.962(23) |
-| MacGibbon1995_tagged | MacGibbon:1995in | CS | 8 | 73.2-96.8 | 90-135 | 4.0 | 4.9/8 | 0.998(30) |
+| Baranov1974_th90 | Baranov:1974ec | CS | 3 | 80.9-109.9 | 90-90 | 8.0 | 7.8/3 | 0.961(23) |
+| Baranov1974_th150 | Baranov:1974ec | CS | 4 | 81.9-111.1 | 150-150 | 8.0 | 9.9/4 | 0.961(23) |
+| MacGibbon1995_tagged | MacGibbon:1995in | CS | 8 | 73.2-96.8 | 90-135 | 4.0 | 4.9/8 | 0.997(30) |
 | MacGibbon1995_untagged | MacGibbon:1995in | CS | 10 | 105.0-145.0 | 90-135 | 2.9 | 3.1/10 | 0.998(23) |
-| Hallin1993 | Hallin:1993ft | CS | 13 | 130.0-150.0 | 45-136 | 3.6 | 6.6/13 | 1.036(27) |
-| Oxley | Oxley:1958zz | CS | 4 | 60.0-60.0 | 70-150 | 0.0 | 9.7/4 | 0.917(22) |
-| Goldansky | Goldansky:1960zz | CS | 5 | 55.0-55.0 | 75-150 | 0.0 | 3.7/5 | 1.038(23) |
-| Bernardini | Bernardini:1960wya | CS | 2 | 120.0-139.0 | 134-135 | 0.0 | 0.9/2 | 0.986(64) |
-| Pugh | Pugh:1957zz | CS | 16 | 55.0-135.0 | 50-135 | 0.0 | 3.9/16 | 0.961(47) |
-| Hyman | Hyman:1959zz | CS | 12 | 60.0-128.0 | 50-90 | 0.0 | 1.6/12 | 1.005(48) |
-| A2_2022_CS | A2:2021wmm | CS | 60 | 92.2-135.3 | 35-145 | 3.0 | 47.9/60 | 0.982(14) |
-| A2_2022_S3 | A2:2021wmm | S3 | 36 | 92.2-129.5 | 35-145 | 2.9 | 25.8/36 | 0.999(20) |
+| Hallin1993 | Hallin:1993ft | CS | 13 | 130.0-150.0 | 45-136 | 3.6 | 6.5/13 | 1.035(27) |
+| Oxley | Oxley:1958zz | CS | 4 | 60.0-60.0 | 70-150 | 0.0 | 9.7/4 | 0.916(21) |
+| Goldansky | Goldansky:1960zz | CS | 5 | 55.0-55.0 | 75-150 | 0.0 | 3.7/5 | 1.037(23) |
+| Bernardini | Bernardini:1960wya | CS | 2 | 120.0-139.0 | 134-135 | 0.0 | 0.9/2 | 0.986(63) |
+| Pugh | Pugh:1957zz | CS | 16 | 55.0-135.0 | 50-135 | 0.0 | 3.9/16 | 0.960(47) |
+| Hyman | Hyman:1959zz | CS | 12 | 60.0-128.0 | 50-90 | 0.0 | 1.6/12 | 1.004(48) |
+| A2_2022_CS | A2:2021wmm | CS | 60 | 92.2-135.3 | 35-145 | 3.0 | 48.3/60 | 0.981(14) |
+| A2_2022_S3 | A2:2021wmm | S3 | 36 | 92.2-129.5 | 35-145 | 2.9 | 25.7/36 | 0.999(20) |
 | HIGS_2022_circ | Li:2022vnz | CS | 0 | 81.3-81.3 | 55-125 | 2.2 | nan/0 | -- |
 | HIGS_2022_lin | Li:2022vnz | CS_PAR | 0 | 83.4-83.4 | 55-125 | 2.2 | nan/0 | -- |
 | HIGS_2022_lin | Li:2022vnz | CS_PERP | 0 | 83.4-83.4 | 55-125 | 2.2 | nan/0 | -- |
@@ -96,20 +96,20 @@ N = points in the main fit (the excluded point is not counted).
 
 | fit | description | N | chi2/N | alpha_E1 | beta_M1 | alpha-beta | gamma_pi | gamma_E1E1 | gamma_M1M1 | gamma_M1E2 | alpha+beta | gamma_0 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| MAIN | MAIN: all data of the main database (no HIGS), floating norms, forward points as chi2 data (correlated nuisances) | 237 | 0.77 | 11.14(0.65) | 2.99(0.62) | 8.15(1.26) | 4.97(1.89) | -2.02(0.94) | 0.86(0.39) | 2.09(0.78) | 14.14(0.17) | -0.921(0.101) |
-| db_allpts | main database incl. the 3-sigma outlier (TAPS2001 108.42/133) | 238 | 0.82 | 11.35(0.65) | 2.80(0.62) | 8.55(1.25) | 5.15(1.87) | -2.11(0.93) | 0.85(0.38) | 2.19(0.77) | 14.14(0.17) | -0.928(0.101) |
-| db_3sigma | 3-sigma rule rerun on the main database (check; = MAIN when nothing is flagged) | 237 | 0.77 | 11.14(0.65) | 2.99(0.62) | 8.15(1.26) | 4.97(1.89) | -2.02(0.94) | 0.86(0.39) | 2.09(0.78) | 14.14(0.17) | -0.921(0.101) |
-| db_withHIGS | main database + HIGS 2022 (the former main fit; HIGS excluded from the main database since 2026-10-17) | 253 | 0.79 | 11.59(0.61) | 2.58(0.58) | 9.01(1.17) | 5.76(1.78) | -2.43(0.88) | 0.89(0.38) | 2.44(0.73) | 14.17(0.17) | -0.904(0.100) |
-| db_pruned | McGovern pruning (no Oxley, Bernardini, Baranov 150, TAPS 108.4/133) | 227 | 0.69 | 10.78(0.66) | 3.36(0.63) | 7.42(1.28) | 4.84(1.94) | -1.95(0.97) | 0.83(0.39) | 2.05(0.79) | 14.14(0.17) | -0.934(0.101) |
-| db_modern | modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2) | 189 | 0.76 | 10.93(0.68) | 3.22(0.64) | 7.71(1.31) | 5.17(1.93) | -2.12(0.96) | 0.93(0.39) | 2.12(0.79) | 14.14(0.18) | -0.923(0.101) |
-| db_A2_only | A2 2022 only | 96 | 0.74 | 10.72(0.84) | 3.41(0.80) | 7.31(1.63) | 5.88(2.51) | -2.48(1.25) | 1.15(0.54) | 2.25(0.98) | 14.14(0.18) | -0.925(0.103) |
-| db_new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.79 | 11.56(0.73) | 2.62(0.69) | 8.94(1.41) | 7.25(2.23) | -3.18(1.11) | 1.15(0.51) | 2.92(0.88) | 14.18(0.18) | -0.895(0.102) |
-| db_noTAPS | without TAPS 2001 | 183 | 0.70 | 11.05(0.73) | 3.07(0.70) | 7.98(1.41) | 5.25(2.24) | -2.17(1.11) | 0.87(0.45) | 2.22(0.89) | 14.12(0.18) | -0.916(0.101) |
-| db_noA2 | without A2 2022 | 141 | 0.73 | 11.66(0.93) | 2.28(0.91) | 9.39(1.83) | 5.02(2.64) | -2.04(1.31) | 1.03(0.52) | 1.95(1.19) | 13.94(0.19) | -0.940(0.102) |
-| db_noLegacy | without pre-1961 legacy sets (Oxley, Goldansky, Bernardini, Pugh, Hyman) | 198 | 0.82 | 11.06(0.66) | 3.08(0.63) | 7.99(1.29) | 4.84(1.93) | -1.96(0.96) | 0.89(0.39) | 2.00(0.79) | 14.14(0.17) | -0.928(0.101) |
-| db_pruned_withHIGS | pruned, with HIGS 2022 | 243 | 0.71 | 11.30(0.61) | 2.87(0.58) | 8.42(1.18) | 5.78(1.81) | -2.43(0.90) | 0.87(0.38) | 2.48(0.74) | 14.17(0.17) | -0.913(0.100) |
-| db_old_only | pre-2015 data only | 141 | 0.73 | 11.66(0.93) | 2.28(0.91) | 9.39(1.83) | 5.02(2.64) | -2.04(1.31) | 1.03(0.52) | 1.95(1.19) | 13.94(0.19) | -0.940(0.102) |
-| db_old_only_pruned | pre-2015 data only, pruned | 131 | 0.61 | 10.87(0.96) | 3.10(0.94) | 7.78(1.89) | 4.55(2.78) | -1.80(1.38) | 0.74(0.54) | 2.01(1.24) | 13.97(0.19) | -0.944(0.103) |
+| MAIN | MAIN: all data of the main database (no HIGS), floating norms, forward points as chi2 data (correlated nuisances) | 237 | 0.77 | 11.13(0.62) | 3.08(0.61) | 8.05(1.22) | 5.25(1.89) | -2.12(0.95) | 0.96(0.38) | 2.17(0.77) | 14.21(0.18) | -1.008(0.101) |
+| db_allpts | main database incl. the 3-sigma outlier (TAPS2001 108.42/133) | 238 | 0.82 | 11.32(0.62) | 2.89(0.60) | 8.43(1.21) | 5.40(1.87) | -2.20(0.94) | 0.94(0.38) | 2.26(0.77) | 14.22(0.18) | -1.010(0.101) |
+| db_3sigma | 3-sigma rule rerun on the main database (check; = MAIN when nothing is flagged) | 237 | 0.77 | 11.13(0.62) | 3.08(0.61) | 8.05(1.22) | 5.25(1.89) | -2.12(0.95) | 0.96(0.38) | 2.17(0.77) | 14.21(0.18) | -1.008(0.101) |
+| db_withHIGS | main database + HIGS 2022 (the former main fit; HIGS excluded from the main database since 2026-10-17) | 253 | 0.79 | 11.58(0.57) | 2.65(0.56) | 8.93(1.12) | 6.08(1.77) | -2.53(0.89) | 0.99(0.37) | 2.55(0.73) | 14.24(0.18) | -1.007(0.101) |
+| db_pruned | McGovern pruning (no Oxley, Bernardini, Baranov 150, TAPS 108.4/133) | 227 | 0.69 | 10.72(0.63) | 3.45(0.62) | 7.27(1.24) | 5.15(1.94) | -2.07(0.98) | 0.93(0.39) | 2.16(0.79) | 14.17(0.18) | -1.012(0.101) |
+| db_modern | modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2) | 189 | 0.76 | 10.88(0.65) | 3.30(0.63) | 7.58(1.27) | 5.50(1.92) | -2.24(0.97) | 1.03(0.39) | 2.22(0.79) | 14.19(0.19) | -1.009(0.101) |
+| db_A2_only | A2 2022 only | 96 | 0.75 | 10.63(0.83) | 3.53(0.80) | 7.10(1.62) | 6.21(2.50) | -2.60(1.25) | 1.26(0.54) | 2.35(0.98) | 14.16(0.19) | -1.012(0.101) |
+| db_new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.80 | 11.51(0.71) | 2.70(0.68) | 8.81(1.38) | 7.64(2.22) | -3.31(1.11) | 1.26(0.51) | 3.06(0.87) | 14.22(0.19) | -1.012(0.101) |
+| db_noTAPS | without TAPS 2001 | 183 | 0.70 | 11.03(0.70) | 3.15(0.69) | 7.87(1.38) | 5.54(2.23) | -2.26(1.12) | 0.96(0.45) | 2.32(0.88) | 14.18(0.19) | -1.011(0.101) |
+| db_noA2 | without A2 2022 | 141 | 0.73 | 11.73(0.89) | 2.26(0.90) | 9.47(1.78) | 5.50(2.61) | -2.24(1.31) | 1.14(0.51) | 2.12(1.17) | 13.98(0.20) | -1.027(0.101) |
+| db_noLegacy | without pre-1961 legacy sets (Oxley, Goldansky, Bernardini, Pugh, Hyman) | 198 | 0.82 | 11.03(0.64) | 3.17(0.62) | 7.86(1.25) | 5.12(1.93) | -2.06(0.97) | 0.98(0.39) | 2.08(0.79) | 14.20(0.18) | -1.009(0.101) |
+| db_pruned_withHIGS | pruned, with HIGS 2022 | 243 | 0.72 | 11.26(0.58) | 2.95(0.57) | 8.32(1.13) | 6.12(1.80) | -2.56(0.91) | 0.97(0.38) | 2.60(0.74) | 14.21(0.18) | -1.010(0.101) |
+| db_old_only | pre-2015 data only | 141 | 0.73 | 11.73(0.89) | 2.26(0.90) | 9.47(1.78) | 5.50(2.61) | -2.24(1.31) | 1.14(0.51) | 2.12(1.17) | 13.98(0.20) | -1.027(0.101) |
+| db_old_only_pruned | pre-2015 data only, pruned | 131 | 0.61 | 10.90(0.93) | 3.09(0.93) | 7.81(1.85) | 5.02(2.77) | -2.00(1.39) | 0.84(0.54) | 2.19(1.23) | 13.99(0.20) | -1.029(0.101) |
 
 3-sigma rule rerun on the main database removes: nothing; on all points it flags: [['TAPS2001', 108.42, 133.0]] (= MAIN_DROP).
 
@@ -117,71 +117,71 @@ N = points in the main fit (the excluded point is not counted).
 
 | source | d(alpha-beta) | d(gamma_pi) | d(beta_M1) | d(alpha_E1) |
 |---|---|---|---|---|
-| statistical (incl. norms, forward-point nuisances n_f, n_g, residual priors) | +1.26 | +1.89 | +0.62 | +0.65 |
-| residual priors x3 wider | +0.27 | +0.54 | -0.14 | +0.13 |
-| residual priors centred on BChPT | +0.85 | +2.67 | -0.42 | +0.43 |
-| l=2 multipoles: BChPT -> 0 | +0.10 | +0.30 | -0.08 | +0.02 |
-| gamma_E1M2 free (vs 0) | -0.19 | -1.00 | +0.09 | -0.10 |
-| energy binning re-centred on A2/HIGS energies | -0.18 | +0.07 | +0.10 | -0.08 |
-| energy mode: data at bin energy (KLP18) vs actual energy | +0.39 | +0.58 | -0.21 | +0.19 |
-| A2 per beam time (4 scales) vs combined | +0.23 | +0.15 | -0.11 | +0.12 |
-| forward-point errors uncorrelated (vs correlated nuisances) | -0.10 | -0.00 | -0.02 | -0.12 |
-| method/theory total (quadrature) | 1.05 | 2.98 | 0.53 | 0.53 |
-| **total** | **1.64** | **3.53** | **0.81** | **0.84** |
-| variant (not added): exact sum-rule constraints (previous main) | -0.24 | +0.04 | +0.05 | -0.19 |
-| variant (not added): no floating normalisations | +1.07 | +0.79 | -0.51 | +0.56 |
-| database (not added): all points incl. the outlier (TAPS2001 108.42/133) | +0.40 | +0.18 | -0.19 | +0.20 |
-| database (not added): McGovern pruning | -0.73 | -0.13 | +0.37 | -0.37 |
-| database (not added): modern sets only | -0.44 | +0.21 | +0.22 | -0.22 |
-| database (not added): with HIGS 2022 (former main) | +0.85 | +0.80 | -0.41 | +0.44 |
-| database (not added): without legacy sets | -0.17 | -0.13 | +0.09 | -0.08 |
+| statistical (incl. norms, forward-point nuisances n_f, n_g, residual priors) | +1.22 | +1.89 | +0.61 | +0.62 |
+| residual priors x3 wider | +0.28 | +0.54 | -0.15 | +0.13 |
+| residual priors centred on BChPT | +0.83 | +2.66 | -0.41 | +0.42 |
+| l=2 multipoles: BChPT -> 0 | +0.12 | +0.32 | -0.09 | +0.03 |
+| gamma_E1M2 free (vs 0) | -0.16 | -0.89 | +0.08 | -0.08 |
+| energy binning re-centred on A2/HIGS energies | -0.22 | +0.04 | +0.12 | -0.10 |
+| energy mode: data at bin energy (KLP18) vs actual energy | +0.34 | +0.57 | -0.19 | +0.15 |
+| A2 per beam time (4 scales) vs combined | +0.24 | +0.16 | -0.12 | +0.12 |
+| forward-point errors uncorrelated (vs correlated nuisances) | -0.08 | +0.11 | -0.06 | -0.13 |
+| method/theory total (quadrature) | 1.02 | 2.94 | 0.52 | 0.52 |
+| **total** | **1.59** | **3.49** | **0.80** | **0.81** |
+| variant (not added): exact sum-rule constraints (previous main) | -0.21 | +0.19 | +0.00 | -0.20 |
+| variant (not added): no floating normalisations | +1.26 | +0.85 | -0.60 | +0.66 |
+| database (not added): all points incl. the outlier (TAPS2001 108.42/133) | +0.38 | +0.15 | -0.18 | +0.19 |
+| database (not added): McGovern pruning | -0.78 | -0.10 | +0.37 | -0.41 |
+| database (not added): modern sets only | -0.47 | +0.25 | +0.22 | -0.25 |
+| database (not added): with HIGS 2022 (former main) | +0.88 | +0.83 | -0.43 | +0.46 |
+| database (not added): without legacy sets | -0.19 | -0.13 | +0.09 | -0.10 |
 
-Posteriors of the sum-rule quantities (controlled by the forward-point nuisances): alpha+beta = 14.14 +- 0.17, gamma_0 = -0.921 +- 0.101; n_f = 0.68, n_g = 0.07; rho(alpha-beta, gamma_pi) = 0.76.
+Posteriors of the sum-rule quantities (controlled by the forward-point nuisances): alpha+beta = 14.21 +- 0.18, gamma_0 = -1.008 +- 0.101; n_f = 0.95, n_g = 0.16; rho(alpha-beta, gamma_pi) = 0.76.
 
 ### Table P-V. Method variants around MAIN (paper configuration: all normalisations floated, incl. the pre-1961 sets; full values)
 
 | variant | N | chi2/N | alpha-beta | beta_M1 | alpha_E1 | gamma_pi | gamma_M1M1 | alpha+beta | gamma_0 |
 |---|---|---|---|---|---|---|---|---|---|
-| MAIN | 237 | 0.771 | 8.15(1.26) | 2.99(0.62) | 11.14(0.65) | 4.97(1.89) | 0.86(0.39) | 14.14 | -0.921 |
-| w30 | 237 | 0.749 | 8.42(1.58) | 2.85(0.78) | 11.27(0.81) | 5.51(2.82) | 1.02(0.69) | 14.12 | -0.920 |
-| bchptctr | 237 | 0.768 | 9.00(1.26) | 2.57(0.62) | 11.58(0.65) | 7.64(1.87) | 2.57(0.38) | 14.15 | -0.922 |
-| bchptctr_w30 | 237 | 0.746 | 9.12(1.58) | 2.51(0.78) | 11.62(0.81) | 7.94(2.82) | 2.65(0.69) | 14.13 | -0.920 |
-| l2zero | 237 | 0.765 | 8.25(1.26) | 2.92(0.62) | 11.17(0.65) | 5.27(1.85) | 0.73(0.39) | 14.08 | -0.927 |
-| gEMfree | 237 | 0.770 | 7.96(1.46) | 3.09(0.72) | 11.05(0.75) | 3.97(3.75) | 0.43(1.35) | 14.14 | -0.918 |
-| binsB | 237 | 0.797 | 7.97(1.27) | 3.09(0.62) | 11.06(0.66) | 5.04(1.90) | 0.88(0.39) | 14.16 | -0.933 |
-| binmode | 237 | 0.779 | 8.55(1.27) | 2.78(0.63) | 11.33(0.66) | 5.54(1.87) | 0.99(0.37) | 14.12 | -0.941 |
-| A2beamtimes | 333 | 0.766 | 8.38(1.17) | 2.88(0.58) | 11.26(0.60) | 5.12(1.75) | 0.84(0.37) | 14.14 | -0.920 |
-| fwd_uncorr | 237 | 0.765 | 8.05(1.25) | 2.98(0.64) | 11.03(0.62) | 4.97(1.93) | 0.84(0.40) | 14.00 | -0.931 |
-| exact_constraints | 237 | 0.778 | 7.91(1.21) | 3.04(0.61) | 10.96(0.61) | 5.01(1.87) | 0.82(0.39) | 14.00 | -0.929 |
-| no_float_norm | 237 | 0.889 | 9.22(0.81) | 2.48(0.41) | 11.70(0.42) | 5.76(1.38) | 0.76(0.30) | 14.18 | -0.867 |
+| MAIN | 237 | 0.772 | 8.05(1.22) | 3.08(0.61) | 11.13(0.62) | 5.25(1.89) | 0.96(0.38) | 14.21 | -1.008 |
+| w30 | 237 | 0.750 | 8.33(1.53) | 2.93(0.76) | 11.26(0.78) | 5.79(2.81) | 1.11(0.69) | 14.19 | -1.011 |
+| bchptctr | 237 | 0.770 | 8.89(1.22) | 2.67(0.61) | 11.55(0.62) | 7.91(1.87) | 2.66(0.38) | 14.22 | -1.011 |
+| bchptctr_w30 | 237 | 0.747 | 9.01(1.54) | 2.59(0.77) | 11.60(0.78) | 8.22(2.81) | 2.74(0.69) | 14.19 | -1.012 |
+| l2zero | 237 | 0.766 | 8.17(1.21) | 2.99(0.61) | 11.16(0.62) | 5.57(1.85) | 0.82(0.38) | 14.15 | -1.015 |
+| gEMfree | 237 | 0.771 | 7.89(1.40) | 3.16(0.70) | 11.05(0.71) | 4.36(3.71) | 0.56(1.34) | 14.21 | -1.007 |
+| binsB | 237 | 0.798 | 7.83(1.23) | 3.19(0.61) | 11.03(0.63) | 5.29(1.90) | 0.97(0.39) | 14.22 | -1.004 |
+| binmode | 237 | 0.780 | 8.40(1.23) | 2.89(0.61) | 11.28(0.63) | 5.82(1.87) | 1.07(0.37) | 14.17 | -1.008 |
+| A2beamtimes | 333 | 0.767 | 8.29(1.13) | 2.96(0.57) | 11.25(0.58) | 5.41(1.76) | 0.93(0.37) | 14.21 | -1.009 |
+| fwd_uncorr | 237 | 0.771 | 7.97(1.23) | 3.02(0.64) | 10.99(0.62) | 5.36(1.91) | 0.93(0.40) | 14.01 | -1.027 |
+| exact_constraints | 237 | 0.783 | 7.84(1.21) | 3.08(0.60) | 10.93(0.60) | 5.44(1.86) | 0.92(0.38) | 14.01 | -1.025 |
+| no_float_norm | 237 | 0.892 | 9.31(0.75) | 2.48(0.39) | 11.79(0.38) | 6.10(1.37) | 0.85(0.30) | 14.27 | -1.013 |
 
 ### Table P-I. Influence of single sets/points (paper configuration: all normalisations floated, incl. the pre-1961 sets; shift = variant - MAIN)
 
 | removed / added | N | alpha-beta | beta_M1 | gamma_pi | d(alpha-beta) | d(beta_M1) |
 |---|---|---|---|---|---|---|
-| (none: MAIN) | 237 | 8.15 | 2.99 | 4.97 | | |
-| drop Oxley | 233 | 7.82 | 3.16 | 4.57 | -0.33 | +0.17 |
-| drop Oxley 60/150 | 236 | 7.97 | 3.09 | 4.75 | -0.19 | +0.10 |
-| keep TAPS 108.4/133 (all points) | 238 | 8.55 | 2.80 | 5.15 | +0.40 | -0.19 |
-| add HIGS 2022 (former main database) | 253 | 9.01 | 2.58 | 5.76 | +0.85 | -0.41 |
-| drop Baranov 150deg | 233 | 7.78 | 3.17 | 5.23 | -0.37 | +0.18 |
-| drop Bernardini | 235 | 8.13 | 3.00 | 4.97 | -0.02 | +0.01 |
-| drop Goldansky | 232 | 8.33 | 2.90 | 5.17 | +0.17 | -0.09 |
-| drop Oxley+Goldansky | 228 | 8.00 | 3.08 | 4.78 | -0.16 | +0.09 |
-| drop A2 Sigma3 | 201 | 7.33 | 3.40 | 3.54 | -0.83 | +0.41 |
+| (none: MAIN) | 237 | 8.05 | 3.08 | 5.25 | | |
+| drop Oxley | 233 | 7.67 | 3.27 | 4.85 | -0.38 | +0.19 |
+| drop Oxley 60/150 | 236 | 7.84 | 3.18 | 5.02 | -0.21 | +0.11 |
+| keep TAPS 108.4/133 (all points) | 238 | 8.43 | 2.89 | 5.40 | +0.38 | -0.18 |
+| add HIGS 2022 (former main database) | 253 | 8.93 | 2.65 | 6.08 | +0.88 | -0.43 |
+| drop Baranov 150deg | 233 | 7.68 | 3.25 | 5.55 | -0.37 | +0.17 |
+| drop Bernardini | 235 | 8.03 | 3.09 | 5.25 | -0.02 | +0.01 |
+| drop Goldansky | 232 | 8.24 | 2.98 | 5.46 | +0.19 | -0.10 |
+| drop Oxley+Goldansky | 228 | 7.86 | 3.17 | 5.06 | -0.19 | +0.09 |
+| drop A2 Sigma3 | 201 | 7.28 | 3.47 | 3.87 | -0.77 | +0.39 |
 
 ### Table P-F. Impact of the forward (sum-rule) amplitudes of GHP 2015/16 (paper configuration: all normalisations floated, incl. the pre-1961 sets)
 
 | treatment | alpha-beta | gamma_pi | beta_M1 | alpha+beta | gamma_0 | n_f | n_g | chi2/N |
 |---|---|---|---|---|---|---|---|---|
-| **MAIN (floating norms, correlated nuisances)** | 8.15(1.26) | 4.97(1.89) | 2.99(0.62) | 14.14 | -0.921 | 0.68 | 0.07 | 0.771 |
-| MAIN with uncorrelated forward errors | 8.05(1.25) | 4.97(1.93) | 2.98(0.64) | 14.00 | -0.931 | 0.02 | -0.02 | 0.765 |
-| MAIN with exact constraints (previous main) | 7.91(1.21) | 5.01(1.87) | 3.04(0.61) | 14.00 | -0.929 | nan | nan | 0.778 |
-| no norms: exact constraints (KLP18) | 9.36(0.75) | 6.13(1.31) | 2.32(0.37) | 14.00 | -0.929 | nan | nan | 0.904 |
-| no norms: chi2 points, correlated nuisances | 9.22(0.81) | 5.76(1.38) | 2.48(0.41) | 14.18 | -0.867 | 0.89 | 0.59 | 0.889 |
-| no norms: chi2 points, uncorrelated errors | 9.30(0.80) | 5.88(1.40) | 2.36(0.42) | 14.01 | -0.927 | 0.07 | 0.02 | 0.885 |
-| no forward points (only alpha+beta, gamma_0 priors), wide fR2,fR3 | 5.00(4.68) | 3.67(2.00) | 4.50(2.34) | 14.00 | -0.929 | 0.02 | -0.00 | 0.808 |
-| no forward points, KLP18-size priors on fR2,fR3 | 8.88(0.64) | 13.93(1.11) | 2.86(0.34) | 14.59 | -0.886 | 2.94 | 0.41 | 1.073 |
+| **MAIN (floating norms, correlated nuisances)** | 8.05(1.22) | 5.25(1.89) | 3.08(0.61) | 14.21 | -1.008 | 0.95 | 0.16 | 0.772 |
+| MAIN with uncorrelated forward errors | 7.97(1.23) | 5.36(1.91) | 3.02(0.64) | 14.01 | -1.027 | 0.02 | -0.02 | 0.771 |
+| MAIN with exact constraints (previous main) | 7.84(1.21) | 5.44(1.86) | 3.08(0.60) | 14.01 | -1.025 | nan | nan | 0.783 |
+| no norms: exact constraints (KLP18) | 9.34(0.75) | 6.54(1.30) | 2.33(0.37) | 14.01 | -1.025 | nan | nan | 0.911 |
+| no norms: chi2 points, correlated nuisances | 9.31(0.75) | 6.10(1.37) | 2.48(0.39) | 14.27 | -1.013 | 1.26 | 0.12 | 0.892 |
+| no norms: chi2 points, uncorrelated errors | 9.35(0.77) | 6.35(1.38) | 2.34(0.42) | 14.03 | -1.022 | 0.08 | 0.03 | 0.896 |
+| no forward points (only alpha+beta, gamma_0 priors), wide fR2,fR3 | 5.04(4.67) | 3.63(2.01) | 4.49(2.34) | 14.01 | -1.025 | 0.02 | -0.00 | 0.808 |
+| no forward points, KLP18-size priors on fR2,fR3 | 8.87(0.64) | 13.91(1.12) | 2.89(0.34) | 14.64 | -0.984 | 3.02 | 0.40 | 1.071 |
 
 ### Table P-C. Compatibility (parameter-goodness-of-fit) tests, data chi2 only (paper configuration: all normalisations floated, incl. the pre-1961 sets)
 
@@ -189,10 +189,10 @@ Posteriors of the sum-rule quantities (controlled by the forward-point nuisances
 
 | subset | all | N sub / rest | chi2(all) | chi2(subset) | chi2(rest) | Delta chi2 | alpha-beta subset / rest | beta_M1 subset / rest | gamma_pi subset / rest |
 |---|---|---|---|---|---|---|---|---|---|
-| TAPS | MAIN | 54 / 183 | 182.6 | 49.0 | 128.4 | 5.3 | 8.99(2.44) / 7.98(1.41) | 2.50 / 3.07 | 4.10 / 5.25 |
-| A2 | MAIN | 96 / 141 | 182.6 | 71.2 | 103.4 | 8.1 | 7.31(1.63) / 9.39(1.83) | 3.41 / 2.28 | 5.88 / 5.02 |
-| HIGS | db_withHIGS | 16 / 237 | 199.0 | 13.1 | 182.6 | 3.3 | 19.46(5.66) / 8.15(1.26) | -2.72 / 2.99 | 28.86 / 4.97 |
-| new vs old | db_withHIGS | 112 / 141 | 199.0 | 88.6 | 103.4 | 7.1 | 8.94(1.41) / 9.39(1.83) | 2.62 / 2.28 | 7.25 / 5.02 |
+| TAPS | MAIN | 54 / 183 | 182.9 | 49.0 | 128.7 | 5.2 | 9.05(2.42) / 7.87(1.38) | 2.48 / 3.15 | 4.61 / 5.54 |
+| A2 | MAIN | 96 / 141 | 182.9 | 71.6 | 103.6 | 7.7 | 7.10(1.62) / 9.47(1.78) | 3.53 / 2.26 | 6.21 / 5.50 |
+| HIGS | db_withHIGS | 16 / 237 | 199.4 | 13.1 | 182.9 | 3.4 | 19.41(5.64) / 8.05(1.22) | -2.70 / 3.08 | 29.04 / 5.25 |
+| new vs old | db_withHIGS | 112 / 141 | 199.4 | 89.3 | 103.6 | 6.5 | 8.81(1.38) / 9.47(1.78) | 2.70 / 2.26 | 7.64 / 5.50 |
 
 ## fixed-legacy-normalisation configuration (pre-1961 sets not floated; Sections 5-10 of pwa_report.md)
 
@@ -203,21 +203,21 @@ N = points in the main fit (the excluded point is not counted).
 
 | dataset | texkey | obs | N | E [MeV] | theta_lab [deg] | norm [%] | chi2 / N (main) | norm factor (main) |
 |---|---|---|---|---|---|---|---|---|
-| TAPS2001 | OlmosdeLeon:2001zn | CS | 54 | 58.9-149.9 | 59-155 | 3.0 | 52.7/54 | 1.013(14) |
+| TAPS2001 | OlmosdeLeon:2001zn | CS | 54 | 58.9-149.9 | 59-155 | 3.0 | 52.6/54 | 1.012(14) |
 | Federspiel1991 | Federspiel:1991yd | CS | 8 | 55.0-70.0 | 60-135 | 2.0 | 2.4/8 | 0.997(17) |
-| Zieger1992 | Zieger:1992jq | CS | 2 | 98.0-132.0 | 180-180 | 0.0 | 1.7/2 | -- |
-| Baranov1974_th90 | Baranov:1974ec | CS | 3 | 80.9-109.9 | 90-90 | 8.0 | 7.7/3 | 0.972(23) |
+| Zieger1992 | Zieger:1992jq | CS | 2 | 98.0-132.0 | 180-180 | 0.0 | 1.6/2 | -- |
+| Baranov1974_th90 | Baranov:1974ec | CS | 3 | 80.9-109.9 | 90-90 | 8.0 | 7.6/3 | 0.972(23) |
 | Baranov1974_th150 | Baranov:1974ec | CS | 4 | 81.9-111.1 | 150-150 | 8.0 | 9.6/4 | 0.972(23) |
 | MacGibbon1995_tagged | MacGibbon:1995in | CS | 8 | 73.2-96.8 | 90-135 | 4.0 | 5.0/8 | 1.003(30) |
 | MacGibbon1995_untagged | MacGibbon:1995in | CS | 10 | 105.0-145.0 | 90-135 | 2.9 | 3.1/10 | 1.001(23) |
-| Hallin1993 | Hallin:1993ft | CS | 13 | 130.0-150.0 | 45-136 | 3.6 | 6.9/13 | 1.039(27) |
-| Oxley | Oxley:1958zz | CS | 4 | 60.0-60.0 | 70-150 | 0.0 | 23.4/4 | -- |
-| Goldansky | Goldansky:1960zz | CS | 5 | 55.0-55.0 | 75-150 | 0.0 | 8.6/5 | -- |
+| Hallin1993 | Hallin:1993ft | CS | 13 | 130.0-150.0 | 45-136 | 3.6 | 6.8/13 | 1.038(27) |
+| Oxley | Oxley:1958zz | CS | 4 | 60.0-60.0 | 70-150 | 0.0 | 24.4/4 | -- |
+| Goldansky | Goldansky:1960zz | CS | 5 | 55.0-55.0 | 75-150 | 0.0 | 8.2/5 | -- |
 | Bernardini | Bernardini:1960wya | CS | 2 | 120.0-139.0 | 134-135 | 0.0 | 0.9/2 | -- |
 | Pugh | Pugh:1957zz | CS | 16 | 55.0-135.0 | 50-135 | 0.0 | 4.6/16 | -- |
 | Hyman | Hyman:1959zz | CS | 12 | 60.0-128.0 | 50-90 | 0.0 | 1.6/12 | -- |
-| A2_2022_CS | A2:2021wmm | CS | 60 | 92.2-135.3 | 35-145 | 3.0 | 49.2/60 | 0.990(13) |
-| A2_2022_S3 | A2:2021wmm | S3 | 36 | 92.2-129.5 | 35-145 | 2.9 | 25.4/36 | 1.007(20) |
+| A2_2022_CS | A2:2021wmm | CS | 60 | 92.2-135.3 | 35-145 | 3.0 | 49.9/60 | 0.989(13) |
+| A2_2022_S3 | A2:2021wmm | S3 | 36 | 92.2-129.5 | 35-145 | 2.9 | 25.2/36 | 1.009(20) |
 | HIGS_2022_circ | Li:2022vnz | CS | 0 | 81.3-81.3 | 55-125 | 2.2 | nan/0 | -- |
 | HIGS_2022_lin | Li:2022vnz | CS_PAR | 0 | 83.4-83.4 | 55-125 | 2.2 | nan/0 | -- |
 | HIGS_2022_lin | Li:2022vnz | CS_PERP | 0 | 83.4-83.4 | 55-125 | 2.2 | nan/0 | -- |
@@ -226,20 +226,20 @@ N = points in the main fit (the excluded point is not counted).
 
 | fit | description | N | chi2/N | alpha_E1 | beta_M1 | alpha-beta | gamma_pi | gamma_E1E1 | gamma_M1M1 | gamma_M1E2 | alpha+beta | gamma_0 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| MAIN | MAIN: all data of the main database (no HIGS), floating norms, forward points as chi2 data (correlated nuisances) | 237 | 0.86 | 11.62(0.59) | 2.53(0.56) | 9.09(1.14) | 5.90(1.74) | -2.52(0.86) | 0.89(0.37) | 2.49(0.72) | 14.16(0.17) | -0.864(0.098) |
-| db_allpts | main database incl. the 3-sigma outlier (TAPS2001 108.42/133) | 238 | 0.91 | 11.78(0.59) | 2.38(0.56) | 9.40(1.13) | 5.99(1.72) | -2.56(0.85) | 0.88(0.37) | 2.55(0.72) | 14.16(0.17) | -0.873(0.098) |
-| db_3sigma | 3-sigma rule rerun on the main database (check; = MAIN when nothing is flagged) | 236 | 0.79 | 11.14(0.61) | 3.02(0.58) | 8.12(1.18) | 4.83(1.84) | -1.96(0.91) | 0.82(0.39) | 2.06(0.75) | 14.16(0.17) | -0.912(0.099) |
-| db_withHIGS | main database + HIGS 2022 (the former main fit; HIGS excluded from the main database since 2026-10-17) | 253 | 0.86 | 11.90(0.56) | 2.28(0.53) | 9.63(1.08) | 6.37(1.67) | -2.76(0.83) | 0.91(0.37) | 2.71(0.70) | 14.18(0.17) | -0.856(0.098) |
-| db_pruned | McGovern pruning (no Oxley, Bernardini, Baranov 150, TAPS 108.4/133) | 227 | 0.70 | 10.60(0.63) | 3.53(0.60) | 7.07(1.22) | 4.39(1.94) | -1.72(0.96) | 0.78(0.40) | 1.89(0.78) | 14.14(0.17) | -0.949(0.100) |
-| db_modern | modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2) | 189 | 0.76 | 10.93(0.68) | 3.22(0.64) | 7.71(1.31) | 5.17(1.93) | -2.12(0.96) | 0.93(0.39) | 2.12(0.79) | 14.14(0.18) | -0.923(0.101) |
-| db_A2_only | A2 2022 only | 96 | 0.74 | 10.72(0.84) | 3.41(0.80) | 7.31(1.63) | 5.88(2.51) | -2.48(1.25) | 1.15(0.54) | 2.25(0.98) | 14.14(0.18) | -0.925(0.103) |
-| db_new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.79 | 11.56(0.73) | 2.62(0.69) | 8.94(1.41) | 7.25(2.23) | -3.18(1.11) | 1.15(0.51) | 2.92(0.88) | 14.18(0.18) | -0.895(0.102) |
-| db_noTAPS | without TAPS 2001 | 183 | 0.81 | 11.65(0.63) | 2.49(0.61) | 9.17(1.23) | 6.49(1.98) | -2.82(0.98) | 0.92(0.43) | 2.75(0.80) | 14.14(0.18) | -0.856(0.099) |
-| db_noA2 | without A2 2022 | 141 | 0.86 | 12.30(0.78) | 1.64(0.76) | 10.66(1.53) | 6.38(2.28) | -2.74(1.13) | 1.10(0.50) | 2.54(1.06) | 13.95(0.19) | -0.903(0.101) |
-| db_noLegacy | without pre-1961 legacy sets (Oxley, Goldansky, Bernardini, Pugh, Hyman) | 198 | 0.82 | 11.06(0.66) | 3.08(0.63) | 7.99(1.29) | 4.84(1.93) | -1.96(0.96) | 0.89(0.39) | 2.00(0.79) | 14.14(0.17) | -0.928(0.101) |
-| db_pruned_withHIGS | pruned, with HIGS 2022 | 243 | 0.73 | 11.10(0.59) | 3.07(0.56) | 8.03(1.15) | 5.31(1.82) | -2.19(0.90) | 0.82(0.38) | 2.30(0.74) | 14.16(0.17) | -0.930(0.100) |
-| db_old_only | pre-2015 data only | 141 | 0.86 | 12.30(0.78) | 1.64(0.76) | 10.66(1.53) | 6.38(2.28) | -2.74(1.13) | 1.10(0.50) | 2.54(1.06) | 13.95(0.19) | -0.903(0.101) |
-| db_old_only_pruned | pre-2015 data only, pruned | 131 | 0.64 | 10.49(0.86) | 3.49(0.85) | 7.00(1.70) | 3.61(2.69) | -1.33(1.34) | 0.61(0.55) | 1.67(1.18) | 13.98(0.19) | -0.956(0.102) |
+| MAIN | MAIN: all data of the main database (no HIGS), floating norms, forward points as chi2 data (correlated nuisances) | 237 | 0.86 | 11.73(0.54) | 2.51(0.53) | 9.21(1.06) | 6.38(1.71) | -2.69(0.86) | 1.01(0.37) | 2.69(0.70) | 14.24(0.18) | -1.007(0.101) |
+| db_allpts | main database incl. the 3-sigma outlier (TAPS2001 108.42/133) | 238 | 0.91 | 11.87(0.54) | 2.38(0.53) | 9.48(1.06) | 6.42(1.70) | -2.71(0.85) | 0.99(0.37) | 2.73(0.70) | 14.25(0.18) | -1.008(0.101) |
+| db_3sigma | 3-sigma rule rerun on the main database (check; = MAIN when nothing is flagged) | 236 | 0.79 | 11.13(0.57) | 3.09(0.56) | 8.04(1.11) | 5.17(1.83) | -2.08(0.92) | 0.92(0.38) | 2.17(0.74) | 14.22(0.18) | -1.010(0.101) |
+| db_withHIGS | main database + HIGS 2022 (the former main fit; HIGS excluded from the main database since 2026-10-17) | 253 | 0.87 | 12.02(0.51) | 2.25(0.50) | 9.77(1.00) | 6.87(1.64) | -2.93(0.83) | 1.02(0.36) | 2.91(0.68) | 14.26(0.18) | -1.007(0.101) |
+| db_pruned | McGovern pruning (no Oxley, Bernardini, Baranov 150, TAPS 108.4/133) | 227 | 0.70 | 10.52(0.60) | 3.65(0.59) | 6.88(1.17) | 4.66(1.94) | -1.83(0.97) | 0.87(0.40) | 1.97(0.78) | 14.17(0.18) | -1.013(0.101) |
+| db_modern | modern sets only (TAPS, MacGibbon, Hallin, Federspiel, A2) | 189 | 0.76 | 10.88(0.65) | 3.30(0.63) | 7.58(1.27) | 5.50(1.92) | -2.24(0.97) | 1.03(0.39) | 2.22(0.79) | 14.19(0.19) | -1.009(0.101) |
+| db_A2_only | A2 2022 only | 96 | 0.75 | 10.63(0.83) | 3.53(0.80) | 7.10(1.62) | 6.21(2.50) | -2.60(1.25) | 1.26(0.54) | 2.35(0.98) | 14.16(0.19) | -1.012(0.101) |
+| db_new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.80 | 11.51(0.71) | 2.70(0.68) | 8.81(1.38) | 7.64(2.22) | -3.31(1.11) | 1.26(0.51) | 3.06(0.87) | 14.22(0.19) | -1.012(0.101) |
+| db_noTAPS | without TAPS 2001 | 183 | 0.82 | 11.77(0.59) | 2.45(0.58) | 9.32(1.16) | 7.01(1.94) | -3.00(0.97) | 1.04(0.43) | 2.97(0.78) | 14.22(0.19) | -1.011(0.101) |
+| db_noA2 | without A2 2022 | 141 | 0.87 | 12.46(0.71) | 1.53(0.72) | 10.92(1.42) | 7.04(2.20) | -3.01(1.11) | 1.23(0.49) | 2.81(1.02) | 13.99(0.20) | -1.025(0.101) |
+| db_noLegacy | without pre-1961 legacy sets (Oxley, Goldansky, Bernardini, Pugh, Hyman) | 198 | 0.82 | 11.03(0.64) | 3.17(0.62) | 7.86(1.25) | 5.12(1.93) | -2.06(0.97) | 0.98(0.39) | 2.08(0.79) | 14.20(0.18) | -1.009(0.101) |
+| db_pruned_withHIGS | pruned, with HIGS 2022 | 243 | 0.73 | 11.04(0.55) | 3.16(0.54) | 7.88(1.08) | 5.62(1.81) | -2.30(0.91) | 0.91(0.38) | 2.40(0.73) | 14.20(0.18) | -1.012(0.101) |
+| db_old_only | pre-2015 data only | 141 | 0.87 | 12.46(0.71) | 1.53(0.72) | 10.92(1.42) | 7.04(2.20) | -3.01(1.11) | 1.23(0.49) | 2.81(1.02) | 13.99(0.20) | -1.025(0.101) |
+| db_old_only_pruned | pre-2015 data only, pruned | 131 | 0.64 | 10.47(0.82) | 3.52(0.83) | 6.95(1.64) | 3.98(2.67) | -1.48(1.34) | 0.70(0.54) | 1.81(1.16) | 13.99(0.20) | -1.031(0.101) |
 
 3-sigma rule rerun on the main database removes: [['Oxley', 60.0, 150.0]]; on all points it flags: [['TAPS2001', 108.42, 133.0]] (= MAIN_DROP).
 
@@ -247,71 +247,71 @@ N = points in the main fit (the excluded point is not counted).
 
 | source | d(alpha-beta) | d(gamma_pi) | d(beta_M1) | d(alpha_E1) |
 |---|---|---|---|---|
-| statistical (incl. norms, forward-point nuisances n_f, n_g, residual priors) | +1.14 | +1.74 | +0.56 | +0.59 |
-| residual priors x3 wider | +0.52 | +0.50 | -0.27 | +0.25 |
-| residual priors centred on BChPT | +0.81 | +2.60 | -0.40 | +0.41 |
-| l=2 multipoles: BChPT -> 0 | +0.07 | +0.25 | -0.06 | +0.01 |
-| gamma_E1M2 free (vs 0) | -0.03 | -0.16 | +0.01 | -0.01 |
-| energy binning re-centred on A2/HIGS energies | -0.10 | +0.16 | +0.06 | -0.04 |
-| energy mode: data at bin energy (KLP18) vs actual energy | +0.29 | +0.48 | -0.15 | +0.13 |
-| A2 per beam time (4 scales) vs combined | +0.06 | -0.05 | -0.03 | +0.03 |
-| forward-point errors uncorrelated (vs correlated nuisances) | -0.02 | +0.09 | -0.06 | -0.08 |
-| method/theory total (quadrature) | 1.01 | 2.72 | 0.52 | 0.51 |
-| **total** | **1.52** | **3.23** | **0.76** | **0.78** |
-| variant (not added): exact sum-rule constraints (previous main) | +0.03 | +0.36 | -0.09 | -0.06 |
-| variant (not added): no floating normalisations | +0.14 | -0.14 | -0.06 | +0.08 |
-| database (not added): all points incl. the outlier (TAPS2001 108.42/133) | +0.31 | +0.09 | -0.15 | +0.16 |
-| database (not added): McGovern pruning | -2.02 | -1.50 | +1.00 | -1.02 |
-| database (not added): modern sets only | -1.38 | -0.72 | +0.68 | -0.69 |
-| database (not added): with HIGS 2022 (former main) | +0.54 | +0.47 | -0.26 | +0.28 |
-| database (not added): without legacy sets | -1.10 | -1.06 | +0.54 | -0.56 |
+| statistical (incl. norms, forward-point nuisances n_f, n_g, residual priors) | +1.06 | +1.71 | +0.53 | +0.54 |
+| residual priors x3 wider | +0.52 | +0.43 | -0.27 | +0.25 |
+| residual priors centred on BChPT | +0.79 | +2.58 | -0.39 | +0.40 |
+| l=2 multipoles: BChPT -> 0 | +0.08 | +0.26 | -0.07 | +0.01 |
+| gamma_E1M2 free (vs 0) | +0.01 | +0.08 | -0.01 | +0.01 |
+| energy binning re-centred on A2/HIGS energies | -0.13 | +0.11 | +0.08 | -0.06 |
+| energy mode: data at bin energy (KLP18) vs actual energy | +0.14 | +0.40 | -0.10 | +0.05 |
+| A2 per beam time (4 scales) vs combined | +0.06 | -0.07 | -0.03 | +0.02 |
+| forward-point errors uncorrelated (vs correlated nuisances) | -0.04 | +0.21 | -0.09 | -0.13 |
+| method/theory total (quadrature) | 0.97 | 2.67 | 0.50 | 0.49 |
+| **total** | **1.43** | **3.17** | **0.73** | **0.73** |
+| variant (not added): exact sum-rule constraints (previous main) | -0.15 | +0.32 | -0.04 | -0.19 |
+| variant (not added): no floating normalisations | +0.10 | -0.28 | -0.03 | +0.06 |
+| database (not added): all points incl. the outlier (TAPS2001 108.42/133) | +0.27 | +0.04 | -0.13 | +0.14 |
+| database (not added): McGovern pruning | -2.34 | -1.72 | +1.13 | -1.20 |
+| database (not added): modern sets only | -1.63 | -0.88 | +0.79 | -0.84 |
+| database (not added): with HIGS 2022 (former main) | +0.55 | +0.48 | -0.27 | +0.29 |
+| database (not added): without legacy sets | -1.36 | -1.26 | +0.66 | -0.70 |
 
-Posteriors of the sum-rule quantities (controlled by the forward-point nuisances): alpha+beta = 14.16 +- 0.17, gamma_0 = -0.864 +- 0.098; n_f = 0.78, n_g = 0.62; rho(alpha-beta, gamma_pi) = 0.73.
+Posteriors of the sum-rule quantities (controlled by the forward-point nuisances): alpha+beta = 14.24 +- 0.18, gamma_0 = -1.007 +- 0.101; n_f = 1.12, n_g = 0.18; rho(alpha-beta, gamma_pi) = 0.72.
 
 ### Table V. Method variants around MAIN (fixed-legacy-normalisation configuration (pre-1961 sets not floated; Sections 5-10 of pwa_report.md); full values)
 
 | variant | N | chi2/N | alpha-beta | beta_M1 | alpha_E1 | gamma_pi | gamma_M1M1 | alpha+beta | gamma_0 |
 |---|---|---|---|---|---|---|---|---|---|
-| MAIN | 237 | 0.855 | 9.09(1.14) | 2.53(0.56) | 11.62(0.59) | 5.90(1.74) | 0.89(0.37) | 14.16 | -0.864 |
-| w30 | 237 | 0.830 | 9.60(1.39) | 2.27(0.69) | 11.87(0.71) | 6.40(2.64) | 1.03(0.67) | 14.14 | -0.874 |
-| bchptctr | 237 | 0.853 | 9.90(1.14) | 2.13(0.56) | 12.03(0.59) | 8.50(1.72) | 2.59(0.37) | 14.17 | -0.867 |
-| bchptctr_w30 | 237 | 0.828 | 10.27(1.40) | 1.94(0.69) | 12.21(0.72) | 8.79(2.64) | 2.66(0.67) | 14.15 | -0.875 |
-| l2zero | 237 | 0.849 | 9.16(1.14) | 2.47(0.56) | 11.63(0.59) | 6.15(1.70) | 0.76(0.37) | 14.10 | -0.870 |
-| gEMfree | 237 | 0.855 | 9.06(1.28) | 2.55(0.63) | 11.61(0.66) | 5.74(3.41) | 0.82(1.31) | 14.16 | -0.863 |
-| binsB | 237 | 0.884 | 8.99(1.14) | 2.59(0.56) | 11.58(0.59) | 6.05(1.74) | 0.92(0.37) | 14.18 | -0.871 |
-| binmode | 237 | 0.873 | 9.37(1.15) | 2.38(0.56) | 11.75(0.59) | 6.38(1.73) | 1.02(0.36) | 14.14 | -0.903 |
-| A2beamtimes | 333 | 0.826 | 9.15(1.07) | 2.50(0.53) | 11.65(0.55) | 5.85(1.64) | 0.86(0.36) | 14.15 | -0.863 |
-| fwd_uncorr | 237 | 0.849 | 9.07(1.11) | 2.47(0.57) | 11.54(0.55) | 5.99(1.76) | 0.87(0.39) | 14.01 | -0.928 |
-| exact_constraints | 237 | 0.869 | 9.11(1.06) | 2.44(0.53) | 11.56(0.53) | 6.26(1.67) | 0.87(0.37) | 14.00 | -0.929 |
-| no_float_norm | 237 | 0.889 | 9.22(0.81) | 2.48(0.41) | 11.70(0.42) | 5.76(1.38) | 0.76(0.30) | 14.18 | -0.867 |
+| MAIN | 237 | 0.859 | 9.21(1.06) | 2.51(0.53) | 11.73(0.54) | 6.38(1.71) | 1.01(0.37) | 14.24 | -1.007 |
+| w30 | 237 | 0.833 | 9.73(1.31) | 2.24(0.66) | 11.98(0.66) | 6.81(2.62) | 1.14(0.66) | 14.22 | -1.011 |
+| bchptctr | 237 | 0.857 | 10.00(1.06) | 2.12(0.53) | 12.13(0.54) | 8.96(1.69) | 2.70(0.37) | 14.25 | -1.009 |
+| bchptctr_w30 | 237 | 0.831 | 10.39(1.31) | 1.92(0.66) | 12.31(0.67) | 9.21(2.62) | 2.76(0.66) | 14.23 | -1.012 |
+| l2zero | 237 | 0.853 | 9.29(1.06) | 2.44(0.53) | 11.74(0.54) | 6.64(1.67) | 0.88(0.37) | 14.18 | -1.013 |
+| gEMfree | 237 | 0.859 | 9.23(1.18) | 2.51(0.59) | 11.73(0.60) | 6.46(3.32) | 1.04(1.29) | 14.24 | -1.007 |
+| binsB | 237 | 0.888 | 9.08(1.06) | 2.59(0.54) | 11.67(0.54) | 6.49(1.71) | 1.03(0.37) | 14.26 | -1.003 |
+| binmode | 237 | 0.875 | 9.36(1.06) | 2.42(0.54) | 11.78(0.54) | 6.78(1.70) | 1.12(0.36) | 14.19 | -1.006 |
+| A2beamtimes | 333 | 0.829 | 9.27(1.00) | 2.48(0.51) | 11.75(0.51) | 6.31(1.61) | 0.97(0.36) | 14.23 | -1.008 |
+| fwd_uncorr | 237 | 0.861 | 9.18(1.08) | 2.42(0.56) | 11.60(0.54) | 6.59(1.71) | 0.98(0.39) | 14.02 | -1.023 |
+| exact_constraints | 237 | 0.875 | 9.07(1.05) | 2.47(0.53) | 11.54(0.53) | 6.70(1.66) | 0.97(0.37) | 14.01 | -1.025 |
+| no_float_norm | 237 | 0.892 | 9.31(0.75) | 2.48(0.39) | 11.79(0.38) | 6.10(1.37) | 0.85(0.30) | 14.27 | -1.013 |
 
 ### Table I. Influence of single sets/points (fixed-legacy-normalisation configuration (pre-1961 sets not floated; Sections 5-10 of pwa_report.md); shift = variant - MAIN)
 
 | removed / added | N | alpha-beta | beta_M1 | gamma_pi | d(alpha-beta) | d(beta_M1) |
 |---|---|---|---|---|---|---|
-| (none: MAIN) | 237 | 9.09 | 2.53 | 5.90 | | |
-| drop Oxley | 233 | 7.43 | 3.36 | 4.05 | -1.66 | +0.83 |
-| drop Oxley 60/150 | 236 | 8.12 | 3.02 | 4.83 | -0.97 | +0.49 |
-| keep TAPS 108.4/133 (all points) | 238 | 9.40 | 2.38 | 5.99 | +0.31 | -0.15 |
-| add HIGS 2022 (former main database) | 253 | 9.63 | 2.28 | 6.37 | +0.54 | -0.26 |
-| drop Baranov 150deg | 233 | 8.80 | 2.67 | 6.23 | -0.28 | +0.14 |
-| drop Bernardini | 235 | 9.07 | 2.54 | 5.91 | -0.02 | +0.01 |
-| drop Goldansky | 232 | 9.79 | 2.18 | 6.63 | +0.71 | -0.35 |
-| drop Oxley+Goldansky | 228 | 8.11 | 3.02 | 4.85 | -0.97 | +0.49 |
-| drop A2 Sigma3 | 201 | 8.80 | 2.68 | 5.35 | -0.29 | +0.15 |
+| (none: MAIN) | 237 | 9.21 | 2.51 | 6.38 | | |
+| drop Oxley | 233 | 7.23 | 3.49 | 4.28 | -1.98 | +0.97 |
+| drop Oxley 60/150 | 236 | 8.04 | 3.09 | 5.17 | -1.17 | +0.58 |
+| keep TAPS 108.4/133 (all points) | 238 | 9.48 | 2.38 | 6.42 | +0.27 | -0.13 |
+| add HIGS 2022 (former main database) | 253 | 9.77 | 2.25 | 6.87 | +0.55 | -0.27 |
+| drop Baranov 150deg | 233 | 8.95 | 2.63 | 6.75 | -0.27 | +0.12 |
+| drop Bernardini | 235 | 9.19 | 2.52 | 6.40 | -0.02 | +0.01 |
+| drop Goldansky | 232 | 9.97 | 2.14 | 7.14 | +0.76 | -0.37 |
+| drop Oxley+Goldansky | 228 | 7.99 | 3.12 | 5.13 | -1.23 | +0.60 |
+| drop A2 Sigma3 | 201 | 9.04 | 2.61 | 6.02 | -0.17 | +0.09 |
 
 ### Table F. Impact of the forward (sum-rule) amplitudes of GHP 2015/16 (fixed-legacy-normalisation configuration (pre-1961 sets not floated; Sections 5-10 of pwa_report.md))
 
 | treatment | alpha-beta | gamma_pi | beta_M1 | alpha+beta | gamma_0 | n_f | n_g | chi2/N |
 |---|---|---|---|---|---|---|---|---|
-| **MAIN (floating norms, correlated nuisances)** | 9.09(1.14) | 5.90(1.74) | 2.53(0.56) | 14.16 | -0.864 | 0.78 | 0.62 | 0.855 |
-| MAIN with uncorrelated forward errors | 9.07(1.11) | 5.99(1.76) | 2.47(0.57) | 14.01 | -0.928 | 0.04 | 0.01 | 0.849 |
-| MAIN with exact constraints (previous main) | 9.11(1.06) | 6.26(1.67) | 2.44(0.53) | 14.00 | -0.929 | nan | nan | 0.869 |
-| no norms: exact constraints (KLP18) | 9.36(0.75) | 6.13(1.31) | 2.32(0.37) | 14.00 | -0.929 | nan | nan | 0.904 |
-| no norms: chi2 points, correlated nuisances | 9.22(0.81) | 5.76(1.38) | 2.48(0.41) | 14.18 | -0.867 | 0.89 | 0.59 | 0.889 |
-| no norms: chi2 points, uncorrelated errors | 9.30(0.80) | 5.88(1.40) | 2.36(0.42) | 14.01 | -0.927 | 0.07 | 0.02 | 0.885 |
-| no forward points (only alpha+beta, gamma_0 priors), wide fR2,fR3 | 5.00(4.68) | 3.67(2.00) | 4.50(2.34) | 14.00 | -0.929 | 0.02 | -0.00 | 0.808 |
-| no forward points, KLP18-size priors on fR2,fR3 | 8.88(0.64) | 13.93(1.11) | 2.86(0.34) | 14.59 | -0.886 | 2.94 | 0.41 | 1.073 |
+| **MAIN (floating norms, correlated nuisances)** | 9.21(1.06) | 6.38(1.71) | 2.51(0.53) | 14.24 | -1.007 | 1.12 | 0.18 | 0.859 |
+| MAIN with uncorrelated forward errors | 9.18(1.08) | 6.59(1.71) | 2.42(0.56) | 14.02 | -1.023 | 0.04 | 0.02 | 0.861 |
+| MAIN with exact constraints (previous main) | 9.07(1.05) | 6.70(1.66) | 2.47(0.53) | 14.01 | -1.025 | nan | nan | 0.875 |
+| no norms: exact constraints (KLP18) | 9.34(0.75) | 6.54(1.30) | 2.33(0.37) | 14.01 | -1.025 | nan | nan | 0.911 |
+| no norms: chi2 points, correlated nuisances | 9.31(0.75) | 6.10(1.37) | 2.48(0.39) | 14.27 | -1.013 | 1.26 | 0.12 | 0.892 |
+| no norms: chi2 points, uncorrelated errors | 9.35(0.77) | 6.35(1.38) | 2.34(0.42) | 14.03 | -1.022 | 0.08 | 0.03 | 0.896 |
+| no forward points (only alpha+beta, gamma_0 priors), wide fR2,fR3 | 5.04(4.67) | 3.63(2.01) | 4.49(2.34) | 14.01 | -1.025 | 0.02 | -0.00 | 0.808 |
+| no forward points, KLP18-size priors on fR2,fR3 | 8.87(0.64) | 13.91(1.12) | 2.89(0.34) | 14.64 | -0.984 | 3.02 | 0.40 | 1.071 |
 
 ### Table C. Compatibility (parameter-goodness-of-fit) tests, data chi2 only (fixed-legacy-normalisation configuration (pre-1961 sets not floated; Sections 5-10 of pwa_report.md))
 
@@ -319,10 +319,10 @@ Posteriors of the sum-rule quantities (controlled by the forward-point nuisances
 
 | subset | all | N sub / rest | chi2(all) | chi2(subset) | chi2(rest) | Delta chi2 | alpha-beta subset / rest | beta_M1 subset / rest | gamma_pi subset / rest |
 |---|---|---|---|---|---|---|---|---|---|
-| TAPS | MAIN | 54 / 183 | 202.7 | 49.0 | 148.7 | 5.0 | 8.99(2.44) / 9.17(1.23) | 2.50 / 2.49 | 4.10 / 6.49 |
-| A2 | MAIN | 96 / 141 | 202.7 | 71.2 | 121.6 | 9.9 | 7.31(1.63) / 10.66(1.53) | 3.41 / 1.64 | 5.88 / 6.38 |
-| HIGS | db_withHIGS | 16 / 237 | 217.8 | 13.1 | 202.7 | 2.0 | 19.46(5.66) / 9.09(1.14) | -2.72 / 2.53 | 28.86 / 5.90 |
-| new vs old | db_withHIGS | 112 / 141 | 217.8 | 88.6 | 121.6 | 7.6 | 8.94(1.41) / 10.66(1.53) | 2.62 / 1.64 | 7.25 / 6.38 |
+| TAPS | MAIN | 54 / 183 | 203.7 | 49.0 | 149.9 | 4.7 | 9.05(2.42) / 9.32(1.16) | 2.48 / 2.45 | 4.61 / 7.01 |
+| A2 | MAIN | 96 / 141 | 203.7 | 71.6 | 122.0 | 10.1 | 7.10(1.62) / 10.92(1.42) | 3.53 / 1.53 | 6.21 / 7.04 |
+| HIGS | db_withHIGS | 16 / 237 | 218.9 | 13.1 | 203.7 | 2.1 | 19.41(5.64) / 9.21(1.06) | -2.70 / 2.51 | 29.04 / 6.38 |
+| new vs old | db_withHIGS | 112 / 141 | 218.9 | 89.3 | 122.0 | 7.6 | 8.81(1.38) / 10.92(1.42) | 2.70 / 1.53 | 7.64 / 7.04 |
 
 ## Exact-constraint configuration (update_fits.py; sum rules as exact constraints, legacy norms fixed)
 
@@ -331,24 +331,24 @@ Posteriors of the sum-rule quantities (controlled by the forward-point nuisances
 
 | fit | description | N | chi2/N | alpha_E1 | beta_M1 | alpha-beta | gamma_pi | gamma_E1E1 | gamma_M1M1 | gamma_M1E2 | rho(a-b,gpi) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| old_raw | pre-2015 data, TAPS stat. errors only (cf. KLP18 Fit 1) | 141 | 1.18 | 11.74(0.52) | 2.26(0.52) | 9.47(1.04) | 5.48(2.02) | -2.27(1.01) | 1.34(0.45) | 1.86(0.89) | 0.81 |
-| old_std | pre-2015 data, stat(+)syst | 141 | 0.91 | 12.16(0.58) | 1.84(0.58) | 10.32(1.16) | 6.48(2.13) | -2.78(1.06) | 1.43(0.47) | 2.27(0.96) | 0.80 |
-| old_pruned | pre-2015 data, pruned (cf. KLP18 Fit 1'') | 131 | 0.66 | 10.49(0.65) | 3.51(0.65) | 6.98(1.29) | 3.63(2.46) | -1.35(1.23) | 0.76(0.52) | 1.52(1.05) | 0.81 |
-| TAPS_only | TAPS 2001 only | 54 | 0.93 | 10.79(0.83) | 3.21(0.83) | 7.59(1.66) | 3.02(2.99) | -1.05(1.49) | 1.06(0.63) | 0.91(1.32) | 0.83 |
-| new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.87 | 11.56(0.45) | 2.44(0.45) | 9.11(0.90) | 6.53(1.55) | -2.80(0.78) | 0.60(0.35) | 3.13(0.59) | 0.68 |
-| new_only_A2 | A2 2022 (dsigma + Sigma3) only | 96 | 0.81 | 11.22(0.48) | 2.78(0.48) | 8.44(0.96) | 5.94(1.61) | -2.51(0.81) | 0.52(0.36) | 2.92(0.61) | 0.70 |
-| new_only_HIGS | HIGS 2022 only (test) | 16 | 0.86 | 16.81(2.80) | -2.81(2.80) | 19.63(5.60) | 29.58(15.96) | -14.33(7.98) | 4.78(5.31) | 10.48(8.03) | 0.80 |
-| all_std | all data of the main database (no HIGS) | 237 | 0.90 | 11.68(0.37) | 2.32(0.37) | 9.36(0.75) | 6.13(1.31) | -2.60(0.66) | 0.68(0.30) | 2.85(0.51) | 0.71 |
-| all_std_norm | main database, floating norms (exact sum-rule constraints) | 237 | 0.87 | 11.56(0.53) | 2.44(0.53) | 9.11(1.06) | 6.26(1.67) | -2.66(0.84) | 0.87(0.37) | 2.72(0.68) | 0.75 |
-| all_withHIGS | main database + HIGS 2022 (former main) | 253 | 0.92 | 11.85(0.36) | 2.15(0.36) | 9.70(0.72) | 6.46(1.28) | -2.77(0.64) | 0.72(0.29) | 2.98(0.50) | 0.71 |
-| all_withHIGS_norm | main database + HIGS 2022, floating norms (former all_std_norm) | 253 | 0.88 | 11.84(0.50) | 2.16(0.50) | 9.68(0.99) | 6.80(1.60) | -2.93(0.80) | 0.89(0.36) | 2.97(0.65) | 0.74 |
-| all_3sigma_norm | all data, floating norms, 3 sigma outliers removed | 236 | 0.80 | 10.97(0.55) | 3.03(0.55) | 7.94(1.11) | 5.00(1.79) | -2.04(0.90) | 0.78(0.38) | 2.18(0.72) | 0.77 |
-| all_pruned_norm | all data, floating norms, McGovern pruning | 227 | 0.71 | 10.39(0.58) | 3.61(0.58) | 6.79(1.17) | 4.39(1.91) | -1.73(0.95) | 0.74(0.39) | 1.92(0.76) | 0.78 |
-| all_noTAPS | all data without TAPS 2001 | 183 | 0.86 | 11.82(0.40) | 2.18(0.40) | 9.65(0.81) | 6.41(1.42) | -2.74(0.71) | 0.59(0.32) | 3.08(0.55) | 0.70 |
-| all_noA2 | all data without A2 2022 | 141 | 0.91 | 12.16(0.58) | 1.84(0.58) | 10.32(1.16) | 6.48(2.13) | -2.78(1.06) | 1.43(0.47) | 2.27(0.96) | 0.80 |
-| all_std_A2beamtimes_norm | A2 per beam time (separate norms) | 333 | 0.84 | 11.60(0.50) | 2.40(0.50) | 9.20(1.00) | 6.19(1.57) | -2.63(0.79) | 0.84(0.36) | 2.72(0.64) | 0.73 |
-| all_std_norm_fwdchi2 | forward amplitudes as chi2 points (nuisance) | 237 | 0.86 | 11.62(0.59) | 2.53(0.56) | 9.09(1.14) | 5.90(1.74) | -2.52(0.86) | 0.89(0.37) | 2.49(0.72) | 0.73 |
-| all_pruned_norm_fwdchi2 | pruned, forward amplitudes as chi2 points | 227 | 0.70 | 10.60(0.63) | 3.53(0.60) | 7.07(1.22) | 4.39(1.94) | -1.72(0.96) | 0.78(0.40) | 1.89(0.78) | 0.76 |
-| all_std_norm_w30 | residual priors x3 wider | 237 | 0.84 | 11.83(0.65) | 2.17(0.65) | 9.66(1.30) | 6.68(2.60) | -2.88(1.30) | 1.00(0.66) | 2.80(0.89) | 0.60 |
-| all_std_norm_bchptctr | residual priors centred on BChPT | 237 | 0.87 | 11.95(0.53) | 2.05(0.53) | 9.90(1.06) | 8.86(1.66) | -3.97(0.83) | 2.57(0.37) | 2.33(0.68) | 0.75 |
-| all_std_gEMfree | gamma_E1M2 free | 237 | 0.90 | 11.57(0.50) | 2.43(0.50) | 9.14(1.01) | 5.13(3.16) | -3.37(2.00) | 0.26(1.20) | 2.77(0.58) | 0.84 |
+| old_raw | pre-2015 data, TAPS stat. errors only (cf. KLP18 Fit 1) | 141 | 1.18 | 11.77(0.52) | 2.24(0.52) | 9.53(1.04) | 5.98(2.01) | -2.48(1.00) | 1.44(0.45) | 2.06(0.89) | 0.80 |
+| old_std | pre-2015 data, stat(+)syst | 141 | 0.91 | 12.19(0.58) | 1.82(0.58) | 10.38(1.16) | 6.97(2.11) | -2.97(1.06) | 1.53(0.47) | 2.47(0.96) | 0.80 |
+| old_pruned | pre-2015 data, pruned (cf. KLP18 Fit 1'') | 131 | 0.66 | 10.52(0.65) | 3.49(0.65) | 7.04(1.29) | 4.15(2.44) | -1.56(1.22) | 0.87(0.52) | 1.72(1.04) | 0.81 |
+| TAPS_only | TAPS 2001 only | 54 | 0.93 | 10.83(0.83) | 3.18(0.83) | 7.66(1.66) | 3.57(2.97) | -1.27(1.48) | 1.17(0.62) | 1.12(1.32) | 0.83 |
+| new_only | A2 2022 + HIGS 2022 only (test) | 112 | 0.88 | 11.53(0.45) | 2.48(0.45) | 9.06(0.90) | 6.89(1.54) | -2.93(0.77) | 0.65(0.35) | 3.31(0.59) | 0.68 |
+| new_only_A2 | A2 2022 (dsigma + Sigma3) only | 96 | 0.83 | 11.19(0.48) | 2.82(0.48) | 8.37(0.95) | 6.31(1.60) | -2.64(0.80) | 0.57(0.36) | 3.10(0.60) | 0.69 |
+| new_only_HIGS | HIGS 2022 only (test) | 16 | 0.86 | 16.79(2.80) | -2.78(2.80) | 19.58(5.60) | 29.65(15.96) | -14.31(7.98) | 4.80(5.31) | 10.53(8.03) | 0.80 |
+| all_std | all data of the main database (no HIGS) | 237 | 0.91 | 11.68(0.37) | 2.33(0.37) | 9.34(0.75) | 6.54(1.30) | -2.76(0.65) | 0.74(0.29) | 3.04(0.51) | 0.71 |
+| all_std_norm | main database, floating norms (exact sum-rule constraints) | 237 | 0.88 | 11.54(0.53) | 2.47(0.53) | 9.07(1.05) | 6.70(1.66) | -2.84(0.83) | 0.97(0.37) | 2.90(0.68) | 0.75 |
+| all_withHIGS | main database + HIGS 2022 (former main) | 253 | 0.92 | 11.85(0.36) | 2.16(0.36) | 9.69(0.72) | 6.86(1.27) | -2.92(0.64) | 0.78(0.29) | 3.16(0.50) | 0.70 |
+| all_withHIGS_norm | main database + HIGS 2022, floating norms (former all_std_norm) | 253 | 0.88 | 11.82(0.50) | 2.19(0.50) | 9.64(0.99) | 7.24(1.59) | -3.11(0.80) | 0.98(0.36) | 3.15(0.65) | 0.74 |
+| all_3sigma_norm | all data, floating norms, 3 sigma outliers removed | 236 | 0.80 | 10.95(0.55) | 3.06(0.55) | 7.89(1.11) | 5.45(1.78) | -2.21(0.89) | 0.88(0.38) | 2.36(0.71) | 0.77 |
+| all_pruned_norm | all data, floating norms, McGovern pruning | 227 | 0.71 | 10.37(0.58) | 3.64(0.58) | 6.73(1.17) | 4.86(1.89) | -1.92(0.95) | 0.84(0.39) | 2.10(0.75) | 0.78 |
+| all_noTAPS | all data without TAPS 2001 | 183 | 0.87 | 11.81(0.40) | 2.20(0.40) | 9.61(0.81) | 6.78(1.41) | -2.88(0.70) | 0.64(0.32) | 3.26(0.55) | 0.70 |
+| all_noA2 | all data without A2 2022 | 141 | 0.91 | 12.19(0.58) | 1.82(0.58) | 10.38(1.16) | 6.97(2.11) | -2.97(1.06) | 1.53(0.47) | 2.47(0.96) | 0.80 |
+| all_std_A2beamtimes_norm | A2 per beam time (separate norms) | 333 | 0.84 | 11.59(0.50) | 2.42(0.50) | 9.16(1.00) | 6.63(1.56) | -2.80(0.78) | 0.93(0.36) | 2.90(0.64) | 0.73 |
+| all_std_norm_fwdchi2 | forward amplitudes as chi2 points (nuisance) | 237 | 0.86 | 11.73(0.54) | 2.51(0.53) | 9.21(1.06) | 6.38(1.71) | -2.69(0.86) | 1.01(0.37) | 2.69(0.70) | 0.72 |
+| all_pruned_norm_fwdchi2 | pruned, forward amplitudes as chi2 points | 227 | 0.70 | 10.52(0.60) | 3.65(0.59) | 6.88(1.17) | 4.66(1.94) | -1.83(0.97) | 0.87(0.40) | 1.97(0.78) | 0.75 |
+| all_std_norm_w30 | residual priors x3 wider | 237 | 0.85 | 11.81(0.65) | 2.20(0.65) | 9.61(1.30) | 7.08(2.59) | -3.03(1.29) | 1.09(0.66) | 2.97(0.89) | 0.60 |
+| all_std_norm_bchptctr | residual priors centred on BChPT | 237 | 0.87 | 11.93(0.53) | 2.08(0.53) | 9.85(1.06) | 9.30(1.65) | -4.14(0.82) | 2.66(0.37) | 2.50(0.67) | 0.75 |
+| all_std_gEMfree | gamma_E1M2 free | 237 | 0.91 | 11.57(0.50) | 2.44(0.50) | 9.14(1.01) | 5.63(3.15) | -3.46(2.03) | 0.36(1.21) | 2.97(0.58) | 0.84 |

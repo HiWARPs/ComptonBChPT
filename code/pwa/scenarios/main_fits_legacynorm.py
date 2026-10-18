@@ -1,7 +1,7 @@
 """MAIN configuration of the updated PWA (user decision 2026-10-14) = the PWA fit of the paper:
 all data of the MAIN DATABASE, floating normalisations of ALL sets (also the pre-1961 sets: 10 %, Goldansky 8 %),
-GHP forward amplitudes Re f, Re g as chi^2 DATA at the bin centres with correlated nuisances n_f, n_g
-(alpha+beta = 14.0 + 0.2 n_f, gamma0 = -0.929 + 0.105 n_g move with them), f^R_2, f^R_3 free per bin (wide prior),
+forward amplitudes Re f, Re g (sumrules.SOURCE) as chi^2 DATA at the bin centres with correlated nuisances n_f, n_g
+(alpha+beta = AB_SR + SIG_AB n_f, gamma0 = G0_SR + SIG_G0 n_g move with them; sumrules.py: 2026 14.009(208), -1.025(102); ghp2016 14.0(2), -0.929(105)), f^R_2, f^R_3 free per bin (wide prior),
 KLP18 widths for f^R_1,4,5,6.
 
 MAIN DATABASE (author decisions 2026-10-14 and 2026-10-17; same as the BChPT fits): pre-2015 world data + A2 2022 at

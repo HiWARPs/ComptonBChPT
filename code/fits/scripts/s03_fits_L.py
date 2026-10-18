@@ -1,7 +1,7 @@
 """Step 3: fits in the low-energy region L (E_lab <= 150 MeV; variant <= 170 MeV).
 
-F1 : alpha, beta free, Baldin alpha+beta = 14.0(2) [GHP 2015] as penalty (spin pols at NNLO)
-F2 : alpha, beta free, GHP forward points dsigma(0), Sigma_2z(0) (E <= 135 MeV) with correlated nuisances, no Baldin
+F1 : alpha, beta free, Baldin alpha+beta = BALDIN (lib/common.py: 14.01(21) ForwardRCS 2026; 14.0(2) GHP15 with FWD_SOURCE=ghp2016) as penalty (spin pols at NNLO)
+F2 : alpha, beta free, forward points dsigma(0), Sigma_2z(0) (E <= FWD_EMAX) with correlated nuisances, no Baldin
 F3 : F2 + gamma_M1M1 and gamma_E1E1 free (gamma_0 constrained by the forward Sigma_2z points)
 F3b: F1 + gamma_pi free at fixed gamma_0 (direction dgM1M1 = -dgE1E1 = 1/2)
 F3c: F1 + gamma_M1M1 free alone (MPG-2013 style)
@@ -69,7 +69,7 @@ def rows_for(dfx, sets, kind, Emax=150.0, excl=(), fwdEmax=FWD_EMAX, extra_mask=
 
 def do_fit(name, sets, kind='F1', Emax=150.0, excl=(), P0=PREF_NNLO, dfx=None, TT=None, thcov=False,
            fwd_mode='nuisance', fwdEmax=FWD_EMAX, baldin=BALDIN, extra_mask=None, Toffset=None, store=True,
-           decompose=True, drop_pids=(), thopts=None, keep_outlier=False):
+           decompose=True, drop_pids=(), thopts=None, keep_outlier=False, extra_cons=()):
     dfx = df if dfx is None else dfx
     TT = T if TT is None else TT
     s = rows_for(dfx, sets, kind, Emax, excl, fwdEmax, extra_mask, keep_outlier=keep_outlier)
@@ -85,6 +85,7 @@ def do_fit(name, sets, kind='F1', Emax=150.0, excl=(), P0=PREF_NNLO, dfx=None, T
         free += ['gpi@g0']
     if kind == 'F3c':
         free += ['gM1M1']
+    cons += list(extra_cons)
     C_th = None
     if thcov:
         C_th, _ = thcov_for(s, dfx, 'db' if dfx is df else 'dbpb', **(thopts or {}))
@@ -238,7 +239,7 @@ if __name__ == '__main__':
     print('=== F3 variants (spin polarisabilities) ===')
     for vn in ['d_all', 'f_GMPFpruned', 'a_pre2015', 'b_A2only']:
         run_variant('F3', vn, VARIANTS[vn])
-    # F3g0: forward CS(0) only + GHP gamma_0 = -0.929(105) penalty, gM1M1 and gE1E1 free
+    # F3g0: forward CS(0) only + gamma_0 = GHP_G0 penalty (2026: -1.025(102)), gM1M1 and gE1E1 free
     for vn in ['d_all', 'f_GMPFpruned']:
         for th in [False, True]:
             s_ = select(df, VARIANTS[vn]['sets'], exclude_flags=VARIANTS[vn].get('excl', ()))
@@ -355,7 +356,7 @@ if __name__ == '__main__':
     # the result when the HIgS data are ADDED; the 16 HIgS points are predicted from the main fit (n = 1 and n fitted
     # within the 2.24 % normalisation prior); PG = chi2(withHIGS) - chi2(HIgS alone) - chi2(main), dof 2 (alpha, beta).
     HT = {}
-    from scipy.stats import chi2 as _c2
+    from scipy.stats import chi2 as _c2, norm
     for th in [False, True]:
         sfx = '_thB' if th else ''
         for kind in ['F1', 'F2', 'F3']:
@@ -399,10 +400,10 @@ if __name__ == '__main__':
                   % (kind, sfx, r_main['P'][0], r_main['P'][1], r_with['P'][0], r_with['P'][1], r_with['P'][0] - r_main['P'][0],
                      r_with['P'][1] - r_main['P'][1], r_with['chi2'], r_h['chi2'], r_main['chi2'], pg, _c2.sf(pg, 2), chiH1, chiHn,
                      ', '.join('%.3f' % v for v in nfit.values())))
-        # fixed-sum PG (alpha+beta = 14.0 exactly in all three fits; one parameter alpha-beta; dof 1)
-        rw = do_fit('F1_j_withHIGS_fixsum' + sfx, ALLH, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
-        rm = do_fit('F1_d_all_fixsum' + sfx, ALL, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
-        rh = do_fit('F1_HIGS_fixsum' + sfx, HIGS, 'F1', baldin=(14.0, 1e-4), thcov=th, decompose=False)
+        # fixed-sum PG (alpha+beta = BALDIN[0] exactly in all three fits; one parameter alpha-beta; dof 1)
+        rw = do_fit('F1_j_withHIGS_fixsum' + sfx, ALLH, 'F1', baldin=(BALDIN[0], 1e-4), thcov=th, decompose=False)
+        rm = do_fit('F1_d_all_fixsum' + sfx, ALL, 'F1', baldin=(BALDIN[0], 1e-4), thcov=th, decompose=False)
+        rh = do_fit('F1_HIGS_fixsum' + sfx, HIGS, 'F1', baldin=(BALDIN[0], 1e-4), thcov=th, decompose=False)
         pg = rw['chi2'] - rm['chi2'] - rh['chi2']
         HT['F1_fixsum' + sfx] = dict(PG=pg, PG_dof=1, PG_p=float(_c2.sf(pg, 1)), chi2_withHIGS=rw['chi2'], chi2_main=rm['chi2'],
                                      chi2_HIGS=rh['chi2'], amb_withHIGS=rw['P'][0] - rw['P'][1], amb_main=rm['P'][0] - rm['P'][1],
@@ -421,6 +422,20 @@ if __name__ == '__main__':
         do_fit('F1_pre2015+A2' + sfx, OLD_L + A2, 'F1', thcov=th)
         do_fit('F1_A2+HIGS' + sfx, A2 + HIGS, 'F1', thcov=th)
         do_fit('F1_d_free' + sfx, ALL, 'F1', baldin=(14.0, 1e3), thcov=th, decompose=False)   # no sum constraint
+    # the NNLO fit with and without the forward points: the angular data alone (main database, no forward points, no sum
+    # constraint), the forward points alone (they fix alpha+beta only; alpha-beta held at the main fit, its value does not
+    # matter), and the parameter-goodness-of-fit test of the two (one common direction, alpha+beta: dof 1)
+    rm = RESULTS['F2_d_all_thB']
+    ra = do_fit('F2_d_nofwd_thB', ALL, 'F2', thcov=True, fwdEmax=0.0, decompose=False)
+    rf = do_fit('F2_fwdonly_thB', [], 'F2', thcov=True, decompose=False,
+                extra_cons=[(np.array([1, -1, 0, 0, 0, 0.]), rm['amb'], 1e-3, 'alpha-beta fixed')])
+    pg, pgdof = rm['chi2'] - ra['chi2'] - rf['chi2'], rm['dof'] - ra['dof'] - rf['dof']
+    RESULTS['FWD_test'] = dict(PG=pg, PG_dof=pgdof, PG_p=float(_c2.sf(pg, pgdof)), PG_sigma=float(norm.isf(_c2.sf(pg, pgdof) / 2)),
+                               apb_angular=(ra['apb'], ra['dapb']), apb_forward=(rf['apb'], rf['dapb']), apb_joint=(rm['apb'], rm['dapb']),
+                               chi2_joint=rm['chi2'], chi2_angular=ra['chi2'], chi2_forward=rf['chi2'])
+    print('   angular data vs forward points: alpha+beta %.2f(%.2f) vs %.2f(%.2f), joint %.2f(%.2f); PG = %.2f - %.2f - %.2f = %.2f '
+          '(dof %d, p = %.3f, %.1f sigma)' % (ra['apb'], ra['dapb'], rf['apb'], rf['dapb'], rm['apb'], rm['dapb'], rm['chi2'], ra['chi2'],
+                                               rf['chi2'], pg, pgdof, _c2.sf(pg, pgdof), RESULTS['FWD_test']['PG_sigma']))
     print('=== energy-cut scans ===')
     for th in [False, True]:
         for kind in ['F1', 'F2']:

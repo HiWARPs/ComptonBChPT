@@ -1,37 +1,37 @@
 {
  "complete (VC), P=Pref (prediction)": {
-  "max rel. dev. (cross sections)": 7.795109981967919e-06,
-  "max abs. dev. (asymmetries)": 1.5939678977768294e-06
+  "max rel. dev. (cross sections)": 1.500402319102327e-09,
+  "max abs. dev. (asymmetries)": 2.435052159910356e-12
  },
  "complete (VC), P=NNLO fit": {
-  "max rel. dev. (cross sections)": 7.813834015245352e-06,
-  "max abs. dev. (asymmetries)": 1.5961796302129696e-06
+  "max rel. dev. (cross sections)": 1.5455732410564056e-09,
+  "max abs. dev. (asymmetries)": 2.393529818789375e-12
  },
  "complete (VC), P=spin fit (not drawn)": {
-  "max rel. dev. (cross sections)": 7.644975757601427e-06,
-  "max abs. dev. (asymmetries)": 1.4777791941814668e-06
+  "max rel. dev. (cross sections)": 1.5404806884521129e-09,
+  "max abs. dev. (asymmetries)": 2.419398015263141e-12
  },
  "complete without VC, P=main curve": {
-  "max rel. dev. (cross sections)": 7.160676818745536e-06,
-  "max abs. dev. (asymmetries)": 1.606185962413001e-06
+  "max rel. dev. (cross sections)": 1.4917726877128267e-09,
+  "max abs. dev. (asymmetries)": 2.6864066526854913e-12
  },
  "tree Born+pi0+D1": {
   "max rel. dev. (cross sections)": 1.7754470940457159e-12,
   "max abs. dev. (asymmetries)": 1.0628165014736624e-12
  },
  "Born+pi0+piN, d=NNLO fit": {
-  "max rel. dev. (cross sections)": 1.763570363115278e-12,
-  "max abs. dev. (asymmetries)": 1.605937605120289e-12
+  "max rel. dev. (cross sections)": 1.468476038156167e-12,
+  "max abs. dev. (asymmetries)": 1.1993739335025566e-12
  },
  "Born+piN+D0+piD, d=NNLO fit": {
-  "max rel. dev. (cross sections)": 6.614383468581973e-06,
-  "max abs. dev. (asymmetries)": 1.3897865467002175e-06
+  "max rel. dev. (cross sections)": 1.5368053029919906e-09,
+  "max abs. dev. (asymmetries)": 2.000621890374532e-12
  },
  "static pols per mechanism (piN, D1, piD)": {
   "piN": [
-   7.0998,
-   -1.9743,
-   -3.2806,
+   7.0999,
+   -1.9744,
+   -3.2954,
    -0.1239,
    0.5397,
    0.9139
@@ -54,12 +54,12 @@
   ]
  },
  "Pref (complete)": [
-  11.415433,
-  3.729126,
-  -3.245879,
-  2.939187,
+  11.415531,
+  3.729018,
+  -3.260755,
+  2.939193,
   0.170077,
-  1.132566
+  1.13257
  ],
  "vertex corrections present": true
 }

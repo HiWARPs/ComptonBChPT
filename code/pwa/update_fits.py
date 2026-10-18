@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 import pwa_model as PM
 from sumrules import ForwardAmps
+import sumrules as SR
 import compton as C
 
 BINS_A = [59, 69, 79, 89, 99, 109, 117, 127, 135, 143, 150]          # KLP18 bins
@@ -174,10 +175,12 @@ def main():
     go('all_std_prior_x0.5', select(d), prior_w=(5., 5., 5., 5., .5, .5))
     go('all_std_prior_x2', select(d), prior_w=(20., 20., 20., 20., 2., 2.))
     go('all_std_noresid', select(d), prior_w=(1e-4,) * 6)
-    go('all_std_ab13.8', select(d), ab=13.8)
-    go('all_std_ab14.2', select(d), ab=14.2)
-    go('all_std_g0-0.83', select(d), g0=-0.829)
-    go('all_std_g0-1.03', select(d), g0=-1.029)
+    # sum-rule values moved by -1/+1 sigma of the source (sumrules.SOURCE; until 2026-10-18 keys all_std_ab13.8/14.2,
+    # all_std_g0-0.83/-1.03 = GHP 14.0(2), -0.929(105) +- 1 sigma)
+    go('all_std_ab-1s', select(d), ab=SR.AB_SR - SR.SIG_AB)
+    go('all_std_ab+1s', select(d), ab=SR.AB_SR + SR.SIG_AB)
+    go('all_std_g0+1s', select(d), g0=SR.G0_SR + SR.SIG_G0)
+    go('all_std_g0-1s', select(d), g0=SR.G0_SR - SR.SIG_G0)
     # forward amplitudes as chi2 data (nuisance-correlated / uncorrelated); fR2, fR3 then free (wide prior)
     PW_CHI2 = (10., 1000., 1000., 10., 1., 1.)
     go('all_std_fwdchi2', select(d), sr_mode='chi2', fwd_err='nuisance', prior_w=PW_CHI2)
