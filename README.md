@@ -20,13 +20,14 @@ and for the partial-wave analysis (PWA) of the proton Compton-scattering data be
 The fits of the polarizabilities to the world database, the error budget, the radiative corrections and the figures
 are those of
 
-> V. Pascalutsa, *Chiral-EFT prediction for proton polarizabilities tested by the new Compton-scattering data*,
+> V. Pascalutsa, *Chiral-EFT prediction for proton polarizabilities tested by the new Compton-scattering data and
+> photoabsorption updates*,
 > [journal reference / arXiv identifier: to be added] (2026),
 
 whose complete analysis can be rerun from the tabulated amplitudes in a few minutes (see below).
 
-Authors: Vladimir Pascalutsa and Vadim Lensky, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.3
-(2026-10-17).  Repository: https://github.com/HiWARPs/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
+Authors: Vladimir Pascalutsa and Vadim Lensky, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.4
+(2026-10-18).  Repository: https://github.com/HiWARPs/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
 
 The package contains (i) the world database of proton Compton-scattering data used in the paper, with the
 provenance of every point, (ii) the tabulated NNLO BχPT amplitudes for every data point and for the curves of the
