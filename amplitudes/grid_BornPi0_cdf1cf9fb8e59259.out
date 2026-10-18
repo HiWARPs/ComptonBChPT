@@ -7,13 +7,13 @@
 #     piN loops    :     6.930777    -1.832796    -3.369795    -0.120363     0.548389     0.928281
 #     Delta pole   :    -0.109707     7.150094    -0.399619     3.285967    -0.427333     0.385504
 #     piDelta loops:     4.425334    -1.446640     0.434308    -0.222879     0.057678    -0.166849
-#   v1 hard-coded references (unused):    11.246100     3.870540    -3.343750     2.959340     0.185504     1.143280
+#   hard-coded references of the 2015 code (unused):    11.246100     3.870540    -3.343750     2.959340     0.185504     1.143280
 # Puser =     0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 # WARNING: incomplete NNLO calculation requested: the base amplitude does NOT contain the full
 #          NNLO polarisabilities, so P = Pref + d is NOT the total polarisability (only d is meaningful)
 # flags: onlyLEX= F anomaly= T oneNloop= F oneDloop= F relchpt= T
 # v2 options: order= 3.5 dvertex= T drunning= F consts=LMP15 loopsafe= T elex[MeV]= 15.00 tausafe= 4.00E-04
-# flags (cont.): nuclamm= T vxmode= 2 pimassphys= T nmassphys= T  hA=  2.85000  pi0ff= F
+# flags (cont.): nuclamm= T vxmode= 2 pimassphys= T nmassphys= T  hA=  2.85000  pi0ff= F  irun= 0
 # constants: gA,fpi[GeV],mpi[GeV],mpi0[GeV] =   1.270000   0.092210   0.139570   0.134980  hA=  2.85000
 #            M_p[GeV]= 0.9382700  hbarc[GeV fm]= 0.1973300  kappa_p=    1.793000
 #            gM,gE,MDelta[GeV] =   2.970000  -1.000000   1.232000  1/alpha_em=  137.036000
