@@ -21,7 +21,7 @@ plt.style.use((_WORK + '/figstyle.mplstyle'))
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = (_ROOT + '/paper/figs/fig_sigma_tot.pdf')
 C_NNLO, C_F1, C_BAND, C_BORN, C_THOM, C_NB = '#444444', '#1f4e9c', '#9fb6dd', '#c0392b', '#e08e0b', '#2e8b57'
-TH_LAB = ['NNLO B$\\chi$PT', 'NNLO fit']      # band meaning in the caption (user, 2026-10-17)
+TH_LAB = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit']      # band meaning in the caption (user, 2026-10-17)
 R = json.load(open(os.path.join(HERE, 'sigma_tot.json'))); E = np.array(R['E'])
 s, da, db, sf, sb, sth = (np.array(R[k]) for k in ('NNLO', 'NNLO_lec_da', 'NNLO_lec_db', 'NNLO_fit', 'BornPi0', 'Thomson'))
 ds = np.hypot(da, db)

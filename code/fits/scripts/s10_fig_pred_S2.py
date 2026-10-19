@@ -203,8 +203,8 @@ def draw(axs, relative):
             axs[r, c].set_ylim(-yl, yl)
     handles = [(Patch(facecolor=C_BAND, alpha=0.6, lw=0), Line2D([], [], color=C_NNLO, lw=1.2)),
                Line2D([], [], color=C_F2, ls='--', lw=1.0), Line2D([], [], color=C_GPI, ls=':', lw=1.2), h_fwd]
-    labels = ['NNLO B$\\chi$PT', 'NNLO fit', 'NNLO B$\\chi$PT, $\\gamma_\\pi+2$',
-              'forward point']
+    labels = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit', 'NNLO B$\\chi$PT, $\\gamma_\\pi+2$',
+              'forward SR']
     return handles, labels
 
 

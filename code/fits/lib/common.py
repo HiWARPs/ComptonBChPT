@@ -117,9 +117,11 @@ def select(df, sets, Emax=150.0, Emin=0.0, exclude_flags=(), extra_mask=None):
 
 
 def build_fit(df, T, P0, free, constraints=(), fwd_mode='nuisance', thcov=None, theory_fn=None,
-              extra=None, extra_prior=None, Toffset=None):
+              extra=None, extra_prior=None, Toffset=None, append=None):
     """df: selected rows; T: DriverOutput covering (at least) these pids.
-    Toffset: shift so that P (total static pols) maps to the driver's P = Pref + d  (P_driver = P - Toffset)."""
+    Toffset: shift so that P (total static pols) maps to the driver's P = Pref + d  (P_driver = P - Toffset).
+    append: optional extra data block (y, C, label, theory(P, extra)) not tied to rows of df (e.g. the forward
+    amplitudes of lib/forward_amp.py), appended to the data vector with its own covariance, no normalisation."""
     idx = T.subset(df['pid'].values)
     y = df['value'].values
     N = len(df)
@@ -143,7 +145,19 @@ def build_fit(df, T, P0, free, constraints=(), fwd_mode='nuisance', thcov=None, 
     if theory_fn is None:
         def theory_fn(P, ex):
             return T.predict_array(P - off, idx)
-    return Chi2Fit(y, theory_fn, C, df['dataset'].values, norms, P0, free, constraints=constraints,
+    ds = df['dataset'].values
+    if append is not None:
+        yb, Cb, lab, tb = append
+        nb = len(yb)
+        y = np.r_[y, yb]
+        C = np.block([[C, np.zeros((N, nb))], [np.zeros((nb, N)), Cb]])
+        ds = np.r_[ds, [lab] * nb]
+        norms[lab] = 0.0
+        if shifts is not None:
+            shifts = np.hstack([shifts, np.zeros((len(shifts), nb))])
+        tf0 = theory_fn
+        theory_fn = lambda P, ex: np.r_[tf0(P, ex), tb(P, ex)]
+    return Chi2Fit(y, theory_fn, C, ds, norms, P0, free, constraints=constraints,
                    shifts=shifts, extra=extra, extra_prior=extra_prior)
 
 

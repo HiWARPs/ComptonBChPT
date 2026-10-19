@@ -311,7 +311,7 @@ def errpoints(ax, x, y, e, col, mk, filled, label=None, ms=3.2, z=4):
 
 
 # theory legend entries, as in Figs. cs and sigma3 of the paper (work/fits/scripts/s06_figures.py: TH_LAB, th_handles)
-TH_LAB = ['NNLO B$\\chi$PT', 'NNLO fit']      # band = LEC uncertainty, stated in the caption (user, 2026-10-17)
+TH_LAB = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit']      # band = LEC uncertainty, stated in the caption (user, 2026-10-17)
 
 
 def th_handles():

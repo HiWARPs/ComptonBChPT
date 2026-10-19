@@ -1,5 +1,4 @@
-== fwd_fig
-legend width 6.60 in (figure 7.06 in)
+legend width 3.93 in (figure 7.06 in)
 NNLO vs 2026 update:
 below threshold:
    Re_f {'max_abs': 0.078, 'E': 135.0, 'nnlo': -1.2209, 'ghp': -1.2989, 'ghp_err': 0.0276, 'max_pull': 5.2446}

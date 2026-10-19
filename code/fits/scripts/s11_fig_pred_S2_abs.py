@@ -117,7 +117,7 @@ for r, (o, sym) in enumerate(OBS):
         assert (y - sig).min() > YLIM[o][0] and (y + sig).max() < YLIM[o][1] and yp.min() > YLIM[o][0] and yp.max() < YLIM[o][1]
 handles = [(Patch(facecolor=C_BAND, alpha=0.6, lw=0), Line2D([], [], color=C_NNLO, lw=1.2)),
            Line2D([], [], color=C_F2, ls='--', lw=1.0), Line2D([], [], color=C_PWA, ls=':', lw=1.2), h_fwd]
-labels = ['NNLO B$\\chi$PT', 'NNLO fit', 'PWA fit', 'forward point']
+labels = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit', 'PWA fit', 'forward SR']
 fig.legend(handles, labels, loc='outside lower center', ncol=4, columnspacing=1.6, handlelength=2.2)
 with plt.rc_context({'savefig.bbox': 'standard'}):
     for f in (os.path.join(PAPER_FIGS, 'fig_pred_S2_abs.pdf'), os.path.join(FIGS, 'fig_pred_S2_abs.pdf')):

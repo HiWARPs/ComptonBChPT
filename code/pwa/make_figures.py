@@ -403,7 +403,7 @@ def fig_forward(F):
     (a, b), (c, d_) = axs
     a.plot(E, cs0, color='k', lw=0.9, label='GHP')
     a.plot(E, cs1, color=COL['main'], ls='--', lw=0.9, label=rf'GHP shifted ($n_f={nf:.2f}$, $n_g={ng:.2f}$)')
-    x = fo[fo.obs == 'CS']; a.errorbar(x.E_lab_MeV, x.value, x.stat_err, ls='none', marker='o', ms=3, color='k', mfc='w', lw=0.7, label='forward points')
+    x = fo[fo.obs == 'CS']; a.errorbar(x.E_lab_MeV, x.value, x.stat_err, ls='none', marker='o', ms=3, color='k', mfc='w', lw=0.7, label='forward SRs')
     b.plot(E, cs1 / cs0 - 1, color=COL['main'], ls='--', lw=0.9)
     b.axhline(0, color='k', lw=0.6)
     xc = x.value.values / np.interp(x.E_lab_MeV.values, E, cs0) - 1

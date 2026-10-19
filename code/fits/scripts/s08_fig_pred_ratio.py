@@ -53,7 +53,7 @@ sel['ratio'] = sel.value / sel.pred
 sel['eratio'] = sel.err_pt / sel.pred
 # truncation sigma at the data points (identical to FIT['sig_th'] at the pids that are in the fit; checked below.
 # Since 2026-10-17 the HIgS data are not part of the main database, so only the A2 points are in FIT['pids'];
-# the 'NNLO fit' curve of the HIgS panel is then a prediction of the main fit for the HIgS data.)
+# the 'B$\\chi$PT fit' curve of the HIgS panel is then a prediction of the main fit for the HIgS data.)
 _, tr = truncation_for(df, sel, tag='db')
 sel['sig_th'] = tr['sigma']
 fit_sig = dict(zip(FIT['pids'], FIT['sig_th']))
@@ -166,7 +166,7 @@ if outside:
 h_th = [Line2D([], [], color=C_F2, lw=1.2), Patch(facecolor=C_BAND, alpha=0.6, lw=0),
         Line2D([], [], color=C_A2, ls='--', lw=0.9), Line2D([], [], color=C_HIGS, ls='--', lw=0.9),
         Line2D([], [], color=C_HIGS, ls=':', lw=0.9)]
-l_th = ['NNLO fit / prediction', 'prediction $\\pm\\,\\sigma_{\\rm th}$',
+l_th = ['B$\\chi$PT fit / prediction', 'prediction $\\pm\\,\\sigma_{\\rm th}$',
         '$n_{\\rm th}=%.3f$ (A2)' % n_th['A2_2022_CS'], '$n_{\\rm th}=%.3f$ (HI$\\gamma$S unpol.)' % n_th['HIGS_2022_CIRC'],
         '$n_{\\rm th}=%.3f$ (HI$\\gamma$S pol.)' % n_th['HIGS_2022_LIN']]
 fig.legend(h_th, l_th, loc='outside upper center', ncol=3, columnspacing=2.0, handletextpad=0.5)

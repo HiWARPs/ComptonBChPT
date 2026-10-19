@@ -43,6 +43,9 @@ import update_fits as UF                              # noqa: E402
 from main_fits import MAIN                            # noqa: E402
 from sumrules import MP_GHP, ALPHA, KAPPA, HBARC_MEV, UBGEV_PER_FM   # noqa: E402
 import nnlo_forward as NF                             # noqa: E402
+sys.path.append(os.path.join(WORK, 'fits', 'lib'))    # main BChPT fit: forward amplitudes from the fit driver (appended: no shadowing)
+import bchpt as FB                                    # noqa: E402
+import forward_amp as FA                              # noqa: E402
 from nnlo_forward import fmt_rows                     # noqa: E402
 
 RAW = os.path.join(WORK, 'data', 'raw', 'GHP2016_supplement')
@@ -52,7 +55,7 @@ PDF = os.path.join(ROOT, 'paper', 'figs', 'pwa_forward.pdf')
 PNG = os.path.join(PWA, 'figs', 'pwa_forward.png')
 OUTJSON = os.path.join(PWA, 'results', 'forward_figure.json')
 EMIN, EMAX, ETH = 50.0, 450.0, 150.0
-COL = dict(ghp='#d9800b', band='#d9800b', nnlo='#444444', pwa=MF.COL['main'],    # GHP in orange, distinct from the grey NNLO curve (2026-10-17)
+COL = dict(ghp='#d9800b', band='#d9800b', nnlo='#444444', pwa=MF.COL['main'], fit='#1f4e9c',    # GHP in orange, distinct from the grey NNLO curve (2026-10-17)
            r26='#1b9e77', band26='#1b9e77')                                      # 2026 update in green (2026-10-18)
 LEG = UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 
@@ -168,8 +171,21 @@ def thr(ax):
     ax.axvline(ETH, color='k', ls=':', lw=0.6, zorder=1)
 
 
-def figure(G, T, P, R=None):
+def fit_curve(Emin=EMIN, Emax=EMAX, step=5.0):
+    """forward amplitudes and observables of the main BChPT fit (work/fits/results/combined_fit.json 'combined': its six
+    static polarisabilities and g_E), exact from the fit driver (lib/forward_amp.py); f, g in mub GeV"""
+    m = json.load(open(os.path.join(WORK, 'fits', 'results', 'combined_fit.json')))['combined']
+    E = np.arange(Emin, Emax + 1e-9, step); n = len(E)
+    T = FB.run(FA.points(E, 'FIG'), 'gE%.4f' % m['gE'][0], name='fwdfig_gE%.4f' % m['gE'][0], verbose=False)
+    f, g = FA.fg(T, E)
+    v = FA.vec(f, g) + FA.shift(E, np.array(m['P']), T.Pref)
+    pr = T.predict_array(np.array(m['P']))
+    return dict(E=E, cs=pr[:n], s2z=pr[n:], Ref=v[:n], Imf=v[n:2 * n], Reg=v[2 * n:3 * n], Img=v[3 * n:])
+
+
+def figure(G, T, P, R=None, F=None):
     E = T.E_MeV.values
+    fitl = dict(color=COL['fit'], lw=1.0, zorder=4.5)
     fo = pd.read_csv(FWD)
     fig, axs = plt.subplots(2, 2, figsize=(MF.W2, 4.5), sharex=True, layout='constrained')
     (a, c), (b, d) = axs
@@ -186,6 +202,7 @@ def figure(G, T, P, R=None):
     a.fill_between(R['E'], R['cs'] - R['dcs'], R['cs'] + R['dcs'], **band26)
     a.plot(R['E'], R['cs'], **r26l)
     a.plot(E, T.dsigma0_nb, **nnl)
+    a.plot(F['E'], F['cs'], **fitl)
     x = fo[fo.obs == 'CS']; h_pts = a.errorbar(x.E_lab_MeV, x.value, x.stat_err, **pts)
     h_pwa = a.errorbar(P.E, P.cs, P.dcs, **pwa)
     a.set_yscale('log'); a.set_ylim(0.5, 1500)
@@ -196,6 +213,7 @@ def figure(G, T, P, R=None):
     b.fill_between(R['E'], np.clip(R['s2z'] - R['ds2z'], -1, 1), np.clip(R['s2z'] + R['ds2z'], -1, 1), **band26)
     b.plot(R['E'], R['s2z'], **r26l)
     b.plot(E, T.Sigma2z0, **nnl)
+    b.plot(F['E'], F['s2z'], **fitl)
     y = fo[fo.obs == 'S2Z']; b.errorbar(y.E_lab_MeV, y.value, y.stat_err, **pts)
     b.errorbar(P.E, P.s2z, P.ds2z, **pwa)
     b.axhline(0, color='k', lw=0.4, zorder=1)
@@ -215,6 +233,8 @@ def figure(G, T, P, R=None):
         ax.plot(R['E'], R['Im' + k], ls='--', **r26l)
         ax.plot(E, nre, **nnl)
         ax.plot(E, nim, ls='--', **nnl)
+        ax.plot(F['E'], F['Re' + k], **fitl)
+        ax.plot(F['E'], F['Im' + k], ls='--', **fitl)
         ax.errorbar(P.E, pv, pe, **pwa)
         ax.axhline(0, color='k', lw=0.4, zorder=1)
         ax.set_ylabel(rf'${lab}(\nu)$ [$\mu$b$\,$GeV]')
@@ -232,9 +252,9 @@ def figure(G, T, P, R=None):
         ax.set_xlabel(r'$E_\gamma$ [MeV]')
     h = [(Patch(facecolor=COL['band'], alpha=0.25, lw=0), Line2D([], [], color=COL['ghp'], lw=0.9)),
          (Patch(facecolor=COL['band26'], alpha=0.35, lw=0), Line2D([], [], color=COL['r26'], lw=0.9)),
-         h_pts, h_pwa, Line2D([], [], color=COL['nnlo'], lw=1.1)]
-    l = ['empirical, GHP 2015/16', 'empirical, 2026 update', 'forward points', 'PWA fit', r'NNLO B$\chi$PT']
-    leg = fig.legend(h, l, loc='outside upper center', ncol=5, columnspacing=1.6, handlelength=2.2)
+         h_pts, h_pwa, Line2D([], [], color=COL['nnlo'], lw=1.1), Line2D([], [], color=COL['fit'], lw=1.0)]
+    l = ['empirical, GHP 2015/16', 'empirical, 2026 update', 'forward SRs', 'PWA fit', r'NNLO B$\chi$PT', r'B$\chi$PT fit']
+    leg = fig.legend(h, l, loc='outside upper center', ncol=3, columnspacing=1.6, handlelength=2.2)
     fig.canvas.draw()
     wl = leg.get_window_extent(fig.canvas.get_renderer()).transformed(fig.dpi_scale_trans.inverted()).width
     print('legend width %.2f in (figure %.2f in)%s' % (wl, MF.W2, '' if wl <= MF.W2 else '  [OVERFLOW]'))
@@ -326,7 +346,7 @@ def main():
     R = rcs2026()
     T = NF.table()
     P, info = pwa_points()
-    figure(G, T, P, R)
+    figure(G, T, P, R, fit_curve())
     cmp_ = comparison(G, T)
     cmp26 = comparison(R, T)
     json.dump(dict(pwa_points=P.round(6).to_dict('records'), pwa_fit=info, nnlo_vs_ghp=cmp_, nnlo_vs_2026=cmp26,

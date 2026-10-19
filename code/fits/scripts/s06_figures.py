@@ -48,7 +48,7 @@ SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger199
          'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64'}
 # theory legend entries shared by the angular-distribution figures (Figs. cs, sigma3 and higs of the paper); the
 # forward and Emax figures use the first two / the first entry only (no PWA curve there)
-TH_LAB = ['NNLO B$\\chi$PT', 'NNLO fit', 'PWA fit']      # band = LEC uncertainty, stated in the captions (user, 2026-10-17)
+TH_LAB = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit', 'PWA fit']      # band = LEC uncertainty, stated in the captions (user, 2026-10-17)
 DLEC = 0.7   # natural size of the O(p^4) LECs (LP 2010, Eq. 25): band of the prediction in Figs. cs and sigma3
 # PWA fit of this work (work/pwa/scenarios/main_fits_legacynorm.py, fit MAIN): bare curves without normalisation
 # factors, evaluated at the panel energies with the residual functions of the nearest PWA bin by
@@ -205,8 +205,8 @@ def fig_cs(energies, fname, window, title_fmt='%.1f MeV', ylim=None, omit=(), fw
         if fwd:
             v, e = forward_point(E)
             ax.errorbar([0.0], [v], [e], fmt='*', color='k', mfc='white', ms=6.5, lw=0.7, zorder=6,
-                        label='forward point' if 'forward point' not in seen else None)
-            seen.add('forward point')
+                        label='forward SR' if 'forward SR' not in seen else None)
+            seen.add('forward SR')
             ymin = min(ymin, v - e); ymax = max(ymax, v + e)
         pext.append((ymin, ymax))
         if E in own_range:                 # this panel does not constrain the common range
@@ -284,7 +284,7 @@ for i, E in enumerate(Es):
     ax = axs[i]; m = np.isclose(g.E.values, E)
     ax.fill_between(th, cv['NNLO'][m] - cv['lec'][m], cv['NNLO'][m] + cv['lec'][m], color=C_BAND, alpha=0.6, lw=0)
     ax.plot(th, cv['NNLO'][m], '-', color=C_NNLO, lw=1.2, label=TH_LAB[0])
-    ax.plot(th, cv['F2'][m], '--', color=C_F1, lw=1.0, label='NNLO fit')
+    ax.plot(th, cv['F2'][m], '--', color=C_F1, lw=1.0, label='B$\\chi$PT fit')
     pw = pwa_curve('S3', E, thmin=th[0])
     if pw is not None:
         ax.plot(*pw, ':', color=C_PWA, lw=1.1, label='PWA fit')
@@ -347,7 +347,7 @@ for ax, E, obs in [(axs[0], 83.4, ['SPAR', 'SPERP']), (axs[1], 81.3, ['CS'])]:
     v, e = forward_point(E)
     hf = ax.errorbar([0.0], [v], [e], fmt='*', color='k', mfc='white', ms=6.5, lw=0.7, zorder=6)
     ax.set_xlabel('$\\theta_{\\rm lab}$ [deg]'); ax.set_xlim(-6, 180)
-hd.append(hf); ld.append('forward point')
+hd.append(hf); ld.append('forward SR')
 axs[0].set_ylabel('$d\\sigma/d\\Omega_{\\rm lab}$ [nb/sr]')
 axs[0].text(0.5, 0.95, '83.4 MeV, linear polarization', transform=axs[0].transAxes, ha='center', va='top')
 axs[0].set_ylim(0, 26)
@@ -386,7 +386,7 @@ with plt.rc_context({'hatch.linewidth': 0.5}):
                            label='Baldin SR, fit II 13.85(22)')
 # the NNLO fit of this work (68% joint CL), with and without the forward points (s03: F2_d_all_thB, F2_d_nofwd_thB)
 r0 = FL['F2_d_nofwd_thB']
-h_ang = ellipse(ax, r0['P'], r0['covP'], ec=C_F1, ls='--', lw=1.4, label='B$\\chi$PT fit, no forward points')
+h_ang = ellipse(ax, r0['P'], r0['covP'], ec=C_F1, ls='--', lw=1.4, label='B$\\chi$PT fit, no forward SRs')
 ax.plot(*r0['P'][:2], 'o', color=C_F1, ms=2)
 r = dict(P=list(MF['P']), covP=MF['covP'].tolist())      # the main fit (combined, up to 360 MeV)
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
@@ -438,7 +438,7 @@ for ax, (o, E, ds) in zip(axs, [('S2X', 288.0, 'A2_Martel2015_S2x'), ('S2Z', 275
                                 ('S2Z', 295.0, 'A2_Paudyal2020_S2z')]):
     m = ((g.dobs == o) & np.isclose(g.E, E)).values
     ax.fill_between(th, np.minimum(v1[m], v2[m]), np.maximum(v1[m], v2[m]), color='#dddddd', lw=0, label='$g_M=2.85$-$3.10$')
-    ax.plot(th, vn[m], '--', color=C_NNLO, lw=1.0, label='NNLO ($\\alpha,\\beta$ of NNLO fit)')
+    ax.plot(th, vn[m], '--', color=C_NNLO, lw=1.0, label='NNLO ($\\alpha,\\beta$ of B$\\chi$PT fit)')
     if vnv is not None:
         ax.plot(th, vnv[m], ':', color='#8c564b', lw=1.0, label='same, no $\\gamma N\\Delta$ vertex corr.')
     for k, (ls, c, lab) in SP.items():
@@ -467,7 +467,7 @@ fig, axs = plt.subplots(1, 3, figsize=(7.0, 2.2), sharey=True)
 for ax, E in zip(axs, Es):
     m = np.isclose(g.E.values, E)
     ax.fill_between(th, np.minimum(v1[m], v2[m]), np.maximum(v1[m], v2[m]), color='#dddddd', lw=0, label='$g_M=2.85$-$3.10$')
-    ax.plot(th, vn[m], '--', color=C_NNLO, lw=1.0, label='NNLO ($\\alpha,\\beta$ of NNLO fit)')
+    ax.plot(th, vn[m], '--', color=C_NNLO, lw=1.0, label='NNLO ($\\alpha,\\beta$ of B$\\chi$PT fit)')
     if vnv is not None:
         ax.plot(th, vnv[m], ':', color='#8c564b', lw=1.0, label='same, no vertex corr.')
     ax.plot(th, vs[m], '-', color=C_F1, label='spin fit (A2+LEGS+$\\gamma_\\pi$)')
@@ -498,7 +498,7 @@ for i, (fr, a, o, lab) in enumerate(panels):
     ax = axs[i]; m = g.pid.str.startswith('dcs%d_' % i).values
     ax.fill_between(E, np.minimum(v1[m], v2[m]), np.maximum(v1[m], v2[m]), color='#dddddd', lw=0, label='$g_M=2.85$-$3.10$' if i == 0 else None)
     ax.plot(E, v0[m], '--', color=C_NNLO, lw=1.0, label='NNLO prediction' if i == 0 else None)
-    ax.plot(E, vn[m], '-', color=C_F1, label='NNLO, $\\alpha,\\beta$ of NNLO fit ($g_M=2.97$)' if i == 0 else None)
+    ax.plot(E, vn[m], '-', color=C_F1, label='NNLO, $\\alpha,\\beta$ of B$\\chi$PT fit ($g_M=2.97$)' if i == 0 else None)
     ax.plot(E, vm[m], '-.', color='#2e8b57', lw=1.0, label='same, $g_M=2.90$' if i == 0 else None)
     if vnv is not None:
         ax.plot(E, vnv[m], ':', color='#8c564b', lw=1.0, label='$g_M=2.97$, no vertex corr.' if i == 0 else None)
@@ -590,12 +590,12 @@ for row, (o, yl, yr) in enumerate([('CS', '$d\\sigma/d\\Omega_{\\rm lab}(0^\\cir
         ax.fill_between(Ef, f(cv['NNLO'][m] - cv['lec'][m]), f(cv['NNLO'][m] + cv['lec'][m]), color=C_BAND, alpha=0.6, lw=0)
         ax.plot(Ef, f(cv['NNLO'][m]), '-', color=C_NNLO, lw=1.2)
         ax.plot(Ef, f(cv['F2'][m]), '--', color=C_F1, lw=1.0)
-        ax.plot(Ef, f(cv['F2n'][m]), ':', color=C_F1, lw=1.1, label='NNLO fit, no th.\\ cov.' if (row, f is not rel) == (0, True) else None)
+        ax.plot(Ef, f(cv['F2n'][m]), ':', color=C_F1, lw=1.1, label='B$\\chi$PT fit, no th.\\ cov.' if (row, f is not rel) == (0, True) else None)
         ax.axvline(144.7, color='0.6', lw=0.5, ls=':')
     ax = axs[row, 0]
-    ax.errorbar(d.E[used], d.value[used], d.err_pt[used], fmt='o', color='k', ms=3, lw=0.7, label='forward points (used)' if row == 0 else None)
+    ax.errorbar(d.E[used], d.value[used], d.err_pt[used], fmt='o', color='k', ms=3, lw=0.7, label='forward SRs (used)' if row == 0 else None)
     ax.errorbar(d.E[~used], d.value[~used], d.err_pt[~used], fmt='o', mfc='white', color='k', ms=3, lw=0.7,
-                label='forward point (not used)' if row == 0 else None)
+                label='forward SR (not used)' if row == 0 else None)
     ax.set_ylabel(yl)
     ax = axs[row, 1]
     ax.axhline(0, color='k', lw=0.6)
@@ -609,7 +609,7 @@ for ax in axs[1]:
 h, l = [], []
 for ax in (axs[0, 0], axs[0, 1]):
     hh, ll = ax.get_legend_handles_labels(); h += hh; l += ll
-order = ['NNLO fit, no th.\\ cov.', 'empirical, shifted by fitted $n_f$, $n_g$', 'forward points (used)', 'forward point (not used)']
+order = ['B$\\chi$PT fit, no th.\\ cov.', 'empirical, shifted by fitted $n_f$, $n_g$', 'forward SRs (used)', 'forward SR (not used)']
 h, l = th_handles()[:2] + [h[l.index(k)] for k in order], TH_LAB[:2] + order    # column-wise pairs: theory, theory, data (no PWA curve here)
 fig.legend(h, l, loc='outside upper center', ncol=3, columnspacing=1.5, handletextpad=0.5)
 save_exact(fig, 'fig7_forward')
@@ -625,7 +625,7 @@ for th_, ls, mk in [('noth', ':', 'o'), ('thB', '-', 's')]:
     for ax, i in zip(axs, [0, 1]):
         ax.errorbar(np.array(Ems) + off, [r['P'][i] for r in rr], [r['dP'][i] for r in rr], fmt=mk + ls, color=C_F1, ms=3,
                     mfc='white' if th_ == 'noth' else C_F1, lw=0.8,
-                    label='NNLO fit, %s' % ('no th.\\ cov.' if th_ == 'noth' else 'with th.\\ cov.'))
+                    label='B$\\chi$PT fit, %s' % ('no th.\\ cov.' if th_ == 'noth' else 'with th.\\ cov.'))
 axs[0].set_ylabel('$\\alpha_{E1}$ [$10^{-4}$ fm$^3$]'); axs[1].set_ylabel('$\\beta_{M1}$ [$10^{-4}$ fm$^3$]')
 for ax, p0 in zip(axs, PREF_NNLO[:2]):       # NNLO prediction with the natural-LEC band, as in Figs. cs, sigma3
     ax.axhspan(p0 - DLEC, p0 + DLEC, color=C_BAND, alpha=0.6, lw=0, zorder=0)

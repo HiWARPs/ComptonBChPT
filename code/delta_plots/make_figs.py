@@ -33,8 +33,8 @@ C_TREE, C_NOVC = '#2e8b57', '#4d4d4d'
 C_FIT = '#1f4e9c'                  # the NNLO-fit curve: dashed dark blue, as in the below-threshold figures
 # legend labels (short; the captions of the paper give the full description).  Since 2026-10-16 the main curve is
 # the parameter-free NNLO prediction (config.MAIN = 'pred'); in the legacy mode 'fit' the labels are swapped.
-LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'NNLO fit'
-LAB_FIT = r'NNLO fit' if C.MAIN == 'pred' else r'NNLO prediction'
+LAB_MAIN = r'NNLO B$\chi$PT' if C.MAIN == 'pred' else r'B$\chi$PT fit'
+LAB_FIT = r'B$\chi$PT fit' if C.MAIN == 'pred' else r'NNLO prediction'
 LAB_GM = r'$\gamma N\Delta$ couplings'      # light band = (g_M, g_E) grid of config.BAND_GRID; the ranges are stated in the captions (user, 2026-10-17)
 LAB_TREE = r'no loops'                  # tree level: Born, pi0 pole, Delta pole (user wording, 2026-10-17)
 LAB_NOVC = r'no vertex corrections'
@@ -129,7 +129,7 @@ BIN = {288.0: (272.73, 303.32), 330.595: (315.25, 345.94), 275.0: (265.0, 285.0)
 # of the below-threshold figures) in Fig. 2 (c.m. cross section: converted with the 0-deg Jacobian) and Fig. 4 (Sigma_2z).
 FWD_ABOVE = os.path.join(C.DATA, 'db_forward_obs_above.csv')
 FWD_DF = pd.read_csv(FWD_ABOVE) if os.path.exists(FWD_ABOVE) else None
-FWD_LABEL = 'forward point'
+FWD_LABEL = 'forward SR'
 
 
 def forward_above(obs, E0, window):
