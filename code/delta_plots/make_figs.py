@@ -579,7 +579,7 @@ SETNAME = {
     'A2_Paudyal2020_S2z': 'A2 20 $\\Sigma_{2z}$ (Paudyal)', 'LEGS2001_S3': 'LEGS 01 $\\Sigma_3$', 'LEGS2001_CS': 'LEGS 01 $d\\sigma$',
     'Hunger1997_75': 'MAMI 97 75° c.m. (Hünger)', 'Hunger1997_90': 'MAMI 97 90° c.m. (Hünger)', 'Wissmann1999': 'MAMI 99 (Wissmann)',
     'Camen2002': 'MAMI 02 (Camen/Kossert)', 'Hallin1993_TabII(D)': 'SAL 93 (Hallin) Tab. II', 'Hallin1993_TabI': 'SAL 93 (Hallin) Tab. I [not indep.]',
-    'OlmosdeLeon2001': 'TAPS 01 (Olmos de León)', 'Genzel1972': 'Bonn 72 (Genzel)', 'Gray1967': 'Illinois 67 (Gray)',
+    'OlmosdeLeon2001': 'A2 01 (Olmos de León)', 'Genzel1972': 'Bonn 72 (Genzel)', 'Gray1967': 'Illinois 67 (Gray)',
     'Baranov1966': 'Moscow 66 (Baranov)', 'Baranov1966_refined': 'Moscow 66 refined, fwd pts', 'Kolb2000': 'SAL 00 (Kolb)',
     'Nagashima1964': 'Tokyo 64 (Nagashima)', 'Barbiellini1968': 'Frascati 68 $\\Sigma_3$ (sign flipped)',
     'MacGibbon1995_untagged': 'SAL 95 (MacGibbon)'}
@@ -598,7 +598,7 @@ PAPERROWS = [('A2_Martel2015_S2x', r'A2 $\Si_{2x}$~\cite{A2:2014iky}            
              ('Wissmann1999', r'MAMI $131^\circ$~\cite{Wissmann:1999vi}'),
              ('Camen2002', r'MAMI $136^\circ$~\cite{Camen:2001st}'),
              ('Hallin1993_TabII(D)', r'SAL~\cite{Hallin:1993ft}'),
-             ('OlmosdeLeon2001', r'TAPS, 157--164\,MeV~\cite{deLeon:2001dnx}')]
+             ('OlmosdeLeon2001', r'A2 (2001), 157--164\,MeV~\cite{deLeon:2001dnx}')]
 
 
 def _pf(v):
@@ -717,7 +717,7 @@ CITE = {'LEGS 01': 'Blanpied:2001ae', 'MAMI 97': 'Hunger:1997pt', 'MAMI 99': 'Wi
         'MAMI 02': 'Camen:2001st,Kossert:2002ws', 'SAL 93': 'Hallin:1993ft', 'SAL 95': 'MacGibbon:1995in',
         'SAL 00': 'Kolb:2000ix', 'Bonn 72': 'Genzel:1972ba', 'Illinois 67': 'Gray:1967zzd',
         'Moscow 66': 'Baranov:1966aaa,Baranov:1966oqa', 'Tokyo 64': 'Nagashima:1964zz', 'Frascati 68': 'Barbiellini:1968rlx',
-        'TAPS 01': 'deLeon:2001dnx', 'A2 22': 'A2:2021wmm', 'HI$\\gamma$S 22': 'Li:2022vnz', 'Illinois 91': 'Federspiel:1991yd',
+        'A2 01': 'deLeon:2001dnx', 'A2 22': 'A2:2021wmm', 'HI$\\gamma$S 22': 'Li:2022vnz', 'Illinois 91': 'Federspiel:1991yd',
         'Moscow 74': 'Baranov:1974ec,Baranov:1975ju', 'MIT 57': 'Pugh:1957zz', 'MIT 59': 'Hyman:1959zz',
         'Moscow 60': 'Goldansky:1960zz', 'Chicago 58': 'Oxley:1958zz', 'Illinois 60': 'Bernardini:1960wya',
         'A2 15': 'A2:2014iky', 'Martel thesis (unpubl.)': 'Martel:2013phd', 'A2 20': 'A2:2019bqm'}

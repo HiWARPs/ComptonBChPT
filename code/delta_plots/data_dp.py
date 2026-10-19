@@ -48,7 +48,7 @@ def jac_cm_to_lab(E, theta_lab):
 LABEL = {
     'LEGS2001_CS': 'LEGS 01', 'LEGS2001_S3': 'LEGS 01',
     'Hunger1997_75': 'MAMI 97', 'Hunger1997_90': 'MAMI 97', 'Wissmann1999': 'MAMI 99', 'Camen2002': 'MAMI 02',
-    'Zieger1992': 'MAMI 92', 'OlmosdeLeon2001': 'TAPS 01', 'A2_2022_CS': 'A2 22', 'A2_2022_S3': 'A2 22',
+    'Zieger1992': 'MAMI 92', 'OlmosdeLeon2001': 'A2 01', 'A2_2022_CS': 'A2 22', 'A2_2022_S3': 'A2 22',
     'A2_Martel2015_S2x': 'A2 15', 'Martel_thesis_S2x': 'Martel thesis (unpubl.)', 'A2_Paudyal2020_S2z': 'A2 20',
     'Hallin1993_TabII': 'SAL 93', 'Hallin1993_TabII_D': 'SAL 93', 'Hallin1993_TabI': 'SAL 93 (Tab. I)',
     'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95', 'Kolb2000': 'SAL 00',
@@ -67,7 +67,7 @@ REF = {
     'MAMI 99': 'Wissmann et al., NPA 660 (1999) 232 [Wissmann:1999vi] (130.7° lab)',
     'MAMI 02': 'Camen et al., PRC 65 (2002) 032202 / Kossert et al., EPJA 16 (2003) 259 [Camen:2001st, Kossert:2002ws] (136.2° lab)',
     'MAMI 92': 'Zieger et al., PLB 278 (1992) 34 [Zieger:1992jq]',
-    'TAPS 01': 'Olmos de León et al., EPJA 10 (2001) 207 [deLeon:2001dnx]',
+    'A2 01': 'Olmos de León et al., EPJA 10 (2001) 207 [deLeon:2001dnx]',
     'A2 22': 'Mornacchi et al., PRL 128 (2022) 132503 [A2:2021wmm]',
     'A2 15': 'Martel et al., PRL 114 (2015) 112501 [A2:2014iky]',
     'Martel thesis (unpubl.)': 'P. P. Martel, PhD thesis, UMass Amherst (2013), Table 7.5 (unpublished)',
@@ -95,10 +95,10 @@ REF = {
 }
 # marker style per label: (marker, color, filled)
 TEAL, ORANGE, GREY, MAG, GREEN, PURPLE, BROWN = '#138d90', '#d9800b', '#3d3d3d', '#c2185b', '#2e7d32', '#6a3d9a', '#8c564b'
-RED, BLUE, GOLD = '#d62728', '#3060d0', '#b39b00'     # MAMI 99, MAMI 02, TAPS 01: no longer all teal (user, 2026-10-18)
+RED, BLUE, GOLD = '#d62728', '#3060d0', '#b39b00'     # MAMI 99, MAMI 02, A2 01: no longer all teal (user, 2026-10-18)
 STYLE = {
     'LEGS 01': ('D', ORANGE, False), 'MAMI 97': ('o', TEAL, True), 'MAMI 99': ('^', RED, True),
-    'MAMI 02': ('v', BLUE, True), 'MAMI 92': ('*', TEAL, True), 'TAPS 01': ('h', GOLD, True),
+    'MAMI 02': ('v', BLUE, True), 'MAMI 92': ('*', TEAL, True), 'A2 01': ('h', GOLD, True),
     'A2 22': ('s', TEAL, True), 'A2 15': ('o', TEAL, True), 'Martel thesis (unpubl.)': ('o', TEAL, False),
     'A2 20': ('s', TEAL, True),
     'SAL 93': ('s', GREY, False), 'SAL 93 (Tab. I)': ('s', GREY, False), 'SAL 95': ('o', GREY, False),
@@ -113,7 +113,7 @@ STYLE = {
 }
 # legend order (Delta-region sets first)
 ORDER = ['LEGS 01', 'MAMI 97', 'MAMI 99', 'MAMI 02', 'Bonn 01', 'SAL 93', 'SAL 00', 'Bonn 72', 'Illinois 67', 'Moscow 66',
-         'Tokyo 64', 'Frascati 68', 'TAPS 01', 'A2 22', 'HI$\\gamma$S 22', 'SAL 95', 'Illinois 91', 'Moscow 74',
+         'Tokyo 64', 'Frascati 68', 'A2 01', 'A2 22', 'HI$\\gamma$S 22', 'SAL 95', 'Illinois 91', 'Moscow 74',
          'MIT 57', 'MIT 59', 'Moscow 60', 'Chicago 58', 'Illinois 60', 'MAMI 92', 'A2 15', 'Martel thesis (unpubl.)',
          'A2 20', 'SAL 93 (Tab. I)']
 

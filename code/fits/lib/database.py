@@ -41,7 +41,7 @@ B01_SETS = ('Oxley1958', 'Hyman1959', 'Goldansky1960', 'Bernardini1960', 'Pugh19
             'MacGibbon1995_untagged')
 
 EXPT = {
-    'OlmosdeLeon2001': 'TAPS 01 (Olmos de León)', 'Federspiel1991': 'Illinois 91 (Federspiel)',
+    'OlmosdeLeon2001': 'A2 01 (Olmos de León)', 'Federspiel1991': 'Illinois 91 (Federspiel)',
     'Zieger1992': 'MAMI 92 (Zieger)', 'Baranov1974_75_th90': 'Moscow 74 90° (Baranov)',
     'Baranov1974_75_th150': 'Moscow 74 150° (Baranov)', 'Hallin1993_TabII': 'SAL 93 (Hallin)',
     'MacGibbon1995_tagged': 'SAL 95 tagged (MacGibbon)', 'MacGibbon1995_untagged': 'SAL 95 untagged (MacGibbon)',

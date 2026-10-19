@@ -26,3 +26,5 @@ GLOBAL_angular_withHIGS     261     293.9     223.9     220.0
 GLOBAL_allpts               268  164860.7   17232.0     254.3         
 GLOBAL_pre2015              171  164753.2   17136.4     161.2         
 GLOBAL_noLegacy             228  164792.2   17186.3     210.9         
+GLOBAL_A2only               118  164649.4   17076.5     102.5         
+GLOBAL_HIGSonly              38  164589.3   17025.1      52.6         

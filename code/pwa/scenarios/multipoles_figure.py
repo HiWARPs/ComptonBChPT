@@ -62,16 +62,18 @@ PNGDIR = os.path.join(PWA, 'figs')                     # PNG previews (not for t
 OUTJSON = os.path.join(PWA, 'results', 'multipoles_figure.json')
 
 # ---------------------------------------------------------------- inputs
-# main BChPT fit (F2 + truncation covariance, 3-sigma outlier removed), read from work/fits/results/fits_L.json
-# ('F2_d_all_thB'); the literal values are only the fallback if that file is missing
-_FL = (_WORK + '/fits/results/fits_L.json')
+# main BChPT fit (since 2026-10-19: combined fit of alpha, beta, R_EM up to 360 MeV), read from
+# work/fits/results/combined_fit.json ('combined'); the literal values are only the fallback if that file is missing
+_FL = (_WORK + '/fits/results/combined_fit.json')
+GE_FIT = -1.0
 try:
-    _m = json.load(open(_FL))['F2_d_all_thB']
+    _m = json.load(open(_FL))['combined']
+    GE_FIT = float(_m['gE'][0])
     _c = np.array(_m['covP'])[:2, :2]
     BCHPT_FIT = dict(alphaE1=round(float(_m['P'][0]), 4), betaM1=round(float(_m['P'][1]), 4))
     BCHPT_COV = dict(sa=round(float(np.sqrt(_c[0, 0])), 4), sb=round(float(np.sqrt(_c[1, 1])), 4),
                      rho=round(float(_c[0, 1] / np.sqrt(_c[0, 0] * _c[1, 1])), 4))
-    print('BChPT main fit from fits_L.json:', BCHPT_FIT, BCHPT_COV)
+    print('BChPT main fit from combined_fit.json:', BCHPT_FIT, BCHPT_COV, 'g_E =', GE_FIT)
 except (OSError, KeyError):
     BCHPT_FIT = dict(alphaE1=11.672, betaM1=2.876)
     BCHPT_COV = dict(sa=0.47, sb=0.43, rho=-0.84)
@@ -113,7 +115,7 @@ def bchpt():
     ref = BV.REF
     from concurrent.futures import ThreadPoolExecutor            # fill the run cache in parallel
     jobs = [(None, False), (dict(alphaE1=ref['alphaE1'] + 1.0), False), (dict(betaM1=ref['betaM1'] + 1.0), False),
-            (BCHPT_FIT, False), (None, True)]
+            (None, True)]
     jobs += [(dict(alphaE1=ref['alphaE1'] + sgn * DLEC), False) for sgn in (+1, -1)]      # LEC band of the prediction
     jobs += [(dict(betaM1=ref['betaM1'] + sgn * DLEC), False) for sgn in (+1, -1)]
     with ThreadPoolExecutor(5) as ex:
@@ -121,14 +123,15 @@ def bchpt():
     nb0, born = BV.nonborn(EGRID, None)                                  # NNLO prediction (LECs = 0)
     nba, _ = BV.nonborn(EGRID, dict(alphaE1=ref['alphaE1'] + 1.0))
     nbb, _ = BV.nonborn(EGRID, dict(betaM1=ref['betaM1'] + 1.0))
-    nbm, _ = BV.nonborn(EGRID, BCHPT_FIT)                                # main fit, direct run (check)
+    nbm, _ = BV.nonborn(EGRID, BCHPT_FIT, gE=GE_FIT)                     # main fit (its R_EM), direct run (check)
+    nb0g, _ = BV.nonborn(EGRID, None, gE=GE_FIT)                          # NNLO static pols, the main fit's g_E
     assert np.allclose(nb0['_ref'], [ref[k] for k in KEYS6], atol=2e-5), nb0['_ref']    # code's own reference values
     keys = [k for k in nb0 if not str(k).startswith('_')]
     Ja = {k: (nba[k] - nb0[k]).real for k in keys}                       # exact: amplitude linear in the LECs
     Jb = {k: (nbb[k] - nb0[k]).real for k in keys}
     da, db = BCHPT_FIT['alphaE1'] - ref['alphaE1'], BCHPT_FIT['betaM1'] - ref['betaM1']
     f0 = {k: nb0[k].real for k in keys}
-    fm = {k: f0[k] + da * Ja[k] + db * Jb[k] for k in keys}
+    fm = {k: nb0g[k].real + da * Ja[k] + db * Jb[k] for k in keys}       # contact terms are independent of g_E
     lin_check = max(float(np.max(abs(fm[k] - nbm[k].real))) / float(np.max(abs(nbm[k].real))) for k in L1)
     d0, dJa, dJb = dyn_curves(f0, EGRID), dyn_curves(Ja, EGRID), dyn_curves(Jb, EGRID)
     # LEC band of the prediction: central differences of the multipoles at REF +- DLEC e_k through the exact

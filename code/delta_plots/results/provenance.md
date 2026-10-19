@@ -21,7 +21,7 @@
 | LEGS2001_S3 | LEGS 01 | S3 (CM) | 79 | 213-334 | 65-135 (7) | stat (+) pt syst | – | yes |  |  | 79 | 12 |  |  |  |
 | MacGibbon1995_tagged | SAL 95 | CS (LAB) | 8 | 73-97 | 90-135 (2) | Baranov et al. 2001 Tab. 2: lab, stat | 3.5% | yes | 8 |  |  |  |  |  |  |
 | MacGibbon1995_untagged | SAL 95 | CS (LAB) | 10 | 105-145 | 90-135 (2) | Baranov et al. 2001 Tab. 2: lab, stat | 2.9% | yes | 10 |  |  |  |  |  |  |
-| OlmosdeLeon2001 | TAPS 01 | CS (LAB) | 65 | 59-164 | 59-155 (5) | stat (+) 5% p2p (GMPF/MPG/PPS) | 3.0% | yes | 26 | 5 |  |  |  |  | 10 |
+| OlmosdeLeon2001 | A2 01 | CS (LAB) | 65 | 59-164 | 59-155 (5) | stat (+) 5% p2p (GMPF/MPG/PPS) | 3.0% | yes | 26 | 5 |  |  |  |  | 10 |
 | Oxley1958 | Chicago 58 | CS (LAB) | 4 | 60 | 70-150 (4) | Baranov et al. 2001 Tab. 2: lab, stat | 8.0% | yes | 1 |  |  |  |  |  |  |
 | Pugh1957 | MIT 57 | CS (LAB) | 16 | 55-135 | 50-135 (3) | Baranov et al. 2001 Tab. 2: lab, stat | 7.0% | yes | 11 |  |  |  |  |  |  |
 | Wissmann1999 | MAMI 99 | CS (LAB) | 11 | 199-391 | 130.7 | stat | 3.0% | yes | 12 | 8 |  |  |  |  | 11 |

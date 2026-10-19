@@ -38,7 +38,8 @@ YLIM = (0.75, 1.25)                         # common y-range (narrowed 2026-10-1
 df = load_db()
 FL = json.load(open(os.path.join(RES, 'fits_L.json')))
 FIT = FL['F2_d_all_thB']
-P_FIT = np.array(FIT['P'])
+MF = main_fit()                             # the main BChPT fit (combined, up to 360 MeV): curve at its alpha, beta, R_EM
+P_FIT = MF['P']
 NTH = json.load(open(os.path.join(FITS, 'scenarios', 'nnlo_prediction_table.json')))
 n_th = {k: NTH[k]['n_th'] for k in ['A2_2022_CS', 'HIGS_2022_CIRC', 'HIGS_2022_LIN']}
 
@@ -84,7 +85,7 @@ Tg = outputs(g, 'NNLO', tag='fig_pred_ratio')
 assert (Tg.flag <= 1).all(), 'driver flags on the grid: %s' % np.unique(Tg.flag)
 print('grid: %d of %d points with the loops extrapolated near 0/180 deg (flag 1)' % ((Tg.flag == 1).sum(), len(Tg.flag)))
 pred_g = Tg.predict_array(PREF_NNLO)
-fit_g = Tg.predict_array(P_FIT)
+fit_g = outputs(g, MF['cfg'], tag='fig_pred_ratio').predict_array(P_FIT)   # main fit at its R_EM
 _, trg = truncation_for(g, g, tag='fig_pred_ratio')
 sig_g = trg['sigma']
 

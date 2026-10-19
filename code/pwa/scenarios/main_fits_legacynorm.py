@@ -134,6 +134,7 @@ def main():
     go('db_modern', UF.select(d, sets=MODERN), **MAIN)
     go('db_new_only', UF.select(d, sets=NEW), **MAIN)                        # A2 + HIGS (test; HIGS not in the main database)
     go('db_A2_only', UF.select(d, sets=A2), **MAIN)
+    go('db_HIGS_only', UF.select(d, sets=HIGS), **MAIN)                      # HIGS 2022 alone (test; Table pwa)
     go('db_withHIGS', UF.select(d, with_higs=True), **MAIN)                  # main database + HIGS 2022 (the former main fit)
     go('db_noTAPS', UF.select(d, exclude_sets=['TAPS2001']), **MAIN)
     go('db_noA2', UF.select(d, exclude_sets=A2), **MAIN)

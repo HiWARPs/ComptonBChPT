@@ -97,8 +97,11 @@ ALPHA_FIT = float(os.environ.get('DP_ALPHA', 11.69))
 BETA_FIT = float(os.environ.get('DP_BETA', 2.88))
 _c = _vec('DP_COV_AB', [0.2206, -0.1688, 0.1880])
 COV_AB = np.array([[_c[0], _c[1]], [_c[1], _c[2]]])     # fit covariance of (alpha, beta)
-FITS_JSON = os.environ.get('DP_FITS_JSON') or os.path.join(WORK, 'fits', 'results', 'fits_L.json')
-FIT_KEY = os.environ.get('DP_FIT_KEY', 'F2_d_all_thB')
+# since 2026-10-19 the NNLO fit is the main BChPT fit = the combined fit of alpha, beta and R_EM up to 360 MeV
+# (work/fits/results/combined_fit.json 'combined'); its g_E (R_EM) enters the 'NNLO fit' curve (FIT_GE)
+FITS_JSON = os.environ.get('DP_FITS_JSON') or os.path.join(WORK, 'fits', 'results', 'combined_fit.json')
+FIT_KEY = os.environ.get('DP_FIT_KEY', 'combined')
+FIT_GE = None
 if FITS_JSON.strip().lower() == 'none':          # DP_FITS_JSON=none: use DP_ALPHA, DP_BETA (regression checks)
     FITS_JSON = '/nonexistent'
 if os.path.exists(FITS_JSON):
@@ -106,6 +109,8 @@ if os.path.exists(FITS_JSON):
     _F = _json.load(open(FITS_JSON))[FIT_KEY]
     ALPHA_FIT, BETA_FIT = float(_F['P'][0]), float(_F['P'][1])
     COV_AB = np.array(_F['covP'])[:2, :2]
+    if 'gE' in _F:
+        FIT_GE = float(_F['gE'][0])
 else:
     print('[config] WARNING: %s not found; NNLO-fit curve uses alpha, beta = %.3f, %.3f from the environment/defaults'
           % (FITS_JSON, ALPHA_FIT, BETA_FIT))

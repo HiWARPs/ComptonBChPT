@@ -40,7 +40,7 @@ BARYON = ("&hadr exch=t,t,f,nq=-1,1,1,rm=0.93827,wid=0.,cutf=2.2,gstr=13.8,gem=0
 INDAT = (" &energy Emin={Emin:.10f},Emax={Emax:.10f},Edel={Edel:.10f},kvar=3/\n"
          " &angles thmin=90.,thmax=90.,thdel=2.,cmsangle=t/\n"
          " &incl anomaly=t,oneNloop={loops},oneDloop={loops},relchpt=t,loopoints=640/\n"
-         " &Delta gaugeinv=t,dng1=2.97,dng2=-1.,dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/\n"
+         " &Delta gaugeinv=t,dng1=2.97,dng2={gE},dg1=4.2,dg2=4.0,dz1=0.1,dz2=2.25/\n"
          " &constants gA=1.27d0,fpi=0.09221d0,pi0mass=0.13498d0,pionm=0.13957/\n"
          " &nucleon hbchpt=f,born=t,nuclamm=t,onlyLEX=f/\n"
          " &multipoles pwa={pwa},jmax=5/\n"
@@ -87,19 +87,19 @@ def _pols(pols):
     return p
 
 
-def multipoles(E_MeV, pols=None, born_only=False, v2=V2OPTS):
+def multipoles(E_MeV, pols=None, born_only=False, v2=V2OPTS, gE=-1.0):
     """Real and imaginary parts of the multipoles (fm) of the FULL amplitude (or of Born+pi0 only) at
     lab photon energies E_MeV (uniform grid).  Returns dict key -> complex array, keys ('EE',1,'-') etc."""
     E = np.atleast_1d(np.asarray(E_MeV, float))
     if len(E) > 2 and not np.allclose(np.diff(E), E[1] - E[0]):        # non-uniform: one run per energy
-        parts = [multipoles([e], pols, born_only, v2) for e in E]
+        parts = [multipoles([e], pols, born_only, v2, gE) for e in E]
         res = {k: np.concatenate([p[k] for p in parts]) for k in parts[0] if not str(k).startswith('_')}
         res['_ref'], res['_stdout'] = parts[0]['_ref'], parts[0]['_stdout']
         return res
     step = E[1] - E[0] if len(E) > 1 else 1.0
     files = {'baryon.dat': BARYON.format(dex='f' if born_only else 't'),
              'in.dat': INDAT.format(Emin=E[0] / 1e3, Emax=(E[-1] + 0.25 * step) / 1e3, Edel=step / 1e3,
-                                    loops='f' if born_only else 't', pwa='t', driver='', v2=v2, **_pols(pols))}
+                                    loops='f' if born_only else 't', pwa='t', driver='', v2=v2, gE=repr(float(gE)), **_pols(pols))}
     out = _run(files, ['fort.14', 'fort.15', 'fort.16', 'stdout'])
     res = {}
     for fn in ('fort.14', 'fort.15', 'fort.16'):
@@ -121,9 +121,9 @@ def multipoles(E_MeV, pols=None, born_only=False, v2=V2OPTS):
     return res
 
 
-def nonborn(E_MeV, pols=None, v2=V2OPTS):
+def nonborn(E_MeV, pols=None, v2=V2OPTS, gE=-1.0):
     """non-Born multipoles (fm, complex) = full - (Born + pi0 pole), identical quadrature."""
-    full = multipoles(E_MeV, pols, v2=v2)
+    full = multipoles(E_MeV, pols, v2=v2, gE=gE)               # g_E: E2/M1 coupling (R_EM ~ g_E/g_M); static pols held fixed
     born = multipoles(E_MeV, born_only=True, v2=v2)
     out = {k: full[k] - born[k] for k in full if not str(k).startswith('_')}
     out['_ref'] = full['_ref']
@@ -135,7 +135,7 @@ def driver(points, pols=None, v2=V2OPTS):
     points: list of (id, E_lab, theta, OBS, frame).  Returns dict id -> value at the given polarisabilities."""
     pts = ''.join(f'{i} {E:.6f} {t:.6f} {o} {fr}\n' for i, E, t, o, fr in points)
     files = {'baryon.dat': BARYON.format(dex='t'), 'points.txt': pts,
-             'in.dat': INDAT.format(Emin=0.05, Emax=0.4, Edel=0.05, loops='t', pwa='f', v2=v2,
+             'in.dat': INDAT.format(Emin=0.05, Emax=0.4, Edel=0.05, loops='t', pwa='f', v2=v2, gE=repr(-1.0),
                                     driver=" &fitdriver pointsmode=t, pointsfile='points.txt', outfile='points.out', selftest=f /\n",
                                     **_pols(pols))}
     out = _run(files, ['points.out'])

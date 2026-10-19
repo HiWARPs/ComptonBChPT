@@ -22,16 +22,17 @@ sys.path.insert(0, (_WORK + '/fits/lib'))
 os.environ.setdefault('FIT_PROFILE', 'v2')
 import bchpt
 DLEC = 0.7
-# NNLO fit (F2 + truncation covariance, 3-sigma outlier removed): alpha, beta and their covariance are read from
-# work/fits/results/fits_L.json ('F2_d_all_thB'); the values below are only the fallback if the file is missing
+# NNLO fit = the main BChPT fit (since 2026-10-19: combined fit of alpha, beta, R_EM up to 360 MeV): alpha, beta, their
+# covariance and g_E are read from work/fits/results/combined_fit.json ('combined'); the values below are only the fallback
 _FL = (_WORK + '/fits/results/fits_L.json')
 try:
-    _m = json.load(open(_FL))['F2_d_all_thB']
+    _m = json.load(open(_FL.replace('fits_L.json', 'combined_fit.json')))['combined']   # main fit (combined, up to 360 MeV)
+    GE_FIT = float(_m['gE'][0])
     A_FIT, B_FIT = float(_m['P'][0]), float(_m['P'][1])
     COV_AB = np.array(_m['covP'])[:2, :2]
-    print('NNLO fit from fits_L.json: alpha = %.4f, beta = %.4f, rho = %.3f' % (A_FIT, B_FIT, COV_AB[0, 1] / np.sqrt(COV_AB[0, 0] * COV_AB[1, 1])))
+    print('NNLO fit from combined_fit.json: alpha = %.4f, beta = %.4f, g_E = %.3f, rho = %.3f' % (A_FIT, B_FIT, GE_FIT, COV_AB[0, 1] / np.sqrt(COV_AB[0, 0] * COV_AB[1, 1])))
 except (OSError, KeyError):
-    A_FIT, B_FIT = 11.672, 2.876
+    A_FIT, B_FIT, GE_FIT = 11.672, 2.876, -1.0
     COV_AB = np.array([[0.4668**2, -0.84*0.4668*0.4319], [-0.84*0.4668*0.4319, 0.4319**2]])
     print('WARNING: fits_L.json not found, using fallback alpha, beta')
 E = np.concatenate([np.arange(5, 140, 5.0), np.arange(140, 160, 1.0), np.arange(160, 451, 5.0)])
@@ -68,12 +69,13 @@ for cfg in ('NNLO', 'BornPi0', 'NNLO_noVC'):
         res['NNLO_lec'] = np.sqrt(grads_lec[0]**2 + grads_lec[1]**2)
         # NNLO fit: alpha, beta of the fit, spin pols at NNLO; band from the (alpha, beta) fit covariance
         Pfit = Pref.copy(); Pfit[0], Pfit[1] = A_FIT, B_FIT
-        res['NNLO_fit'] = integrate(out, Pfit)
+        out_fit = bchpt.run(pts, dict(gE=GE_FIT), name='sigtot_fit_gE%.4f' % GE_FIT, verbose=False)   # its R_EM
+        res['NNLO_fit'] = integrate(out_fit, Pfit)
         grads = []
         for k in range(2):
             Pp, Pm = Pfit.copy(), Pfit.copy()
             Pp[k] += 0.05; Pm[k] -= 0.05
-            grads.append((integrate(out, Pp) - integrate(out, Pm)) / 0.1)
+            grads.append((integrate(out_fit, Pp) - integrate(out_fit, Pm)) / 0.1)
         G = np.vstack(grads).T
         res['NNLO_fit_err'] = np.sqrt(np.einsum('ij,jk,ik->i', G, COV_AB, G))
 r2 = (1/137.036 * 197.327 / 938.272)**2 * 1e4   # Thomson r^2 in mu b (fm^2 -> mu b: 1 fm^2 = 1e4 mu b)
@@ -102,7 +104,7 @@ for key in ('NNLO', 'NNLO_fit'):
     summary['peak_' + key] = dict(E=float(E[i]), sigma_mub=float(res[key][i]),
                                   **({'lec': float(res['NNLO_lec'][i])} if key == 'NNLO' else {'fit_err': float(res['NNLO_fit_err'][i])}))
 summary['prediction'] = dict(Pref=info['Pref'], dlec=DLEC, band='central differences at Pref +- dlec e_k (alpha_E1, beta_M1), in quadrature')
-summary['nnlo_fit'] = dict(alphaE1=A_FIT, betaM1=B_FIT, cov=COV_AB.tolist(), source=_FL + " ['F2_d_all_thB']")
+summary['nnlo_fit'] = dict(alphaE1=A_FIT, betaM1=B_FIT, gE=GE_FIT, cov=COV_AB.tolist(), source=_FL.replace('fits_L.json', 'combined_fit.json') + " ['combined']")
 json.dump(dict(E=E.tolist(), **{k: v.tolist() for k, v in res.items()}, baldin=summary),
           open(os.path.join(HERE, 'sigma_tot.json'), 'w'), indent=1)
 print(json.dumps(summary, indent=1))

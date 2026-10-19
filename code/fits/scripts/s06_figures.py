@@ -15,7 +15,8 @@ os.makedirs(FIGS, exist_ok=True)
 df = load_db()
 FL = json.load(open(os.path.join(RES, 'fits_L.json')))
 FD = json.load(open(os.path.join(RES, 'delta_region.json')))
-P_F1 = np.array(FL['F1_d_all_thB']['P']); P_F2 = np.array(FL['F2_d_all_thB']['P'])
+MF = main_fit()                       # main BChPT fit: alpha, beta, R_EM up to 360 MeV (scenarios/combined_fit.py)
+P_F1 = np.array(FL['F1_d_all_thB']['P']); P_F2 = MF['P']
 P_MAIN = P_F2
 P_F1n = np.array(FL['F1_d_all']['P'])
 MP = 938.272
@@ -37,7 +38,7 @@ from matplotlib.lines import Line2D   # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 W1, W2 = 246 / 72.27, 510 / 72.27     # final printed widths [in]: single / double column (revtex4-2 prd)
 # short experiment labels for the legends (as in the Delta-region figures, work/delta_plots/data_dp.LABEL)
-SHORT = {'OlmosdeLeon2001': 'TAPS 01', 'Federspiel1991': 'Illinois 91', 'Zieger1992': 'MAMI 92',
+SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger1992': 'MAMI 92',
          'Baranov1974_75_th90': 'Moscow 74', 'Baranov1974_75_th150': 'Moscow 74', 'Hallin1993_TabII': 'SAL 93',
          'Hallin1993_TabII_D': 'SAL 93', 'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95',
          'Pugh1957': 'MIT 57', 'Hyman1959': 'MIT 59', 'Goldansky1960': 'Moscow 60', 'Oxley1958': 'Chicago 58',
@@ -60,7 +61,7 @@ def pwa_curve(obs, E, thmin=0.0):
     """(theta_lab, value) of the PWA-fit curve for observable obs at lab energy E, or None if the CSV has none"""
     s = PWA[(PWA.obs == obs) & np.isclose(PWA.E, E) & (PWA.theta_lab >= thmin - 1e-9)].sort_values('theta_lab')
     return (s.theta_lab.values, s.value.values) if len(s) else None
-DORDER = ['A2 22', 'HI$\\gamma$S 22', 'TAPS 01', 'SAL 95', 'SAL 93', 'Illinois 91', 'MAMI 92', 'Moscow 74', 'MIT 57', 'MIT 59',
+DORDER = ['A2 22', 'HI$\\gamma$S 22', 'A2 01', 'SAL 95', 'SAL 93', 'Illinois 91', 'MAMI 92', 'Moscow 74', 'MIT 57', 'MIT 59',
           'Moscow 60', 'Chicago 58', 'Illinois 60']   # legend order of the data sets
 
 
@@ -99,9 +100,10 @@ def grid_rows(spec):
 
 def curves(g, tag, P_list, band=True, extra_cfgs=()):
     T = outputs(g, 'NNLO', tag=tag)
+    Tm = outputs(g, MF['cfg'], tag=tag)               # the main fit's amplitude (its g_E, i.e. R_EM)
     out = {'NNLO': T.value_file.copy()}
     for k, P in P_list.items():
-        out[k] = T.predict_array(P)
+        out[k] = (Tm if k == 'F2' else T).predict_array(P)
     if band:
         _, tr = truncation_for(g, g, tag=tag)
         out['sig'] = tr['sigma']
@@ -386,7 +388,7 @@ with plt.rc_context({'hatch.linewidth': 0.5}):
 r0 = FL['F2_d_nofwd_thB']
 h_ang = ellipse(ax, r0['P'], r0['covP'], ec=C_F1, ls='--', lw=1.4, label='B$\\chi$PT fit, no forward points')
 ax.plot(*r0['P'][:2], 'o', color=C_F1, ms=2)
-r = FL['F2_d_all_thB']
+r = dict(P=list(MF['P']), covP=MF['covP'].tolist())      # the main fit (combined, up to 360 MeV)
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
 ax.plot(*r['P'][:2], 'o', color=C_F1, ms=2)
 # NNLO prediction: the amplitude used here (physical masses, second row of Table NNLOpols) with the LMP15 uncertainty

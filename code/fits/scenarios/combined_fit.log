@@ -1,0 +1,12 @@
+  [bchpt] computed 624 points (db_gE-3.50) -> db_gE-3.50_838c6621378b78ec.out
+  [bchpt] computed 624 points (db_gE-3.00) -> db_gE-3.00_d48748c6b942fa05.out
+  [bchpt] computed 624 points (db_gE-2.60) -> db_gE-2.60_a39c96c0c110a643.out
+  [bchpt] computed 624 points (db_gE-2.30) -> db_gE-2.30_27ce258f36f1d5b9.out
+combined                 N=556 (267+289) a=11.08(0.44) b=3.07(0.42) a+b=14.14(0.19) a-b=8.01(0.84) gE=-2.391(0.810) REM=-5.45(1.85)% chi2=214.1/529
+combined_REMfixed        N=556 (267+289) a=10.92(0.43) b=3.23(0.41) a+b=14.15(0.19) a-b=7.70(0.82) gE=-1.000(0.000) REM=-2.28(0.00)% chi2=216.9/530
+combined_REMwindow       N=556 (267+289) a=10.94(0.43) b=3.21(0.41) a+b=14.15(0.19) a-b=7.73(0.82) gE=-1.150(0.000) REM=-2.62(0.00)% [edge; free: REM=-5.45(1.85)%] chi2=216.3/530
+combined_w0.03           N=556 (267+289) a=10.77(0.43) b=3.37(0.40) a+b=14.14(0.19) a-b=7.40(0.81) gE=-2.071(0.515) REM=-4.72(1.17)% chi2=231.7/529
+combined_w1              N=556 (267+289) a=7.93(0.24) b=6.39(0.23) a+b=14.33(0.18) a-b=1.54(0.43) gE=-1.325(0.137) REM=-3.02(0.31)% chi2=752.6/529
+combined_E350            N=553 (267+286) a=11.08(0.44) b=3.06(0.42) a+b=14.14(0.19) a-b=8.02(0.84) gE=-2.414(0.832) REM=-5.50(1.90)% chi2=214.1/526
+per set (combined): {'A2_2022_CS': 47.6, 'A2_2022_S3': 26.0, 'Baranov1974_75_th150': 7.2, 'Baranov1974_75_th90': 3.2, 'Bernardini1960': 0.7, 'Federspiel1991': 18.1, 'Goldansky1960': 3.7, 'Hallin1993_TabII': 8.6, 'Hyman1959': 1.9, 'MacGibbon1995_tagged': 5.2, 'MacGibbon1995_untagged': 2.5, 'OlmosdeLeon2001': 53.0, 'Oxley1958': 9.6, 'Pugh1957': 4.0, 'Zieger1992': 1.2, 'GHP_fwd_CS': 0.4, 'GHP_fwd_S2Z': 1.0, 'A2_Martel2015_S2x': 0.0, 'A2_Paudyal2020_S2z': 0.3, 'Camen2002': 0.3, 'Hallin1993_TabII_D': 1.9, 'Hunger1997_75': 0.3, 'Hunger1997_90': 0.3, 'LEGS2001_CS': 3.9, 'LEGS2001_S3': 0.9, 'Wissmann1999': 0.1}
+per set (combined_REMfixed): {'A2_2022_CS': 47.5, 'A2_2022_S3': 26.2, 'Baranov1974_75_th150': 7.3, 'Baranov1974_75_th90': 3.2, 'Bernardini1960': 0.7, 'Federspiel1991': 18.1, 'Goldansky1960': 3.7, 'Hallin1993_TabII': 8.6, 'Hyman1959': 1.9, 'MacGibbon1995_tagged': 5.1, 'MacGibbon1995_untagged': 2.6, 'OlmosdeLeon2001': 53.1, 'Oxley1958': 9.7, 'Pugh1957': 4.0, 'Zieger1992': 1.3, 'GHP_fwd_CS': 0.5, 'GHP_fwd_S2Z': 1.7, 'A2_Martel2015_S2x': 0.0, 'A2_Paudyal2020_S2z': 0.2, 'Camen2002': 0.1, 'Hallin1993_TabII_D': 2.2, 'Hunger1997_75': 0.2, 'Hunger1997_90': 0.2, 'LEGS2001_CS': 4.3, 'LEGS2001_S3': 1.7, 'Wissmann1999': 0.1}

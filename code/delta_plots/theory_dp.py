@@ -180,6 +180,11 @@ class Theory:
         return self.evaluate(C_MAIN, self.d_of(self.P_main()))
 
     def fit(self):
+        if C.FIT_GE is not None and abs(C.FIT_GE - C.GE0) > 1e-9:
+            # the main fit with its own E2/M1 coupling: complete amplitude at g_E = FIT_GE (direct run), at the fitted
+            # alpha, beta and the NNLO spin polarisabilities of the default amplitude (as in work/fits/scenarios/combined_fit.py)
+            T = runner.run(self.points, gE=C.FIT_GE, name='%s_NNLO_VC_fit_gE%.4f' % (self.tag, C.FIT_GE))
+            return T.predict_array(self.P_fit())
         return self.evaluate(C_MAIN, self.d_of(self.P_fit()))
 
     def noVC(self):

@@ -39,13 +39,13 @@ def save_exact(fig, path):
 # experiment labels and symbols of the pull figure: one legend for both panels, the same label and symbol for
 # a data set in the KLP18 and in the updated database (labels and symbols as in the Delta-region figures)
 _TEAL, _GREY, _MAG, _PURPLE, _BROWN = '#138d90', '#3d3d3d', '#c2185b', '#6a3d9a', '#8c564b'
-PULL_LABEL = {'TAPS2001': 'TAPS 01', 'OlmosDeLeon': 'TAPS 01', 'Federspiel1991': 'Illinois 91', 'Federspiel': 'Illinois 91',
+PULL_LABEL = {'TAPS2001': 'A2 01', 'OlmosDeLeon': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Federspiel': 'Illinois 91',
               'Zieger1992': 'MAMI 92', 'Zieger': 'MAMI 92', 'Baranov1974_th90': 'Moscow 74', 'Baranov1974_th150': 'Moscow 74',
               'Baranov': 'Moscow 74', 'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95', 'McGibbon': 'SAL 95',
               'Hallin1993': 'SAL 93', 'Hallin': 'SAL 93', 'Oxley': 'Chicago 58', 'Goldansky': 'Moscow 60',
               'Bernardini': 'Illinois 60', 'Pugh': 'MIT 57', 'Hyman': 'MIT 59', 'A2_2022_CS': r'A2 22 $d\sigma$',
               'A2_2022_S3': r'A2 22 $\Sigma_3$', 'HIGS_2022_circ': r'HI$\gamma$S 22 circ.', 'HIGS_2022_lin': r'HI$\gamma$S 22 lin.'}
-PULL_STYLE = {'TAPS 01': ('h', _TEAL, True), 'Illinois 91': ('^', _PURPLE, False), 'MAMI 92': ('*', _TEAL, True),
+PULL_STYLE = {'A2 01': ('h', _TEAL, True), 'Illinois 91': ('^', _PURPLE, False), 'MAMI 92': ('*', _TEAL, True),
               'Moscow 74': ('v', _BROWN, False), 'SAL 95': ('o', _GREY, False), 'SAL 93': ('s', _GREY, False),
               'Chicago 58': ('>', _BROWN, False), 'Moscow 60': ('<', _BROWN, False), 'Illinois 60': ('X', _PURPLE, True),
               'MIT 57': ('d', _PURPLE, False), 'MIT 59': ('d', _PURPLE, True), r'A2 22 $d\sigma$': ('s', _TEAL, True),
@@ -214,7 +214,7 @@ def fig_cs(F):
             t = taps[abs(taps.E - E) < 4.5]
             if len(t):
                 ax.errorbar(t.theta_lab, t.value, t.err, ls='none', marker='D', color='#e08e0b', mfc='w', ms=3, lw=0.7,
-                            label=r'TAPS 2001 ($|\Delta E|<5$ MeV)')
+                            label=r'A2 2001 ($|\Delta E|<5$ MeV)')
                 ax.text(0.05, 0.06, f'TAPS: {t.E.iloc[0]:.1f}', transform=ax.transAxes, fontsize=6, color='#e08e0b')
         ax.text(0.95, 0.06 if obs else 0.9, lab, transform=ax.transAxes, ha='right', fontsize=7.5)
         ax.set_ylim(0, 26)

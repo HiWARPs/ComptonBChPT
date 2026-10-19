@@ -6,7 +6,8 @@ the same with the truncation covariance (Appendix C, default settings); fitted n
 Also: global values for the MAIN database (pre-2015 + A2 2022 minus MAIN_DROP, + forward points; keys GLOBAL,
 GLOBAL_angular) and for the main database + HIgS (keys GLOBAL_withHIGS, GLOBAL_angular_withHIGS) with all
 normalisations/nuisances floated, with and without the truncation covariance; GLOBAL_allpts (main database with the
-3-sigma outlier) and GLOBAL_pre2015 (data prior to 2015), each with the forward points, for the fits table.
+3-sigma outlier), GLOBAL_pre2015 (data prior to 2015), GLOBAL_A2only and GLOBAL_HIGSonly (the subset fits), each with the
+forward points, for the fits table.
 Writes scenarios/nnlo_prediction_table.{txt,json,tex}"""
 import os, sys, json, numpy as np, pandas as pd
 here = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(here, '..', 'lib')); os.chdir(os.path.join(here, '..'))
@@ -56,7 +57,9 @@ sAP = select(df, list(MAIN_L_SETS), Emax=150.0)
 sOL = select(df, list(OLD_L), Emax=150.0); sOL = sOL[~sOL.pid.isin(MAIN_DROP)]
 sNL = select(df, [k for k in MAIN_L_SETS if k not in ('Pugh1957', 'Oxley1958', 'Hyman1959', 'Goldansky1960', 'Bernardini1960')], Emax=150.0)
 sNL = sNL[~sNL.pid.isin(MAIN_DROP)]                        # main database without the bremsstrahlung data of 1957-1960
-for key, sx in (('GLOBAL_allpts', sAP), ('GLOBAL_pre2015', sOL), ('GLOBAL_noLegacy', sNL)):
+sA2 = select(df, A2, Emax=150.0); sHI = select(df, HIGS, Emax=150.0)   # the subset fits (A2 alone, HIgS alone)
+for key, sx in (('GLOBAL_allpts', sAP), ('GLOBAL_pre2015', sOL), ('GLOBAL_noLegacy', sNL), ('GLOBAL_A2only', sA2),
+                ('GLOBAL_HIGSonly', sHI)):
     A = evaluate(pd.concat([sx, sF]), thcov=False); B = evaluate(pd.concat([sx, sF]), thcov=True)
     out[key] = dict(N=A['N'], fixed=A['chi2_fixed'], float=A['chi2_float'], th=B['chi2_float'], th_data=B['chi2_float_data'])
 

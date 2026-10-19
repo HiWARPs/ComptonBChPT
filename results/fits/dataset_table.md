@@ -1,6 +1,6 @@
 | set | label | obs | N | N(E<=150) | N(E<=170) | N(E<=350) | E_lab [MeV] | theta_lab [deg] | angle frame | norm (1 sigma) | GMPF-pruned | error model |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| OlmosdeLeon2001 | TAPS 01 (Olmos de León) | CS | 65 | 55 | 65 | 65 | 58.9-163.7 | 59-155 | LAB | 3.0% | 1 | stat (+) 5% p2p (GMPF/MPG/PPS); norm 3% |
+| OlmosdeLeon2001 | A2 01 (Olmos de León) | CS | 65 | 55 | 65 | 65 | 58.9-163.7 | 59-155 | LAB | 3.0% | 1 | stat (+) 5% p2p (GMPF/MPG/PPS); norm 3% |
 | Federspiel1991 | Illinois 91 (Federspiel) | CS | 16 | 16 | 16 | 16 | 33.5-70.0 | 60-135 | LAB | 3.0% | 1 | Baranov et al. 2001 Tab. 2: lab, stat; norm 3.0% |
 | Zieger1992 | MAMI 92 (Zieger) | CS | 2 | 2 | 2 | 2 | 98.0-132.0 | 180-180 | LAB | 4.3% | 0 | Baranov et al. 2001 Tab. 2: lab, stat; norm 4.3% |
 | Baranov1974_75_th90 | Moscow 74 90° (Baranov) | CS | 3 | 3 | 3 | 3 | 80.9-109.9 | 90-90 | LAB | 1.0% | 0 | Baranov et al. 2001 Tab. 2: lab, stat; norm 1.0% |

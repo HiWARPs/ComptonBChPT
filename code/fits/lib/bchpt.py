@@ -170,6 +170,8 @@ def run(points, cfg=None, name=None, exe=None, verbose=True):
         name = name or cfg
         if cfg not in CONFIGS and cfg.startswith('gM'):
             CONFIGS[cfg] = dict(gM=float(cfg[2:]))      # e.g. 'gM2.85'
+        if cfg not in CONFIGS and cfg.startswith('gE'):
+            CONFIGS[cfg] = dict(gE=float(cfg[2:]))      # e.g. 'gE-1.15' (E2/M1 coupling; R_EM ~ g_E/g_M)
         cfg = CONFIGS[cfg]
     exe = exe or exe_path()
     ind, bar = make_inputs(cfg)

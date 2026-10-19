@@ -62,6 +62,15 @@ MG_COV = {(int(r.theta_lab_deg), float(r.E_i_MeV), float(r.E_j_MeV)): float(r.co
           pd.read_csv(os.path.join(database.DATA, 'db_macgibbon1995_untagged_cov.csv')).itertuples()}
 
 
+def main_fit():
+    """the main BChPT fit (since 2026-10-19): combined fit of alpha_E1, beta_M1 and R_EM to the data up to 360 MeV with
+    the Delta region weighted by 0.01 (scenarios/combined_fit.py, results/combined_fit.json['combined']); the spin
+    polarisabilities at NNLO.  cfg = the driver configuration at the fitted g_E (for curves)."""
+    J = json.load(open(os.path.join(RES, 'combined_fit.json')))['combined']
+    return dict(P=np.array(J['P']), covP=np.array(J['covP']), gE=float(J['gE'][0]), cfg='gE%.4f' % J['gE'][0],
+                REM=tuple(J['REM']))
+
+
 def load_db(per_beamtime=False):
     fn = os.path.join(DBDIR, 'fitdb_pb.csv' if per_beamtime else 'fitdb.csv')
     df = pd.read_csv(fn, keep_default_na=False)

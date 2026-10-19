@@ -114,7 +114,7 @@ points incl. the outlier; "j_withHIGS" = main database + HIγS 2022 (the former 
 | MIT 59 (Hyman) | 12 | 1.8 | 0.15 | 0.994(47) | 10.0% | -0.06 |
 | SAL 95 tagged (MacGibbon) | 8 | 5.2 | 0.65 | 0.995(28) | 3.5% | -0.15 |
 | SAL 95 untagged (MacGibbon) | 10 | 2.5 | 0.25 | 0.988(17) | 2.9% | -0.42 |
-| TAPS 01 (Olmos de León) | 54 | 52.4 | 0.97 | 1.000(13) | 3.0% | +0.00 |
+| A2 01 (Olmos de León) | 54 | 52.4 | 0.97 | 1.000(13) | 3.0% | +0.00 |
 | Chicago 58 (Oxley) | 4 | 9.5 | 2.37 | 0.915(20) | 8.0% | -1.06 |
 | MIT 57/67 (Pugh) | 16 | 4.0 | 0.25 | 0.963(42) | 7.0% | -0.52 |
 | MAMI 92 (Zieger) | 2 | 1.5 | 0.76 | 1.034(36) | 4.3% | +0.79 |
@@ -138,7 +138,7 @@ Forward-amplitude nuisance pulls: λ_f = -0.55 ± 0.86, λ_g = -0.67 ± 0.54 (pr
 | MIT 59 (Hyman) | 12 | 1.9 | 0.15 | 0.994(47) | 10.0% | -0.06 |
 | SAL 95 tagged (MacGibbon) | 8 | 5.2 | 0.65 | 0.995(28) | 3.5% | -0.14 |
 | SAL 95 untagged (MacGibbon) | 10 | 2.5 | 0.25 | 0.988(17) | 2.9% | -0.40 |
-| TAPS 01 (Olmos de León) | 54 | 52.3 | 0.97 | 1.001(13) | 3.0% | +0.02 |
+| A2 01 (Olmos de León) | 54 | 52.3 | 0.97 | 1.001(13) | 3.0% | +0.02 |
 | Chicago 58 (Oxley) | 4 | 9.5 | 2.37 | 0.915(20) | 8.0% | -1.06 |
 | MIT 57/67 (Pugh) | 16 | 4.0 | 0.25 | 0.964(42) | 7.0% | -0.52 |
 | MAMI 92 (Zieger) | 2 | 1.6 | 0.78 | 1.034(36) | 4.3% | +0.80 |
@@ -404,7 +404,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 145.8 | 145.8 | 1.000 | 1.85 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 135.3 | 135.3 | 1.000 | 2.08 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.7 | 8.6 | 0.950 | 8.58 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 16.6 | 14.2 | 1.036 | 1.42 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 16.6 | 14.2 | 1.036 | 1.42 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 9.1 | 8.9 | 1.009 | 1.12 |
 
 ### Δ region (150 < E ≤ 350 MeV): χ² per data set, parameter-free NNLO prediction WITHOUT γNΔ vertex corrections
@@ -425,7 +425,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 151.1 | 151.1 | 1.000 | 1.91 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 139.9 | 139.9 | 1.000 | 2.15 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.5 | 8.4 | 0.951 | 8.38 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 16.6 | 14.2 | 1.036 | 1.42 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 16.6 | 14.2 | 1.036 | 1.42 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 9.1 | 9.1 | 1.002 | 1.14 |
 
 ### Δ region (150 < E ≤ 350 MeV): χ² per data set, NNLO with α, β of F2 (spin pols NNLO)
@@ -446,7 +446,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 191.6 | 191.6 | 1.000 | 2.42 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 181.0 | 181.0 | 1.000 | 2.79 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.5 | 8.4 | 0.951 | 8.41 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 17.9 | 15.3 | 1.038 | 1.53 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 17.9 | 15.3 | 1.038 | 1.53 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 9.4 | 9.3 | 1.010 | 1.16 |
 
 ### Δ region (150 < E ≤ 350 MeV): χ² per data set, α, β of the main fit, WITHOUT vertex corrections
@@ -467,7 +467,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 206.8 | 206.8 | 1.000 | 2.62 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 195.1 | 195.1 | 1.000 | 3.00 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.1 | 8.0 | 0.952 | 8.04 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 17.9 | 15.3 | 1.038 | 1.53 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 17.9 | 15.3 | 1.038 | 1.53 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 9.4 | 9.4 | 1.004 | 1.17 |
 
 ### Δ region (150 < E ≤ 350 MeV): χ² per data set, NNLO with α, β of F1 (spin pols NNLO)
@@ -488,7 +488,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 191.2 | 191.2 | 1.000 | 2.42 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 180.7 | 180.7 | 1.000 | 2.78 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.5 | 8.4 | 0.951 | 8.41 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 18.0 | 15.4 | 1.038 | 1.54 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 18.0 | 15.4 | 1.038 | 1.54 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 9.5 | 9.3 | 1.010 | 1.16 |
 
 ### Δ region (150 < E ≤ 350 MeV): χ² per data set, NNLO with α, β of F2_noth (spin pols NNLO)
@@ -509,7 +509,7 @@ n_HIγS fitted (with 2.24% prior, P fixed): CIRC 0.970, LIN 0.987
 | LEGS 01 Σ3 | S3 | 79 | 213-334 | 209.5 | 209.5 | 1.000 | 2.65 |
 | LEGS2001_S3 (E<2pi thr.) | S3 | 65 | <321 | 198.5 | 198.5 | 1.000 | 3.05 |
 | Tokyo 64 (Nagashima) | CSCM | 1 | 314-314 | 9.6 | 8.5 | 0.950 | 8.50 |
-| TAPS 01 (Olmos de León) | CS | 10 | 157-164 | 13.0 | 11.8 | 1.025 | 1.18 |
+| A2 01 (Olmos de León) | CS | 10 | 157-164 | 13.0 | 11.8 | 1.025 | 1.18 |
 | MAMI 99 (Wissmann) | CS | 8 | 199-334 | 8.0 | 8.0 | 1.005 | 1.00 |
 
 ### Δ region: exploratory spin-polarisability fits (α−β from main fit, α+β = 14.01(21), γ0 = -1.025(102))
