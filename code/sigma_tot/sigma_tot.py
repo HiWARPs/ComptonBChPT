@@ -29,10 +29,12 @@ try:
     _m = json.load(open(_FL.replace('fits_L.json', 'combined_fit.json')))['combined']   # main fit (combined, up to 360 MeV)
     GE_FIT = float(_m['gE'][0])
     A_FIT, B_FIT = float(_m['P'][0]), float(_m['P'][1])
+    P_FIT = np.array(_m['P'], float)                     # incl. the fitted spin polarisabilities
     COV_AB = np.array(_m['covP'])[:2, :2]
     print('NNLO fit from combined_fit.json: alpha = %.4f, beta = %.4f, g_E = %.3f, rho = %.3f' % (A_FIT, B_FIT, GE_FIT, COV_AB[0, 1] / np.sqrt(COV_AB[0, 0] * COV_AB[1, 1])))
 except (OSError, KeyError):
     A_FIT, B_FIT, GE_FIT = 11.672, 2.876, -1.0
+    P_FIT = None
     COV_AB = np.array([[0.4668**2, -0.84*0.4668*0.4319], [-0.84*0.4668*0.4319, 0.4319**2]])
     print('WARNING: fits_L.json not found, using fallback alpha, beta')
 E = np.concatenate([np.arange(5, 140, 5.0), np.arange(140, 160, 1.0), np.arange(160, 451, 5.0)])
@@ -67,8 +69,8 @@ for cfg in ('NNLO', 'BornPi0', 'NNLO_noVC'):
             grads_lec.append((integrate(out, Pp) - integrate(out, Pm)) / 2)
         res['NNLO_lec_da'], res['NNLO_lec_db'] = grads_lec
         res['NNLO_lec'] = np.sqrt(grads_lec[0]**2 + grads_lec[1]**2)
-        # NNLO fit: alpha, beta of the fit, spin pols at NNLO; band from the (alpha, beta) fit covariance
-        Pfit = Pref.copy(); Pfit[0], Pfit[1] = A_FIT, B_FIT
+        # NNLO fit: the six static polarisabilities of the main fit; band from the (alpha, beta) fit covariance
+        Pfit = Pref.copy() if P_FIT is None else P_FIT.copy(); Pfit[0], Pfit[1] = A_FIT, B_FIT
         out_fit = bchpt.run(pts, dict(gE=GE_FIT), name='sigtot_fit_gE%.4f' % GE_FIT, verbose=False)   # its R_EM
         res['NNLO_fit'] = integrate(out_fit, Pfit)
         grads = []

@@ -70,7 +70,7 @@ try:
     _m = json.load(open(_FL))['combined']
     GE_FIT = float(_m['gE'][0])
     _c = np.array(_m['covP'])[:2, :2]
-    BCHPT_FIT = dict(alphaE1=round(float(_m['P'][0]), 4), betaM1=round(float(_m['P'][1]), 4))
+    BCHPT_FIT = dict(zip(['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2'], [round(float(x), 4) for x in _m['P']]))
     BCHPT_COV = dict(sa=round(float(np.sqrt(_c[0, 0])), 4), sb=round(float(np.sqrt(_c[1, 1])), 4),
                      rho=round(float(_c[0, 1] / np.sqrt(_c[0, 0] * _c[1, 1])), 4))
     print('BChPT main fit from combined_fit.json:', BCHPT_FIT, BCHPT_COV, 'g_E =', GE_FIT)
@@ -123,7 +123,8 @@ def bchpt():
     nb0, born = BV.nonborn(EGRID, None)                                  # NNLO prediction (LECs = 0)
     nba, _ = BV.nonborn(EGRID, dict(alphaE1=ref['alphaE1'] + 1.0))
     nbb, _ = BV.nonborn(EGRID, dict(betaM1=ref['betaM1'] + 1.0))
-    nbm, _ = BV.nonborn(EGRID, BCHPT_FIT, gE=GE_FIT)                     # main fit (its R_EM), direct run (check)
+    nbm, _ = BV.nonborn(EGRID, BCHPT_FIT, gE=GE_FIT)                     # main fit (its R_EM and spin pols), direct run
+    nbm_ab, _ = BV.nonborn(EGRID, {k: BCHPT_FIT[k] for k in ('alphaE1', 'betaM1')}, gE=GE_FIT)   # alpha, beta only (check)
     nb0g, _ = BV.nonborn(EGRID, None, gE=GE_FIT)                          # NNLO static pols, the main fit's g_E
     assert np.allclose(nb0['_ref'], [ref[k] for k in KEYS6], atol=2e-5), nb0['_ref']    # code's own reference values
     keys = [k for k in nb0 if not str(k).startswith('_')]
@@ -131,8 +132,9 @@ def bchpt():
     Jb = {k: (nbb[k] - nb0[k]).real for k in keys}
     da, db = BCHPT_FIT['alphaE1'] - ref['alphaE1'], BCHPT_FIT['betaM1'] - ref['betaM1']
     f0 = {k: nb0[k].real for k in keys}
-    fm = {k: nb0g[k].real + da * Ja[k] + db * Jb[k] for k in keys}       # contact terms are independent of g_E
-    lin_check = max(float(np.max(abs(fm[k] - nbm[k].real))) / float(np.max(abs(nbm[k].real))) for k in L1)
+    fm = {k: nbm[k].real for k in keys}                                   # main fit, direct run
+    fl = {k: nb0g[k].real + da * Ja[k] + db * Jb[k] for k in keys}       # contact terms are independent of g_E
+    lin_check = max(float(np.max(abs(fl[k] - nbm_ab[k].real))) / float(np.max(abs(nbm_ab[k].real))) for k in L1)
     d0, dJa, dJb = dyn_curves(f0, EGRID), dyn_curves(Ja, EGRID), dyn_curves(Jb, EGRID)
     # LEC band of the prediction: central differences of the multipoles at REF +- DLEC e_k through the exact
     # amplitude (direct runs), added in quadrature.  The amplitude is linear in the LECs, so ca = DLEC * Ja exactly
@@ -155,8 +157,10 @@ def bchpt():
                             dJa_minus_1_max=float(np.max(abs(ja - 1))), dJb_minus_1_max=float(np.max(abs(jb - 1))),
                             dJa_at_150=float(np.interp(150.0, EGRID, ja)), dJb_at_150=float(np.interp(150.0, EGRID, jb)))
     smooth_info = {}
+    dm = dyn_curves(fm, EGRID)                                          # main fit: direct run (its g_E and spin pols)
     for k in KEYS6:
         d0[k], ch, res = smooth_lowE(EGRID, d0[k])
+        dm[k], _, _ = smooth_lowE(EGRID, dm[k])
         smooth_info[k] = dict(max_change=ch, max_fit_residual=res)
     sa, sb, rho = BCHPT_COV['sa'], BCHPT_COV['sb'], BCHPT_COV['rho']
     out = dict(E=EGRID, nnlo={}, main={}, band={}, lec={}, raw_main=fm, raw_nnlo=f0, raw_Ja=Ja, raw_Jb=Jb, born=born,
@@ -166,7 +170,7 @@ def bchpt():
     stat_main = dict(ref, **BCHPT_FIT)
     for k in KEYS6:
         out['nnlo'][k] = np.concatenate([[stat_nnlo[k]], d0[k]])
-        main = d0[k] + da * dJa[k] + db * dJb[k]
+        main = dm[k]
         out['main'][k] = np.concatenate([[stat_main[k]], main])
         var = (sa * dJa[k])**2 + (sb * dJb[k])**2 + 2 * rho * sa * sb * dJa[k] * dJb[k]
         e0 = {'alphaE1': sa, 'betaM1': sb}.get(k, 0.0)

@@ -102,6 +102,7 @@ COV_AB = np.array([[_c[0], _c[1]], [_c[1], _c[2]]])     # fit covariance of (alp
 FITS_JSON = os.environ.get('DP_FITS_JSON') or os.path.join(WORK, 'fits', 'results', 'combined_fit.json')
 FIT_KEY = os.environ.get('DP_FIT_KEY', 'combined')
 FIT_GE = None
+SPIN_FIT = None
 if FITS_JSON.strip().lower() == 'none':          # DP_FITS_JSON=none: use DP_ALPHA, DP_BETA (regression checks)
     FITS_JSON = '/nonexistent'
 if os.path.exists(FITS_JSON):
@@ -109,6 +110,7 @@ if os.path.exists(FITS_JSON):
     _F = _json.load(open(FITS_JSON))[FIT_KEY]
     ALPHA_FIT, BETA_FIT = float(_F['P'][0]), float(_F['P'][1])
     COV_AB = np.array(_F['covP'])[:2, :2]
+    SPIN_FIT = np.array(_F['P'][2:6], float) if _F.get('spin') else None   # fitted spin pols (main fit since 2026-10-19)
     if 'gE' in _F:
         FIT_GE = float(_F['gE'][0])
 else:

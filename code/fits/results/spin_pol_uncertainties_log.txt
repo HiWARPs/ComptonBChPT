@@ -1,0 +1,14 @@
+                      alphaE1   betaM1    gE1E1    gM1M1    gE1M2    gM1E2   gamma0  gammapi
+NNLO                   11.416    3.729   -3.261    2.939    0.170    1.133   -0.981    7.162
+piN                     7.100   -1.974   -3.295   -0.124    0.540    0.914    1.966    3.546
+Delta_pole             -0.110    7.150   -0.400    3.286   -0.427    0.386   -2.845    4.498
+piDelta                 4.425   -1.447    0.434   -0.223    0.058   -0.167   -0.102   -0.882
+gM_pm0p1                0.000    0.481    0.026    0.217    0.027    0.013    0.176    0.282
+REM_pm0p5               0.048    0.000    0.007    0.030    0.011    0.086    0.098    0.134
+LMP15_rule              2.630    2.738    0.759    1.470    0.177    0.261    1.414    1.736
+LMP15_published         0.700    0.700    0.800    1.500    0.200    0.300    1.400    1.700
+trunc_without_Dpole     2.630    0.859    0.759    0.677    0.124    0.261    0.453    1.650
+reexamined              2.631    0.985    0.760    0.712    0.128    0.275    0.496    1.680
+LMP15, four spin pols independent: sigma(gamma_0) = 1.68, sigma(gamma_pi) = 1.68
+reexamined, four spin pols independent: sigma(gamma_0) = 1.08, sigma(gamma_pi) = 1.08
+empirical gamma_0 (ForwardRCS 2026) = -1.02(10); NNLO -0.98

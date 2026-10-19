@@ -94,8 +94,10 @@ python3 scripts/s07b_error_budget_table.py   # the error-budget table of Appendi
 Main fit of the paper (`results/combined_fit.json` entry `combined`, written by `make combined`): the combined NNLO
 fit of α_E1, β_M1 and R_EM to the data below the pion-production threshold (the main database and the forward
 points, as `F2_d_all_thB`) and to the ten Δ-region sets at 150 < E ≤ 360 MeV (with the theory band of the NNLO
-amplitude in quadrature and their χ² weighted by 0.01): α_E1 = 11.08(44), β_M1 = 3.07(42), R_EM = −5.45(1.85)%
-(g_E = −2.39(81)), χ² = 214.1 for 556 points; the variants (R_EM fixed or within ±15%, weights 0.03 and 1,
+amplitude in quadrature and their χ² weighted by 0.01), with the four spin polarizabilities varied within the
+re-examined uncertainties of the NNLO prediction (Gaussian priors; `scenarios/spin_pol_uncertainties.py`):
+α_E1 = 11.11(47), β_M1 = 3.03(44), γ_0 = −0.99(11), R_EM = −5.44(1.85)% (g_E = −2.39(81)), χ² = 213.9 for 556
+points and 4 priors; the variants (spin polarizabilities at NNLO, R_EM fixed or within ±15%, weights 0.03 and 1,
 E ≤ 350 MeV) are in the same file.
 
 Fits below threshold (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`; R_EM at its default): NNLO fit α_E1 = 11.14(44),
@@ -191,5 +193,5 @@ Python 3.13.15, package versions of `requirements.txt`):
 |---|---|
 | `python3 scripts/s03_fits_L.py` (11 s) | NNLO fit α_E1 = 11.14(44), β_M1 = 3.02(42), χ²/dof = 206.3/248; without the forward points 11.99(57), 3.28(44); Baldin fit 11.17(44), 3.01(42), 203.6/229; all entries of `fits_L.json` identical to the paper's (230 413 numbers, maximal relative difference 2×10⁻¹⁵) |
 | `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 232.6 for the 267 points (normalizations and nuisances floated, truncation covariance); table identical |
-| `make all` (33 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.08(44), β_M1 = 3.07(42), R_EM = −5.45(1.85)%, χ² = 214.1; `combined_fit.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
+| `make all` (33 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.11(47), β_M1 = 3.03(44), R_EM = −5.44(1.85)%, χ² = 213.9; `combined_fit.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
 | `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |

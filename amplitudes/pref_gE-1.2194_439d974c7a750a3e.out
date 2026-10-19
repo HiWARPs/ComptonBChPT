@@ -1,0 +1,23 @@
+# ComptonBChPT fit-driver output (ampl.exe, &fitdriver pointsmode=t)
+# observable = Q_num(d)/Q_den(d),  Q(d) = sum_{a<=b} c_ab d_a d_b,  d_0=1,
+#   d_k = P_k - Pref_k  (k=1..6), P = (alphaE1,betaM1 [1e-4 fm^3]; gE1E1,gM1M1,gE1M2,gM1E2 [1e-4 fm^4])
+#   pairs (a,b) ordered (0,0),(0,1),..,(0,6),(1,1),(1,2),..,(6,6)  [28 coefficients]
+# Pref  =    11.362099     3.729018    -3.267704     2.969779     0.158799     1.218711
+#   analytic NNLO (current constants):    11.192972     3.870657    -3.342055     2.973311     0.167456     1.233076
+#     piN loops    :     6.930777    -1.832796    -3.369795    -0.120363     0.548389     0.928281
+#     Delta pole   :    -0.163139     7.150094    -0.406568     3.316554    -0.438611     0.471645
+#     piDelta loops:     4.425334    -1.446640     0.434308    -0.222879     0.057678    -0.166849
+#   hard-coded references of the 2015 code (unused):    11.246100     3.870540    -3.343750     2.959340     0.185504     1.143280
+# Puser =    11.362099     3.729018    -3.267704     2.969779     0.158799     1.218711
+# flags: onlyLEX= F anomaly= T oneNloop= T oneDloop= T relchpt= T
+# v2 options: order= 3.5 dvertex= T drunning= F consts=LMP15 loopsafe= T elex[MeV]= 15.00 tausafe= 4.00E-04
+# flags (cont.): nuclamm= T vxmode= 2 pimassphys= T nmassphys= T  hA=  2.85000  pi0ff= F  irun= 0
+# constants: gA,fpi[GeV],mpi[GeV],mpi0[GeV] =   1.270000   0.092210   0.139570   0.134980  hA=  2.85000
+#            M_p[GeV]= 0.9382700  hbarc[GeV fm]= 0.1973300  kappa_p=    1.793000
+#            gM,gE,MDelta[GeV] =   2.970000  -1.219445   1.232000  1/alpha_em=  137.036000
+# CS,SPAR,SPERP: lab-frame dsigma/dOmega_lab [nb/sr]; CSCM: c.m. [nb/sr]; S3,S2X,S2Z: asymmetries (fraction, not %)
+# flag: 0 = direct evaluation; 1 = loop amplitudes extrapolated in t (cubic, nodes on the physical side)
+#       into the Gram-singular zone |t| or |eta| < tausafe (near 0/180 deg); 2 = E_lab < elex: loops
+#       replaced by their static-polarisability (contact-term) form
+# columns: id obs E_lab[MeV] theta_lab[deg] theta_cm[deg] value(Puser) flag c_num(28) c_den(28)
+pref CS   100.0000    90.0000    95.5270   1.081147708944E+01 0   1.081147708944E+01  -2.365368026140E-01   2.184709911355E-02  -2.004148140909E-02   1.638948516516E-01  -2.892343765698E-03  -5.744949407665E-02   2.233309720183E-03   2.329242464464E-07  -3.015875840789E-19  -4.071432385065E-18  -5.654767201479E-20   4.109130833074E-18   2.187927803866E-03  -2.261906880591E-19   4.071432385065E-18   4.316472297129E-18  -1.507937920394E-19   1.540340593566E-03   1.132461378216E-16  -1.028644593921E-03  -5.252594633280E-06   1.540340593566E-03  -5.252594633437E-06  -1.028644593921E-03   5.143290194895E-04  -4.012057329449E-17   5.143290194896E-04   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00

@@ -169,8 +169,8 @@ class Theory:
         return np.asarray(P, float) - self.Pref
 
     def P_fit(self):
-        """NNLO fit: alpha, beta fitted, spin polarisabilities at the NNLO values"""
-        return np.r_[C.ALPHA_FIT, C.BETA_FIT, self.Pref[2:]]
+        """NNLO fit: alpha, beta fitted; the spin polarisabilities of the fit (or the NNLO values)"""
+        return np.r_[C.ALPHA_FIT, C.BETA_FIT, self.Pref[2:] if C.SPIN_FIT is None else C.SPIN_FIT]
 
     def P_main(self):
         """parameter set of the main curve: the NNLO prediction (Pref) or the NNLO fit (config.MAIN)"""

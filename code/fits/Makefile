@@ -27,6 +27,7 @@ delta: fitsL
 	$(PY) scripts/s05_delta.py > $(FIT_RESULTS)/s05_log.txt
 # main BChPT fit: alpha, beta, R_EM up to 360 MeV (needs the Delta band of work/delta_plots/results/data_with_theory.csv)
 combined: fitsL
+	$(PY) scenarios/spin_pol_uncertainties.py > $(FIT_RESULTS)/spin_pol_uncertainties_log.txt
 	$(PY) scenarios/combined_fit.py > $(FIT_RESULTS)/combined_log.txt
 figs: fitsL delta combined
 	$(PY) scripts/s06_figures.py > $(FIT_RESULTS)/s06_log.txt
