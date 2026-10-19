@@ -236,7 +236,7 @@ class Theory:
         return lo, hi, parts
 
     def coupling_runs(self):
-        """complete prediction at each (g_M, g_E) of config.BAND_GRID (g_M = 2.97 +- 0.10, g_E such that R_EM = -2.3 -+ 0.5 %),
+        """complete prediction at each (g_M, g_E) of config.BAND_GRID (g_M = 2.97 +- 0.10, g_E such that R_EM = -2.23 -+ 0.5 %),
         each at its own static polarisabilities ('pred'): the light band of the figures since 2026-10-17 evening"""
         if self._cpl is None:
             out = {}
@@ -251,7 +251,7 @@ class Theory:
         return self._cpl
 
     def gE_runs(self):
-        """complete prediction at g_E = GE_LO, GE_HI (R_EM = -2.3 -+ 0.5 %), each at its own static polarisabilities ('pred'):
+        """complete prediction at g_E = GE_LO, GE_HI (R_EM = -2.23 -+ 0.5 %), each at its own static polarisabilities ('pred'):
         the light band of the figures since 2026-10-17 (before: the g_M = 2.97 +- 0.10 band of gM_runs)"""
         if self._ge is None:
             out = {}

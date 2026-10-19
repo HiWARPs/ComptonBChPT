@@ -2,7 +2,7 @@
 uncertainties of the NNLO prediction for the spin polarisabilities adequate, gamma_0 seems to be too large").
 Decomposition of the static values of the amplitude used in the fits (physical masses, Table NNLOpols second row)
 into piN loops (O(p^3)), Delta pole and piDelta loops (O(p^{7/2})), and their sensitivity to the gammaNDelta couplings
-(g_M = 2.97 +- 0.10, the Delta -> N gamma width; g_E such that R_EM = -2.28 +- 0.5 %).
+(g_M = 2.97 +- 0.10, the Delta -> N gamma width; g_E such that R_EM = -2.23 +- 0.5 %, exact relation of lib/rem.py).
 Rules:
   LMP15  (Lensky, McGovern, Pascalutsa 2015, Sect. 4.4): Max[d^2 |piN|, d |Delta graphs|, d^2 |total|], d = m_pi/Delta
          = 0.48; reproduces the published uncertainties (check below).
@@ -16,11 +16,12 @@ import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lib'))
 import numpy as np
 import bchpt
+import rem as RM
 from fitter import C_GAMMA0, C_GAMMAPI
 from common import save_json
 
 D = 0.48
-GE_REM = 0.5 / (100 * (1232.0 - 938.272) / (2 * (1232.0 + 938.272)) / 2.97)      # g_E shift for R_EM +- 0.5 %
+GE_PM = (RM.ge_of_rem(RM.rem(-1.0) - 0.5), RM.ge_of_rem(RM.rem(-1.0) + 0.5))      # g_E for R_EM = default -+ 0.5 %
 LAB = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2', 'gamma0', 'gammapi']
 PT = [('pref', 100.0, 90.0, 'CS', 'LAB')]
 
@@ -34,13 +35,13 @@ def ext(P):
 
 
 R = {c: pref(c, c) for c in ['NNLO', 'NLO', 'BornPi0', 'NNLO_noPiD', 'NNLO_noDpole', 'gM2.87', 'gM3.07']}
-for g in (-1.0 - GE_REM, -1.0 + GE_REM):
+for g in GE_PM:
     R['gE%.4f' % g] = pref(dict(gE=g), 'gE%.4f' % g)
 piN = ext(R['NLO'] - R['BornPi0']); dpole = ext(R['NNLO_noPiD'] - R['NLO']); piD = ext(R['NNLO_noDpole'] - R['NLO'])
 tot = ext(R['NNLO'] - R['BornPi0'])
 assert np.allclose(piN + dpole + piD, tot, atol=2e-3), 'mechanisms do not add up'
 s_gM = 0.5 * np.abs(ext(R['gM3.07'] - R['gM2.87']))
-s_gE = 0.5 * np.abs(ext(R['gE%.4f' % (-1.0 + GE_REM)] - R['gE%.4f' % (-1.0 - GE_REM)]))
+s_gE = 0.5 * np.abs(ext(R['gE%.4f' % GE_PM[1]] - R['gE%.4f' % GE_PM[0]]))
 lmp = np.maximum.reduce([D ** 2 * np.abs(piN), D * np.abs(dpole + piD), D ** 2 * np.abs(tot)])
 PUB = np.array([0.70, 0.70, 0.80, 1.50, 0.20, 0.30, 1.40, 1.70])            # Table NNLOpols, first row
 assert np.all(np.abs(lmp[2:] - PUB[2:]) < 0.06), ('LMP15 rule not reproduced', lmp)
@@ -56,6 +57,6 @@ for nm, s in (('LMP15', lmp), ('reexamined', reex)):
     print('%s, four spin pols independent: sigma(gamma_0) = %.2f, sigma(gamma_pi) = %.2f'
           % (nm, quad(s, np.r_[0, 0, -1, -1, -1, -1.]), quad(s, np.r_[0, 0, -1, 1, -1, 1.])))
 print('empirical gamma_0 (ForwardRCS 2026) = -1.02(10); NNLO %.2f' % tot[6])
-save_json(dict(labels=LAB, delta=D, gE_shift_REM0p5=GE_REM, **rows,
+save_json(dict(labels=LAB, delta=D, gE_REM0p5=GE_PM, **rows,
                quad_g0=dict(LMP15=quad(lmp, -C_GAMMA0), reexamined=quad(reex, -C_GAMMA0)),
                quad_gpi=dict(LMP15=quad(lmp, C_GAMMAPI), reexamined=quad(reex, C_GAMMAPI))), 'spin_pol_uncertainties.json')

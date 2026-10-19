@@ -37,6 +37,8 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 WORK = os.path.dirname(HERE)
 ROOT = os.path.dirname(WORK)
+import sys as _sys; _sys.path.insert(0, os.path.join(WORK, 'fits', 'lib'))
+import rem as RM                 # exact R_EM(g_E, g_M) (shared with work/fits; author decision 2026-10-20)
 CACHE = os.path.join(HERE, 'cache')
 RESULTS = os.path.join(HERE, 'results')
 PNG = os.path.join(HERE, 'png')
@@ -133,17 +135,17 @@ else:
 # gamma N Delta magnetic coupling and its variation (lighter band)
 GM0, GM_LO, GM_HI = 2.97, 2.87, 3.07      # (the g_M band was the light band of the figures until 2026-10-17; gm_scan_running.py)
 # gamma N Delta electric coupling g_E (dng2) and its variation: the light band of the figures since 2026-10-17 (user decision) is the
-# E2/M1 uncertainty, R_EM = (M_D - M_N)/(2 (M_D + M_N)) g_E/g_M = 0.0677 g_E/g_M = -2.3 % for g_E = -1.0, varied by the PDG
-# uncertainty +-0.5 % (R_EM = -2.5(5) %), i.e. g_E = -1.0 -+ 0.22; each curve is the complete prediction at its own g_E.
-GE0, GE_LO, GE_HI = -1.0, -1.22, -0.78                    # (g_E-only band of 2026-10-17 pm; superseded by BAND_GRID)
-C_REM = (1232.0 - MP) / (2 * (1232.0 + MP))               # R_EM = C_REM g_E/g_M = 0.0677 g_E/g_M (PV2006)
-REM_PER_GE = C_REM / GM0                                  # dR_EM/dg_E = 0.0228 at g_M = 2.97
-REM0, DREM = C_REM * GE0 / GM0, 0.005                     # R_EM = -2.28 % for the paper's couplings; PDG uncertainty 0.5 %
+# E2/M1 uncertainty, R_EM = -G_E*/G_M* (exact, fits/lib/rem.py; until 2026-10-20 the leading-order form 0.0677 g_E/g_M) = -2.23 %
+# for g_E = -1.0, varied by the PDG uncertainty +-0.5 % (R_EM = -2.5(5) %), i.e. g_E = -1.23 ... -0.77; each curve is the
+# complete prediction at its own g_E.
+GE0 = -1.0
+REM0, DREM = RM.rem(GE0, GM0), 0.5                        # R_EM = -2.23 % [%] for the paper's couplings; PDG uncertainty 0.5 %
+GE_LO, GE_HI = RM.ge_of_rem(REM0 - DREM), RM.ge_of_rem(REM0 + DREM)   # (g_E-only band of 2026-10-17 pm; superseded by BAND_GRID)
 # light band (user decision 2026-10-17 evening): BOTH couplings varied -- g_M = 2.97 +- 0.10 (Delta -> N gamma width) and g_E such
-# that R_EM = REM0 -+ 0.5 %: envelope of the complete prediction over the 3 x 3 grid (g_M, g_E = R_EM g_M / C_REM).
+# that R_EM = REM0 -+ 0.5 %: envelope of the complete prediction over the 3 x 3 grid (g_M, g_E = RM.ge_of_rem(R_EM, g_M)).
 BAND_GM = (GM_LO, GM0, GM_HI)
 BAND_REM = (REM0 - DREM, REM0, REM0 + DREM)
-BAND_GRID = tuple((gM, R * gM / C_REM) for gM in BAND_GM for R in BAND_REM)      # 9 points incl. the central (2.97, -1.0)
+BAND_GRID = tuple((gM, RM.ge_of_rem(R, gM)) for gM in BAND_GM for R in BAND_REM)  # 9 points incl. the central (2.97, -1.0)
 
 # ---------------------------------------------------------------------------------------------
 # EFT-truncation band (LMP2015 Eq. (32) type; see delta_plots.md Sect. 2)

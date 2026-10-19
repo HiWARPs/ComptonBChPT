@@ -17,6 +17,7 @@ never contained the point.
   'db_withHIGS'    : main database + HIGS 2022 (N = 253; the former main fit; with_higs=True); 'db_pruned_withHIGS';
   'db_new_only'    : A2 2022 + HIGS 2022 (test; HIGS not in the main database); 'db_A2_only' = the new data of the main database;
   'PG'             : parameter-goodness-of-fit; for the HIGS-containing subsets 'all' is the with-HIGS fit;
+  'gEM_profile'    : MAIN with gamma_E1M2 fixed at -3 ... 5 (chi2 and parameters);
   'method'         : the "method" uncertainty of the paper = quadrature sum of the shifts of the variants
                      w30, bchptctr, l2zero, gEMfree, binsB, binmode, A2beamtimes, fwd_uncorr; 'total' = stat (+) method.
 Runs: uncertainty budget around MAIN, database variants, influence of single sets, parameter-goodness-of-fit.
@@ -95,6 +96,11 @@ def main():
     go('bchptctr_w30', UF.select(d), **cfg(prior_center='bchpt', prior_w=(30., 1000., 1000., 30., 3., 3.)))
     go('l2zero', UF.select(d), **cfg(l2='zero'))
     go('gEMfree', UF.select(d), **cfg(fix_gEM=None))
+    # profile in the fixed gamma_E1M2 (paper: "fixing gamma_E1M2 anywhere between -3 and 5 ...")
+    out['gEM_profile'] = []
+    for g in (-3., -2., -1., 0., 1., 2., 3., 5.):
+        r, _, _ = UF.fit_variant('L_tmp', UF.select(d), **cfg(fix_gEM=g))
+        out['gEM_profile'].append(dict(gE1M2=g, chi2=r['chi2'], val=r['val'], err=r['err']))
     go('binsB', UF.select(d), bins=UF.BINS_B, **MAIN)
     go('binmode', UF.select(d), **cfg(energy_mode='bin'))
     go('A2beamtimes', UF.select(load_leg(per_beamtime=True)), **MAIN)

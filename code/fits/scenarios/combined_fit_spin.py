@@ -41,7 +41,7 @@ def fit(name, prior='reexamined', ge_free=True, w=CF.W_DELTA, Emax=360.0):
     lin = lambda c: (float(c @ P), float(np.sqrt(c @ cov @ c)))
     chiL = sum(v['chi2'] for k, v in R.perset.items() if k in set(CF.sL.dataset))
     out = dict(name=name, prior=prior, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2, dof=R.dof, gE=g,
-               REM=(CF.REM_PER_GE * g[0], abs(CF.REM_PER_GE) * g[1]), g0=lin(np.r_[0, 0, -1, -1, -1, -1.]),
+               REM=(CF.RM.rem(g[0]), CF.RM.drem_dge(g[0]) * g[1]), g0=lin(np.r_[0, 0, -1, -1, -1, -1.]),
                gpi=lin(np.r_[0, 0, -1, 1, -1, 1.]), apb=lin(np.r_[1, 1, 0, 0, 0, 0.]), amb=lin(np.r_[1, -1, 0, 0, 0, 0.]),
                chi2_below150_sets=chiL, rho_ab=float(cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])),
                chi2_priors=float(sum(((P[k] - PREF_NNLO[k]) / SIG[prior][k - 2]) ** 2 for k in range(2, 6))) if prior else 0.0)

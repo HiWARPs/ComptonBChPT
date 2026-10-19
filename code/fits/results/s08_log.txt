@@ -1,5 +1,5 @@
 grid: 58 of 438 points with the loops extrapolated near 0/180 deg (flag 1)
-  [bchpt] computed 438 points (fig_pred_ratio_gE-0.7745) -> fig_pred_ratio_gE-0.7745_3428491cd03a0b50.out
+  [bchpt] computed 438 points (fig_pred_ratio_gE-0.7744) -> fig_pred_ratio_gE-0.7744_87f2e84bd344ba4b.out
   off-scale points (arrows only; values quoted in the caption): dsigma_par(90): 1.44(47), 1.86(41)
 fig_pred_ratio.pdf written to <release>/code/fits/figs and <release>/paper/figs
 y-range (0.75, 1.25); n_th: {'A2_2022_CS': 0.9804, 'HIGS_2022_CIRC': 0.9713, 'HIGS_2022_LIN': 0.9868}

@@ -37,8 +37,8 @@ def fit(name, ge_free=True, gpi_free=True, w=CF.W_DELTA, Emax=360.0):
     g = R.extra.get('gE', (CF.GE0, 0.0)); dg = R.extra.get('dgpi', (0.0, 0.0))
     P = np.array(R.P) + dg[0] * U_GPI
     chiL = sum(v['chi2'] for k, v in R.perset.items() if k in set(CF.sL.dataset))
-    out = dict(name=name, w=w, P=P, dP=R.dP, covP=R.covP, chi2=R.chi2, dof=R.dof, gE=g, REM=(CF.REM_PER_GE * g[0],
-               abs(CF.REM_PER_GE) * g[1]), gpi=(gammapi(P), dg[1]), g0=gamma0(P), chi2_below150_sets=chiL,
+    out = dict(name=name, w=w, P=P, dP=R.dP, covP=R.covP, chi2=R.chi2, dof=R.dof, gE=g, REM=(CF.RM.rem(g[0]),
+               CF.RM.drem_dge(g[0]) * g[1]), gpi=(gammapi(P), dg[1]), g0=gamma0(P), chi2_below150_sets=chiL,
                rho_ab=float(R.covP[0][1] / np.sqrt(R.covP[0][0] * R.covP[1][1])))
     OUT[name] = out
     print('%-22s a=%.2f(%.2f) b=%.2f(%.2f) a+b=%.2f a-b=%.2f gpi=%.2f(%.2f) REM=%.2f(%.2f)%% chi2=%.1f/%d '

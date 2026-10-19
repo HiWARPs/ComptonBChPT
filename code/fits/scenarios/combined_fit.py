@@ -12,8 +12,8 @@ without LEGS as the main fit"; variant 'combined_withLEGS').  Also since 2026-10
 that of the prediction): weight W_DELTA = 0.15 of the region above 150 MeV, spin priors of width 3 x the re-examined NNLO
 uncertainties, no bounds (author: "you can push gamma_M1E2 outside the allowed bound", "also allow other spin
 polarizabilities outside"); the optional bound (fit(..., bound=3)) pins a value at +-3 sigma if the fit would leave it.
-Free: alpha_E1, beta_M1 and the E2/M1 coupling g_E, R_EM = (M_D - M_N)/(2(M_D + M_N)) g_E/g_M (default g_E = -1.0,
-R_EM = -2.28%; cubic-spline interpolation over a grid of complete NNLO runs, the static polarisabilities held fixed),
+Free: alpha_E1, beta_M1 and the E2/M1 coupling g_E, R_EM = -G_E*/G_M* (lib/rem.py, exact since 2026-10-20; default g_E = -1.0,
+R_EM = -2.23%; cubic-spline interpolation over a grid of complete NNLO runs, the static polarisabilities held fixed),
 unconstrained in the main fit (author decision; variant: within +-15% of the default, applied as a bound);
 g_M = 2.97.  The four spin polarisabilities are varied within the uncertainties of the NNLO prediction (author request,
 2026-10-19): independent Gaussian priors at the NNLO values with the re-examined widths of
@@ -38,14 +38,14 @@ from common import outputs, build_fit, save_json, gamma0, gammapi, PREF_NNLO, FI
 import s03_fits_L as S
 import forward_amp as FA
 import bchpt
+import rem as RM
 
-GE0, GE_WIN = -1.0, 0.15
+GE0, GE_WIN = -1.0, 0.15                # default g_E; variant 'window': R_EM within +-15% of its default
 W_DELTA = 0.15                          # weight of the region above 150 MeV (author, 2026-10-20: best total chi^2 with w <= 0.15)
 SPIN_K, SPIN_BOUND = 3.0, None          # spin priors: Gaussian width 3 x the re-examined NNLO uncertainty; no bounds (author,
                                         #   2026-10-20: gamma_M1E2, then all spin polarisabilities, allowed outside +-3 sigma)
 BOUND_FREE = ('gM1E2',)                 # (used only when a bound is requested)
 GE_GRID = [-3.5, -3.0, -2.6, -2.3, -2.0, -1.8, -1.6, -1.4, -1.3, -1.2, -1.15, -1.1, -1.05, -1.0, -0.95, -0.9, -0.85, -0.8, -0.7, -0.6]
-REM_PER_GE = 100 * (1232.0 - 938.272) / (2 * (1232.0 + 938.272)) / 2.97      # R_EM [%] per unit g_E at g_M = 2.97
 DSETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS', 'Hunger1997_75', 'Hunger1997_90',
          'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001']
 LEGS = ('LEGS2001_S3', 'LEGS2001_CS')   # excluded from the main fit since 2026-10-20 (author decision; variant legs=True)
@@ -137,7 +137,7 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
         R = run(GE0); g = (GE0, 0.0)
     else:
         R = run(); g = R.extra['gE']
-        lo, hi = GE0 * (1 + GE_WIN), GE0 * (1 - GE_WIN)                 # -1.15 ... -0.85
+        lo, hi = (RM.ge_of_rem(RM.rem(GE0) * (1 + s)) for s in (GE_WIN, -GE_WIN))     # -1.146 ... -0.854
         if ge == 'window' and not (lo <= g[0] <= hi):
             edge = lo if g[0] < lo else hi
             g_free = g
@@ -150,10 +150,10 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
     out = dict(name=name, legs=legs, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
                pinned={NAMES[k]: v for k, v in pinned.items()}, fsr=fsr, N_FSR=0 if fb is None else len(fb[0]), N=len(s), N_L=len(sL), N_D=len(sD), Emax=Emax, band=band, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2,
                dof=R.dof, p=R.pvalue, chi2_data=R.chi2_data, perset=R.perset, der=der, gE=g,
-               REM=(REM_PER_GE * g[0], abs(REM_PER_GE) * g[1]), edge=edge, chi2_below150_sets=chiL,
+               REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), edge=edge, chi2_below150_sets=chiL,
                rho_ab=float(cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])))
     if edge is not None:
-        out['gE_free'] = g_free; out['REM_free'] = (REM_PER_GE * g_free[0], abs(REM_PER_GE) * g_free[1])
+        out['gE_free'] = g_free; out['REM_free'] = (RM.rem(g_free[0]), RM.drem_dge(g_free[0]) * g_free[1])
     OUT[name] = out
     print('%-24s N=%d (%d+%d) FSR=%d a=%.2f(%.2f) b=%.2f(%.2f) a+b=%.2f(%.2f) a-b=%.2f(%.2f) spin=%s g0=%.2f(%.2f) gpi=%.2f(%.2f) '
           'gE=%.3f(%.3f) REM=%.2f(%.2f)%%%s chi2=%.1f/%d' % (name, len(s), len(sL), len(sD), out['N_FSR'], P[0], R.dP[0], P[1], R.dP[1],
@@ -161,6 +161,19 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
                             g[0], g[1], *out['REM'], (' [edge; free: REM=%.2f(%.2f)%%]' % out['REM_free']) if edge is not None else '',
                             R.chi2, R.dof))
     return out
+
+
+def delta_only(name, legs):
+    """R_EM from the Delta-region angular data alone (band included, unweighted): alpha, beta at the fit below threshold
+    (fits_L.json 'F2_d_all_thB'), spin polarisabilities at NNLO, g_E and the normalisations free (paper Sects. IV B, IV E)"""
+    sD, sth = rows_delta(360.0, legs)
+    P0 = PREF_NNLO.copy(); P0[:2] = json.load(open(os.path.join(RES, 'fits_L.json')))['F2_d_all_thB']['P'][:2]
+    idx = T0.subset(sD.pid.values)
+    tf = lambda P, ex: CubicSpline(grid, np.array([G[g].predict_array(P, idx) for g in GE_GRID]), axis=0)(ex['gE'])
+    R = build_fit(sD, T0, P0, [], thcov=np.diag(sth ** 2), theory_fn=tf, extra=dict(gE=GE0)).run(decompose=False)
+    g = R.extra['gE']
+    OUT[name] = dict(name=name, legs=legs, N=len(sD), P=P0, gE=g, REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), chi2=R.chi2)
+    print('%-24s N=%d gE=%.3f(%.3f) REM=%.2f(%.2f)%% chi2=%.1f' % (name, len(sD), g[0], g[1], *OUT[name]['REM'], R.chi2))
 
 
 if __name__ == '__main__':
@@ -183,6 +196,8 @@ if __name__ == '__main__':
     fit('combined_FSRw1', wf=1.0)                    # forward SRs above threshold at weight 1
     fit('combined_FSR20', fsr_step=20.0)             # 20- and 5-MeV grids of the forward SRs above threshold (check)
     fit('combined_FSR5', fsr_step=5.0)
+    delta_only('delta_only_withLEGS', legs=True)     # R_EM from the Delta-region angular data alone
+    delta_only('delta_only', legs=False)
     for k in ('combined', 'combined_w0.01_1sig', 'combined_REMfixed'):
         r = OUT[k]
         print('per set (%s):' % k, {ds: round(v['chi2'], 1) for ds, v in r['perset'].items()})
