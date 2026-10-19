@@ -16,7 +16,7 @@ Unified columns of the fit database (fitdb.csv):
   norm       1-sigma (Gaussian-equivalent) scale uncertainty of the set (fraction); 0 = not floated
   prov       provenance / error-model remarks
   flags      ';'-separated: GMPF_out (outlier/excluded by Griesshammer/McGovern pruning),
-             KLP_E (energy reconstructed from the KLP bin label), ...
+             B01 (pre-2001 point from Baranov et al. 2001, Table 2), ...
 """
 import os, math
 import numpy as np
@@ -30,16 +30,15 @@ MP = 938.272
 ETHR = 144.69   # pi0 threshold, lab
 E2PI = 320.7    # 2 pi(+-) threshold, lab (approx: (2 m_pi+M)^2 - M^2)/2M with m_pi+=139.57)
 
-# --- normalisation uncertainties of the 1950s-60s bremsstrahlung sets (not stated in the sources) -----------
-# Goldansky: ~8% (MacGibbon 1995, quoted in db_old_README); others: 10% adopted here (assumption,
-# documented in the report; the GMPF/MPG/PPS papers do not tabulate them).
-OLD_NORM = {'Oxley': 0.10, 'Hyman': 0.10, 'Goldansky': 0.08, 'Bernardini': 0.10, 'Pugh': 0.10}
-
-# --- KLP2018 bin labels -> true energies (Pugh/Hyman), from the 90-deg legacy subsets in db_old
-#     (Pugh: 55,75,95,115,125,135;  Hyman: 60,70,78,87,95,106,118,128).  Labels without a 90-deg partner
-#     (Pugh 69 -> 65, 109 -> 105) are inferred from the 10-MeV bin pattern of the experiment.
-KLP_E = {'Pugh': {59: 55, 69: 65, 79: 75, 99: 95, 109: 105, 117: 115, 127: 125, 135: 135},
-         'Hyman': {60: 60, 70: 70, 78: 78, 89: 87, 99: 95, 109: 106, 119: 118, 128: 128}}
+# --- pre-2001 data below 150 MeV (since 2026-10-19): Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Fiz. Elem. Chast.
+#     Atom. Yadra 32 (2001) 699 (db_baranov2001.csv): lab cross sections, statistical errors, and the systematic
+#     (normalisation) uncertainty delta of each set, incl. the corrections of the original data quoted there.  These
+#     rows REPLACE the db_old (and the former db_klp2018) rows of the same sets below 150 MeV (the range of Table 2);
+#     the db_old rows from 150 MeV on (Hallin Table II: 150 MeV point, the Delta region) are kept.  The MacGibbon 1995 untagged points carry their full error matrix
+#     (db_macgibbon1995_untagged_cov.csv; common.build_fit).
+B01_SETS = ('Oxley1958', 'Hyman1959', 'Goldansky1960', 'Bernardini1960', 'Pugh1957', 'Baranov1974_75_th90',
+            'Baranov1974_75_th150', 'Federspiel1991', 'Zieger1992', 'Hallin1993_TabII', 'MacGibbon1995_tagged',
+            'MacGibbon1995_untagged')
 
 EXPT = {
     'OlmosdeLeon2001': 'TAPS 01 (Olmos de León)', 'Federspiel1991': 'Illinois 91 (Federspiel)',
@@ -88,6 +87,8 @@ def _rows_old():
         if ds in ('Pugh1957_Frisch1967_legacy_partial', 'Hyman1959_legacy_partial', 'Hallin1993_TabI',
                   'Baranov1966_refined', 'Barbiellini1968'):
             continue      # duplicates of fuller sets / not independent / sign-convention issue
+        if ds in B01_SETS and float(r['E_lab_MeV']) < 150.0:
+            continue      # replaced by Baranov et al. 2001, Table 2 (omega < 150 MeV; _rows_b01)
         rr = dict(source='db_old', obs=r['obs'], E=float(r['E_lab_MeV']), theta_lab=float(r['theta_lab_deg']),
                   theta_cm=float(r['theta_cm_deg']), value=float(r['value']), err_stat=_f(r['stat_err']),
                   err_syspt=_f(r['sys_err_pt']), norm=_f(r['norm_err_frac']), prov='', flags=[])
@@ -103,17 +104,6 @@ def _rows_old():
             rr['prov'] = 'stat (+) 5% p2p (GMPF/MPG/PPS); norm 3%'
             if abs(rr['E'] - 108.42) < 0.01 and abs(rr['theta_lab'] - 133) < 0.1:
                 rr['flags'].append('GMPF_out')
-        elif ds == 'Federspiel1991':
-            rr['prov'] = 'stat; norm 2.0% (legacy values, see db_old_README)'
-            if abs(rr['E'] - 44.2) < 0.01 and abs(rr['theta_lab'] - 135) < 0.1:
-                rr['flags'].append('GMPF_out')
-        elif ds == 'Zieger1992':
-            rr['prov'] = 'stat (+) syst per point (6.4%, 4.3%); no common scale (not floated)'
-            rr['norm'] = 0.0
-        elif ds.startswith('Baranov1974'):
-            rr['prov'] = 'error as quoted; norm 8% (LEGS 2001 Tab. IX)'
-            if 'th150' in ds:
-                rr['flags'].append('GMPF_out')
         elif ds == 'Hallin1993_TabII':
             # sys column contains the 3.6% common scale -> keep only the p2p remainder
             s2 = rr['err_syspt'] ** 2 - (0.036 * rr['value']) ** 2
@@ -123,10 +113,11 @@ def _rows_old():
             if rr['E'] > 150.0:
                 rr['flags'].append('GMPF_out')            # MPG 2013: Hallin used only <=150 MeV
                 name = 'Hallin1993_TabII_D' if rr['E'] > 170 else 'Hallin1993_TabII'
+            if rr['E'] <= 150.0:
+                rr['norm'] = 0.04       # the 150-MeV point joins the B01 rows below 150 MeV (delta = 4%); the set's norm in
+                                        # the fits is that of its first row (a B01 row); rows above 150 MeV (Delta region) keep 3.6%
             if abs(rr['E'] - 170) < 0.01 and abs(rr['theta_cm'] - 141) < 0.1:
                 rr['flags'].append('GMPF_outlier170')
-        elif ds.startswith('MacGibbon'):
-            rr['prov'] = 'stat; norm %.1f%%' % (100 * rr['norm'])
         elif ds == 'Blanpied2001_LEGS':
             name = 'LEGS2001_CS' if r['obs'] == 'CS' else 'LEGS2001_S3'
             rr['prov'] = 'stat (+) pt syst; ' + ('norm 2%' if r['obs'] == 'CS' else 'no scale')
@@ -149,27 +140,20 @@ def _rows_old():
     return out
 
 
-def _rows_klp():
-    d = pd.read_csv(os.path.join(DATA, 'db_klp2018.csv'))
+def _rows_b01():
+    d = pd.read_csv(os.path.join(DATA, 'db_baranov2001.csv'))
     out = []
-    for i, r in d.iterrows():
-        nm = r['dataset'].replace('KLP2018_', '')
-        if nm not in OLD_NORM:
-            continue     # all other KLP sets are taken from db_old with true energies
-        E = float(r['E_lab_MeV']); flags = []
-        if nm in KLP_E:
-            E = float(KLP_E[nm][int(round(E))]); flags.append('KLP_E')
-        thl = float(r['theta_lab_deg'])
-        rr = dict(source='db_klp2018', obs='CS', dobs='CS', frame='LAB', E=E, theta_lab=thl,
-                  theta_cm=float(th_lab2cm(E, thl)), value=float(r['value']), err_stat=float(r['stat_err']),
-                  err_syspt=0.0, norm=OLD_NORM[nm], flags=flags,
-                  prov='KLP2018 total error; norm %d%% adopted%s' % (round(100 * OLD_NORM[nm]),
-                        '; E from legacy 90-deg subset/bin pattern' if nm in KLP_E else '; E = KLP value'))
-        rr['dataset'] = {'Oxley': 'Oxley1958', 'Hyman': 'Hyman1959', 'Goldansky': 'Goldansky1960',
-                         'Bernardini': 'Bernardini1960', 'Pugh': 'Pugh1957'}[nm]
-        if nm in ('Oxley', 'Bernardini'):
-            rr['flags'].append('GMPF_out')
-        out.append(rr)
+    for r in d[d.used == 1].itertuples():
+        E, thl = float(r.E_lab_MeV), float(r.theta_lab_deg)
+        flags = ['B01']
+        if r.dataset in ('Oxley1958', 'Bernardini1960', 'Baranov1974_75_th150') or \
+                (r.dataset == 'Federspiel1991' and abs(E - 44.2) < 0.01 and abs(thl - 135) < 0.1):
+            flags.append('GMPF_out')          # excluded by the Griesshammer/McGovern pruning (variant 'f')
+        out.append(dict(source='db_baranov2001', obs='CS', dobs='CS', frame='LAB', E=E, theta_lab=thl,
+                        theta_cm=float(th_lab2cm(E, thl)), value=float(r.value), err_stat=float(r.stat_err),
+                        err_syspt=0.0, norm=float(r.norm_err_frac), flags=flags, dataset=r.dataset,
+                        prov='Baranov et al. 2001 Tab. 2: lab, stat; norm %.1f%%%s' % (
+                            100 * r.norm_err_frac, '; full error matrix' if r.dataset == 'MacGibbon1995_untagged' else '')))
     return out
 
 
@@ -236,7 +220,7 @@ def _rows_forward():
 
 
 def build(per_beamtime=False):
-    rows = _rows_old() + _rows_klp() + _rows_new(per_beamtime) + _rows_forward()
+    rows = _rows_old() + _rows_b01() + _rows_new(per_beamtime) + _rows_forward()
     df = pd.DataFrame(rows)
     df['theta'] = np.where(df['frame'] == 'CM', df['theta_cm'], df['theta_lab'])
     df['err_pt'] = np.sqrt(df['err_stat'] ** 2 + df['err_syspt'] ** 2)

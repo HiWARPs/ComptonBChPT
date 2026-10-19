@@ -854,3 +854,7 @@ N = 237, χ²/N = 0.772, α−β = 8.05 ± 1.22 (stat) ± 1.02 (method), β = 3.
 `results/influence.json` (Oct 14, GHP2016 source) was stale and has been moved to `work/_to_delete/stale_results_2026-10-18/`;
 the live influence table is `main_fits_legacynorm.json['influence']`. Team audit: `work/notes/audit_2026-10-18_team.md`.
 
+
+## 15. Addendum (2026-10-19): pre-2001 data from Baranov et al. 2001, Table 2
+See `work/notes/baranov2001_database.md`. PWA MAIN: α−β = 8.22(1.12)(1.03), β = 2.99(56)(52), α = 11.21(57)(52), χ² = 174.4/237;
+legacy normalisations = the review's δ (`update_fits.LEGACY_NORM`); MacGibbon untagged with its full error matrix (whitening in `pwa_model`).

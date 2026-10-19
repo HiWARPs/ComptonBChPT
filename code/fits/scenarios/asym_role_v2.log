@@ -1,19 +1,19 @@
 A2 sets: ['A2_2022_CS', 'A2_2022_S3']  HIGS sets (not in the main database): ['HIGS_2022_CIRC', 'HIGS_2022_LIN']
 === database: main = ['OlmosdeLeon2001', 'Federspiel1991', 'Zieger1992', 'Baranov1974_75_th90', 'Baranov1974_75_th150', 'Hallin1993_TabII', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged', 'Pugh1957', 'Hyman1959', 'Goldansky1960', 'Oxley1958', 'Bernardini1960', 'A2_2022_CS', 'A2_2022_S3']
-F2_main_thB                  N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
-F2_main_noA2S3_thB           N=231  a= 10.88(0.50) b= 3.25(0.47)  chi2/dof= 171.8/214=0.80 p=0.98
-F2_main                      N=267  a=  9.65(0.24) b= 3.58(0.24)  chi2/dof=6210.0/249=24.94 p=0.00
-F2_main_noA2S3               N=231  a=  9.64(0.25) b= 3.59(0.25)  chi2/dof=6182.8/214=28.89 p=0.00
-F3_main_thB                  N=267  a= 10.88(0.51) b= 3.25(0.47)  gMM=2.91(0.47) gEE=-3.22(0.49) g0=-1.00 gpi=7.09  chi2/dof= 197.9/247=0.80 p=0.99
-F3_main_noA2S3_thB           N=231  a= 10.84(0.55) b= 3.28(0.51)  gMM=2.87(0.50) gEE=-3.17(0.52) g0=-1.00 gpi=7.00  chi2/dof= 171.7/212=0.81 p=0.98
-F3_main                      N=267  a=  8.99(0.27) b= 3.96(0.27)  gMM=2.63(0.34) gEE=-2.14(0.34) g0=-1.79 gpi=5.73  chi2/dof=2583.0/247=10.46 p=0.00
-F3_main_noA2S3               N=231  a=  8.93(0.28) b= 4.01(0.28)  gMM=2.53(0.35) gEE=-2.04(0.35) g0=-1.79 gpi=5.54  chi2/dof=2554.4/212=12.05 p=0.00
+F2_main_thB                  N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+F2_main_noA2S3_thB           N=231  a= 11.15(0.46) b= 3.01(0.44)  chi2/dof= 180.1/213=0.85 p=0.95
+F2_main                      N=267  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6223.8/248=25.10 p=0.00
+F2_main_noA2S3               N=231  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6196.6/213=29.09 p=0.00
+F3_main_thB                  N=267  a= 11.10(0.49) b= 3.05(0.45)  gMM=2.88(0.47) gEE=-3.19(0.48) g0=-0.99 gpi=7.03  chi2/dof= 206.2/246=0.84 p=0.97
+F3_main_noA2S3_thB           N=231  a= 11.10(0.53) b= 3.05(0.49)  gMM=2.85(0.49) gEE=-3.16(0.51) g0=-1.00 gpi=6.97  chi2/dof= 180.1/211=0.85 p=0.94
+F3_main                      N=267  a=  9.21(0.26) b= 3.74(0.26)  gMM=2.62(0.33) gEE=-2.13(0.33) g0=-1.79 gpi=5.71  chi2/dof=2599.1/246=10.57 p=0.00
+F3_main_noA2S3               N=231  a=  9.17(0.27) b= 3.78(0.26)  gMM=2.53(0.34) gEE=-2.04(0.34) g0=-1.79 gpi=5.53  chi2/dof=2570.6/211=12.18 p=0.00
 === database: withHIGS = ['OlmosdeLeon2001', 'Federspiel1991', 'Zieger1992', 'Baranov1974_75_th90', 'Baranov1974_75_th150', 'Hallin1993_TabII', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged', 'Pugh1957', 'Hyman1959', 'Goldansky1960', 'Oxley1958', 'Bernardini1960', 'A2_2022_CS', 'A2_2022_S3', 'HIGS_2022_CIRC', 'HIGS_2022_LIN']
-F2_withHIGS_thB              N=283  a= 11.28(0.44) b= 2.89(0.41)  chi2/dof= 218.3/263=0.83 p=0.98
-F2_withHIGS_noA2S3_thB       N=247  a= 11.31(0.46) b= 2.86(0.44)  chi2/dof= 192.1/228=0.84 p=0.96
-F2_withHIGS                  N=283  a=  9.81(0.24) b= 3.42(0.23)  chi2/dof=6236.0/263=23.71 p=0.00
-F2_withHIGS_noA2S3           N=247  a=  9.81(0.24) b= 3.42(0.24)  chi2/dof=6208.7/228=27.23 p=0.00
-F3_withHIGS_thB              N=283  a= 11.29(0.48) b= 2.88(0.45)  gMM=2.97(0.47) gEE=-3.28(0.48) g0=-0.99 gpi=7.21  chi2/dof= 218.2/261=0.84 p=0.97
-F3_withHIGS_noA2S3_thB       N=247  a= 11.32(0.52) b= 2.85(0.48)  gMM=2.96(0.49) gEE=-3.27(0.51) g0=-0.99 gpi=7.19  chi2/dof= 192.0/226=0.85 p=0.95
-F3_withHIGS                  N=283  a=  9.18(0.27) b= 3.77(0.26)  gMM=2.68(0.34) gEE=-2.19(0.34) g0=-1.79 gpi=5.83  chi2/dof=2611.6/261=10.01 p=0.00
-F3_withHIGS_noA2S3           N=247  a=  9.14(0.27) b= 3.81(0.27)  gMM=2.59(0.35) gEE=-2.10(0.35) g0=-1.79 gpi=5.65  chi2/dof=2583.1/226=11.43 p=0.00
+F2_withHIGS_thB              N=283  a= 11.45(0.42) b= 2.74(0.40)  chi2/dof= 225.7/262=0.86 p=0.95
+F2_withHIGS_noA2S3_thB       N=247  a= 11.49(0.44) b= 2.69(0.42)  chi2/dof= 199.5/227=0.88 p=0.91
+F2_withHIGS                  N=283  a= 10.00(0.22) b= 3.23(0.22)  chi2/dof=6248.7/262=23.85 p=0.00
+F2_withHIGS_noA2S3           N=247  a= 10.00(0.23) b= 3.23(0.23)  chi2/dof=6221.5/227=27.41 p=0.00
+F3_withHIGS_thB              N=283  a= 11.45(0.46) b= 2.74(0.43)  gMM=2.94(0.46) gEE=-3.26(0.47) g0=-0.99 gpi=7.17  chi2/dof= 225.7/260=0.87 p=0.94
+F3_withHIGS_noA2S3_thB       N=247  a= 11.49(0.50) b= 2.69(0.47)  gMM=2.94(0.49) gEE=-3.26(0.50) g0=-0.99 gpi=7.16  chi2/dof= 199.5/225=0.89 p=0.89
+F3_withHIGS                  N=283  a=  9.38(0.26) b= 3.57(0.25)  gMM=2.66(0.33) gEE=-2.18(0.33) g0=-1.79 gpi=5.80  chi2/dof=2626.4/260=10.10 p=0.00
+F3_withHIGS_noA2S3           N=247  a=  9.35(0.26) b= 3.60(0.26)  gMM=2.58(0.34) gEE=-2.10(0.34) g0=-1.79 gpi=5.64  chi2/dof=2597.9/225=11.55 p=0.00

@@ -1,0 +1,96 @@
+python3 scripts/s01_build_db.py
+fitdb.csv: 624 rows; fitdb_pb.csv: 720 rows
+                   dataset         obs   N  N150  N170  N350            E frame   norm  nflag
+0          OlmosdeLeon2001          CS  65    55    65    65   58.9-163.7   LAB   3.0%      1
+1           Federspiel1991          CS  16    16    16    16    33.5-70.0   LAB   3.0%      1
+2               Zieger1992          CS   2     2     2     2   98.0-132.0   LAB   4.3%      0
+3      Baranov1974_75_th90          CS   3     3     3     3   80.9-109.9   LAB   1.0%      0
+4     Baranov1974_75_th150          CS   4     4     4     4   81.9-111.1   LAB   3.7%      4
+5         Hallin1993_TabII     CS/CSCM  28    13    28    28  130.0-170.0   LAB   4.0%     15
+6     MacGibbon1995_tagged          CS   8     8     8     8    73.2-96.8   LAB   3.5%      0
+7   MacGibbon1995_untagged          CS  10    10    10    10  105.0-145.0   LAB   2.9%      0
+8                 Pugh1957          CS  16    16    16    16   55.0-135.0   LAB   7.0%      0
+9                Hyman1959          CS  12    12    12    12   60.0-128.0   LAB  10.0%      0
+10           Goldansky1960          CS   5     5     5     5    55.0-55.0   LAB   6.0%      0
+11               Oxley1958          CS   4     4     4     4    60.0-60.0   LAB   8.0%      4
+12          Bernardini1960          CS   2     2     2     2  120.0-139.0   LAB  10.0%      2
+13              A2_2022_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+14              A2_2022_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+15           A2_2018Mar_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+16           A2_2018Jul_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
+17           A2_2018Mar_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+18           A2_2018Jul_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0
+19          HIGS_2022_CIRC          CS   8     8     8     8    81.3-81.3   LAB   2.2%      0
+20           HIGS_2022_LIN  SPAR/SPERP   8     8     8     8    83.4-83.4   LAB   2.2%      0
+21              GHP_fwd_CS          CS  12    12    12    12   50.0-150.0   LAB      -      0
+22             GHP_fwd_S2Z         S2Z  12    12    12    12   50.0-150.0   LAB      -      0
+23       A2_Martel2015_S2x         S2X   4     0     0     4  288.0-288.0   LAB      -      0
+24      A2_Paudyal2020_S2z         S2Z  10     0     0    10  275.0-295.0   LAB  10.4%      0
+25             LEGS2001_S3          S3  79     0     0    79  213.1-333.8    CM      -      0
+26             LEGS2001_CS        CSCM  77     0     0    77  213.1-333.8    CM   2.0%      0
+27           Hunger1997_75        CSCM  17     0     0    12  207.3-399.1    CM   4.4%      0
+28           Hunger1997_90        CSCM  13     0     0     9  250.4-396.3    CM   4.0%      0
+29            Wissmann1999          CS  11     0     0     8  199.1-390.8   LAB   3.0%      0
+30               Camen2002          CS  10     0     0     7  211.1-388.5   LAB   4.4%      0
+31      Hallin1993_TabII_D        CSCM  55     0     0    55  171.0-291.0    CM   3.6%     55
+32                Gray1967        CSCM   5     0     0     5  210.0-310.0    CM   5.0%      0
+33              Genzel1972        CSCM  19     0     0    14  236.9-386.5    CM   5.0%      0
+34             Baranov1966        CSCM  10     0     0    10  212.9-249.2    CM  20.0%      0
+35                Kolb2000          CS   1     0     0     1  247.0-247.0   LAB      -      0
+36           Nagashima1964        CSCM   2     0     0     1  314.0-351.0    CM   5.0%      0
+python3 scripts/s02_run_driver.py
+executable: <release>/code/code_v2/execs/ampl.exe
+NNLO           624 points, 26 extrapolated
+LO             624 points, 0 extrapolated
+NLO            624 points, 26 extrapolated
+BornPi0        624 points, 0 extrapolated
+NNLO_noPiD     624 points, 26 extrapolated
+NNLO_noDpole   624 points, 26 extrapolated
+gM2.87         624 points, 26 extrapolated
+gM3.07         624 points, 26 extrapolated
+PDG24          624 points, 26 extrapolated
+hA2.84         624 points, 26 extrapolated
+hA2.91         624 points, 26 extrapolated
+singlemass     624 points, 26 extrapolated
+novtx          624 points, 26 extrapolated
+gM2.50         624 points, 26 extrapolated
+gM2.60         624 points, 26 extrapolated
+gM2.70         624 points, 26 extrapolated
+gM2.75         624 points, 26 extrapolated
+gM2.80         624 points, 26 extrapolated
+gM2.85         624 points, 26 extrapolated
+gM2.90         624 points, 26 extrapolated
+gM2.95         624 points, 26 extrapolated
+gM2.97         624 points, 26 extrapolated
+gM3.00         624 points, 26 extrapolated
+gM3.05         624 points, 26 extrapolated
+gM3.10         624 points, 26 extrapolated
+gM3.15         624 points, 26 extrapolated
+gM3.20         624 points, 26 extrapolated
+gM3.30         624 points, 26 extrapolated
+gM3.40         624 points, 26 extrapolated
+gM3.50         624 points, 26 extrapolated
+gM2.50nv       624 points, 26 extrapolated
+gM2.60nv       624 points, 26 extrapolated
+gM2.70nv       624 points, 26 extrapolated
+gM2.75nv       624 points, 26 extrapolated
+gM2.80nv       624 points, 26 extrapolated
+gM2.85nv       624 points, 26 extrapolated
+gM2.90nv       624 points, 26 extrapolated
+gM2.95nv       624 points, 26 extrapolated
+gM2.97nv       624 points, 26 extrapolated
+gM3.00nv       624 points, 26 extrapolated
+gM3.05nv       624 points, 26 extrapolated
+gM3.10nv       624 points, 26 extrapolated
+gM3.15nv       624 points, 26 extrapolated
+gM3.20nv       624 points, 26 extrapolated
+gM3.30nv       624 points, 26 extrapolated
+gM3.40nv       624 points, 26 extrapolated
+gM3.50nv       624 points, 26 extrapolated
+done in 0.4 s
+python3 scripts/s00_validate_forward.py > /dev/null
+python3 scripts/s03_fits_L.py > results/s03_log.txt
+python3 scripts/s04_theory_lengths.py > results/s04_log.txt
+python3 scripts/s05_delta.py > results/s05_log.txt
+python3 scripts/s06_figures.py > results/s06_log.txt
+python3 scripts/s07_tables.py > /dev/null

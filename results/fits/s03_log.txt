@@ -2,254 +2,254 @@
 bench_Mornacchi              N=192  a= 10.84(0.45) b= 3.34(0.30)  chi2/dof= 153.8/187=0.82 p=0.96
 bench_Mornacchi_NNLOspin     N=192  a= 10.65(0.45) b= 3.77(0.30)  chi2/dof= 151.0/187=0.81 p=0.97
 === Lensky-McGovern 2014 type: pre-2015, GMPF pruning, E<=170 (Hallin<=150), Baldin 13.8(4) ===
-LM14_type                    N=148  a= 10.47(0.45) b= 3.42(0.43)  chi2/dof= 112.6/138=0.82 p=0.94
-LM14_type_B14                N=148  a= 10.55(0.41) b= 3.48(0.40)  chi2/dof= 112.4/138=0.81 p=0.95
+LM14_type                    N=148  a= 10.56(0.41) b= 3.35(0.40)  chi2/dof= 112.7/137=0.82 p=0.94
+LM14_type_B14                N=148  a= 10.62(0.38) b= 3.41(0.37)  chi2/dof= 112.4/137=0.82 p=0.94
 === MAIN database = pre-2015 world data + A2 2022 (HIgS 2022 excluded since 2026-10-17) minus MAIN_DROP = ('OlmosdeLeon2001_029',) (all-points variant: d_allpts; with HIgS: j_withHIGS) ===
     angular sets: ['OlmosdeLeon2001', 'Federspiel1991', 'Zieger1992', 'Baranov1974_75_th90', 'Baranov1974_75_th150', 'Hallin1993_TabII', 'MacGibbon1995_tagged', 'MacGibbon1995_untagged', 'Pugh1957', 'Hyman1959', 'Goldansky1960', 'Oxley1958', 'Bernardini1960', 'A2_2022_CS', 'A2_2022_S3']
 === F1 database variants ===
-F1_a_pre2015                 N=149  a= 11.00(0.41) b= 3.01(0.40)  chi2/dof= 121.2/136=0.89 p=0.81
+F1_a_pre2015                 N=149  a= 11.24(0.36) b= 2.78(0.36)  chi2/dof= 129.3/135=0.96 p=0.62
 F1_b_A2only                  N= 96  a= 10.20(0.38) b= 3.95(0.31)  chi2/dof=  76.3/93=0.82 p=0.90
 F1_c_HIGSonly                N= 16  a= 13.79(1.16) b= 0.23(1.16)  chi2/dof=  14.9/13=1.14 p=0.32
-F1_d_all                     N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.4/230=0.87 p=0.92
-F1_d_allpts                  N=246  a= 10.70(0.30) b= 3.53(0.24)  chi2/dof= 224.5/231=0.97 p=0.61
-F1_e_noTAPS                  N=191  a= 10.37(0.32) b= 3.83(0.26)  chi2/dof= 145.0/177=0.82 p=0.96
-F1_f_GMPFpruned              N=234  a= 10.50(0.30) b= 3.71(0.24)  chi2/dof= 174.3/222=0.79 p=0.99
-F1_g_A2perbeam               N=341  a= 10.72(0.29) b= 3.53(0.24)  chi2/dof= 274.4/324=0.85 p=0.98
-F1_j_withHIGS                N=261  a= 10.80(0.29) b= 3.49(0.24)  chi2/dof= 222.8/244=0.91 p=0.83
-F1_k_noLegacy                N=206  a= 10.55(0.30) b= 3.66(0.24)  chi2/dof= 178.5/196=0.91 p=0.81
+F1_d_all                     N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.9/229=0.92 p=0.80
+F1_d_allpts                  N=246  a= 10.89(0.28) b= 3.39(0.23)  chi2/dof= 234.5/230=1.02 p=0.41
+F1_e_noTAPS                  N=191  a= 10.63(0.30) b= 3.62(0.25)  chi2/dof= 156.5/176=0.89 p=0.85
+F1_f_GMPFpruned              N=234  a= 10.55(0.29) b= 3.67(0.24)  chi2/dof= 174.5/221=0.79 p=0.99
+F1_g_A2perbeam               N=341  a= 10.89(0.27) b= 3.40(0.23)  chi2/dof= 284.4/323=0.88 p=0.94
+F1_j_withHIGS                N=261  a= 10.96(0.28) b= 3.36(0.22)  chi2/dof= 232.5/243=0.96 p=0.68
+F1_k_noLegacy                N=206  a= 10.75(0.28) b= 3.51(0.23)  chi2/dof= 188.7/195=0.97 p=0.61
    3-sigma outliers removed (F1, main database): none
-F1_h_3sigma_thB              N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
+F1_h_3sigma_thB              N=245  a= 11.17(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
 === F2 database variants ===
-F2_a_pre2015                 N=171  a= 10.55(0.39) b= 2.68(0.39)  chi2/dof=6117.6/155=39.47 p=0.00
+F2_a_pre2015                 N=171  a= 10.81(0.34) b= 2.41(0.34)  chi2/dof=6126.0/154=39.78 p=0.00
 F2_b_A2only                  N=118  a=  9.10(0.31) b= 4.12(0.31)  chi2/dof=6079.6/112=54.28 p=0.00
 F2_c_HIGSonly                N= 38  a= 13.43(1.16) b=-0.21(1.16)  chi2/dof=6011.1/32=187.85 p=0.00
-F2_d_all                     N=267  a=  9.65(0.24) b= 3.58(0.24)  chi2/dof=6210.0/249=24.94 p=0.00
-F2_d_allpts                  N=268  a=  9.74(0.24) b= 3.49(0.24)  chi2/dof=6234.7/250=24.94 p=0.00
-F2_e_noTAPS                  N=213  a=  9.39(0.27) b= 3.83(0.26)  chi2/dof=6152.1/196=31.39 p=0.00
-F2_f_GMPFpruned              N=256  a=  9.55(0.25) b= 3.67(0.24)  chi2/dof=6182.9/241=25.66 p=0.00
-F2_g_A2perbeam               N=363  a=  9.80(0.24) b= 3.42(0.24)  chi2/dof=6286.0/343=18.33 p=0.00
-F2_j_withHIGS                N=283  a=  9.81(0.24) b= 3.42(0.23)  chi2/dof=6236.0/263=23.71 p=0.00
-F2_k_noLegacy                N=228  a=  9.60(0.24) b= 3.63(0.24)  chi2/dof=6187.3/215=28.78 p=0.00
+F2_d_all                     N=267  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6223.8/248=25.10 p=0.00
+F2_d_allpts                  N=268  a=  9.94(0.23) b= 3.29(0.23)  chi2/dof=6247.9/249=25.09 p=0.00
+F2_e_noTAPS                  N=213  a=  9.67(0.25) b= 3.56(0.25)  chi2/dof=6167.7/195=31.63 p=0.00
+F2_f_GMPFpruned              N=256  a=  9.64(0.24) b= 3.59(0.23)  chi2/dof=6184.4/240=25.77 p=0.00
+F2_g_A2perbeam               N=363  a=  9.99(0.23) b= 3.23(0.23)  chi2/dof=6298.8/342=18.42 p=0.00
+F2_j_withHIGS                N=283  a= 10.00(0.22) b= 3.23(0.22)  chi2/dof=6248.7/262=23.85 p=0.00
+F2_k_noLegacy                N=228  a=  9.81(0.23) b= 3.41(0.23)  chi2/dof=6200.7/214=28.98 p=0.00
    3-sigma outliers removed (F2, main database): none
-F2_h_3sigma_thB              N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
+F2_h_3sigma_thB              N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
 === F3 variants (spin polarisabilities) ===
-F3_d_all                     N=267  a=  8.99(0.27) b= 3.96(0.27)  gMM=2.63(0.34) gEE=-2.14(0.34) g0=-1.79 gpi=5.73  chi2/dof=2583.0/247=10.46 p=0.00
-F3_f_GMPFpruned              N=256  a=  8.87(0.27) b= 4.07(0.27)  gMM=2.60(0.34) gEE=-2.11(0.34) g0=-1.79 gpi=5.67  chi2/dof=2554.8/239=10.69 p=0.00
-F3_a_pre2015                 N=171  a= 10.20(0.51) b= 2.74(0.51)  gMM=3.01(0.57) gEE=-2.52(0.57) g0=-1.79 gpi=6.49  chi2/dof=2482.1/153=16.22 p=0.00
+F3_d_all                     N=267  a=  9.21(0.26) b= 3.74(0.26)  gMM=2.62(0.33) gEE=-2.13(0.33) g0=-1.79 gpi=5.71  chi2/dof=2599.1/246=10.57 p=0.00
+F3_f_GMPFpruned              N=256  a=  8.95(0.27) b= 3.99(0.26)  gMM=2.55(0.34) gEE=-2.06(0.34) g0=-1.79 gpi=5.57  chi2/dof=2557.0/238=10.74 p=0.00
+F3_a_pre2015                 N=171  a= 10.52(0.45) b= 2.42(0.45)  gMM=3.06(0.53) gEE=-2.58(0.53) g0=-1.79 gpi=6.60  chi2/dof=2491.2/152=16.39 p=0.00
 F3_b_A2only                  N=118  a=  8.42(0.33) b= 4.52(0.32)  gMM=2.79(0.43) gEE=-2.31(0.43) g0=-1.79 gpi=6.06  chi2/dof=2447.8/110=22.25 p=0.00
-F3g0_d_all                   N=256  a= 10.08(0.30) b= 3.61(0.27)  gMM=2.82(0.32) gEE=-3.24(0.34) g0=-0.88 gpi=7.02 chi2/dof=215.3/237 p=0.84
-F3g0_d_all_thB               N=256  a= 10.92(0.51) b= 3.25(0.47)  gMM=2.93(0.47) gEE=-3.22(0.48) g0=-1.01 gpi=7.11 chi2/dof=195.7/237 p=0.98
-F3g0_f_GMPFpruned            N=245  a=  9.97(0.30) b= 3.71(0.27)  gMM=2.79(0.32) gEE=-3.20(0.34) g0=-0.89 gpi=6.96 chi2/dof=188.7/229 p=0.98
-F3g0_f_GMPFpruned_thB        N=245  a= 10.74(0.52) b= 3.43(0.48)  gMM=2.91(0.48) gEE=-3.19(0.49) g0=-1.02 gpi=7.07 chi2/dof=170.6/229 p=1.00
-F3b_d_all                    N=245  a= 10.63(0.34) b= 3.60(0.27)  gMM=2.99(0.32) gEE=-3.31(0.32) g0=-0.98 gpi=7.27  chi2/dof= 200.4/229=0.87 p=0.91
-F3b_d_all_thB                N=245  a= 10.92(0.51) b= 3.23(0.47)  gMM=2.92(0.47) gEE=-3.24(0.47) g0=-0.98 gpi=7.12  chi2/dof= 195.3/229=0.85 p=0.95
-F3b_f_GMPFpruned             N=234  a= 10.51(0.34) b= 3.70(0.27)  gMM=2.96(0.32) gEE=-3.28(0.32) g0=-0.98 gpi=7.20  chi2/dof= 174.3/221=0.79 p=0.99
-F3b_f_GMPFpruned_thB         N=234  a= 10.73(0.51) b= 3.41(0.48)  gMM=2.90(0.48) gEE=-3.22(0.48) g0=-0.98 gpi=7.08  chi2/dof= 170.3/221=0.77 p=1.00
-F3c_d_all                    N=245  a= 10.58(0.30) b= 3.63(0.24)  gMM=2.79(0.34) gEE=-3.26(0.00) g0=-0.83 gpi=7.01  chi2/dof= 200.2/229=0.87 p=0.92
-F3c_d_all_thB                N=245  a= 10.88(0.48) b= 3.26(0.44)  gMM=2.68(0.50) gEE=-3.26(0.00) g0=-0.72 gpi=6.90  chi2/dof= 195.1/229=0.85 p=0.95
-F3c_f_GMPFpruned             N=234  a= 10.47(0.31) b= 3.72(0.24)  gMM=2.78(0.35) gEE=-3.26(0.00) g0=-0.83 gpi=7.01  chi2/dof= 174.1/221=0.79 p=0.99
-F3c_f_GMPFpruned_thB         N=234  a= 10.70(0.48) b= 3.42(0.45)  gMM=2.69(0.51) gEE=-3.26(0.00) g0=-0.73 gpi=6.91  chi2/dof= 170.0/221=0.77 p=1.00
+F3g0_d_all                   N=256  a= 10.28(0.28) b= 3.43(0.26)  gMM=2.82(0.31) gEE=-3.25(0.33) g0=-0.87 gpi=7.03 chi2/dof=227.3/236 p=0.65
+F3g0_d_all_thB               N=256  a= 11.15(0.49) b= 3.06(0.45)  gMM=2.90(0.47) gEE=-3.19(0.48) g0=-1.01 gpi=7.05 chi2/dof=204.0/236 p=0.94
+F3g0_f_GMPFpruned            N=245  a= 10.02(0.29) b= 3.67(0.27)  gMM=2.76(0.32) gEE=-3.18(0.33) g0=-0.88 gpi=6.90 chi2/dof=189.3/228 p=0.97
+F3g0_f_GMPFpruned_thB        N=245  a= 10.75(0.50) b= 3.42(0.46)  gMM=2.87(0.47) gEE=-3.15(0.48) g0=-1.02 gpi=6.99 chi2/dof=170.5/228 p=1.00
+F3b_d_all                    N=245  a= 10.83(0.32) b= 3.45(0.26)  gMM=3.00(0.31) gEE=-3.32(0.31) g0=-0.98 gpi=7.28  chi2/dof= 210.8/228=0.92 p=0.79
+F3b_d_all_thB                N=245  a= 11.14(0.48) b= 3.03(0.46)  gMM=2.89(0.47) gEE=-3.21(0.47) g0=-0.98 gpi=7.06  chi2/dof= 203.6/228=0.89 p=0.88
+F3b_f_GMPFpruned             N=234  a= 10.55(0.33) b= 3.67(0.26)  gMM=2.93(0.31) gEE=-3.25(0.31) g0=-0.98 gpi=7.15  chi2/dof= 174.5/220=0.79 p=0.99
+F3b_f_GMPFpruned_thB         N=234  a= 10.74(0.50) b= 3.40(0.47)  gMM=2.86(0.47) gEE=-3.18(0.47) g0=-0.98 gpi=7.00  chi2/dof= 170.2/220=0.77 p=0.99
+F3c_d_all                    N=245  a= 10.76(0.29) b= 3.48(0.23)  gMM=2.75(0.33) gEE=-3.26(0.00) g0=-0.79 gpi=6.97  chi2/dof= 210.6/228=0.92 p=0.79
+F3c_d_all_thB                N=245  a= 11.09(0.45) b= 3.07(0.42)  gMM=2.62(0.49) gEE=-3.26(0.00) g0=-0.66 gpi=6.84  chi2/dof= 203.1/228=0.89 p=0.88
+F3c_f_GMPFpruned             N=234  a= 10.52(0.30) b= 3.68(0.24)  gMM=2.75(0.34) gEE=-3.26(0.00) g0=-0.79 gpi=6.97  chi2/dof= 174.1/220=0.79 p=0.99
+F3c_f_GMPFpruned_thB         N=234  a= 10.71(0.46) b= 3.42(0.43)  gMM=2.65(0.50) gEE=-3.26(0.00) g0=-0.69 gpi=6.87  chi2/dof= 169.8/220=0.77 p=0.99
 === F4: E <= 170 MeV ===
-F1_F4_all                    N=255  a= 10.50(0.30) b= 3.71(0.24)  chi2/dof= 215.6/240=0.90 p=0.87
-F1_F4_all_Hallin170          N=270  a= 10.18(0.29) b= 3.98(0.24)  chi2/dof= 318.5/255=1.25 p=0.00
-F1_F4_pruned                 N=244  a= 10.40(0.30) b= 3.80(0.24)  chi2/dof= 189.2/232=0.82 p=0.98
-F2_F4_all                    N=277  a=  9.56(0.24) b= 3.66(0.24)  chi2/dof=6224.5/259=24.03 p=0.00
-F2_F4_all_Hallin170          N=292  a=  9.30(0.24) b= 3.93(0.23)  chi2/dof=6324.9/274=23.08 p=0.00
-F2_F4_pruned                 N=266  a=  9.47(0.24) b= 3.76(0.24)  chi2/dof=6197.2/251=24.69 p=0.00
+F1_F4_all                    N=255  a= 10.71(0.28) b= 3.55(0.23)  chi2/dof= 226.6/239=0.95 p=0.71
+F1_F4_all_Hallin170          N=270  a= 10.46(0.28) b= 3.78(0.22)  chi2/dof= 329.3/254=1.30 p=0.00
+F1_F4_pruned                 N=244  a= 10.46(0.29) b= 3.75(0.23)  chi2/dof= 189.5/231=0.82 p=0.98
+F2_F4_all                    N=277  a=  9.78(0.23) b= 3.45(0.23)  chi2/dof=6239.0/258=24.18 p=0.00
+F2_F4_all_Hallin170          N=292  a=  9.55(0.22) b= 3.67(0.22)  chi2/dof=6339.9/273=23.22 p=0.00
+F2_F4_pruned                 N=266  a=  9.55(0.23) b= 3.67(0.23)  chi2/dof=6198.9/250=24.80 p=0.00
 === forward-point model variants (F2, d) ===
-F2_d_fwd_uncorr              N=267  a= 10.62(0.25) b= 3.62(0.24)  chi2/dof= 226.4/251=0.90 p=0.87
-F2_d_fwd_150                 N=269  a= 10.66(0.24) b= 3.63(0.24)  chi2/dof=9993.6/251=39.81 p=0.00
-F2_d_fwdonly_CS              N=256  a= 10.03(0.25) b= 3.59(0.24)  chi2/dof= 216.4/238=0.91 p=0.84
+F2_d_fwd_uncorr              N=267  a= 10.78(0.23) b= 3.47(0.23)  chi2/dof= 236.9/250=0.95 p=0.71
+F2_d_fwd_150                 N=269  a= 10.82(0.23) b= 3.47(0.23)  chi2/dof=10003.9/250=40.02 p=0.00
+F2_d_fwdonly_CS              N=256  a= 10.23(0.24) b= 3.41(0.23)  chi2/dof= 228.7/237=0.97 p=0.64
 === theory (truncation) covariance included: scheme B (LEC-matched, default) and A (naive) ===
-F1_d_all_thB                 N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
-F1_d_allpts_thB              N=246  a= 11.03(0.47) b= 3.14(0.44)  chi2/dof= 217.9/231=0.94 p=0.72
-F1_f_GMPFpruned_thB          N=234  a= 10.75(0.47) b= 3.39(0.45)  chi2/dof= 170.3/222=0.77 p=1.00
-F1_e_noTAPS_thB              N=191  a= 10.72(0.50) b= 3.42(0.47)  chi2/dof= 141.2/177=0.80 p=0.98
-F1_g_A2perbeam_thB           N=341  a= 11.05(0.46) b= 3.12(0.44)  chi2/dof= 269.0/324=0.83 p=0.99
-F1_j_withHIGS_thB            N=261  a= 11.32(0.44) b= 2.88(0.42)  chi2/dof= 215.5/244=0.88 p=0.91
-F1_k_noLegacy_thB            N=206  a= 10.83(0.48) b= 3.31(0.45)  chi2/dof= 174.1/196=0.89 p=0.87
-F1_d_all_thB_diag            N=245  a= 10.73(0.32) b= 3.47(0.27)  chi2/dof= 186.0/230=0.81 p=0.98
-F1_d_all_thB_L600            N=245  a= 10.97(0.49) b= 3.17(0.47)  chi2/dof= 194.3/230=0.84 p=0.96
-F1_d_all_thB_L900            N=245  a= 10.90(0.45) b= 3.26(0.42)  chi2/dof= 196.1/230=0.85 p=0.95
-F1_d_all_thB_fixed048        N=245  a= 10.97(0.49) b= 3.17(0.46)  chi2/dof= 194.3/230=0.84 p=0.96
-F1_d_all_thB_max             N=245  a= 10.99(0.52) b= 3.16(0.50)  chi2/dof= 194.5/230=0.85 p=0.96
-F1_d_all_thB_l50             N=245  a= 10.89(0.49) b= 3.28(0.45)  chi2/dof= 196.8/230=0.86 p=0.94
-F1_d_all_thB_l12             N=245  a= 10.94(0.42) b= 3.21(0.40)  chi2/dof= 192.9/230=0.84 p=0.96
-F1_d_all_thB_l100            N=245  a= 10.71(0.46) b= 3.49(0.41)  chi2/dof= 198.7/230=0.86 p=0.93
-F1_d_all_thA                 N=245  a= 11.60(0.60) b= 2.42(0.60)  chi2/dof= 182.4/230=0.79 p=0.99
-F1_d_all_thA_diag            N=245  a= 11.09(0.37) b= 2.97(0.36)  chi2/dof= 140.1/230=0.61 p=1.00
-F2_d_all_thB                 N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
-F2_d_allpts_thB              N=268  a= 10.99(0.47) b= 3.15(0.44)  chi2/dof= 220.6/250=0.88 p=0.91
-F2_f_GMPFpruned_thB          N=256  a= 10.72(0.47) b= 3.40(0.44)  chi2/dof= 172.9/241=0.72 p=1.00
-F2_e_noTAPS_thB              N=213  a= 10.68(0.50) b= 3.43(0.47)  chi2/dof= 143.7/196=0.73 p=1.00
-F2_g_A2perbeam_thB           N=363  a= 11.02(0.46) b= 3.13(0.43)  chi2/dof= 271.7/343=0.79 p=1.00
-F2_j_withHIGS_thB            N=283  a= 11.28(0.44) b= 2.89(0.41)  chi2/dof= 218.3/263=0.83 p=0.98
-F2_k_noLegacy_thB            N=228  a= 10.80(0.48) b= 3.32(0.45)  chi2/dof= 176.7/215=0.82 p=0.97
-F2_d_all_thB_diag            N=267  a= 10.71(0.33) b= 3.47(0.27)  chi2/dof= 191.5/249=0.77 p=1.00
-F2_d_all_thB_L600            N=267  a= 10.94(0.49) b= 3.18(0.46)  chi2/dof= 196.4/249=0.79 p=0.99
-F2_d_all_thB_L900            N=267  a= 10.86(0.45) b= 3.27(0.42)  chi2/dof= 199.1/249=0.80 p=0.99
-F2_d_all_thB_fixed048        N=267  a= 10.95(0.49) b= 3.19(0.46)  chi2/dof= 196.4/249=0.79 p=0.99
-F2_d_all_thB_max             N=267  a= 10.97(0.52) b= 3.18(0.49)  chi2/dof= 196.1/249=0.79 p=0.99
-F2_d_all_thB_l50             N=267  a= 10.64(0.47) b= 3.30(0.45)  chi2/dof= 203.5/249=0.82 p=0.98
-F2_d_all_thB_l12             N=267  a= 10.95(0.43) b= 3.22(0.40)  chi2/dof= 195.3/249=0.78 p=0.99
-F2_d_all_thB_l100            N=267  a= 10.24(0.43) b= 3.56(0.41)  chi2/dof= 211.4/249=0.85 p=0.96
-F2_d_all_thA                 N=267  a= 11.82(0.75) b= 2.67(0.78)  chi2/dof= 182.6/249=0.73 p=1.00
-F2_d_all_thA_diag            N=267  a= 11.43(0.53) b= 3.14(0.41)  chi2/dof= 139.5/249=0.56 p=1.00
-F3_d_all_thB                 N=267  a= 10.88(0.51) b= 3.25(0.47)  gMM=2.91(0.47) gEE=-3.22(0.49) g0=-1.00 gpi=7.09  chi2/dof= 197.9/247=0.80 p=0.99
-F3_f_GMPFpruned_thB          N=256  a= 10.69(0.52) b= 3.42(0.48)  gMM=2.89(0.48) gEE=-3.20(0.49) g0=-1.00 gpi=7.05  chi2/dof= 172.8/239=0.72 p=1.00
-F2_d_fwd_uncorr_thB          N=267  a= 10.89(0.45) b= 3.25(0.44)  chi2/dof= 197.6/251=0.79 p=0.99
-F2_d_fwdonly_CS_thB          N=256  a= 10.94(0.47) b= 3.24(0.44)  chi2/dof= 195.6/238=0.82 p=0.98
-F1_F4_all_thB                N=255  a= 10.87(0.47) b= 3.28(0.44)  chi2/dof= 206.6/240=0.86 p=0.94
-F2_F4_all_thB                N=277  a= 10.84(0.47) b= 3.29(0.44)  chi2/dof= 209.2/259=0.81 p=0.99
-F1_a_pre2015_thB             N=149  a= 11.30(0.58) b= 2.71(0.57)  chi2/dof= 119.0/136=0.88 p=0.85
-F2_a_pre2015_thB             N=171  a= 11.28(0.58) b= 2.69(0.57)  chi2/dof= 121.2/155=0.78 p=0.98
+F1_d_all_thB                 N=245  a= 11.17(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
+F1_d_allpts_thB              N=246  a= 11.24(0.44) b= 2.95(0.42)  chi2/dof= 225.3/230=0.98 p=0.57
+F1_f_GMPFpruned_thB          N=234  a= 10.78(0.45) b= 3.37(0.43)  chi2/dof= 170.2/221=0.77 p=1.00
+F1_e_noTAPS_thB              N=191  a= 11.05(0.46) b= 3.12(0.44)  chi2/dof= 150.1/176=0.85 p=0.92
+F1_g_A2perbeam_thB           N=341  a= 11.25(0.43) b= 2.93(0.41)  chi2/dof= 276.9/323=0.86 p=0.97
+F1_j_withHIGS_thB            N=261  a= 11.48(0.42) b= 2.73(0.40)  chi2/dof= 222.9/243=0.92 p=0.82
+F1_k_noLegacy_thB            N=206  a= 11.09(0.45) b= 3.08(0.43)  chi2/dof= 182.1/195=0.93 p=0.74
+F1_d_all_thB_diag            N=245  a= 10.93(0.30) b= 3.31(0.26)  chi2/dof= 194.9/229=0.85 p=0.95
+F1_d_all_thB_L600            N=245  a= 11.20(0.46) b= 2.96(0.44)  chi2/dof= 202.2/229=0.88 p=0.90
+F1_d_all_thB_L900            N=245  a= 11.14(0.43) b= 3.05(0.40)  chi2/dof= 204.5/229=0.89 p=0.88
+F1_d_all_thB_fixed048        N=245  a= 11.19(0.46) b= 2.96(0.44)  chi2/dof= 202.3/229=0.88 p=0.90
+F1_d_all_thB_max             N=245  a= 11.21(0.49) b= 2.96(0.47)  chi2/dof= 202.3/229=0.88 p=0.90
+F1_d_all_thB_l50             N=245  a= 11.13(0.46) b= 3.07(0.43)  chi2/dof= 205.6/229=0.90 p=0.86
+F1_d_all_thB_l12             N=245  a= 11.17(0.40) b= 3.00(0.37)  chi2/dof= 200.7/229=0.88 p=0.91
+F1_d_all_thB_l100            N=245  a= 10.96(0.44) b= 3.28(0.40)  chi2/dof= 208.4/229=0.91 p=0.83
+F1_d_all_thA                 N=245  a= 11.77(0.56) b= 2.25(0.56)  chi2/dof= 188.6/229=0.82 p=0.98
+F1_d_all_thA_diag            N=245  a= 11.27(0.35) b= 2.80(0.33)  chi2/dof= 146.4/229=0.64 p=1.00
+F2_d_all_thB                 N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+F2_d_allpts_thB              N=268  a= 11.21(0.44) b= 2.96(0.42)  chi2/dof= 228.1/249=0.92 p=0.83
+F2_f_GMPFpruned_thB          N=256  a= 10.75(0.45) b= 3.38(0.43)  chi2/dof= 172.8/240=0.72 p=1.00
+F2_e_noTAPS_thB              N=213  a= 11.02(0.46) b= 3.13(0.44)  chi2/dof= 152.8/195=0.78 p=0.99
+F2_g_A2perbeam_thB           N=363  a= 11.23(0.43) b= 2.94(0.41)  chi2/dof= 279.6/342=0.82 p=0.99
+F2_j_withHIGS_thB            N=283  a= 11.45(0.42) b= 2.74(0.40)  chi2/dof= 225.7/262=0.86 p=0.95
+F2_k_noLegacy_thB            N=228  a= 11.06(0.45) b= 3.09(0.42)  chi2/dof= 184.8/214=0.86 p=0.93
+F2_d_all_thB_diag            N=267  a= 10.91(0.31) b= 3.30(0.26)  chi2/dof= 200.5/248=0.81 p=0.99
+F2_d_all_thB_L600            N=267  a= 11.17(0.46) b= 2.98(0.44)  chi2/dof= 204.5/248=0.82 p=0.98
+F2_d_all_thB_L900            N=267  a= 11.11(0.42) b= 3.05(0.40)  chi2/dof= 207.7/248=0.84 p=0.97
+F2_d_all_thB_fixed048        N=267  a= 11.18(0.46) b= 2.98(0.44)  chi2/dof= 204.4/248=0.82 p=0.98
+F2_d_all_thB_max             N=267  a= 11.20(0.49) b= 2.97(0.47)  chi2/dof= 204.0/248=0.82 p=0.98
+F2_d_all_thB_l50             N=267  a= 10.90(0.45) b= 3.07(0.43)  chi2/dof= 212.8/248=0.86 p=0.95
+F2_d_all_thB_l12             N=267  a= 11.18(0.40) b= 3.01(0.38)  chi2/dof= 203.1/248=0.82 p=0.98
+F2_d_all_thB_l100            N=267  a= 10.52(0.41) b= 3.30(0.39)  chi2/dof= 222.7/248=0.90 p=0.87
+F2_d_all_thA                 N=267  a= 12.00(0.69) b= 2.54(0.76)  chi2/dof= 188.7/248=0.76 p=1.00
+F2_d_all_thA_diag            N=267  a= 11.60(0.49) b= 3.00(0.40)  chi2/dof= 145.7/248=0.59 p=1.00
+F3_d_all_thB                 N=267  a= 11.10(0.49) b= 3.05(0.45)  gMM=2.88(0.47) gEE=-3.19(0.48) g0=-0.99 gpi=7.03  chi2/dof= 206.2/246=0.84 p=0.97
+F3_f_GMPFpruned_thB          N=256  a= 10.70(0.50) b= 3.41(0.46)  gMM=2.85(0.47) gEE=-3.15(0.49) g0=-1.00 gpi=6.97  chi2/dof= 172.7/238=0.73 p=1.00
+F2_d_fwd_uncorr_thB          N=267  a= 11.12(0.42) b= 3.03(0.42)  chi2/dof= 205.9/250=0.82 p=0.98
+F2_d_fwdonly_CS_thB          N=256  a= 11.17(0.44) b= 3.03(0.42)  chi2/dof= 203.9/237=0.86 p=0.94
+F1_F4_all_thB                N=255  a= 11.11(0.44) b= 3.07(0.42)  chi2/dof= 214.8/239=0.90 p=0.87
+F2_F4_all_thB                N=277  a= 11.08(0.44) b= 3.08(0.42)  chi2/dof= 217.5/258=0.84 p=0.97
+F1_a_pre2015_thB             N=149  a= 11.56(0.52) b= 2.45(0.52)  chi2/dof= 125.6/135=0.93 p=0.71
+F2_a_pre2015_thB             N=171  a= 11.55(0.52) b= 2.43(0.52)  chi2/dof= 127.8/154=0.83 p=0.94
 F1_b_A2only_thB              N= 96  a= 10.52(0.60) b= 3.59(0.56)  chi2/dof=  73.1/93=0.79 p=0.94
 F2_b_A2only_thB              N=118  a= 10.47(0.60) b= 3.62(0.56)  chi2/dof=  75.6/112=0.67 p=1.00
 F1_c_HIGSonly_thB            N= 16  a= 13.79(1.17) b= 0.24(1.17)  chi2/dof=  14.8/13=1.14 p=0.32
 F2_c_HIGSonly_thB            N= 38  a= 13.77(1.17) b= 0.21(1.17)  chi2/dof=  17.1/32=0.53 p=0.99
 === order-by-order fits (base amplitude NLO + O(p^4) LECs) and parameter variations ===
-F1_d_all_NLO                 N=245  a=  7.36(0.28) b= 6.54(0.22)  chi2/dof= 310.3/230=1.35 p=0.00
-F1_d_all_NLO_spinNNLO        N=245  a=  8.28(0.30) b= 6.09(0.24)  chi2/dof= 239.8/230=1.04 p=0.32
-F1_d_all_NLO_spinNNLO_thB    N=245  a=  9.31(0.47) b= 4.97(0.44)  chi2/dof= 214.0/230=0.93 p=0.77
-F1_d_all_NLO_thB             N=245  a=  8.51(0.45) b= 5.55(0.42)  chi2/dof= 240.5/230=1.05 p=0.30
-F2_d_all_NLO                 N=267  a= -0.11(0.23) b= 6.46(0.23)  chi2/dof=767326.3/249=3081.63 p=0.00
-F2_d_all_NLO_spinNNLO        N=267  a=  9.19(0.24) b= 6.13(0.24)  chi2/dof=135925.1/249=545.88 p=0.00
-F2_d_all_NLO_spinNNLO_thB    N=267  a=  9.48(0.46) b= 4.92(0.44)  chi2/dof= 245.4/249=0.99 p=0.55
-F2_d_all_NLO_thB             N=267  a= 10.08(0.44) b= 5.67(0.42)  chi2/dof=1139.3/249=4.58 p=0.00
-F1_d_all_NNLO_noPiD          N=245  a= 10.39(0.30) b= 3.84(0.24)  chi2/dof= 201.4/230=0.88 p=0.91
-F1_d_all_NNLO_noPiD_thB      N=245  a= 10.79(0.47) b= 3.37(0.44)  chi2/dof= 195.7/230=0.85 p=0.95
-F2_d_all_NNLO_noPiD          N=267  a=  9.43(0.24) b= 3.79(0.24)  chi2/dof=7301.2/249=29.32 p=0.00
-F2_d_all_NNLO_noPiD_thB      N=267  a= 10.76(0.47) b= 3.37(0.44)  chi2/dof= 198.6/249=0.80 p=0.99
-F1_d_all_gM2.87              N=245  a= 10.41(0.30) b= 3.80(0.24)  chi2/dof= 201.9/230=0.88 p=0.91
-F1_d_all_gM2.87_thB          N=245  a= 10.78(0.47) b= 3.37(0.44)  chi2/dof= 195.9/230=0.85 p=0.95
-F2_d_all_gM2.87              N=267  a=  9.64(0.24) b= 3.76(0.24)  chi2/dof=11400.2/249=45.78 p=0.00
-F2_d_all_gM2.87_thB          N=267  a= 10.79(0.47) b= 3.38(0.44)  chi2/dof= 202.2/249=0.81 p=0.99
-F1_d_all_gM3.07              N=245  a= 10.80(0.30) b= 3.44(0.24)  chi2/dof= 200.0/230=0.87 p=0.92
-F1_d_all_gM3.07_thB          N=245  a= 11.08(0.47) b= 3.08(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
-F2_d_all_gM3.07              N=267  a=  9.79(0.24) b= 3.39(0.24)  chi2/dof=3062.9/249=12.30 p=0.00
-F2_d_all_gM3.07_thB          N=267  a= 11.02(0.47) b= 3.09(0.44)  chi2/dof= 199.0/249=0.80 p=0.99
-F1_d_all_PDGconst            N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.1/230=0.87 p=0.92
-F1_d_all_PDGconst_thB        N=245  a= 10.92(0.47) b= 3.23(0.44)  chi2/dof= 195.1/230=0.85 p=0.95
-F2_d_all_PDGconst            N=267  a=  9.72(0.24) b= 3.57(0.24)  chi2/dof=5890.7/249=23.66 p=0.00
-F2_d_all_PDGconst_thB        N=267  a= 10.89(0.47) b= 3.24(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
-F1_d_all_hA2.84              N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.4/230=0.87 p=0.92
-F1_d_all_hA2.84_thB          N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
-F2_d_all_hA2.84              N=267  a=  9.65(0.24) b= 3.58(0.24)  chi2/dof=6224.5/249=25.00 p=0.00
-F2_d_all_hA2.84_thB          N=267  a= 10.90(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
-F1_d_all_hA2.91              N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.4/230=0.87 p=0.92
-F1_d_all_hA2.91_thB          N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
-F2_d_all_hA2.91              N=267  a=  9.65(0.24) b= 3.58(0.24)  chi2/dof=6122.8/249=24.59 p=0.00
-F2_d_all_hA2.91_thB          N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 197.9/249=0.79 p=0.99
-F1_d_all_singlemass          N=245  a= 10.63(0.30) b= 3.58(0.24)  chi2/dof= 199.3/230=0.87 p=0.93
-F1_d_all_singlemass_thB      N=245  a= 10.93(0.47) b= 3.21(0.44)  chi2/dof= 194.8/230=0.85 p=0.96
-F2_d_all_singlemass          N=267  a= 10.11(0.24) b= 3.56(0.24)  chi2/dof=3578.5/249=14.37 p=0.00
-F2_d_all_singlemass_thB      N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 199.3/249=0.80 p=0.99
-F1_d_all_spinPaudyal         N=245  a= 10.89(0.30) b= 3.23(0.24)  chi2/dof= 204.2/230=0.89 p=0.89
-F1_d_all_spinMRPP22          N=245  a= 11.24(0.31) b= 2.99(0.25)  chi2/dof= 199.4/230=0.87 p=0.93
-F2_d_all_spinPaudyal         N=267  a= 10.01(0.24) b= 3.19(0.24)  chi2/dof=5825.1/249=23.39 p=0.00
-F2_d_all_spinMRPP22          N=267  a= 10.03(0.25) b= 2.95(0.25)  chi2/dof=2968.4/249=11.92 p=0.00
-F1_d_all_Baldin13.8          N=245  a= 10.80(0.37) b= 3.63(0.24)  chi2/dof= 200.0/230=0.87 p=0.92
+F1_d_all_NLO                 N=245  a=  7.62(0.27) b= 6.34(0.21)  chi2/dof= 331.2/229=1.45 p=0.00
+F1_d_all_NLO_spinNNLO        N=245  a=  8.61(0.28) b= 5.85(0.23)  chi2/dof= 259.2/229=1.13 p=0.08
+F1_d_all_NLO_spinNNLO_thB    N=245  a=  9.67(0.44) b= 4.65(0.42)  chi2/dof= 224.8/229=0.98 p=0.57
+F1_d_all_NLO_thB             N=245  a=  8.75(0.42) b= 5.34(0.40)  chi2/dof= 250.4/229=1.09 p=0.16
+F2_d_all_NLO                 N=267  a=  0.42(0.22) b= 5.93(0.22)  chi2/dof=767418.1/248=3094.43 p=0.00
+F2_d_all_NLO_spinNNLO        N=267  a=  9.38(0.23) b= 5.93(0.23)  chi2/dof=135940.7/248=548.15 p=0.00
+F2_d_all_NLO_spinNNLO_thB    N=267  a=  9.81(0.44) b= 4.62(0.41)  chi2/dof= 255.7/248=1.03 p=0.35
+F2_d_all_NLO_thB             N=267  a= 10.12(0.42) b= 5.63(0.40)  chi2/dof=1147.7/248=4.63 p=0.00
+F1_d_all_NNLO_noPiD          N=245  a= 10.60(0.28) b= 3.68(0.23)  chi2/dof= 212.2/229=0.93 p=0.78
+F1_d_all_NNLO_noPiD_thB      N=245  a= 11.03(0.44) b= 3.15(0.42)  chi2/dof= 204.0/229=0.89 p=0.88
+F2_d_all_NNLO_noPiD          N=267  a=  9.64(0.23) b= 3.58(0.23)  chi2/dof=7315.5/248=29.50 p=0.00
+F2_d_all_NNLO_noPiD_thB      N=267  a= 11.01(0.44) b= 3.15(0.42)  chi2/dof= 207.0/248=0.83 p=0.97
+F1_d_all_gM2.87              N=245  a= 10.61(0.28) b= 3.65(0.23)  chi2/dof= 212.6/229=0.93 p=0.77
+F1_d_all_gM2.87_thB          N=245  a= 11.01(0.44) b= 3.16(0.42)  chi2/dof= 204.1/229=0.89 p=0.88
+F2_d_all_gM2.87              N=267  a=  9.84(0.23) b= 3.56(0.23)  chi2/dof=11413.6/248=46.02 p=0.00
+F2_d_all_gM2.87_thB          N=267  a= 11.02(0.44) b= 3.17(0.41)  chi2/dof= 210.5/248=0.85 p=0.96
+F1_d_all_gM3.07              N=245  a= 10.99(0.28) b= 3.30(0.23)  chi2/dof= 210.2/229=0.92 p=0.81
+F1_d_all_gM3.07_thB          N=245  a= 11.32(0.44) b= 2.86(0.42)  chi2/dof= 203.5/229=0.89 p=0.89
+F2_d_all_gM3.07              N=267  a=  9.99(0.23) b= 3.19(0.23)  chi2/dof=3076.7/248=12.41 p=0.00
+F2_d_all_gM3.07_thB          N=267  a= 11.26(0.44) b= 2.87(0.42)  chi2/dof= 207.4/248=0.84 p=0.97
+F1_d_all_PDGconst            N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.5/229=0.92 p=0.80
+F1_d_all_PDGconst_thB        N=245  a= 11.15(0.44) b= 3.02(0.42)  chi2/dof= 203.3/229=0.89 p=0.89
+F2_d_all_PDGconst            N=267  a=  9.92(0.23) b= 3.37(0.23)  chi2/dof=5904.1/248=23.81 p=0.00
+F2_d_all_PDGconst_thB        N=267  a= 11.13(0.44) b= 3.03(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+F1_d_all_hA2.84              N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.9/229=0.92 p=0.80
+F1_d_all_hA2.84_thB          N=245  a= 11.17(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
+F2_d_all_hA2.84              N=267  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6238.3/248=25.15 p=0.00
+F2_d_all_hA2.84_thB          N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+F1_d_all_hA2.91              N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.9/229=0.92 p=0.80
+F1_d_all_hA2.91_thB          N=245  a= 11.16(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
+F2_d_all_hA2.91              N=267  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6136.6/248=24.74 p=0.00
+F2_d_all_hA2.91_thB          N=267  a= 11.13(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.98
+F1_d_all_singlemass          N=245  a= 10.82(0.28) b= 3.43(0.23)  chi2/dof= 209.4/229=0.91 p=0.82
+F1_d_all_singlemass_thB      N=245  a= 11.16(0.44) b= 3.00(0.42)  chi2/dof= 203.0/229=0.89 p=0.89
+F2_d_all_singlemass          N=267  a= 10.29(0.23) b= 3.37(0.23)  chi2/dof=3590.3/248=14.48 p=0.00
+F2_d_all_singlemass_thB      N=267  a= 11.13(0.44) b= 3.02(0.42)  chi2/dof= 207.5/248=0.84 p=0.97
+F1_d_all_spinPaudyal         N=245  a= 11.05(0.28) b= 3.09(0.23)  chi2/dof= 213.7/229=0.93 p=0.76
+F1_d_all_spinMRPP22          N=245  a= 11.42(0.29) b= 2.85(0.24)  chi2/dof= 208.6/229=0.91 p=0.83
+F2_d_all_spinPaudyal         N=267  a= 10.19(0.23) b= 3.01(0.23)  chi2/dof=5836.8/248=23.54 p=0.00
+F2_d_all_spinMRPP22          N=267  a= 10.24(0.24) b= 2.74(0.23)  chi2/dof=2981.5/248=12.02 p=0.00
+F1_d_all_Baldin13.8          N=245  a= 11.03(0.34) b= 3.50(0.23)  chi2/dof= 209.9/229=0.92 p=0.81
 === MAIN configuration: F2 (forward points, nuisance model) + truncation covariance (scheme B) ===
-F2_outlier_search            N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
+F2_outlier_search            N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
 === MAIN_DROP: 3-sigma outliers of the all-points fit F2_d_allpts_thB (N=268): ['OlmosdeLeon2001_029']
-    |pull| > 2.5 in pass 1: {'Federspiel1991_006': 2.67920849997809, 'OlmosdeLeon2001_029': -4.47128259851628}
+    |pull| > 2.5 in pass 1: {'Federspiel1991_006': 2.7083338562363846, 'OlmosdeLeon2001_029': -4.405080153146097}
     OlmosdeLeon2001_029: OlmosdeLeon2001  E = 108.42 MeV  theta_lab = 133.0 deg  value = 10.840(0.942)
     MAIN_DROP (held fixed, lib/common.py) = ('OlmosdeLeon2001_029',)
-   outliers (F2, with trunc. cov., main database): none  |pull|>2.5 in pass 1: {'A2_2022_S3_025': 2.506980519361687, 'Federspiel1991_006': 2.673552240514653}
-   outliers (F1, with trunc. cov., main database): none  |pull|>2.5 in pass 1: {'A2_2022_S3_025': 2.5081275068703883, 'Federspiel1991_006': 2.6745772250266424}
-F2_d_fwd150_thB              N=269  a= 10.65(0.44) b= 3.20(0.44)  chi2/dof= 202.0/251=0.80 p=0.99
-F2_d_fwd150_uncorr_thB       N=269  a= 10.90(0.45) b= 3.25(0.44)  chi2/dof= 199.9/253=0.79 p=0.99
-F2_d_fwd135_thB              N=265  a= 10.93(0.47) b= 3.24(0.44)  chi2/dof= 197.3/247=0.80 p=0.99
-F2_d_fwd135_uncorr_thB       N=265  a= 10.89(0.45) b= 3.25(0.44)  chi2/dof= 197.5/249=0.79 p=0.99
-F2_d_fwd135                  N=265  a=  9.50(0.24) b= 3.57(0.24)  chi2/dof= 313.2/247=1.27 p=0.00
-F2_d_fwd150                  N=269  a= 10.66(0.24) b= 3.63(0.24)  chi2/dof=9993.6/251=39.81 p=0.00
-F2pi_d_all_thB               N=267  a= 10.88(0.51) b= 3.24(0.47)  chi2/dof= 198.0/248=0.80 p=0.99
-F2pi_d_all                   N=267  a=  9.55(0.27) b= 3.68(0.27)  chi2/dof=6209.4/248=25.04 p=0.00
-F2pi_f_GMPFpruned_thB        N=256  a= 10.70(0.51) b= 3.42(0.48)  chi2/dof= 172.9/240=0.72 p=1.00
-F2_d_all_spinPaudyal_thB     N=267  a= 10.97(0.47) b= 3.09(0.44)  chi2/dof= 199.2/249=0.80 p=0.99
-F2_d_all_spinMRPP22_thB      N=267  a= 11.20(0.47) b= 2.82(0.44)  chi2/dof= 215.6/249=0.87 p=0.94
-F1_d_all_spinPaudyal_thB     N=245  a= 11.01(0.47) b= 3.08(0.44)  chi2/dof= 196.7/230=0.86 p=0.95
-F1_d_all_spinMRPP22_thB      N=245  a= 11.32(0.47) b= 2.82(0.45)  chi2/dof= 195.1/230=0.85 p=0.95
-F2_F4_pruned_thB             N=266  a= 10.65(0.47) b= 3.46(0.44)  chi2/dof= 184.2/251=0.73 p=1.00
-F2_F4_all_Hallin170_thB      N=292  a= 10.49(0.46) b= 3.62(0.43)  chi2/dof= 270.1/274=0.99 p=0.55
+   outliers (F2, with trunc. cov., main database): none  |pull|>2.5 in pass 1: {'Federspiel1991_006': 2.705378690308362}
+   outliers (F1, with trunc. cov., main database): none  |pull|>2.5 in pass 1: {'Federspiel1991_006': 2.7056977080960074}
+F2_d_fwd150_thB              N=269  a= 10.90(0.42) b= 2.96(0.41)  chi2/dof= 210.7/250=0.84 p=0.97
+F2_d_fwd150_uncorr_thB       N=269  a= 11.12(0.42) b= 3.03(0.42)  chi2/dof= 208.3/252=0.83 p=0.98
+F2_d_fwd135_thB              N=265  a= 11.17(0.44) b= 3.03(0.42)  chi2/dof= 205.6/246=0.84 p=0.97
+F2_d_fwd135_uncorr_thB       N=265  a= 11.12(0.42) b= 3.03(0.42)  chi2/dof= 205.9/248=0.83 p=0.98
+F2_d_fwd135                  N=265  a=  9.72(0.23) b= 3.36(0.23)  chi2/dof= 327.7/246=1.33 p=0.00
+F2_d_fwd150                  N=269  a= 10.82(0.23) b= 3.47(0.23)  chi2/dof=10003.9/250=40.02 p=0.00
+F2pi_d_all_thB               N=267  a= 11.11(0.48) b= 3.04(0.45)  chi2/dof= 206.3/247=0.84 p=0.97
+F2pi_d_all                   N=267  a=  9.75(0.26) b= 3.48(0.26)  chi2/dof=6223.1/247=25.19 p=0.00
+F2pi_f_GMPFpruned_thB        N=256  a= 10.71(0.50) b= 3.41(0.46)  chi2/dof= 172.7/239=0.72 p=1.00
+F2_d_all_spinPaudyal_thB     N=267  a= 11.16(0.44) b= 2.92(0.41)  chi2/dof= 207.0/248=0.83 p=0.97
+F2_d_all_spinMRPP22_thB      N=267  a= 11.44(0.45) b= 2.61(0.42)  chi2/dof= 223.8/248=0.90 p=0.86
+F1_d_all_spinPaudyal_thB     N=245  a= 11.20(0.44) b= 2.91(0.42)  chi2/dof= 204.4/229=0.89 p=0.88
+F1_d_all_spinMRPP22_thB      N=245  a= 11.55(0.45) b= 2.62(0.42)  chi2/dof= 203.1/229=0.89 p=0.89
+F2_F4_pruned_thB             N=266  a= 10.69(0.45) b= 3.43(0.43)  chi2/dof= 184.1/250=0.74 p=1.00
+F2_F4_all_Hallin170_thB      N=292  a= 10.80(0.44) b= 3.35(0.41)  chi2/dof= 278.3/273=1.02 p=0.40
 === HIGS test: MAIN database (no HIgS) vs main + HIgS 2022 (Li:2022vnz, variant j), HIgS alone, PG test, HIgS pulls ===
 F1_HIGS_free                 N= 16  a= 15.20(1.73) b= 2.00(1.96)  chi2/dof=  13.6/13=1.05 p=0.40
-   F1: main a=10.60 b=3.62; +HIgS a=10.80 b=3.49 (shift +0.19, -0.14); PG chi2 = 222.80 - 13.64 - 200.40 = 8.76 (dof 2, p = 0.012); HIgS predicted from the main fit: chi2 = 26.9/16 (n=1), 22.8 (n fitted 0.967, 0.983)
+   F1: main a=10.80 b=3.47; +HIgS a=10.96 b=3.36 (shift +0.16, -0.11); PG chi2 = 232.47 - 13.64 - 210.87 = 7.96 (dof 2, p = 0.019); HIgS predicted from the main fit: chi2 = 25.6/16 (n=1), 21.9 (n fitted 0.968, 0.984)
 F2_HIGS_free                 N= 16  a= 15.20(1.73) b= 2.00(1.96)  chi2/dof=  13.6/13=1.05 p=0.40
-   F2: main a=9.65 b=3.58; +HIgS a=9.81 b=3.42 (shift +0.16, -0.16); PG chi2 = 6235.96 - 13.64 - 6210.03 = 12.29 (dof 2, p = 0.002); HIgS predicted from the main fit: chi2 = 32.2/16 (n=1), 26.4 (n fitted 0.962, 0.977)
-F3_j_withHIGS                N=283  a=  9.18(0.27) b= 3.77(0.26)  gMM=2.68(0.34) gEE=-2.19(0.34) g0=-1.79 gpi=5.83  chi2/dof=2611.6/261=10.01 p=0.00
+   F2: main a=9.86 b=3.37; +HIgS a=10.00 b=3.23 (shift +0.14, -0.14); PG chi2 = 6248.69 - 13.64 - 6223.84 = 11.21 (dof 2, p = 0.004); HIgS predicted from the main fit: chi2 = 30.5/16 (n=1), 25.2 (n fitted 0.963, 0.979)
+F3_j_withHIGS                N=283  a=  9.38(0.26) b= 3.57(0.25)  gMM=2.66(0.33) gEE=-2.18(0.33) g0=-1.79 gpi=5.80  chi2/dof=2626.4/260=10.10 p=0.00
 F3_HIGS_free                 N= 16  a= 15.20(1.73) b= 2.00(1.96)  chi2/dof=  13.6/13=1.05 p=0.40
-   F3: main a=8.99 b=3.96; +HIgS a=9.18 b=3.77 (shift +0.19, -0.19); PG chi2 = 2611.56 - 13.64 - 2582.97 = 14.95 (dof 2, p = 0.001); HIgS predicted from the main fit: chi2 = 36.3/16 (n=1), 29.2 (n fitted 0.958, 0.974)
-F1_j_withHIGS_fixsum         N=261  a= 10.54(0.24) b= 3.47(0.24)  chi2/dof= 224.9/244=0.92 p=0.80
-F1_d_all_fixsum              N=245  a= 10.40(0.24) b= 3.61(0.24)  chi2/dof= 201.7/230=0.88 p=0.91
+   F3: main a=9.21 b=3.74; +HIgS a=9.38 b=3.57 (shift +0.17, -0.17); PG chi2 = 2626.40 - 13.64 - 2599.13 = 13.64 (dof 2, p = 0.001); HIgS predicted from the main fit: chi2 = 34.2/16 (n=1), 27.7 (n fitted 0.960, 0.976)
+F1_j_withHIGS_fixsum         N=261  a= 10.69(0.22) b= 3.32(0.22)  chi2/dof= 235.3/243=0.97 p=0.63
+F1_d_all_fixsum              N=245  a= 10.56(0.23) b= 3.45(0.23)  chi2/dof= 212.9/229=0.93 p=0.77
 F1_HIGS_fixsum               N= 16  a= 13.78(1.16) b= 0.23(1.16)  chi2/dof=  14.9/13=1.14 p=0.32
-   F1 fixed sum: PG = 8.31 (dof 1, p = 0.004); alpha-beta: with HIgS 7.08, main 6.79, HIgS alone 13.56
+   F1 fixed sum: PG = 7.54 (dof 1, p = 0.006); alpha-beta: with HIgS 7.37, main 7.12, HIgS alone 13.56
 F1_HIGS_free_thB             N= 16  a= 15.20(1.74) b= 2.02(1.97)  chi2/dof=  13.6/13=1.05 p=0.40
-   F1_thB: main a=10.93 b=3.22; +HIgS a=11.32 b=2.88 (shift +0.39, -0.34); PG chi2 = 215.51 - 13.62 - 195.33 = 6.57 (dof 2, p = 0.037); HIgS predicted from the main fit: chi2 = 24.6/16 (n=1), 21.2 (n fitted 0.969, 0.985)
+   F1_thB: main a=11.17 b=3.01; +HIgS a=11.48 b=2.73 (shift +0.31, -0.28); PG chi2 = 222.95 - 13.62 - 203.57 = 5.76 (dof 2, p = 0.056); HIgS predicted from the main fit: chi2 = 23.2/16 (n=1), 20.2 (n fitted 0.971, 0.987)
 F2_HIGS_free_thB             N= 16  a= 15.20(1.74) b= 2.02(1.97)  chi2/dof=  13.6/13=1.05 p=0.40
-   F2_thB: main a=10.89 b=3.23; +HIgS a=11.28 b=2.89 (shift +0.39, -0.34); PG chi2 = 218.26 - 13.62 - 197.96 = 6.68 (dof 2, p = 0.035); HIgS predicted from the main fit: chi2 = 24.7/16 (n=1), 21.3 (n fitted 0.969, 0.985)
-F3_j_withHIGS_thB            N=283  a= 11.29(0.48) b= 2.88(0.45)  gMM=2.97(0.47) gEE=-3.28(0.48) g0=-0.99 gpi=7.21  chi2/dof= 218.2/261=0.84 p=0.97
+   F2_thB: main a=11.14 b=3.02; +HIgS a=11.45 b=2.74 (shift +0.31, -0.28); PG chi2 = 225.75 - 13.62 - 206.28 = 5.85 (dof 2, p = 0.054); HIgS predicted from the main fit: chi2 = 23.3/16 (n=1), 20.3 (n fitted 0.970, 0.987)
+F3_j_withHIGS_thB            N=283  a= 11.45(0.46) b= 2.74(0.43)  gMM=2.94(0.46) gEE=-3.26(0.47) g0=-0.99 gpi=7.17  chi2/dof= 225.7/260=0.87 p=0.94
 F3_HIGS_free_thB             N= 16  a= 15.20(1.74) b= 2.02(1.97)  chi2/dof=  13.6/13=1.05 p=0.40
-   F3_thB: main a=10.88 b=3.25; +HIgS a=11.29 b=2.88 (shift +0.42, -0.37); PG chi2 = 218.24 - 13.62 - 197.93 = 6.69 (dof 2, p = 0.035); HIgS predicted from the main fit: chi2 = 24.8/16 (n=1), 21.4 (n fitted 0.969, 0.985)
-F1_j_withHIGS_fixsum_thB     N=261  a= 11.17(0.41) b= 2.84(0.41)  chi2/dof= 216.4/244=0.89 p=0.90
-F1_d_all_fixsum_thB          N=245  a= 10.81(0.44) b= 3.20(0.44)  chi2/dof= 195.9/230=0.85 p=0.95
+   F3_thB: main a=11.10 b=3.05; +HIgS a=11.45 b=2.74 (shift +0.35, -0.31); PG chi2 = 225.74 - 13.62 - 206.25 = 5.88 (dof 2, p = 0.053); HIgS predicted from the main fit: chi2 = 23.4/16 (n=1), 20.4 (n fitted 0.970, 0.987)
+F1_j_withHIGS_fixsum_thB     N=261  a= 11.33(0.39) b= 2.68(0.39)  chi2/dof= 224.1/243=0.92 p=0.80
+F1_d_all_fixsum_thB          N=245  a= 11.04(0.42) b= 2.97(0.42)  chi2/dof= 204.3/229=0.89 p=0.88
 F1_HIGS_fixsum_thB           N= 16  a= 13.78(1.17) b= 0.23(1.17)  chi2/dof=  14.9/13=1.14 p=0.32
-   F1 fixed sum_thB: PG = 5.71 (dof 1, p = 0.017); alpha-beta: with HIgS 8.32, main 7.61, HIgS alone 13.56
+   F1 fixed sum_thB: PG = 4.88 (dof 1, p = 0.027); alpha-beta: with HIgS 8.65, main 8.06, HIgS alone 13.56
 === single-observable / subset variants (with and without theory covariance) ===
 F1_A2_CSonly                 N= 60  a= 10.13(0.39) b= 4.01(0.32)  chi2/dof=  49.2/58=0.85 p=0.79
 F1_A2_S3only                 N= 36  a= 10.84(1.18) b= 3.18(1.16)  chi2/dof=  26.6/34=0.78 p=0.81
 F1_TAPSonly                  N= 54  a= 11.50(0.61) b= 2.51(0.60)  chi2/dof=  51.8/52=1.00 p=0.48
-F1_pre2015+HIGS              N=165  a= 11.31(0.39) b= 2.73(0.38)  chi2/dof= 141.3/150=0.94 p=0.68
-F1_pre2015+A2                N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.4/230=0.87 p=0.92
+F1_pre2015+HIGS              N=165  a= 11.47(0.34) b= 2.58(0.34)  chi2/dof= 148.6/149=1.00 p=0.49
+F1_pre2015+A2                N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.9/229=0.92 p=0.80
 F1_A2+HIGS                   N=112  a= 10.55(0.37) b= 3.69(0.30)  chi2/dof= 100.2/107=0.94 p=0.67
-F1_d_free                    N=245  a= 11.54(0.48) b= 3.68(0.24)  chi2/dof= 194.3/229=0.85 p=0.95
+F1_d_free                    N=245  a= 11.75(0.43) b= 3.59(0.23)  chi2/dof= 202.8/228=0.89 p=0.88
 F1_A2_CSonly_thB             N= 60  a= 10.39(0.67) b= 3.71(0.63)  chi2/dof=  46.8/58=0.81 p=0.85
 F1_A2_S3only_thB             N= 36  a= 10.88(1.23) b= 3.14(1.21)  chi2/dof=  26.2/34=0.77 p=0.83
 F1_TAPSonly_thB              N= 54  a= 11.62(0.78) b= 2.40(0.77)  chi2/dof=  51.2/52=0.98 p=0.50
-F1_pre2015+HIGS_thB          N=165  a= 11.78(0.52) b= 2.25(0.52)  chi2/dof= 137.4/150=0.92 p=0.76
-F1_pre2015+A2_thB            N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
+F1_pre2015+HIGS_thB          N=165  a= 11.91(0.48) b= 2.12(0.48)  chi2/dof= 143.4/149=0.96 p=0.61
+F1_pre2015+A2_thB            N=245  a= 11.17(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
 F1_A2+HIGS_thB               N=112  a= 11.21(0.54) b= 2.97(0.51)  chi2/dof=  94.5/107=0.88 p=0.80
-F1_d_free_thB                N=245  a= 11.80(0.64) b= 3.39(0.45)  chi2/dof= 191.4/229=0.84 p=0.97
+F1_d_free_thB                N=245  a= 11.99(0.57) b= 3.28(0.44)  chi2/dof= 198.7/228=0.87 p=0.92
 F2_c_HIGSonly_freenorm_thB   N= 38  a= 12.31(2.45) b= 1.67(2.43)  chi2/dof=  15.4/32=0.48 p=0.99
-F2_j_withHIGS_freenorm_thB   N=283  a= 10.94(0.46) b= 3.19(0.43)  chi2/dof= 211.5/263=0.80 p=0.99
-F2_d_nofwd_thB               N=245  a= 11.80(0.64) b= 3.39(0.45)  chi2/dof= 191.4/229=0.84 p=0.97
-F2_fwdonly_thB               N= 22  a= 10.82(0.10) b= 3.15(0.10)  chi2/dof=   2.2/19=0.12 p=1.00
-   angular data vs forward points: alpha+beta 15.19(0.56) vs 13.97(0.21), joint 14.13(0.19); PG = 197.96 - 191.42 - 2.21 = 4.32 (dof 1, p = 0.038, 2.1 sigma)
+F2_j_withHIGS_freenorm_thB   N=283  a= 11.17(0.44) b= 2.99(0.41)  chi2/dof= 219.7/262=0.84 p=0.97
+F2_d_nofwd_thB               N=245  a= 11.99(0.57) b= 3.28(0.44)  chi2/dof= 198.7/228=0.87 p=0.92
+F2_fwdonly_thB               N= 22  a= 11.04(0.10) b= 2.93(0.10)  chi2/dof=   2.2/19=0.12 p=1.00
+   angular data vs forward points: alpha+beta 15.27(0.53) vs 13.97(0.21), joint 14.16(0.19); PG = 206.28 - 198.68 - 2.21 = 5.38 (dof 1, p = 0.020, 2.3 sigma)
 === energy-cut scans ===
-scan_F1_noth_E90             N= 65  a= 12.09(0.85) b= 1.90(0.85)  chi2/dof=  63.6/55=1.16 p=0.20
-scan_F1_noth_E100            N=102  a= 11.79(0.64) b= 2.23(0.64)  chi2/dof=  79.5/90=0.88 p=0.78
-scan_F1_noth_E110            N=137  a= 11.41(0.50) b= 2.70(0.48)  chi2/dof= 109.2/124=0.88 p=0.83
-scan_F1_noth_E120            N=163  a= 11.24(0.42) b= 2.92(0.39)  chi2/dof= 136.3/149=0.92 p=0.76
-scan_F1_noth_E130            N=199  a= 10.81(0.35) b= 3.46(0.30)  chi2/dof= 173.2/184=0.94 p=0.71
-scan_F1_noth_E140            N=227  a= 10.59(0.31) b= 3.64(0.25)  chi2/dof= 194.3/212=0.92 p=0.80
-scan_F1_noth_E150            N=245  a= 10.60(0.30) b= 3.62(0.24)  chi2/dof= 200.4/230=0.87 p=0.92
-scan_F1_noth_E160            N=250  a= 10.56(0.30) b= 3.66(0.24)  chi2/dof= 209.3/235=0.89 p=0.89
-scan_F1_noth_E170            N=255  a= 10.50(0.30) b= 3.71(0.24)  chi2/dof= 215.6/240=0.90 p=0.87
-scan_F2_noth_E90             N= 87  a= 11.65(0.85) b= 1.57(0.85)  chi2/dof=6058.8/74=81.88 p=0.00
-scan_F2_noth_E100            N=124  a= 11.31(0.63) b= 1.91(0.63)  chi2/dof=6076.0/109=55.74 p=0.00
-scan_F2_noth_E110            N=159  a= 10.76(0.48) b= 2.47(0.48)  chi2/dof=6109.6/143=42.72 p=0.00
-scan_F2_noth_E120            N=185  a= 10.45(0.39) b= 2.78(0.38)  chi2/dof=6139.6/168=36.55 p=0.00
-scan_F2_noth_E130            N=221  a=  9.81(0.30) b= 3.41(0.30)  chi2/dof=6183.5/203=30.46 p=0.00
-scan_F2_noth_E140            N=249  a=  9.62(0.25) b= 3.61(0.25)  chi2/dof=6203.8/231=26.86 p=0.00
-scan_F2_noth_E150            N=267  a=  9.65(0.24) b= 3.58(0.24)  chi2/dof=6210.0/249=24.94 p=0.00
-scan_F2_noth_E160            N=272  a=  9.61(0.24) b= 3.62(0.24)  chi2/dof=6218.6/254=24.48 p=0.00
-scan_F2_noth_E170            N=277  a=  9.56(0.24) b= 3.66(0.24)  chi2/dof=6224.5/259=24.03 p=0.00
-scan_F1_thB_E90              N= 65  a= 12.08(0.88) b= 1.92(0.87)  chi2/dof=  63.5/55=1.16 p=0.20
-scan_F1_thB_E100             N=102  a= 11.79(0.68) b= 2.24(0.68)  chi2/dof=  79.5/90=0.88 p=0.78
-scan_F1_thB_E110             N=137  a= 11.51(0.57) b= 2.59(0.55)  chi2/dof= 108.2/124=0.87 p=0.84
-scan_F1_thB_E120             N=163  a= 11.29(0.53) b= 2.84(0.51)  chi2/dof= 135.0/149=0.91 p=0.79
-scan_F1_thB_E130             N=199  a= 11.13(0.49) b= 3.08(0.46)  chi2/dof= 167.6/184=0.91 p=0.80
-scan_F1_thB_E140             N=227  a= 10.88(0.47) b= 3.27(0.44)  chi2/dof= 189.3/212=0.89 p=0.87
-scan_F1_thB_E150             N=245  a= 10.93(0.47) b= 3.22(0.44)  chi2/dof= 195.3/230=0.85 p=0.95
-scan_F1_thB_E160             N=250  a= 10.91(0.47) b= 3.25(0.44)  chi2/dof= 203.1/235=0.86 p=0.93
-scan_F1_thB_E170             N=255  a= 10.87(0.47) b= 3.28(0.44)  chi2/dof= 206.6/240=0.86 p=0.94
-scan_F2_thB_E90              N= 87  a= 12.06(0.88) b= 1.90(0.87)  chi2/dof=  65.7/74=0.89 p=0.74
-scan_F2_thB_E100             N=124  a= 11.77(0.68) b= 2.22(0.68)  chi2/dof=  81.7/109=0.75 p=0.98
-scan_F2_thB_E110             N=159  a= 11.48(0.57) b= 2.59(0.55)  chi2/dof= 110.7/143=0.77 p=0.98
-scan_F2_thB_E120             N=185  a= 11.26(0.53) b= 2.84(0.51)  chi2/dof= 137.5/168=0.82 p=0.96
-scan_F2_thB_E130             N=221  a= 11.09(0.49) b= 3.09(0.46)  chi2/dof= 170.4/203=0.84 p=0.95
-scan_F2_thB_E140             N=249  a= 10.85(0.47) b= 3.28(0.44)  chi2/dof= 191.9/231=0.83 p=0.97
-scan_F2_thB_E150             N=267  a= 10.89(0.47) b= 3.23(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
-scan_F2_thB_E160             N=272  a= 10.87(0.47) b= 3.26(0.44)  chi2/dof= 205.8/254=0.81 p=0.99
-scan_F2_thB_E170             N=277  a= 10.84(0.47) b= 3.29(0.44)  chi2/dof= 209.2/259=0.81 p=0.99
+scan_F1_noth_E90             N= 65  a= 12.19(0.74) b= 1.80(0.74)  chi2/dof=  70.0/55=1.27 p=0.08
+scan_F1_noth_E100            N=102  a= 11.90(0.59) b= 2.11(0.58)  chi2/dof=  86.2/89=0.97 p=0.56
+scan_F1_noth_E110            N=137  a= 11.58(0.46) b= 2.53(0.44)  chi2/dof= 115.0/123=0.93 p=0.68
+scan_F1_noth_E120            N=163  a= 11.47(0.38) b= 2.70(0.35)  chi2/dof= 143.8/148=0.97 p=0.58
+scan_F1_noth_E130            N=199  a= 11.05(0.32) b= 3.25(0.28)  chi2/dof= 182.8/183=1.00 p=0.49
+scan_F1_noth_E140            N=227  a= 10.81(0.29) b= 3.47(0.24)  chi2/dof= 204.5/211=0.97 p=0.61
+scan_F1_noth_E150            N=245  a= 10.80(0.28) b= 3.47(0.23)  chi2/dof= 210.9/229=0.92 p=0.80
+scan_F1_noth_E160            N=250  a= 10.76(0.28) b= 3.51(0.23)  chi2/dof= 220.0/234=0.94 p=0.74
+scan_F1_noth_E170            N=255  a= 10.71(0.28) b= 3.55(0.23)  chi2/dof= 226.6/239=0.95 p=0.71
+scan_F2_noth_E90             N= 87  a= 11.81(0.73) b= 1.41(0.73)  chi2/dof=6064.8/74=81.96 p=0.00
+scan_F2_noth_E100            N=124  a= 11.47(0.58) b= 1.75(0.58)  chi2/dof=6082.3/108=56.32 p=0.00
+scan_F2_noth_E110            N=159  a= 10.99(0.44) b= 2.23(0.44)  chi2/dof=6115.5/142=43.07 p=0.00
+scan_F2_noth_E120            N=185  a= 10.75(0.35) b= 2.47(0.35)  chi2/dof=6148.1/167=36.81 p=0.00
+scan_F2_noth_E130            N=221  a= 10.10(0.28) b= 3.13(0.28)  chi2/dof=6195.9/202=30.67 p=0.00
+scan_F2_noth_E140            N=249  a=  9.85(0.24) b= 3.38(0.23)  chi2/dof=6217.5/230=27.03 p=0.00
+scan_F2_noth_E150            N=267  a=  9.86(0.23) b= 3.37(0.23)  chi2/dof=6223.8/248=25.10 p=0.00
+scan_F2_noth_E160            N=272  a=  9.82(0.23) b= 3.41(0.23)  chi2/dof=6232.7/253=24.64 p=0.00
+scan_F2_noth_E170            N=277  a=  9.78(0.23) b= 3.45(0.23)  chi2/dof=6239.0/258=24.18 p=0.00
+scan_F1_thB_E90              N= 65  a= 12.14(0.76) b= 1.84(0.76)  chi2/dof=  69.9/55=1.27 p=0.08
+scan_F1_thB_E100             N=102  a= 11.87(0.62) b= 2.14(0.62)  chi2/dof=  86.1/89=0.97 p=0.57
+scan_F1_thB_E110             N=137  a= 11.65(0.52) b= 2.45(0.51)  chi2/dof= 114.1/123=0.93 p=0.71
+scan_F1_thB_E120             N=163  a= 11.51(0.49) b= 2.64(0.47)  chi2/dof= 142.2/148=0.96 p=0.62
+scan_F1_thB_E130             N=199  a= 11.35(0.46) b= 2.88(0.44)  chi2/dof= 175.6/183=0.96 p=0.64
+scan_F1_thB_E140             N=227  a= 11.12(0.44) b= 3.05(0.42)  chi2/dof= 197.4/211=0.94 p=0.74
+scan_F1_thB_E150             N=245  a= 11.17(0.44) b= 3.01(0.42)  chi2/dof= 203.6/229=0.89 p=0.89
+scan_F1_thB_E160             N=250  a= 11.15(0.44) b= 3.03(0.42)  chi2/dof= 211.3/234=0.90 p=0.85
+scan_F1_thB_E170             N=255  a= 11.11(0.44) b= 3.07(0.42)  chi2/dof= 214.8/239=0.90 p=0.87
+scan_F2_thB_E90              N= 87  a= 12.13(0.76) b= 1.82(0.76)  chi2/dof=  72.1/74=0.97 p=0.54
+scan_F2_thB_E100             N=124  a= 11.85(0.62) b= 2.13(0.62)  chi2/dof=  88.4/108=0.82 p=0.92
+scan_F2_thB_E110             N=159  a= 11.62(0.52) b= 2.44(0.51)  chi2/dof= 116.5/142=0.82 p=0.94
+scan_F2_thB_E120             N=185  a= 11.48(0.49) b= 2.64(0.47)  chi2/dof= 144.8/167=0.87 p=0.89
+scan_F2_thB_E130             N=221  a= 11.31(0.46) b= 2.89(0.43)  chi2/dof= 178.4/202=0.88 p=0.88
+scan_F2_thB_E140             N=249  a= 11.09(0.44) b= 3.06(0.42)  chi2/dof= 200.1/230=0.87 p=0.92
+scan_F2_thB_E150             N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+scan_F2_thB_E160             N=272  a= 11.12(0.44) b= 3.04(0.42)  chi2/dof= 214.1/253=0.85 p=0.96
+scan_F2_thB_E170             N=277  a= 11.08(0.44) b= 3.08(0.42)  chi2/dof= 217.5/258=0.84 p=0.97
 saved 228 fits

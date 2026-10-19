@@ -2,6 +2,8 @@
 
 *Analysis for the single-author paper (V. Pascalutsa). Date: 2026-10-14.*
 
+- **UPDATE 2026-10-19 (afternoon): pre-2001 data from Baranov et al. 2001, Table 2** (`work/notes/baranov2001_database.md`):
+  NNLO fit α = 11.14(44)(49), β = 3.02(42)(41), χ² = 206.3/248; all paper numbers from `results/` of that run.
 - **Baseline: code v2** (`work/code_v2`), which includes the γNΔ vertex corrections and physical pion and nucleon
   masses in the πN loops. The new results are in Part V.
 - **Reproduction:** `cd work/fits && make` (v2 profile, about 40 s with a filled cache).

@@ -3,45 +3,44 @@ main database = pre-2015 + A2 2022 minus ['OlmosdeLeon2001_029'] (HIgS 2022 excl
 set                           N chi2(n=1)   n float  n+theory     n_th
 A2_2022_CS                   60      56.5      44.9      43.4    0.980
 A2_2022_S3                   36      26.9      26.9      26.6    1.004
-Baranov1974_75_th150          4      34.2       6.0       5.9    0.878
-Baranov1974_75_th90           3       3.4       3.2       3.1    1.012
-Bernardini1960                2       1.2       1.1       1.1    0.987
-Federspiel1991               16      18.2      18.2      18.2    0.997
-Goldansky1960                 5       5.9       3.6       3.6    1.033
+Baranov1974_75_th150          4      42.4      15.0      13.8    0.907
+Baranov1974_75_th90           3       3.4       3.3       3.3    1.002
+Bernardini1960                2       0.8       0.8       0.8    1.002
+Federspiel1991               16      18.2      18.2      18.2    0.995
+Goldansky1960                 5       5.9       3.7       3.7    1.032
 HIGS_2022_CIRC                8      13.4      10.9      10.9    0.971
 HIGS_2022_LIN                 8      10.0       9.5       9.4    0.987
-Hallin1993_TabII             13      12.9       9.3       8.5    1.034
-Hyman1959                    12       1.9       1.8       1.8    0.996
-MacGibbon1995_tagged          8       4.9       4.8       4.8    0.992
-MacGibbon1995_untagged       10       3.6       3.6       3.6    0.996
+Hallin1993_TabII             13      13.8       9.5       8.7    1.040
+Hyman1959                    12       2.1       2.1       2.1    0.997
+MacGibbon1995_tagged          8       4.9       4.8       4.8    0.993
+MacGibbon1995_untagged       10       3.1       2.9       2.8    0.991
 OlmosdeLeon2001              54      54.4      54.4      53.3    1.006
-Oxley1958                     4      31.1      11.1      11.0    0.912
-Pugh1957                     16       4.5       3.7       3.7    0.959
-Zieger1992                    2       1.7       1.7       1.3    1.000
+Oxley1958                     4      31.1      11.5      11.5    0.914
+Pugh1957                     16       4.4       3.8       3.8    0.968
+Zieger1992                    2       2.7       1.8       1.4    1.024
 GHP_forward                  22  164566.0   17004.7      32.3         
-GLOBAL                      267  164827.3   17199.1     224.6         
-GLOBAL_angular              245     261.3     194.4     192.0         
-GLOBAL_withHIGS             283  164850.6   17219.5     244.6         
-GLOBAL_angular_withHIGS     261     284.6     214.8     212.1         
-GLOBAL_allpts               268  164851.4   17222.9     246.8         
-GLOBAL_pre2015              171  164743.9   17127.3     153.3         
-GLOBAL_noLegacy             228  164782.7   17177.7     203.4         
+GLOBAL                      267  164836.5   17208.2     232.6         
+GLOBAL_angular              245     270.5     203.5     200.1         
+GLOBAL_withHIGS             283  164859.9   17228.6     252.5         
+GLOBAL_angular_withHIGS     261     293.9     223.9     220.0         
+GLOBAL_allpts               268  164860.7   17232.0     254.3         
+GLOBAL_pre2015              171  164753.2   17136.4     161.2         
+GLOBAL_noLegacy             228  164792.2   17186.3     210.9         
 % main database = pre-2015 + A2 2022 (minus MAIN_DROP) + forward points; the HIgS rows are a test (not in the main database since 2026-10-17)
 A2 (2022), $\dd\si/\dd\W$~\cite{A2:2021wmm} & 60 & 56.5 & 44.9 & 43.4 \\
 A2 (2022), $\Si_3$~\cite{A2:2021wmm} & 36 & 26.9 & 26.9 & 26.6 \\
 HI$\ga$S (2022), $\dd\si/\dd\W$~\cite{Li:2022vnz} & 8 & 13.4 & 10.9 & 10.9 \\
 HI$\ga$S (2022), $\dd\si_\parallel$, $\dd\si_\perp$~\cite{Li:2022vnz} & 8 & 10.0 & 9.5 & 9.4 \\
 TAPS (2001)~\cite{deLeon:2001dnx} & 54 & 54.4 & 54.4 & 53.3 \\
-Hallin \etal~\cite{Hallin:1993ft} & 13 & 12.9 & 9.3 & 8.5 \\
-MacGibbon \etal~\cite{MacGibbon:1995in} & 18 & 8.6 & 8.5 & 8.4 \\
+Hallin \etal~\cite{Hallin:1993ft} & 13 & 13.8 & 9.5 & 8.7 \\
+MacGibbon \etal~\cite{MacGibbon:1995in} & 18 & 8.0 & 7.7 & 7.6 \\
 Federspiel \etal~\cite{Federspiel:1991yd} & 16 & 18.2 & 18.2 & 18.2 \\
-Zieger \etal~\cite{Zieger:1992jq} & 2 & 1.7 & 1.7 & 1.3 \\
-Baranov \etal~\cite{Baranov:1974ec,Baranov:1975ju} & 7 & 37.5 & 9.2 & 9.0 \\
-Bremsstrahlung data, 1957--1960~\cite{Pugh:1957zz,Oxley:1958zz,Hyman:1959zz,Goldansky:1960zz,Bernardini:1960wya} & 39 & 44.6 & 21.3 & 21.3 \\
+Zieger \etal~\cite{Zieger:1992jq} & 2 & 2.7 & 1.8 & 1.4 \\
+Baranov \etal~\cite{Baranov:1974ec,Baranov:1975ju} & 7 & 45.7 & 18.3 & 17.1 \\
+Bremsstrahlung data, 1957--1960~\cite{Pugh:1957zz,Oxley:1958zz,Hyman:1959zz,Goldansky:1960zz,Bernardini:1960wya} & 39 & 44.3 & 21.9 & 21.8 \\
 Forward points, \Eqref{forward} & 22 & 164566.0 & 17004.7 & 32.3 \\
 \hline
-All angular data (main database) & 245 & 261.3 & 194.4 & 192.0 \\
-All data (main database) & 267 & 164827.3 & 17199.1 & 224.6 \\
-All angular data incl.\ HI$\ga$S & 261 & 284.6 & 214.8 & 212.1 \\
-All data incl.\ HI$\ga$S & 283 & 164850.6 & 17219.5 & 244.6 \\
-pred exit 0
+All angular data (main database) & 245 & 270.5 & 203.5 & 200.1 \\
+All data (main database) & 267 & 164836.5 & 17208.2 & 232.6 \\
+All angular data incl.\ HI$\ga$S & 261 & 293.9 & 223.9 & 220.0 \\
+All data incl.\ HI$\ga$S & 283 & 164859.9 & 17228.6 & 252.5 \\

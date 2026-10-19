@@ -54,7 +54,7 @@ OUTJSON = os.path.join(PWA, 'results', 'forward_figure.json')
 EMIN, EMAX, ETH = 50.0, 450.0, 150.0
 COL = dict(ghp='#d9800b', band='#d9800b', nnlo='#444444', pwa=MF.COL['main'],    # GHP in orange, distinct from the grey NNLO curve (2026-10-17)
            r26='#1b9e77', band26='#1b9e77')                                      # 2026 update in green (2026-10-18)
-LEG = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansky': 0.08}
+LEG = UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 
 
 # ---------------------------------------------------------------- GHP supplement

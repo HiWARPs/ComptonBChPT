@@ -1,6 +1,7 @@
 """Updated proton RCS database for the PWA below 150 MeV.
-Sources (read-only): work/data/db_old.csv (primary pre-2015 values, true energies), db_klp2018.csv (only source for
-Oxley, Goldansky, Bernardini and the full Pugh/Hyman sets), db_new.csv (A2 2022, HIGS 2022),
+Sources (read-only): work/data/db_old.csv (TAPS 2001), db_baranov2001.csv (all pre-2001 sets below 150 MeV: Table 2
+of Baranov, L'vov, Petrun'kin, Shtarkov 2001, lab cross sections, statistical errors, normalisation uncertainty delta;
+since 2026-10-19, replacing db_old/db_klp2018 for these sets), db_new.csv (A2 2022, HIGS 2022),
 db_mornacchi_thesis.csv (per-beamtime A2 variant).
 Columns: dataset, texkey, obs (CS = lab dsigma/dOmega, CS_PAR, CS_PERP (lab), S3), E, theta_lab, value, stat, sys,
 err (= stat (+) sys, used in chi^2), norm_group, norm_err (Gaussian-equivalent fractional scale), group (old/new)
@@ -30,53 +31,34 @@ def rows_from(df, dataset, texkey, group, obs=None, norm_group=None, norm=None, 
 def old_primary():
     o = pd.read_csv(D + 'db_old.csv')
     o = o[(o.obs == 'CS') & (o.E_lab_MeV <= EMAX)]
-    parts = []
-    x = o[o.dataset == 'OlmosdeLeon2001']
-    parts.append(rows_from(x, 'TAPS2001', 'OlmosdeLeon:2001zn', 'old'))
-    x = o[(o.dataset == 'Federspiel1991') & (o.E_lab_MeV >= 54.9)]
-    parts.append(rows_from(x, 'Federspiel1991', 'Federspiel:1991yd', 'old'))
-    x = o[o.dataset == 'Zieger1992']
-    parts.append(rows_from(x, 'Zieger1992', 'Zieger:1992jq', 'old'))
-    for ds in ('Baranov1974_75_th90', 'Baranov1974_75_th150'):
-        x = o[o.dataset == ds]
-        parts.append(rows_from(x, ds.replace('1974_75', '1974'), 'Baranov:1974ec', 'old', norm_group='Baranov1974'))
-    for ds in ('MacGibbon1995_tagged', 'MacGibbon1995_untagged'):
-        x = o[o.dataset == ds]
-        parts.append(rows_from(x, ds, 'MacGibbon:1995in', 'old'))
-    # Hallin Table II (c.m. frame) -> lab cross sections, errors stat, sys converted with the exact Jacobian
-    x = o[(o.dataset == 'Hallin1993_TabII')].copy()
+    parts = [rows_from(o[o.dataset == 'OlmosdeLeon2001'], 'TAPS2001', 'OlmosdeLeon:2001zn', 'old')]
+    # Hallin Table II at 150 MeV (beyond Baranov et al.'s omega < 150): c.m. -> lab with the exact Jacobian, delta = 4%
+    x = o[(o.dataset == 'Hallin1993_TabII') & (o.E_lab_MeV >= 150.0)].copy()
     k = C.kin(x.E_lab_MeV.values, x.theta_cm_deg.values, 'cm')
     lf = C.lab_factor(k)
-    h = rows_from(x, 'Hallin1993', 'Hallin:1993ft', 'old')
+    h = rows_from(x, 'Hallin1993', 'Hallin:1993ft', 'old', norm=0.04)
     h['theta_lab'] = np.degrees(k['thlab'])
-    h['value'] *= lf; h['stat'] *= lf; h['sys'] *= lf
+    h['value'] *= lf; h['stat'] *= lf; h['sys'] = 0.0      # Baranov et al. error model for Hallin: stat (+) 4% scale
     parts.append(h)
     return pd.concat(parts, ignore_index=True)
 
 
-def old_klp_only():
-    """Oxley, Goldansky, Bernardini, Pugh, Hyman from the KLP18 notebook (errors = total errors used there).
-    Pugh/Hyman energies: replaced by the true energies of db_old for groups whose 90-deg point matches."""
-    k = pd.read_csv(D + 'db_klp2018.csv')
-    o = pd.read_csv(D + 'db_old.csv')
+def old_baranov2001():
+    """pre-2001 sets from Baranov et al. 2001, Table 2.  The five oldest sets (Oxley, Goldansky, Bernardini, Pugh,
+    Hyman) get norm 0 here (fixed-normalisation configuration, main_fits.py); the paper's PWA fit floats them with
+    their delta (update_fits.LEGACY_NORM).  Federspiel 1991 only from 55 MeV on (lowest KLP18 bin)."""
+    b = pd.read_csv(D + 'db_baranov2001.csv')
+    b = b[(b.used == 1) & ~((b.dataset == 'Federspiel1991') & (b.E_lab_MeV < 54.9))].copy()
+    b['sys_err_pt'] = 0.0
+    name = {'Baranov1974_75_th90': 'Baranov1974_th90', 'Baranov1974_75_th150': 'Baranov1974_th150',
+            'Hallin1993_TabII': 'Hallin1993', 'Oxley1958': 'Oxley', 'Goldansky1960': 'Goldansky',
+            'Bernardini1960': 'Bernardini', 'Pugh1957': 'Pugh', 'Hyman1959': 'Hyman'}
     parts = []
-    for name, tk in (('Oxley', 'Oxley:1958zz'), ('Goldansky', 'Goldansky:1960zz'), ('Bernardini', 'Bernardini:1960wya')):
-        x = k[k.dataset == 'KLP2018_' + name]
-        parts.append(rows_from(x, name, tk, 'old', norm=0.0))
-    for name, tk, ods in (('Pugh', 'Pugh:1957zz', 'Pugh1957_Frisch1967_legacy_partial'),
-                          ('Hyman', 'Hyman:1959zz', 'Hyman1959_legacy_partial')):
-        x = k[k.dataset == 'KLP2018_' + name].copy()
-        ref = o[o.dataset == ods]
-        Enew = x.E_lab_MeV.values.astype(float).copy()
-        for Eg in np.unique(x.E_lab_MeV.values):
-            g = x[x.E_lab_MeV == Eg]
-            g90 = g[abs(g.theta_lab_deg - 90) < 0.5]
-            if len(g90):
-                m = ref[(abs(ref.value - g90.value.iloc[0]) < 1e-6) & (abs(ref.stat_err - g90.stat_err.iloc[0]) < 1e-6)
-                        & (abs(ref.E_lab_MeV - Eg) <= 5)]
-                if len(m):
-                    Enew[(x.E_lab_MeV == Eg).values] = m.E_lab_MeV.iloc[0]
-        parts.append(rows_from(x, name, tk, 'old', E=Enew, norm=0.0))
+    for ds in dict.fromkeys(b.dataset):
+        x = b[b.dataset == ds]
+        nm = name.get(ds, ds)
+        parts.append(rows_from(x, nm, x.texkey.iloc[0], 'old',
+                               norm=0.0 if nm in ('Oxley', 'Goldansky', 'Bernardini', 'Pugh', 'Hyman') else None))
     return pd.concat(parts, ignore_index=True)
 
 
@@ -103,7 +85,7 @@ def new_data(per_beamtime=False):
 
 
 def build(per_beamtime=False):
-    d = pd.concat([old_primary(), old_klp_only(), new_data(per_beamtime)], ignore_index=True)
+    d = pd.concat([old_primary(), old_baranov2001(), new_data(per_beamtime)], ignore_index=True)
     d['err'] = np.hypot(d.stat, d.sys)
     d['theta_cm'] = np.degrees(C.kin(d.E.values, d.theta_lab.values, 'lab')['thcm'])
     return d

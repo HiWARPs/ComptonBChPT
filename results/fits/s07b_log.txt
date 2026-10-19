@@ -1,5 +1,5 @@
-F2 (NNLO fit): fit subtotal (JSON) = 0.4686 0.4390, quadrature of the four rows = 0.4686 0.4390, diff = +0.0000 +0.0000
-   syst (quadrature of the systematic rows) = 0.4633 0.3741;  sqrt(fit^2+syst^2) = 0.6590 0.5768;  JSON TOTAL = 0.6590 0.5768;  diff = 0.0e+00 0.0e+00
-F1 (Baldin fit): fit subtotal (JSON) = 0.4689 0.4411, quadrature of the four rows = 0.4964 0.4425, diff = +0.0274 +0.0013
-   syst (quadrature of the systematic rows) = 0.3970 0.3672;  sqrt(fit^2+syst^2) = 0.6144 0.5740;  JSON TOTAL = 0.6144 0.5740;  diff = 0.0e+00 0.0e+00
+F2 (NNLO fit): fit subtotal (JSON) = 0.4400 0.4163, quadrature of the four rows = 0.4400 0.4163, diff = +0.0000 +0.0000
+   syst (quadrature of the systematic rows) = 0.4939 0.4100;  sqrt(fit^2+syst^2) = 0.6614 0.5843;  JSON TOTAL = 0.6614 0.5843;  diff = 0.0e+00 0.0e+00
+F1 (Baldin fit): fit subtotal (JSON) = 0.4401 0.4183, quadrature of the four rows = 0.4635 0.4211, diff = +0.0234 +0.0029
+   syst (quadrature of the systematic rows) = 0.4408 0.4088;  sqrt(fit^2+syst^2) = 0.6229 0.5849;  JSON TOTAL = 0.6229 0.5849;  diff = 0.0e+00 0.0e+00
 wrote <release>/code/fits/results/error_budget_table.tex

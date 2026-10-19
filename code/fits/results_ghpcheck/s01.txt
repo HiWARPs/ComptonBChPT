@@ -1,17 +1,17 @@
 fitdb.csv: 624 rows; fitdb_pb.csv: 720 rows
                    dataset         obs   N  N150  N170  N350            E frame   norm  nflag
 0          OlmosdeLeon2001          CS  65    55    65    65   58.9-163.7   LAB   3.0%      1
-1           Federspiel1991          CS  16    16    16    16    33.5-70.0   LAB   2.0%      1
-2               Zieger1992          CS   2     2     2     2   98.0-132.0   LAB      -      0
-3      Baranov1974_75_th90          CS   3     3     3     3   80.9-109.9   LAB   8.0%      0
-4     Baranov1974_75_th150          CS   4     4     4     4   81.9-111.1   LAB   8.0%      4
-5         Hallin1993_TabII        CSCM  28    13    28    28  130.0-170.0    CM   3.6%     15
-6     MacGibbon1995_tagged          CS   8     8     8     8    73.2-96.8   LAB   4.0%      0
+1           Federspiel1991          CS  16    16    16    16    33.5-70.0   LAB   3.0%      1
+2               Zieger1992          CS   2     2     2     2   98.0-132.0   LAB   4.3%      0
+3      Baranov1974_75_th90          CS   3     3     3     3   80.9-109.9   LAB   1.0%      0
+4     Baranov1974_75_th150          CS   4     4     4     4   81.9-111.1   LAB   3.7%      4
+5         Hallin1993_TabII     CS/CSCM  28    13    28    28  130.0-170.0   LAB   4.0%     15
+6     MacGibbon1995_tagged          CS   8     8     8     8    73.2-96.8   LAB   3.5%      0
 7   MacGibbon1995_untagged          CS  10    10    10    10  105.0-145.0   LAB   2.9%      0
-8                 Pugh1957          CS  16    16    16    16   55.0-135.0   LAB  10.0%      0
+8                 Pugh1957          CS  16    16    16    16   55.0-135.0   LAB   7.0%      0
 9                Hyman1959          CS  12    12    12    12   60.0-128.0   LAB  10.0%      0
-10           Goldansky1960          CS   5     5     5     5    55.0-55.0   LAB   8.0%      0
-11               Oxley1958          CS   4     4     4     4    60.0-60.0   LAB  10.0%      4
+10           Goldansky1960          CS   5     5     5     5    55.0-55.0   LAB   6.0%      0
+11               Oxley1958          CS   4     4     4     4    60.0-60.0   LAB   8.0%      4
 12          Bernardini1960          CS   2     2     2     2  120.0-139.0   LAB  10.0%      2
 13              A2_2022_CS          CS  60    60    60    60   92.2-135.3   LAB   3.0%      0
 14              A2_2022_S3          S3  36    36    36    36   92.2-129.5   LAB   2.9%      0

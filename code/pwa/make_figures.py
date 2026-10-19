@@ -148,7 +148,7 @@ def fig_pulls(F):
         ax.axhline(9, ls='--', color='0.3', lw=0.8)
         t3 = ax.text(154, 9.3, r'$3\sigma$', ha='right', va='bottom')
         ax.set_ylabel(r'$\chi^2_i$')
-        ax.set_ylim(0, max(21.0, 1.12 * float(np.max(pulls**2)), 1.12 * chi2_ex))
+        ax.set_ylim(0, max(21.0, 1.12 * float(np.max(pulls**2)), 1.25 * chi2_ex))   # headroom for the two-line label
         ax.set_xlim(50, 155)
         ax.set_title(title, loc='left', fontsize=8, pad=2.5)
         out = np.where(np.abs(pulls) > 3)[0]

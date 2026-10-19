@@ -58,6 +58,8 @@ G0_TXT = '%.3f(%d)' % (GHP_G0[0], round(1000 * GHP_G0[1]))
 # these pids unless keep_outlier=True (variant 'd_allpts'); scripts that select rows directly must drop them
 # themselves (see scenarios/nnlo_prediction_chi2.py).
 MAIN_DROP = ('OlmosdeLeon2001_029',)
+MG_COV = {(int(r.theta_lab_deg), float(r.E_i_MeV), float(r.E_j_MeV)): float(r.cov_nb2) for r in
+          pd.read_csv(os.path.join(database.DATA, 'db_macgibbon1995_untagged_cov.csv')).itertuples()}
 
 
 def load_db(per_beamtime=False):
@@ -113,6 +115,12 @@ def build_fit(df, T, P0, free, constraints=(), fwd_mode='nuisance', thcov=None, 
     y = df['value'].values
     N = len(df)
     C = np.diag(df['err_pt'].values ** 2)
+    # MacGibbon 1995 untagged: full 5x5 error matrix per angle (MacGibbon et al., appendix; Baranov et al. 2001, Sect. 4)
+    im = np.where((df['dataset'] == 'MacGibbon1995_untagged').values)[0]
+    for a in im:
+        for b in im:
+            if round(df['theta_lab'].iat[a]) == round(df['theta_lab'].iat[b]):
+                C[a, b] = MG_COV[(round(df['theta_lab'].iat[a]), df['E'].iat[a], df['E'].iat[b])]
     shifts = None
     isf = df['dataset'].isin(FWD).values
     if isf.any():

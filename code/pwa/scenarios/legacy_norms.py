@@ -6,7 +6,7 @@ sys.path.insert(0, '.')
 import update_fits as UF
 import main_fits as MF
 d = UF.load()
-leg = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansky': 0.08}
+leg = UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 dl = d.copy()
 for s, e in leg.items():
     m = dl.dataset == s

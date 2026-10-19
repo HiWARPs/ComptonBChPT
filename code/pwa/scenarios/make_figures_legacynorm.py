@@ -4,7 +4,7 @@ import sys, runpy
 sys.path.insert(0, '.')
 import update_fits as UF
 _orig = UF.load
-LEG = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansky': 0.08}
+LEG = UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 def load_leg(per_beamtime=False):
     d = _orig(per_beamtime=per_beamtime)
     for s, e in LEG.items():

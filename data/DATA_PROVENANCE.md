@@ -17,8 +17,10 @@ full details (bin edges, cross-checks, which compilation used which point); cons
 
 `fitdb.csv` and `fitdb_pb.csv` are built by `code/fits/scripts/s01_build_db.py` (`code/fits/lib/database.py`) from the
 curated source tables in `code/data/`: `db_old.csv` (pre-2015 data, 477 rows), `db_new.csv` (A2 and HIγS 2014–2022,
-126 rows), `db_klp2018.csv` (the 138-point database of the 2018 partial-wave analysis, exported from the author's
-notebook), `db_mornacchi_thesis.csv` (A2 per beam time), `db_forward_obs.csv`.  `db_old_ext450.csv` is a plot-only
+126 rows), `db_baranov2001.csv` (since 2026-10-19 the source of all pre-2001 sets below 150 MeV: Table 2 of Baranov,
+L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001), with the corrections and normalization uncertainties
+compiled there), `db_macgibbon1995_untagged_cov.csv` (the error matrix of the MacGibbon 1995 untagged cross sections),
+`db_mornacchi_thesis.csv` (A2 per beam time), `db_forward_obs.csv`.  `db_old_ext450.csv` is a plot-only
 extension of the old data to 450 MeV.  The scripts that produced the curated tables from the raw sources are in
 `code/data/scripts/`; the raw downloads themselves (HEPData records, arXiv sources, theses; `work/data/raw/`,
 155 MB) and the text extractions of the theses are not redistributed.  Their locations are given per set below.
@@ -30,7 +32,7 @@ extension of the old data to 450 MeV.  The scripts that produced the curated tab
 | `pid` | unique point id (`<dataset>_<nnn>`) |
 | `dataset` | independent data set (own normalization) |
 | `expt` | short label for legends |
-| `source` | curated table of origin (`db_old`, `db_new`, `db_klp2018`, `db_mornacchi_thesis`, `db_forward_obs`) |
+| `source` | curated table of origin (`db_old`, `db_baranov2001`, `db_new`, `db_mornacchi_thesis`, `db_forward_obs`) |
 | `obs` | observable as in the source (`CS`, `S3`, `S2X`, `S2Z`, `CS_PAR`, `CS_PERP`) |
 | `dobs` | observable code of the amplitude driver (`CS` lab, `CSCM` c.m., `S3`, `S2X`, `S2Z`, `SPAR`, `SPERP`) |
 | `frame` | frame of the angle passed to the driver (`LAB` or `CM`) |
@@ -39,7 +41,7 @@ extension of the old data to 450 MeV.  The scripts that produced the curated tab
 | `value` | measured value (nb/sr for cross sections; dimensionless for asymmetries) |
 | `err_stat`, `err_syspt`, `err_pt` | statistical, point-to-point systematic, and their quadrature sum (used in χ²) |
 | `norm` | 1σ (Gaussian-equivalent) scale uncertainty of the set, as a fraction; 0 = not floated |
-| `flags` | `GMPF_out` (excluded by the pruning of Griesshammer et al. 2012 / McGovern et al. 2013), `KLP_E` (energy reconstructed from the 2018 bin label), `FWD` (forward point) |
+| `flags` | `GMPF_out` (excluded by the pruning of Griesshammer et al. 2012 / McGovern et al. 2013), `B01` (pre-2001 point from Baranov et al. 2001, Table 2), `FWD` (forward point) |
 | `prov` | provenance and error-model remark, as written by `database.py` |
 
 Values are never converted between frames; only the units are changed (to nb/sr).
@@ -52,16 +54,16 @@ the author's own data files used in Lensky and Pascalutsa, Eur. Phys. J. C 65, 1
 | dataset | experiment and reference | N | origin of the numbers | error model, normalization |
 |---|---|---|---|---|
 | `OlmosdeLeon2001` | TAPS at MAMI, Olmos de León et al., Eur. Phys. J. A 10, 207 (2001) | 65 (55; 54 in the main fit, see note a) | V. Olmos de León, PhD thesis, Mainz 2000, Tables A.1–A.5 (weighted means), transcribed by hand; identical to the legacy files | stat ⊕ 5% point-to-point (as in the earlier analyses); norm 3% |
-| `Federspiel1991` | Illinois, Federspiel et al., Phys. Rev. Lett. 67, 1511 (1991) | 16 (16) | legacy files (the PRL has no table; the values are 3–5% below the published figure, cf. `db_old_README.md`) | stat; norm 2% |
-| `Zieger1992` | MAMI (180°), Zieger et al., Phys. Lett. B 278, 34 (1992) | 2 (2) | legacy file | stat ⊕ per-point systematic (6.4%, 4.3%); no common scale |
-| `Baranov1974_75_th90`, `_th150` | Moscow (Lebedev), Baranov et al., JETP Lett. 19, 398 (1974); Phys. Lett. B 52, 122 (1974); Yad. Fiz. 21, 689 (1975) | 3 + 4 (3 + 4) | HEPData ins102948, ins96876, checked against the JETP Lett. table | as quoted; norm 8% (LEGS 2001, Table IX) |
-| `Hallin1993_TabII` | SAL, Hallin et al., Phys. Rev. C 48, 1497 (1993), Table II | 28 (13; the 55 points above 170 MeV form `Hallin1993_TabII_D`, Sec. 4) | HEPData ins369337 | c.m. angle and c.m. cross section (inferred); stat ⊕ (syst ⊖ 3.6% scale); norm 3.6% |
-| `MacGibbon1995_tagged`, `_untagged` | SAL, MacGibbon et al., Phys. Rev. C 52, 2097 (1995) | 8 + 10 (8 + 10) | arXiv:nucl-ex/9507001 tables (= HEPData ins397101) | stat; norm 4% / 2.9% |
-| `Pugh1957` | MIT, Pugh et al., Phys. Rev. 105, 982 (1957), as corrected by Frisch (1967) | 16 (16) | database of the 2018 PWA (`db_klp2018.csv`), total errors; energies reconstructed from the 90° legacy subset and the bin pattern (flag `KLP_E`) | total error; norm 10% adopted |
-| `Hyman1959` | MIT, Hyman et al., Phys. Rev. Lett. 3, 93 (1959) | 12 (12) | as Pugh | total error; norm 10% adopted |
-| `Goldansky1960` | Moscow, Goldansky et al., Nucl. Phys. 18, 473 (1960) | 5 (5) | database of the 2018 PWA | total error; norm 8% (MacGibbon et al. 1995) |
-| `Oxley1958` | Chicago, Oxley, Phys. Rev. 110, 733 (1958) | 4 (4) | database of the 2018 PWA | total error; norm 10% adopted |
-| `Bernardini1960` | Illinois, Bernardini et al., Nuovo Cim. 18, 1203 (1960) | 2 (2) | database of the 2018 PWA (c.m. → lab at the bin-label energy) | total error; norm 10% adopted |
+| `Federspiel1991` | Illinois, Federspiel et al., Phys. Rev. Lett. 67, 1511 (1991) | 16 (16) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`): the values corrected after publication (dead-time calibration, A.M. Nathan, priv. comm.); identical to the legacy files | stat; norm 3% |
+| `Zieger1992` | MAMI (180°), Zieger et al., Phys. Lett. B 278, 34 (1992) | 2 (2) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`); identical to the legacy file | stat; norm 4.3% |
+| `Baranov1974_75_th90`, `_th150` | Moscow (Lebedev), Baranov et al., JETP Lett. 19, 398 (1974); Phys. Lett. B 52, 122 (1974); Yad. Fiz. 21, 689 (1975) | 3 + 4 (3 + 4) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) (= HEPData ins102948, ins96876, except ±1.0 instead of ±2.0 nb/sr at 86.3 MeV, 150°, consistent with the monitor-ratio error of the JETP Lett. table) | as quoted; norm 1% (90°), 3.7% (150°) |
+| `Hallin1993_TabII` | SAL, Hallin et al., Phys. Rev. C 48, 1497 (1993), Table II | 28 (13; the 55 points above 170 MeV form `Hallin1993_TabII_D`, Sec. 4) | below 150 MeV: Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) (lab, converted there from c.m.; = HEPData ins369337); from 150 MeV on: HEPData ins369337 | below 150 MeV: stat, norm 4%; 150 MeV point: stat ⊕ (syst ⊖ 3.6% scale), norm 4%; above (c.m.): as before, norm 3.6% |
+| `MacGibbon1995_tagged`, `_untagged` | SAL, MacGibbon et al., Phys. Rev. C 52, 2097 (1995) | 8 + 10 (8 + 10) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) (= arXiv:nucl-ex/9507001 tables, HEPData ins397101) | stat; norm 3.5% / 2.9%; the untagged points with their full 5×5 error matrix per angle (`db_macgibbon1995_untagged_cov.csv`, from the published transformation to uncorrelated combinations) |
+| `Pugh1957` | MIT, Pugh et al., Phys. Rev. 105, 982 (1957), as corrected by Frisch (1967) | 16 (16) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`): the final values (D. Frisch, priv. comm.) | stat; norm 7% |
+| `Hyman1959` | MIT, Hyman et al., Phys. Rev. Lett. 3, 93 (1959) | 12 (12) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) | stat; norm 10% |
+| `Goldansky1960` | Moscow, Goldansky et al., Nucl. Phys. 18, 473 (1960) | 5 (5) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) | stat; norm 6% |
+| `Oxley1958` | Chicago, Oxley, Phys. Rev. 110, 733 (1958) | 4 (4) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) | stat; norm 8% |
+| `Bernardini1960` | Illinois, Bernardini et al., Nuovo Cim. 18, 1203 (1960) | 2 (2) | Table 2 of Baranov, L'vov, Petrun'kin, Shtarkov, Phys. Part. Nucl. 32, 376 (2001) (`db_baranov2001.csv`) (lab, converted there from c.m.) | stat; norm 10% |
 | `A2_2022_CS`, `A2_2022_S3` | A2 at MAMI, Mornacchi et al., Phys. Rev. Lett. 128, 132503 (2022) | 60 + 36 (60 + 36) | Supplemental Material, Tables I and II (`raw/new/Mornacchi2022`) | stat ⊕ point-to-point syst; norm 3% (dσ); 5% uniform scale → Gaussian 2.9% (Σ3) |
 | `A2_2018Mar_*`, `A2_2018Jul_*` (`fitdb_pb.csv` only) | the same data per beam time | 60 + 36 each | E. Mornacchi, PhD thesis, JGU Mainz 2021, Appendices A and B | as above, per beam time |
 | `HIGS_2022_CIRC`, `HIGS_2022_LIN` | HIγS, X. Li et al., Phys. Rev. Lett. 128, 132502 (2022), Table I | 8 + 8 (8 + 8) | published table (`raw/new/Li2022`) | stat ⊕ point-to-point syst; norm 2.24% per set; unpolarized dσ at 81.3 MeV (circular beam), dσ∥ (5) and dσ⊥ (3) at 83.4 MeV (linear beam) |

@@ -4,12 +4,12 @@
   "max abs. dev. (asymmetries)": 2.435052159910356e-12
  },
  "complete (VC), P=NNLO fit": {
-  "max rel. dev. (cross sections)": 1.5455732410564056e-09,
-  "max abs. dev. (asymmetries)": 2.393529818789375e-12
+  "max rel. dev. (cross sections)": 1.5449555052830783e-09,
+  "max abs. dev. (asymmetries)": 2.398303777795263e-12
  },
  "complete (VC), P=spin fit (not drawn)": {
-  "max rel. dev. (cross sections)": 1.5404806884521129e-09,
-  "max abs. dev. (asymmetries)": 2.419398015263141e-12
+  "max rel. dev. (cross sections)": 1.540391843324912e-09,
+  "max abs. dev. (asymmetries)": 2.42772468794783e-12
  },
  "complete without VC, P=main curve": {
   "max rel. dev. (cross sections)": 1.4917726877128267e-09,
@@ -20,12 +20,12 @@
   "max abs. dev. (asymmetries)": 1.0628165014736624e-12
  },
  "Born+pi0+piN, d=NNLO fit": {
-  "max rel. dev. (cross sections)": 1.468476038156167e-12,
-  "max abs. dev. (asymmetries)": 1.1993739335025566e-12
+  "max rel. dev. (cross sections)": 1.4712434769871464e-12,
+  "max abs. dev. (asymmetries)": 1.1998180227124067e-12
  },
  "Born+piN+D0+piD, d=NNLO fit": {
-  "max rel. dev. (cross sections)": 1.5368053029919906e-09,
-  "max abs. dev. (asymmetries)": 2.000621890374532e-12
+  "max rel. dev. (cross sections)": 1.5361856767886438e-09,
+  "max abs. dev. (asymmetries)": 2.0048407378681077e-12
  },
  "static pols per mechanism (piN, D1, piD)": {
   "piN": [

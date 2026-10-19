@@ -1,0 +1,98 @@
+dataset,texkey,obs,E_lab_MeV,theta_lab_deg,theta_cm_deg,frame_of_cs,value,stat_err,norm_err_frac,used,units,source,notes
+Govorkov1956,,CS,97,45,48.933,lab,14.0,1.7,,0,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",Gov56: not fitted by Baranov et al. (no systematic error quoted)
+Govorkov1956,,CS,97,90,95.376,lab,13.5,1.3,,0,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",Gov56: not fitted by Baranov et al. (no systematic error quoted)
+Govorkov1956,,CS,97,135,138.681,lab,22.5,4.5,,0,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",Gov56: not fitted by Baranov et al. (no systematic error quoted)
+Oxley1958,Oxley:1958zz,CS,60,70,73.272,lab,10.6,0.8,0.08,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Oxley1958,Oxley:1958zz,CS,60,90,93.446,lab,10.8,0.4,0.08,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Oxley1958,Oxley:1958zz,CS,60,120,122.940,lab,11.8,0.5,0.08,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Oxley1958,Oxley:1958zz,CS,60,150,151.680,lab,14.7,0.6,0.08,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,88,50,53.876,lab,13.9,4.0,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,99,50,54.330,lab,13.2,3.8,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,109,50,54.737,lab,12.3,3.8,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,120,50,55.179,lab,12.8,8.3,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,60,90,93.446,lab,10.9,1.8,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,70,90,93.981,lab,10.9,1.9,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,78,90,94.402,lab,10.9,1.8,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,87,90,94.868,lab,10.8,1.5,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,95,90,95.275,lab,10.6,1.4,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,106,90,95.826,lab,10.5,1.3,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,118,90,96.414,lab,9.8,2.0,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Hyman1959,Hyman:1959zz,CS,128,90,96.895,lab,9.4,4.0,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Goldansky1960,Goldansky:1960zz,CS,55,75,78.088,lab,11.2,0.8,0.06,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Goldansky1960,Goldansky:1960zz,CS,55,90,93.174,lab,11.0,0.5,0.06,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Goldansky1960,Goldansky:1960zz,CS,55,120,122.712,lab,13.4,0.8,0.06,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Goldansky1960,Goldansky:1960zz,CS,55,135,137.202,lab,15.6,0.8,0.06,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Goldansky1960,Goldansky:1960zz,CS,55,150,151.550,lab,19.3,0.7,0.06,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Bernardini1960,Bernardini:1960wya,CS,120,134.5,138.968,lab,14.9,2.0,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Bernardini1960,Bernardini:1960wya,CS,139,133.9,139.016,lab,18.9,1.9,0.1,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Pugh1957,Pugh:1957zz,CS,80,50,53.542,lab,11.8,2.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,95,50,54.166,lab,9.4,2.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,105,50,54.575,lab,9.4,2.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,115,50,54.979,lab,8.2,2.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,125,50,55.378,lab,4.7,6.0,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,55,90,93.174,lab,10.6,1.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,75,90,94.245,lab,10.6,1.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,95,90,95.275,lab,10.6,1.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,115,90,96.268,lab,9.9,1.9,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,125,90,96.751,lab,9.7,2.8,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,135,90,97.226,lab,4.7,7.0,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,65,135,137.568,lab,15.3,4.7,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,75,135,137.926,lab,16.5,4.7,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,95,135,138.614,lab,18.9,4.7,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,115,135,139.269,lab,14.2,4.7,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Pugh1957,Pugh:1957zz,CS,125,135,139.586,lab,18.9,9.4,0.07,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th90,Baranov:1974ec,CS,80.9,90,94.553,lab,11.5,0.6,0.01,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th90,Baranov:1974ec,CS,85.4,90,94.785,lab,10.9,0.4,0.01,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th90,Baranov:1974ec,CS,109.9,90,96.018,lab,10.3,0.6,0.01,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th150,Baranov:1974ec,CS,81.9,150,152.226,lab,14.4,1.2,0.037,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th150,Baranov:1974ec,CS,86.3,150,152.332,lab,13.7,1.0,0.037,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th150,Baranov:1974ec,CS,106.7,150,152.808,lab,16.0,0.8,0.037,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Baranov1974_75_th150,Baranov:1974ec,CS,111.1,150,152.907,lab,14.4,0.6,0.037,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,33.5,60,61.726,lab,15.0,1.6,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,37.5,60,61.926,lab,16.1,1.4,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,44.2,60,62.259,lab,11.0,1.5,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,48.2,60,62.456,lab,12.0,1.4,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,55,60,62.788,lab,13.5,1.3,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,59,60,62.982,lab,11.7,1.2,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,65.8,60,63.309,lab,12.7,1.2,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,70,60,63.509,lab,12.2,1.0,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,33.5,135,136.380,lab,14.6,1.8,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,37.5,135,136.537,lab,15.0,1.5,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,44.2,135,136.795,lab,20.5,1.8,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,48.2,135,136.947,lab,14.8,1.6,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,55,135,137.202,lab,14.9,1.5,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,59,135,137.349,lab,15.7,1.4,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,65.8,135,137.597,lab,15.3,1.5,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Federspiel1991,Federspiel:1991yd,CS,70,135,137.748,lab,13.5,1.3,0.03,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+Zieger1992,Zieger:1992jq,CS,98,180,180.000,lab,18.4,3.4,0.043,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Zieger1992,Zieger:1992jq,CS,132,180,180.000,lab,21.8,1.2,0.043,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,135,45.6,51.005,lab,8.4,1.9,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,140,45.4,50.970,lab,8.1,1.5,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,146,45.2,50.970,lab,7.8,1.4,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,138,60.4,67.017,lab,8.3,4.5,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,144,60.1,66.959,lab,4.7,3.4,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,149,59.9,66.960,lab,9.2,3.2,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,132,82.9,89.984,lab,12.4,1.2,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,139,82.6,90.014,lab,13.0,1.1,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,145,82.3,89.992,lab,11.5,0.9,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,130,136.4,141.019,lab,18.3,1.4,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,138,136.1,140.985,lab,20.9,1.3,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+Hallin1993_TabII,Hallin:1993ft,CS,146,135.9,141.040,lab,19.7,1.3,0.04,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",c.m. cross section of the original converted to the lab by Baranov et al. (Table 2 footnote)
+MacGibbon1995_tagged,MacGibbon:1995in,CS,73.2,90,94.150,lab,10.4,1.7,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,81.8,90,94.600,lab,9.0,1.6,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,89.8,90,95.011,lab,10.7,1.5,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,96.8,90,95.366,lab,8.6,1.4,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,73.2,135,137.862,lab,14.3,1.8,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,81.8,135,138.163,lab,16.1,1.8,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,89.8,135,138.438,lab,16.7,1.7,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_tagged,MacGibbon:1995in,CS,96.8,135,138.674,lab,16.0,1.6,0.035,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,105,90,95.776,lab,9.5,1.4,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,115,90,96.268,lab,12.1,1.6,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,125,90,96.751,lab,11.2,1.0,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,135,90,97.226,lab,11.4,1.6,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,145,90,97.692,lab,13.1,2.4,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,105,135,138.946,lab,14.6,2.5,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,115,135,139.269,lab,15.9,2.0,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,125,135,139.586,lab,14.9,1.8,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,135,135,139.895,lab,18.8,1.4,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",
+MacGibbon1995_untagged,MacGibbon:1995in,CS,145,135,140.197,lab,18.4,2.0,0.029,1,nb/sr,"Baranov, L'vov, Petrun'kin, Shtarkov, Fiz.Elem.Chast.Atom.Yadra 32 (2001) 699, Table 2",

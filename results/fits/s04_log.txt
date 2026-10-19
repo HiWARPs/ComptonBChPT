@@ -1,6 +1,3 @@
-  [bchpt] computed 420 points (grid_NNLO) -> grid_NNLO_853d5fdb550ed9c4.out
-  [bchpt] computed 420 points (grid_BornPi0) -> grid_BornPi0_bb09309886fda31a.out
-  [bchpt] computed 420 points (grid_NLO) -> grid_NLO_57a0af891ed73be2.out
 CS c2 k=0: l_E = 19 MeV, l_theta = 56 deg, rms = 0.328
 CS c3 k=0: l_E = 15 MeV, l_theta = 51 deg, rms = 0.751
 CS c2 k=3: l_E = 12 MeV, l_theta = 57 deg, rms = 0.398

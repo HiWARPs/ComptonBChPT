@@ -14,9 +14,13 @@ Parameter vector p (all polarisabilities in 1e-4 fm^3 / fm^4, residuals in 1e-4 
   per bin: fR1, fR4, fR5, fR6            [+ fR2, fR3 in 'chi2' mode]
   per normalisation group: n_k = (N_k - 1)/sigma_k  (if floating normalisations are requested)
 """
+import os as _os  # [release] paths relative to this file: _WORK = <release>/code (the former work/), _ROOT = <release>
+_WORK = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
+_ROOT = _os.path.dirname(_WORK)
 import numpy as np
 import pandas as pd
 from scipy.optimize import least_squares
+from scipy.linalg import solve_triangular
 import compton as C
 from sumrules import ForwardAmps, HBARC_MEV, AB_SR, SIG_AB, G0_SR, SIG_G0
 
@@ -28,6 +32,10 @@ L1KEYS = [('EE', 1, '+'), ('EE', 1, '-'), ('MM', 1, '+'), ('MM', 1, '-'), ('EM',
 L2KEYS = [('EE', 2, '-'), ('EE', 2, '+'), ('MM', 2, '-'), ('MM', 2, '+')]
 ALLKEYS = L1KEYS + L2KEYS
 WCS = np.array([0.5, 0.5, 1.0, 1.0, 0.5, 0.5])
+# MacGibbon 1995 untagged cross sections: full 5x5 error matrix per angle (MacGibbon et al., PRC 52 (1995) 2097, appendix;
+# built by work/data/scripts/build_db_baranov2001.py); used for the points of set 'MacGibbon1995_untagged'
+MG_COV = {(int(r.theta_lab_deg), float(r.E_i_MeV), float(r.E_j_MeV)): float(r.cov_nb2) for r in pd.read_csv(
+    (_WORK + '/data/db_macgibbon1995_untagged_cov.csv')).itertuples()}
 
 
 def unit_phis(theta_cm_rad):
@@ -108,6 +116,13 @@ class Model:
         self.obs = d['obs'].values
         self.y = d['value'].values.astype(float)
         self.e = d['err'].values.astype(float)
+        # correlated blocks (rows, covariance): MacGibbon 1995 untagged, one block per detector angle
+        self.cblocks = []
+        for ang in (90, 135):
+            rows = np.where((d['dataset'].values == 'MacGibbon1995_untagged') & (np.round(d['theta_lab'].values) == ang))[0]
+            if len(rows):
+                Es = d['E'].values[rows].astype(float)
+                self.cblocks.append((rows, np.array([[MG_COV[(ang, a, b)] for b in Es] for a in Es])))
         # normalisation groups
         self.gidx = np.full(len(d), -1)
         if self.ngroups:
@@ -277,6 +292,30 @@ class Model:
                               np.where((obs == 'CS_PERP')[:, None], (dcs - dnum) * lf[:, None], dcs * lf[:, None])))
         return out, J
 
+    def _whiten(self, idx, r, J=None):
+        """r = (model - y)/e on the rows idx: the rows of a correlated block are replaced by L^-1 (model - y), C = L L^T"""
+        for rows, Cb in self.cblocks:
+            pos = np.where(np.isin(idx, rows))[0]
+            if not len(pos):
+                continue
+            sub = np.searchsorted(rows, idx[pos])
+            L = np.linalg.cholesky(Cb[np.ix_(sub, sub)])
+            e = self.e[idx[pos]]
+            r[pos] = solve_triangular(L, r[pos] * e, lower=True)
+            if J is not None:
+                J[pos] = solve_triangular(L, J[pos] * e[:, None], lower=True)
+        return r, J
+
+    def wres(self, p):
+        """whitened data residuals (model - y) for all rows (diagonal rows: (model - y)/e); sum of squares = chi^2_data"""
+        pred, _ = self.predict(p)
+        npm = self.ng + self.nr * self.nb
+        if self.ngroups:
+            gi = self.gidx; scale = np.ones(len(pred)); has = gi >= 0
+            scale[has] = 1.0 + self.gsig[gi[has]] * p[npm + gi[has]]
+            pred = pred * scale
+        return self._whiten(np.arange(len(pred)), (pred - self.y) / self.e)[0]
+
     def residuals(self, p, with_prior=True, jac=False):
         npm = self.ng + self.nr * self.nb
         idx = np.where(self.mask)[0]
@@ -300,6 +339,7 @@ class Model:
             if jac:
                 Jfull = np.zeros((len(idx), self.npar))
                 Jfull[:, :npm] = J / e[:, None]
+        r, Jfull = self._whiten(idx, r, Jfull)
         res = [r]
         jacs = [Jfull] if jac else []
         if self.sr_mode == 'chi2':
@@ -355,7 +395,7 @@ class Model:
             gi = self.gidx[idx]; scale = np.ones(len(idx)); has = gi >= 0
             scale[has] = 1.0 + self.gsig[gi[has]] * p[npm + gi[has]]
             pred = pred * scale
-        return np.sum(((pred - self.y[idx]) / self.e[idx])**2)
+        return np.sum(self._whiten(idx, (pred - self.y[idx]) / self.e[idx])[0] ** 2)
 
     def pulls(self, p):
         pred, _ = self.predict(p)

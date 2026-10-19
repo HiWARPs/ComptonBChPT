@@ -4,7 +4,7 @@ fig2_sigma3: legend width 2.27 in within the figure width 3.40 in
 fig3_higs_linear SPAR  83.4 MeV: LEC band max 0.44 nb/sr, max 3.2% of the prediction (at 60 deg)
 fig3_higs_linear SPERP 83.4 MeV: LEC band max 0.44 nb/sr, max 2.8% of the prediction (at 0 deg)
 fig3_higs_linear CS    81.3 MeV: LEC band max 0.42 nb/sr, max 2.6% of the prediction (at 0 deg)
-fig4_alpha_beta: PWA point from <release>/code/pwa/results/main_total_errors.json: alpha = 11.13(0.81), beta = 3.08(0.80)
+fig4_alpha_beta: PWA point from <release>/code/pwa/results/main_total_errors.json: alpha = 11.21(0.78), beta = 2.99(0.77)
 fig7_forward dsigma(0): LEC band max 0.632 nb/sr = 24.98% of the prediction (at 150 MeV); |pred-emp| max 25.5%
 fig7_forward Sigma_2z(0): LEC band max 0.0439 (at 150 MeV); |pred-emp| max 0.0070
 fig8_Emax_scan: legend width 1.65 in within the figure width 3.40 in

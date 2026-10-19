@@ -64,6 +64,13 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 
 ## 3. Datasets — provenance, errors, compilation usage
 
+## 3a. Baranov, L'vov, Petrun'kin, Shtarkov 2001 — the pre-2001 sets below 150 MeV (since 2026-10-19)
+
+* **Source:** Fiz. Elem. Chast. Atom. Yadra 32 (2001) 699 [Phys. Part. Nucl. 32 (2001) 376], `Baranov:2001jv`; PDF in `raw/old/Baranov2001_PEPAN/`, Table 2 (pp. 705–706) extracted with `pdftotext -layout` (`table2_pdftotext.txt`, machine-readable, no hand transcription) and parsed by `scripts/build_db_baranov2001.py` → `db_baranov2001.csv` (97 rows = 94 fitted by Baranov et al. + Gov56, 3 points without a systematic error, `used = 0`). Self-checks: per-set counts = the printed n; 46 early + 48 late = 94.
+* **Content:** lab cross sections at lab angles (the c.m. values of Zieger 92, Hallin 93 and Bernardini 61 converted to the lab by the authors), statistical errors, and the systematic (normalisation) uncertainty δ of each set, ω < 150 MeV. Corrections relative to the original publications: Federspiel 91 values lowered by 3–4% (A.M. Nathan, priv. comm.); Pugh 57 final values (D. Frisch, priv. comm., MIT Summer Study 1967); Oxley 58 corrected for multiple-background processes, θ > 60° only; Hyman 59 at 50° only above 80 MeV; Baranov 74 split into 90° (δ = 1%) and 150° (δ = 3.7%); MacGibbon 95 untagged fitted with the full error matrix.
+* **Comparison with our previous files (`scripts/compare_baranov2001.py`, report in `work/notes/baranov2001_database.md`):** 86 of the 94 points identical in energy, angle, value and error (Hallin after the exact c.m.→lab Jacobian); 5 energies differ (Hyman 50°: 88/99/109/120 MeV, ours 87/95/106/118 reconstructed from the KLP18 bin labels; Pugh 50°: 80 MeV, ours 75); Bernardini values +3.7%/+1.3% (14.9, 18.9 vs the KLP18 values 14.36, 18.65); one error (Baranov 74, 86.3 MeV, 150°: 1.0 vs 2.0); the systematic uncertainties differ for most sets (δ: Oxley 8, Hyman 10, Goldansky 6, Bernardini 10, Pugh 7, Baranov 1 / 3.7, Federspiel 3, Zieger 4.3, Hallin 4, MacGibbon 3.5 / 2.9 %). Hallin's 150 MeV point is outside Table 2 (ω < 150) and is kept from HEPData.
+* **Use:** `work/fits/lib/database.py` (`_rows_b01`) and `work/pwa/build_update_db.py` take these sets from `db_baranov2001.csv` below 150 MeV (error = stat, normalisation = δ, floated); `db_klp2018.csv` is no longer used by the fits.
+
 ### Olmos de León et al. 2001 (TAPS/MAMI), EPJA 10, 207 — `deLeon:2001dnx`
 * **Source:** the EPJA article is not open access, and the tables were not on arXiv or HEPData. Values are taken from V. Olmos de León, PhD thesis, Mainz 2000, Anhang A, Tabellen A.1–A.5, column "gewicht. Mittel" (weighted mean of runs 2 and 3), pp. 123–125. The thesis is at http://download.uni-mainz.de/fb08-kpha2/publications/phd/2000_olmos.ps.pdf (saved in `raw/old/OlmosdeLeon2000_thesis/`).
 * **Transcription:** made by hand from 220-dpi page renders, in `transcription_weighted_mean.csv`.
@@ -83,7 +90,7 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 * **The PRL contains no table:** the cross sections appear only in Fig. 2. This was checked in the KEK scan of preprint ILL-NPL-91-012 (https://lib-extopc.kek.jp/preprints/PDF/1991/9109/9109187.pdf, saved in `raw/old/Federspiel1991_KEKscan/`).
 * **Values used:** the 16 values are the author's legacy files `DATA2/a060.fed91` and `a135.fed91`, embedded in `LP_ms2/figs/dasfixA.agr` and other figures.
 * **Difference from the published figure:** these values are systematically **3–5% lower** than the published figure. The digitised-looking version is `Codes/execs/CSeft/RCSdata/feder_91_th*.exp`, which has a constant error of 1.44 nb/sr; the db/exp ratio is 0.95–0.97.
-* **Likely origin:** this is consistent with the later corrections "A.M. Nathan, priv. comm. 1993" used in the Baranov et al. 2001 compilation. The origin of the legacy numbers is not documented, so **verify before use.**
+* **Origin (verified 2026-10-19):** all 16 values and errors are identical to Table 2 of the Baranov et al. 2001 compilation, i.e. they are the corrected cross sections (dead-time calibration, lowered by 3–4%; A.M. Nathan, priv. comm. 1993; see Sect. 3a).
 * **Errors:** stat. norm 2.0% (preprint); Griesshammer 2012 quotes 2.2%, and LEGS 2001 used 2.0%. Bins are 4 MeV wide.
 * **Compilations:** used by all. Outlier **135°, 44.2 MeV** is excluded by Griesshammer 2012, McGovern 2013 and the Pasquini SELECTED set.
 
@@ -95,7 +102,7 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 ### Baranov et al. 1974/75 (Moscow) — `Baranov:1974ta` (JETP Lett. 19, 398), `Baranov:1974ec` (PLB 52, 122), `Baranov:1975ju` (Yad.Fiz. 21, 689)
 * **Source:** HEPData ins102948 and ins96876 (https://www.hepdata.net/record/ins102948). The values were checked digit by digit against the table in the JETP Lett. paper (INSPIRE fulltext, saved in `raw/old/Baranov1974_JETPLett/`): all 7 points agree.
 * **Frame:** lab, θ_lab = 90°, 150°.
-* **Errors:** the quoted errors include random and reduction errors plus ~1% absolutization systematic, so they are placed in stat_err. norm = 0.08 is the scale uncertainty LEGS 2001 (Table IX) used for "Moscow 81–110 MeV". The original quotes only ~1%. Baranov 2001 assigns different systematic errors to the 90° and 150° sets, but those values could not be accessed.
+* **Errors:** the quoted errors include random and reduction errors plus ~1% absolutization systematic, so they are placed in stat_err. norm = 0.08 is the scale uncertainty LEGS 2001 (Table IX) used for "Moscow 81–110 MeV". The original quotes only ~1%. Baranov 2001 (Sect. 3a) treats them as two sets with δ = 1% (90°) and 3.7% (150°; the 8 MeV energy mismatch of the monitor run at 150°), and quotes 13.7 ± 1.0 nb/sr at 86.3 MeV/150° where the JETP Lett. table has 1.37 ± 0.20 ×10⁻³² cm²/sr; the monitor-ratio error of that row (1.92 ± 0.14, 7.3%) supports ±1.0.
 * **Compilations:** treated as two sets (Baranov 2001, Pasquini 2019 sets 6 and 7). **The 150° set is excluded** by Griesshammer 2012 and McGovern 2013 (χ²/dof > 3). MacGibbon 1995 excluded the whole Moscow set from its global fit.
 * **Legacy check:** `a090.bar74` is identical.
 
@@ -120,7 +127,7 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 * **Source:** arXiv:nucl-ex/9507001 TeX source, Tables "Tagged…" and "Untagged…". These are identical to HEPData ins397101.
 * **Frame:** lab, θ_lab = 90°, 135°.
 * **Tagged set (73.2–96.8 MeV, 8 MeV bins):** stat errors. norm 3.0–4.0% per the paper; 0.04 is entered, which LEGS also used.
-* **Untagged set (100–150 MeV, 10 MeV bins):** the error is the diagonal of a 5×5 error matrix, and adjacent bins are strongly anti-correlated. The full matrix is not published. norm 2.9%.
+* **Untagged set (100–150 MeV, 10 MeV bins):** the error is the diagonal of a 5×5 error matrix per angle, and adjacent bins are strongly anti-correlated (−0.3 to −0.75). **The matrix is published** in the appendix of the paper (and of the arXiv TeX) as the orthogonal transformation V to the diagonal space with the transformed cross sections and their errors; C = V⁻¹ diag(Δσ′²) V⁻ᵀ reproduces the tabulated diagonal errors to 0.01 nb/sr (`db_macgibbon1995_untagged_cov.csv`, built by `scripts/build_db_baranov2001.py`; used in all fits since 2026-10-19). norm 2.9%.
 * **Compilations:** used as two separate sets in McGovern 2013 and Pasquini 2019 (sets 11 and 12). Only ±0.4% (tagged) and ±1.0–1.4% (untagged) of the systematics are uncorrelated (Griesshammer 2012).
 * **Legacy check:** `RCSdata/sal_95_*.exp` are identical. `a090.mac95` is rounded to 0.1.
 
@@ -194,7 +201,7 @@ Pasquini et al. 2019 ("FULL") have 150 points at ≤150 MeV. This file has 129 p
 | Peise 1996 / Molinari 1996 | `Peise:1996zz`, `Molinari:1996zw` | Superseded/summarised by Hünger 1997 (included). |
 | Fuhrberg 1995, NPA 591, 1 | `Fuhrberg:1995zz` | This paper is **Compton scattering on ⁴He at 87 MeV**, not the proton. No proton Compton dataset by Fuhrberg was found. |
 | Blanpied 1996, PRL 76, 1023 / Blanpied 1997, PRL 79, 4337 / Tonnison 1998 | `LEGS:1996cao`, `Blanpied:1997zz` | Superseded by Blanpied 2001; LEGS says not to combine (double counting). The 1996 90° release (12 dσ/dΩ + 12 Σ) is saved in raw but excluded. |
-| Baranov et al. 2001 compilation, Phys.Part.Nucl. 32, 376 | `Baranov:2001jv` | Holds the corrected old data with systematic assignments used by Griesshammer and Pasquini. Not accessible. The arXiv talk nucl-ex/0011015 has only fit results. |
+| Baranov et al. 2001 compilation, Phys.Part.Nucl. 32, 376 | `Baranov:2001jv` | **Obtained 2026-10-19** (Russian original, Fiz.Elem.Chast.Atom.Yadra 32, 699, supplied by the author; `raw/old/Baranov2001_PEPAN/`). Its Table 2 is now the source of all pre-2001 sets below 150 MeV, see Sect. 3a. |
 
 With institutional access, these DOIs would complete the low-energy set: PR 105, 982; PR 110, 733; PRL 3, 93; Nucl. Phys. 18, 473; Nuovo Cim. 18, 1203; PR 124, 909. The Baranov 2001 PEPAN review and the published EPJA 10, 207 / PLB 278, 34 / PRC 48, 1497 tables would allow the inferred frames to be verified.
 
@@ -236,6 +243,7 @@ With institutional access, these DOIs would complete the low-energy set: PR 105,
 ```
 cd work/data/scripts
 python3 -I build_db_old.py ../raw/old ../db_old.csv
+python3 -I build_db_baranov2001.py ../raw/old/Baranov2001_PEPAN/table2_pdftotext.txt ../raw/old/MacGibbon1995_arXiv/src/9507001.tex ../db_baranov2001.csv ../db_macgibbon1995_untagged_cov.csv
 python3 -I verify_sources.py ../db_old.csv ../raw/old
 python3 -I crosscheck_agr.py ../db_old.csv ../raw/old/author_legacy/author_agr_embedded_data.txt ../raw/old/author_legacy
 python3 -I summarize_db.py ../db_old.csv

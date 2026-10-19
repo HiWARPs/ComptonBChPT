@@ -76,7 +76,7 @@ except (OSError, KeyError):
     BCHPT_FIT = dict(alphaE1=11.672, betaM1=2.876)
     BCHPT_COV = dict(sa=0.47, sb=0.43, rho=-0.84)
     print('WARNING: fits_L.json not found, using fallback BChPT main fit', BCHPT_FIT)
-LEG = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansky': 0.08}
+LEG = UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 KEYS6 = [k[0] for k in MF.DYN]                         # alphaE1, betaM1, gE1E1, gM1M1, gE1M2, gM1E2
 L1 = [('EE', 1, '+'), ('EE', 1, '-'), ('MM', 1, '+'), ('MM', 1, '-'), ('EM', 1, '+'), ('ME', 1, '+')]
 EGRID = np.arange(0.5, 160.001, 0.5)

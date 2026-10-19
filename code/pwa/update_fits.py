@@ -12,6 +12,9 @@ drops the HIGS sets unless with_higs=True or they are named explicitly in `sets`
 database; the GMPF-pruned selections never contained the point.  keep_outlier=True gives the all-points database
 (variant 'db_allpts'); with_higs=True gives the former main database (variants 'all_withHIGS' here, 'db_withHIGS' in
 main_fits*.py); sets=HIGS gives the HIGS-alone test ('new_only_HIGS')."""
+import os as _os  # [release] paths relative to this file: _WORK = <release>/code (the former work/), _ROOT = <release>
+_WORK = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
+_ROOT = _os.path.dirname(_WORK)
 import json
 import sys
 import numpy as np
@@ -26,6 +29,11 @@ BINS_B = [59, 69, 81, 92, 103, 113, 124, 135, 143, 150]              # re-centre
 KEYS = ['alphaE1', 'betaM1', 'alpha_m_beta', 'gamma_pi', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2', 'alpha_p_beta', 'gamma0']
 MAIN_DROP = [('TAPS2001', 108.42, 133.0)]      # (dataset, E [MeV], theta_lab [deg]) of the point(s) excluded from the main database
 HIGS = ['HIGS_2022_circ', 'HIGS_2022_lin']     # HIGS 2022 (Li et al.): excluded from the main database since 2026-10-17 (test only)
+# delta of the five oldest sets (Baranov et al. 2001, Table 2), floated in the paper's PWA fit (main_fits_legacynorm.py)
+_B01 = pd.read_csv((_WORK + '/data/db_baranov2001.csv'))
+LEGACY_NORM = {k: float(_B01[_B01.dataset == v].norm_err_frac.iloc[0]) for k, v in (
+    ('Oxley', 'Oxley1958'), ('Pugh', 'Pugh1957'), ('Hyman', 'Hyman1959'), ('Bernardini', 'Bernardini1960'),
+    ('Goldansky', 'Goldansky1960'))}
 PRUNE = dict(drop_sets=['Oxley', 'Bernardini', 'Baranov1974_th150'], drop_points=[('TAPS2001', 108.42, 133.0)])
 
 
@@ -69,11 +77,12 @@ def build_model(d, bins=BINS_A, **kw):
 def summarize(tag, m, r, extra=None):
     pulls, pred = m.pulls(r.p)
     d = m.d.copy(); d['pred'] = pred; d['pull'] = pulls
+    d['wres'] = m.wres(r.p)          # whitened residuals: = pull except for correlated blocks (MacGibbon untagged)
     d.to_csv(f'results/update/pulls_{tag}.csv', index=False)
     np.save(f'results/update/p_{tag}.npy', r.p)
     np.save(f'results/update/cov_{tag}.npy', r.cov)
     r2 = m.fit_globals_only(r.p)
-    per = d.groupby('dataset').apply(lambda g: pd.Series(dict(N=len(g), chi2=float(np.sum(g.pull**2)))),
+    per = d.groupby('dataset').apply(lambda g: pd.Series(dict(N=len(g), chi2=float(np.sum(g.wres**2)))),
                                      include_groups=False)
     norms = {}
     if m.ngroups:

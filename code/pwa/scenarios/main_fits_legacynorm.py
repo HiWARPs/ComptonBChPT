@@ -23,7 +23,7 @@ Runs: uncertainty budget around MAIN, database variants, influence of single set
 Writes results/main_fits_legacynorm.json (and results/update/{pulls,p,cov}_L_<tag>.*).  Run from work/pwa/ (4-5 s)."""
 import sys as _sys; _sys.path.insert(0, '.')
 import update_fits as _UF
-_LEG = {'Oxley': 0.10, 'Pugh': 0.10, 'Hyman': 0.10, 'Bernardini': 0.10, 'Goldansky': 0.08}
+_LEG = _UF.LEGACY_NORM   # Baranov et al. 2001 delta (was 10%, Goldansky 8%)
 def load_leg(per_beamtime=False):
     d = _UF.load(per_beamtime=per_beamtime)
     for s, e in _LEG.items():

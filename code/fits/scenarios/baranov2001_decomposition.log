@@ -1,0 +1,9 @@
+new (Baranov 2001, MacGibbon full matrix) N=267  a= 11.14(0.44) b= 3.02(0.42)  chi2/dof= 206.3/248=0.83 p=0.97
+(1) MacGibbon untagged diagonal N=267  a= 11.11(0.44) b= 3.04(0.42)  chi2/dof= 207.0/248=0.83 p=0.97
+(2) + Baranov 74 86.3 MeV error 2.0 N=267  a= 11.08(0.45) b= 3.08(0.42)  chi2/dof= 205.2/248=0.83 p=0.98
+(3) + previous normalisations, Zieger N=267  a= 10.89(0.47) b= 3.24(0.44)  chi2/dof= 198.0/249=0.80 p=0.99
+new (Baranov 2001, MacGibbon full matrix)      N=267 chi2= 206.3/248  alpha=11.14(0.44) beta=3.02(0.42)
+(1) MacGibbon untagged diagonal                N=267 chi2= 207.0/248  alpha=11.11(0.44) beta=3.04(0.42)
+(2) + Baranov 74 86.3 MeV error 2.0            N=267 chi2= 205.2/248  alpha=11.08(0.45) beta=3.08(0.42)
+(3) + previous normalisations, Zieger          N=267 chi2= 198.0/249  alpha=10.89(0.47) beta=3.24(0.44)
+previous database (KLP18 energies/values)      N=267 chi2= 198.0/249  alpha=10.89(0.47) beta=3.23(0.44)
