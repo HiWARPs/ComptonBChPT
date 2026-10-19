@@ -394,6 +394,9 @@ ax.plot(*rL['P'][:2], 'o', color=C_F1, ms=2)
 r = dict(P=list(MF['P']), covP=MF['covP'].tolist())      # the main fit (combined, up to 360 MeV)
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
 ax.plot(*r['P'][:2], 'o', color=C_F1, ms=2)
+rW = json.load(open(os.path.join(RES, 'combined_fit.json')))['combined_withLEGS']   # the same fit with the LEGS 2001 data
+h_legs = ellipse(ax, rW['P'], rW['covP'], ec='#c0392b', ls='-.', lw=1.2, label='B$\\chi$PT fit with LEGS 2001')
+ax.plot(*rW['P'][:2], 'o', color='#c0392b', ms=2)
 # NNLO prediction: the amplitude used here (physical masses, second row of Table NNLOpols) with the LMP15 uncertainty
 h_nnlo = ax.errorbar(PREF_NNLO[0], PREF_NNLO[1], 0.7, 0.7, fmt='P', color='k', ms=5, lw=0.7, label='NNLO B$\\chi$PT')
 # determinations that involve the new data (A2 2022, HIGS 2022), and the PWA of this work.  The PWA point (central value,
@@ -418,8 +421,8 @@ for (av, ae), (bv, be), c, m, lab in others:
 ax.set_xlim(9.5, 15.2); ax.set_ylim(-0.5, 5.0)
 ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1)); ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1))
 ax.set_xlabel('$\\alpha_{E1}$ [$10^{-4}$ fm$^3$]'); ax.set_ylabel('$\\beta_{M1}$ [$10^{-4}$ fm$^3$]')
-handles = [h_bal, (h_b1, h_b2), h_nnlo, h_fit, h_low, h_ang] + hs
-labels = [h_bal.get_label(), 'GHP15 fits I, II'] + [h.get_label() for h in [h_nnlo, h_fit, h_low, h_ang] + hs]
+handles = [h_bal, (h_b1, h_b2), h_nnlo, h_fit, h_legs, h_low, h_ang] + hs
+labels = [h_bal.get_label(), 'GHP15 fits I, II'] + [h.get_label() for h in [h_nnlo, h_fit, h_legs, h_low, h_ang] + hs]
 fig.legend(handles, labels, loc='outside lower center', ncol=2, handlelength=2.0,
            handletextpad=0.5, columnspacing=1.0, handler_map={tuple: HandlerTuple(ndivide=1)})
 save_exact(fig, 'fig4_alpha_beta')

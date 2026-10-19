@@ -16,11 +16,12 @@ WS = [0.01, 0.02, 0.03, 0.05, 0.1]
 OUT = {}
 
 
-def parts(P, g):
-    """unweighted chi^2 of the three parts at fixed P, g_E (normalisations and forward nuisances re-optimised)"""
+def parts(P, g, legs=False):
+    """unweighted chi^2 of the three parts at fixed P, g_E (normalisations and forward nuisances re-optimised); legs: include
+    the LEGS sets in the Delta part"""
     out = {}
     for part in ('L', 'D'):
-        s, C = (CF.sL, CF.C_L) if part == 'L' else (lambda r: (r[0], np.diag(r[1] ** 2)))(CF.rows_delta(360.0))
+        s, C = (CF.sL, CF.C_L) if part == 'L' else (lambda r: (r[0], np.diag(r[1] ** 2)))(CF.rows_delta(360.0, legs))
         idx = CF.T0.subset(s.pid.values)
         tf = lambda P_, ex, idx=idx: CubicSpline(CF.grid, np.array([CF.G[gg].predict_array(P_, idx) for gg in CF.GE_GRID]), axis=0)(g)
         out[part] = build_fit(s, CF.T0, P, [], thcov=C, theory_fn=tf).run(decompose=False).chi2

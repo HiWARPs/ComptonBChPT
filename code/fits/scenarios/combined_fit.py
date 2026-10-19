@@ -7,7 +7,8 @@ there (the LMP15-type envelope with delta = omega/Lambda_chi of work/delta_plots
 width (hi - lo)/2) added in quadrature, as in the "+th." column of Table "delta", and the region below 150 MeV carries
 the weight: the Delta-region chi^2 is multiplied by W_DELTA = 0.01 (author decision; with W = 1 the Delta region
 dominates and drives alpha, beta to 7.9, 6.5 through the omega^2 growth of the contact terms).
-Since 2026-10-20 (author: "keep w<0.15 and priors within 3 sigma", best total chi^2 with the chi^2 below threshold under
+Since 2026-10-20 (author): the LEGS 2001 sets (Sigma_3 and dsigma) are left out of the main fit ("present the BChPT fit
+without LEGS as the main fit"; variant 'combined_withLEGS').  Also since 2026-10-20 (author: "keep w<0.15 and priors within 3 sigma", best total chi^2 with the chi^2 below threshold under
 that of the prediction): weight W_DELTA = 0.15 of the region above 150 MeV, spin priors of width 3 x the re-examined NNLO
 uncertainties, no bounds (author: "you can push gamma_M1E2 outside the allowed bound", "also allow other spin
 polarizabilities outside"); the optional bound (fit(..., bound=3)) pins a value at +-3 sigma if the fit would leave it.
@@ -47,6 +48,7 @@ GE_GRID = [-3.5, -3.0, -2.6, -2.3, -2.0, -1.8, -1.6, -1.4, -1.3, -1.2, -1.15, -1
 REM_PER_GE = 100 * (1232.0 - 938.272) / (2 * (1232.0 + 938.272)) / 2.97      # R_EM [%] per unit g_E at g_M = 2.97
 DSETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS', 'Hunger1997_75', 'Hunger1997_90',
          'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001']
+LEGS = ('LEGS2001_S3', 'LEGS2001_CS')   # excluded from the main fit since 2026-10-20 (author decision; variant legs=True)
 NAMES = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2']
 SIG_SPIN = np.array(json.load(open(os.path.join(RES, 'spin_pol_uncertainties.json')))['reexamined'][2:6])
 BAND = pd.read_csv(os.path.join(FITS, '..', 'delta_plots', 'results', 'data_with_theory.csv')).set_index('pid')
@@ -79,8 +81,8 @@ def fsr_block(Emax=360.0, step=10.0, w=W_DELTA):
     return Y_F[k4], Cb, 'FSR_amp', lambda P, ge: (_SPL_F(ge) + _SM @ P)[k4]
 
 
-def rows_delta(Emax):
-    m = df.dataset.isin(DSETS) & (df.E > 150) & (df.E <= Emax)
+def rows_delta(Emax, legs=False):
+    m = df.dataset.isin([d for d in DSETS if legs or d not in LEGS]) & (df.E > 150) & (df.E <= Emax)
     s = df[m].copy()
     sth = 0.5 * (BAND.loc[s.pid, 'th_hi'].values - BAND.loc[s.pid, 'th_lo'].values)
     assert np.all(np.isfinite(sth)), 'theory band missing for some Delta-region points'
@@ -88,8 +90,8 @@ def rows_delta(Emax):
 
 
 def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, wf=None, fsr_step=10.0, sig=None, bound=SPIN_BOUND,
-        sig0=None):
-    sD, sth = rows_delta(Emax)
+        sig0=None, legs=False):
+    sD, sth = rows_delta(Emax, legs)
     s = pd.concat([sL, sD])
     C = np.zeros((len(s), len(s))); C[:len(sL), :len(sL)] = C_L
     e2 = sD.err_pt.values ** 2                                 # build_fit puts err_pt^2 on the diagonal
@@ -145,7 +147,7 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
            for k, v in {'apb': [1, 1, 0, 0, 0, 0], 'amb': [1, -1, 0, 0, 0, 0], 'g0': [0, 0, -1, -1, -1, -1],
                         'gpi': [0, 0, -1, 1, -1, 1]}.items()}
     chiL = sum(v['chi2'] for k, v in R.perset.items() if k in set(sL.dataset))
-    out = dict(name=name, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
+    out = dict(name=name, legs=legs, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
                pinned={NAMES[k]: v for k, v in pinned.items()}, fsr=fsr, N_FSR=0 if fb is None else len(fb[0]), N=len(s), N_L=len(sL), N_D=len(sD), Emax=Emax, band=band, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2,
                dof=R.dof, p=R.pvalue, chi2_data=R.chi2_data, perset=R.perset, der=der, gE=g,
                REM=(REM_PER_GE * g[0], abs(REM_PER_GE) * g[1]), edge=edge, chi2_below150_sets=chiL,
@@ -162,8 +164,9 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
 
 
 if __name__ == '__main__':
-    fit('combined')                                  # MAIN: alpha, beta, R_EM free, spin pols (3 sigma priors, +-3 sigma
-                                                     #   bounds), forward SRs, E <= 360 MeV, region above 150 MeV weight 0.15
+    fit('combined')                                  # MAIN: alpha, beta, R_EM free, spin pols (3 sigma priors), forward SRs,
+                                                     #   E <= 360 MeV, region above 150 MeV weight 0.15, without LEGS
+    fit('combined_withLEGS', legs=True)              # the same with the LEGS 2001 sets (the main fit until 2026-10-20)
     fit('combined_w0.01_1sig', w=0.01, sig=SIG_SPIN, bound=None)   # the main fit until 2026-10-20 (w 0.01, 1 sigma priors)
     fit('combined_spin1sig', sig=SIG_SPIN, bound=None)
     fit('combined_spin2sig', sig=2 * SIG_SPIN, bound=None)

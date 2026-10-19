@@ -1,5 +1,5 @@
-fig1a_cs_A2_HIGS: drawn range 4.86-22.26 nb/sr; y-axis (4.5, 24.5) -> (4.5, 24.5)
-fig1a_cs_A2_HIGS: panel 149.87 MeV with its own range (0.5, 25.5)
+fig1a_cs_A2_HIGS: drawn range 4.86-21.12 nb/sr; y-axis (4.5, 24.5) -> (4.5, 24.5)
+fig1a_cs_A2_HIGS: panel 149.87 MeV with its own range (0.5, 25.0)
 fig2_sigma3: legend width 2.27 in within the figure width 3.40 in
 fig3_higs_linear SPAR  83.4 MeV: LEC band max 0.44 nb/sr, max 3.2% of the prediction (at 60 deg)
 fig3_higs_linear SPERP 83.4 MeV: LEC band max 0.44 nb/sr, max 2.8% of the prediction (at 0 deg)
