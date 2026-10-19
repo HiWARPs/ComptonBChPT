@@ -7,6 +7,10 @@ there (the LMP15-type envelope with delta = omega/Lambda_chi of work/delta_plots
 width (hi - lo)/2) added in quadrature, as in the "+th." column of Table "delta", and the region below 150 MeV carries
 the weight: the Delta-region chi^2 is multiplied by W_DELTA = 0.01 (author decision; with W = 1 the Delta region
 dominates and drives alpha, beta to 7.9, 6.5 through the omega^2 growth of the contact terms).
+Since 2026-10-20 (author: "keep w<0.15 and priors within 3 sigma", best total chi^2 with the chi^2 below threshold under
+that of the prediction): weight W_DELTA = 0.15 of the region above 150 MeV, spin priors of width 3 x the re-examined NNLO
+uncertainties, no bounds (author: "you can push gamma_M1E2 outside the allowed bound", "also allow other spin
+polarizabilities outside"); the optional bound (fit(..., bound=3)) pins a value at +-3 sigma if the fit would leave it.
 Free: alpha_E1, beta_M1 and the E2/M1 coupling g_E, R_EM = (M_D - M_N)/(2(M_D + M_N)) g_E/g_M (default g_E = -1.0,
 R_EM = -2.28%; cubic-spline interpolation over a grid of complete NNLO runs, the static polarisabilities held fixed),
 unconstrained in the main fit (author decision; variant: within +-15% of the default, applied as a bound);
@@ -35,7 +39,10 @@ import forward_amp as FA
 import bchpt
 
 GE0, GE_WIN = -1.0, 0.15
-W_DELTA = 0.01
+W_DELTA = 0.15                          # weight of the region above 150 MeV (author, 2026-10-20: best total chi^2 with w <= 0.15)
+SPIN_K, SPIN_BOUND = 3.0, None          # spin priors: Gaussian width 3 x the re-examined NNLO uncertainty; no bounds (author,
+                                        #   2026-10-20: gamma_M1E2, then all spin polarisabilities, allowed outside +-3 sigma)
+BOUND_FREE = ('gM1E2',)                 # (used only when a bound is requested)
 GE_GRID = [-3.5, -3.0, -2.6, -2.3, -2.0, -1.8, -1.6, -1.4, -1.3, -1.2, -1.15, -1.1, -1.05, -1.0, -0.95, -0.9, -0.85, -0.8, -0.7, -0.6]
 REM_PER_GE = 100 * (1232.0 - 938.272) / (2 * (1232.0 + 938.272)) / 2.97      # R_EM [%] per unit g_E at g_M = 2.97
 DSETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS', 'Hunger1997_75', 'Hunger1997_90',
@@ -80,7 +87,8 @@ def rows_delta(Emax):
     return s, sth
 
 
-def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, wf=None, fsr_step=10.0, sig=None):
+def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, wf=None, fsr_step=10.0, sig=None, bound=SPIN_BOUND,
+        sig0=None):
     sD, sth = rows_delta(Emax)
     s = pd.concat([sL, sD])
     C = np.zeros((len(s), len(s))); C[:len(sL), :len(sL)] = C_L
@@ -88,7 +96,8 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
     C[len(sL):, len(sL):] = np.diag(((e2 + (sth ** 2 if band else 0.0)) / w) - e2)   # Delta chi^2 weighted by w
     idx = T0.subset(s.pid.values)
     free = NAMES if spin else NAMES[:2]
-    sg = SIG_SPIN if sig is None else np.asarray(sig, float)
+    sg = SPIN_K * SIG_SPIN if sig is None else np.asarray(sig, float)          # prior widths
+    sb = SIG_SPIN if sig0 is None else np.asarray(sig0, float)                 # unit of the bound (the NNLO uncertainty)
     cons = [(np.eye(6)[k], PREF_NNLO[k], sg[k - 2], 'prior_' + NAMES[k]) for k in range(2, 6)] if spin else ()
 
     def tf(P, ex):
@@ -97,12 +106,30 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
 
     fb = fsr_block(Emax, fsr_step, w if wf is None else wf) if fsr else None
 
+    pinned = {}
+
     def run(gfix=None):
+        """the fit; spin polarisabilities outside +-bound x sb of NNLO are pinned at the bound and the fit is redone"""
         ge_of = (lambda ex: ex['gE']) if gfix is None else (lambda ex: gfix)
         app = None if fb is None else (fb[0], fb[1], fb[2], lambda P, ex: fb[3](P, ge_of(ex)))
-        F = build_fit(s, T0, PREF_NNLO, free, constraints=cons, thcov=C, theory_fn=lambda P, ex: tf(P, dict(gE=ge_of(ex))),
-                      extra=dict(gE=GE0) if gfix is None else None, append=app)
-        return F.run(decompose=False)
+        pinned.clear()
+        for _ in range(5):
+            P0 = PREF_NNLO.copy()
+            for k, v in pinned.items():
+                P0[k] = v
+            F = build_fit(s, T0, P0, [f for k, f in enumerate(free) if k not in pinned], constraints=cons, thcov=C,
+                          theory_fn=lambda P, ex: tf(P, dict(gE=ge_of(ex))), extra=dict(gE=GE0) if gfix is None else None,
+                          append=app)
+            R = F.run(decompose=False)
+            if bound is None or not spin:
+                return R
+            d = np.array(R.P) - PREF_NNLO
+            viol = [k for k in range(2, 6) if k not in pinned and NAMES[k] not in BOUND_FREE and abs(d[k]) > bound * sb[k - 2] * (1 + 1e-9)]
+            if not viol:
+                return R
+            for k in viol:
+                pinned[k] = PREF_NNLO[k] + np.sign(d[k]) * bound * sb[k - 2]
+        return R
     edge = None
     if ge == 'fixed':
         R = run(GE0); g = (GE0, 0.0)
@@ -118,7 +145,8 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
            for k, v in {'apb': [1, 1, 0, 0, 0, 0], 'amb': [1, -1, 0, 0, 0, 0], 'g0': [0, 0, -1, -1, -1, -1],
                         'gpi': [0, 0, -1, 1, -1, 1]}.items()}
     chiL = sum(v['chi2'] for k, v in R.perset.items() if k in set(sL.dataset))
-    out = dict(name=name, spin=spin, fsr=fsr, N_FSR=0 if fb is None else len(fb[0]), N=len(s), N_L=len(sL), N_D=len(sD), Emax=Emax, band=band, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2,
+    out = dict(name=name, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
+               pinned={NAMES[k]: v for k, v in pinned.items()}, fsr=fsr, N_FSR=0 if fb is None else len(fb[0]), N=len(s), N_L=len(sL), N_D=len(sD), Emax=Emax, band=band, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2,
                dof=R.dof, p=R.pvalue, chi2_data=R.chi2_data, perset=R.perset, der=der, gE=g,
                REM=(REM_PER_GE * g[0], abs(REM_PER_GE) * g[1]), edge=edge, chi2_below150_sets=chiL,
                rho_ab=float(cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])))
@@ -134,19 +162,25 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
 
 
 if __name__ == '__main__':
-    fit('combined')                                  # MAIN: alpha, beta, R_EM free, spin pols within NNLO priors,
-    fit('combined_spinNNLO', spin=False)             #   E <= 360 MeV, Delta band, weight 0.01
-    fit('combined_spinLMP15', sig=[0.8, 1.5, 0.2, 0.3])   # priors with the published LMP15 widths
+    fit('combined')                                  # MAIN: alpha, beta, R_EM free, spin pols (3 sigma priors, +-3 sigma
+                                                     #   bounds), forward SRs, E <= 360 MeV, region above 150 MeV weight 0.15
+    fit('combined_w0.01_1sig', w=0.01, sig=SIG_SPIN, bound=None)   # the main fit until 2026-10-20 (w 0.01, 1 sigma priors)
+    fit('combined_spin1sig', sig=SIG_SPIN, bound=None)
+    fit('combined_spin2sig', sig=2 * SIG_SPIN, bound=None)
+    fit('combined_spinNNLO', spin=False)
+    fit('combined_spinLMP15', sig=3 * np.array([0.8, 1.5, 0.2, 0.3]), sig0=[0.8, 1.5, 0.2, 0.3])   # LMP15 widths
     fit('combined_REMfixed', ge='fixed')
     fit('combined_REMwindow', ge='window')
+    fit('combined_w0.01', w=0.01)
     fit('combined_w0.03', w=0.03)
+    fit('combined_w0.1', w=0.1)
     fit('combined_w1', w=1.0)
     fit('combined_E350', Emax=350.0)
     fit('combined_noFSR', fsr=False)                 # forward SRs below threshold only (the main fit until this request)
-    fit('combined_FSRw1', wf=1.0)                    # forward SRs above threshold unweighted
+    fit('combined_FSRw1', wf=1.0)                    # forward SRs above threshold at weight 1
     fit('combined_FSR20', fsr_step=20.0)             # 20- and 5-MeV grids of the forward SRs above threshold (check)
     fit('combined_FSR5', fsr_step=5.0)
-    for k in ('combined', 'combined_noFSR', 'combined_REMfixed'):
+    for k in ('combined', 'combined_w0.01_1sig', 'combined_REMfixed'):
         r = OUT[k]
         print('per set (%s):' % k, {ds: round(v['chi2'], 1) for ds, v in r['perset'].items()})
     save_json(OUT, 'combined_fit.json')

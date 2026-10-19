@@ -1,5 +1,5 @@
 grid: 58 of 438 points with the loops extrapolated near 0/180 deg (flag 1)
-  [bchpt] computed 438 points (fig_pred_ratio_gE-2.0925) -> fig_pred_ratio_gE-2.0925_374d68bd65511aed.out
+  [bchpt] computed 438 points (fig_pred_ratio_gE-1.3353) -> fig_pred_ratio_gE-1.3353_e8f372358be70999.out
   off-scale points (arrows only; values quoted in the caption): dsigma_par(90): 1.44(47), 1.86(41)
 fig_pred_ratio.pdf written to <release>/code/fits/figs and <release>/paper/figs
 y-range (0.75, 1.25); n_th: {'A2_2022_CS': 0.9804, 'HIGS_2022_CIRC': 0.9713, 'HIGS_2022_LIN': 0.9868}
@@ -10,9 +10,9 @@ ratio ranges (data/prediction, n = 1):
 points outside the y-range (marked by an arrow and quoted in the panel):
   HIGS_2022_LIN_002  E=83.4 theta=90 SPAR  value 3.10(1.01)  prediction 2.147  ratio 1.444(0.470)
   HIGS_2022_LIN_003  E=83.4 theta=90 SPAR  value 3.99(0.88)  prediction 2.147  ratio 1.858(0.408)
-  E=81.3: fit/prediction 0.997-1.026; sigma_th/prediction 0.001-0.008
-  E=92.2: fit/prediction 0.997-1.035; sigma_th/prediction 0.002-0.013
-  E=103.2: fit/prediction 0.998-1.047; sigma_th/prediction 0.003-0.018
-  E=113.6: fit/prediction 0.999-1.062; sigma_th/prediction 0.005-0.028
-  E=124.1: fit/prediction 1.000-1.083; sigma_th/prediction 0.009-0.049
-  E=135.3: fit/prediction 1.003-1.118; sigma_th/prediction 0.014-0.099
+  E=81.3: fit/prediction 1.021-1.029; sigma_th/prediction 0.001-0.008
+  E=92.2: fit/prediction 1.026-1.041; sigma_th/prediction 0.002-0.013
+  E=103.2: fit/prediction 1.032-1.054; sigma_th/prediction 0.003-0.018
+  E=113.6: fit/prediction 1.037-1.072; sigma_th/prediction 0.005-0.028
+  E=124.1: fit/prediction 1.043-1.097; sigma_th/prediction 0.009-0.049
+  E=135.3: fit/prediction 1.050-1.139; sigma_th/prediction 0.014-0.099

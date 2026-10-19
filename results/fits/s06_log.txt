@@ -1,15 +1,10 @@
-  [bchpt] computed 497 points (fig_cs_fig1a_cs_A2_HIGS_gE-2.0925) -> fig_cs_fig1a_cs_A2_HIGS_gE-2.0925_2823ef3a216e5bd6.out
-fig1a_cs_A2_HIGS: drawn range 4.86-20.95 nb/sr; y-axis (4.5, 24.5) -> (4.5, 24.5)
-fig1a_cs_A2_HIGS: panel 149.87 MeV with its own range (0.5, 25.0)
-  [bchpt] computed 252 points (fig_cs_fig1b_cs_older_gE-2.0925) -> fig_cs_fig1b_cs_older_gE-2.0925_5e8b25289c35e442.out
-  [bchpt] computed 252 points (fig_s3_gE-2.0925) -> fig_s3_gE-2.0925_02c69c3a27d7c186.out
+fig1a_cs_A2_HIGS: drawn range 4.86-22.26 nb/sr; y-axis (4.5, 24.5) -> (4.5, 24.5)
+fig1a_cs_A2_HIGS: panel 149.87 MeV with its own range (0.5, 25.5)
 fig2_sigma3: legend width 2.27 in within the figure width 3.40 in
-  [bchpt] computed 213 points (fig_higs_gE-2.0925) -> fig_higs_gE-2.0925_60d1bac1faf5f661.out
 fig3_higs_linear SPAR  83.4 MeV: LEC band max 0.44 nb/sr, max 3.2% of the prediction (at 60 deg)
 fig3_higs_linear SPERP 83.4 MeV: LEC band max 0.44 nb/sr, max 2.8% of the prediction (at 0 deg)
 fig3_higs_linear CS    81.3 MeV: LEC band max 0.42 nb/sr, max 2.6% of the prediction (at 0 deg)
 fig4_alpha_beta: PWA point from <release>/code/pwa/results/main_total_errors.json: alpha = 11.21(0.78), beta = 2.99(0.77)
-  [bchpt] computed 222 points (fig_fwd_gE-2.0925) -> fig_fwd_gE-2.0925_aa31fb1a3cea0c92.out
 fig7_forward dsigma(0): LEC band max 0.632 nb/sr = 24.98% of the prediction (at 150 MeV); |pred-emp| max 25.5%
 fig7_forward Sigma_2z(0): LEC band max 0.0439 (at 150 MeV); |pred-emp| max 0.0070
 fig8_Emax_scan: legend width 1.63 in within the figure width 3.40 in

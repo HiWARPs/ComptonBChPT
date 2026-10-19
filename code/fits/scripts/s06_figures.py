@@ -388,6 +388,9 @@ with plt.rc_context({'hatch.linewidth': 0.5}):
 r0 = FL['F2_d_nofwd_thB']
 h_ang = ellipse(ax, r0['P'], r0['covP'], ec=C_F1, ls='--', lw=1.4, label='B$\\chi$PT fit, no forward SRs')
 ax.plot(*r0['P'][:2], 'o', color=C_F1, ms=2)
+rL = FL['F2_d_all_thB']                                   # the fit below threshold (Table fits, first row): low-energy reference
+h_low = ellipse(ax, rL['P'], rL['covP'], ec=C_F1, ls=':', lw=1.4, label='B$\\chi$PT fit below 150 MeV')
+ax.plot(*rL['P'][:2], 'o', color=C_F1, ms=2)
 r = dict(P=list(MF['P']), covP=MF['covP'].tolist())      # the main fit (combined, up to 360 MeV)
 h_fit = ellipse(ax, r['P'], r['covP'], ec=C_F1, ls='-', lw=2.0, label='B$\\chi$PT fit, this work')
 ax.plot(*r['P'][:2], 'o', color=C_F1, ms=2)
@@ -415,8 +418,8 @@ for (av, ae), (bv, be), c, m, lab in others:
 ax.set_xlim(9.5, 15.2); ax.set_ylim(-0.5, 5.0)
 ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1)); ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(1))
 ax.set_xlabel('$\\alpha_{E1}$ [$10^{-4}$ fm$^3$]'); ax.set_ylabel('$\\beta_{M1}$ [$10^{-4}$ fm$^3$]')
-handles = [h_bal, (h_b1, h_b2), h_nnlo, h_fit, h_ang] + hs
-labels = [h_bal.get_label(), 'GHP15 fits I, II'] + [h.get_label() for h in [h_nnlo, h_fit, h_ang] + hs]
+handles = [h_bal, (h_b1, h_b2), h_nnlo, h_fit, h_low, h_ang] + hs
+labels = [h_bal.get_label(), 'GHP15 fits I, II'] + [h.get_label() for h in [h_nnlo, h_fit, h_low, h_ang] + hs]
 fig.legend(handles, labels, loc='outside lower center', ncol=2, handlelength=2.0,
            handletextpad=0.5, columnspacing=1.0, handler_map={tuple: HandlerTuple(ndivide=1)})
 save_exact(fig, 'fig4_alpha_beta')

@@ -92,16 +92,17 @@ python3 scripts/s07b_error_budget_table.py   # the error-budget table of Appendi
 ```
 
 Main fit of the paper (`results/combined_fit.json` entry `combined`, written by `make combined`): the combined NNLO
-fit of α_E1, β_M1 and R_EM to the data below the pion-production threshold (the main database and the forward
-points, as `F2_d_all_thB`) and to the ten Δ-region sets at 150 < E ≤ 360 MeV (with the theory band of the NNLO
-amplitude in quadrature and their χ² weighted by 0.01), with the four spin polarizabilities varied within the
-re-examined uncertainties of the NNLO prediction (Gaussian priors; `scenarios/spin_pol_uncertainties.py`), and with
-the forward sum rules (forward SRs) above the threshold up to 360 MeV at the level of the amplitudes (Re f, Im f,
-Re g, Im g of the ForwardRCS 2026 update with their full covariance, `code/data/raw/ForwardRCS2026/
-forward_amp_grid.json`, made by `code/data/scripts/export_forward_amp_grid.py` with the ForwardRCS code;
-`lib/forward_amp.py`): α_E1 = 11.07(47), β_M1 = 3.07(44), γ_0 = −0.99(11), R_EM = −4.77(1.76)% (g_E = −2.09(77)),
-χ² = 217.6; the variants (without the forward SRs above threshold, forward SRs unweighted, 5- and 20-MeV grids, spin
-polarizabilities at NNLO, R_EM fixed or within ±15%, weights 0.03 and 1, E ≤ 350 MeV) are in the same file.
+fit of α_E1, β_M1, R_EM and the four spin polarizabilities to the data below the pion-production threshold (the main
+database and the forward SRs, as `F2_d_all_thB`), and to the region 150 < E ≤ 360 MeV with weight 0.15: the ten
+Δ-region sets (theory band of the NNLO amplitude in quadrature) and the forward sum rules (forward SRs) at the level of
+the amplitudes (Re f, Im f, Re g, Im g of the ForwardRCS 2026 update with their full covariance,
+`code/data/raw/ForwardRCS2026/forward_amp_grid.json`, made by `code/data/scripts/export_forward_amp_grid.py` with the
+ForwardRCS code; `lib/forward_amp.py`; Riemann-sum χ²).  Spin polarizabilities: Gaussian priors of 3 × the re-examined
+NNLO uncertainties (`scenarios/spin_pol_uncertainties.py`).  Result: α_E1 = 10.39(47), β_M1 = 3.64(45),
+γ_0 = −1.05(11), R_EM = −3.04(59)% (g_E = −1.34(26)), χ² = 355.4 (weighted); the weight and prior scans are in
+`scenarios/weight_scan.py`, the variants (previous main fit w = 0.01 with 1σ priors, priors 1σ/2σ/NNLO/LMP15, R_EM
+fixed or within ±15%, weights 0.01–1, E ≤ 350 MeV, forward SRs above threshold omitted or at weight 1, 5- and 20-MeV
+grids) in `combined_fit.json`.
 
 Fits below threshold (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`; R_EM at its default): NNLO fit α_E1 = 11.14(44),
 β_M1 = 3.02(42), χ² = 206.3 for 248 degrees of freedom (267 points: 245 angular data and 22 forward points); the
@@ -197,5 +198,5 @@ Python 3.13.15, package versions of `requirements.txt`):
 |---|---|
 | `python3 scripts/s03_fits_L.py` (11 s) | NNLO fit α_E1 = 11.14(44), β_M1 = 3.02(42), χ²/dof = 206.3/248; without the forward points 11.99(57), 3.28(44); Baldin fit 11.17(44), 3.01(42), 203.6/229; all entries of `fits_L.json` identical to the paper's (230 413 numbers, maximal relative difference 2×10⁻¹⁵) |
 | `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 232.6 for the 267 points (normalizations and nuisances floated, truncation covariance); table identical |
-| `make all` (33 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.07(47), β_M1 = 3.07(44), R_EM = −4.77(1.76)%, χ² = 217.6; `combined_fit.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
+| `make all` (33 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 10.39(47), β_M1 = 3.64(45), R_EM = −3.04(59)%, χ² = 355.4; `combined_fit.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
 | `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |

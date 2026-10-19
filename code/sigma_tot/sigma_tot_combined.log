@@ -1,4 +1,4 @@
-NNLO fit from combined_fit.json: alpha = 11.0676, beta = 3.0660, g_E = -2.093, rho = -0.910
+NNLO fit from combined_fit.json: alpha = 10.3877, beta = 3.6417, g_E = -1.335, rho = -0.918
 {
  "NNLO": {
   "5-150": 0.4243,
@@ -9,12 +9,12 @@ NNLO fit from combined_fit.json: alpha = 11.0676, beta = 3.0660, g_E = -2.093, r
   "50-450": 0.0682
  },
  "NNLO_fit": {
-  "5-150": 0.4246,
-  "50-150": 0.0222,
-  "150-450": 0.0498,
-  "150-350": 0.0381,
-  "200-450": 0.0456,
-  "50-450": 0.072
+  "5-150": 0.4252,
+  "50-150": 0.0226,
+  "150-450": 0.0474,
+  "150-350": 0.0376,
+  "200-450": 0.0429,
+  "50-450": 0.07
  },
  "BornPi0": {
   "5-150": 0.4321,
@@ -46,9 +46,9 @@ NNLO fit from combined_fit.json: alpha = 11.0676, beta = 3.0660, g_E = -2.093, r
   "5-450": 0.0261
  },
  "NNLO_fit_minus_BornPi0": {
-  "5-150": -0.0075,
-  "150-450": 0.0375,
-  "5-450": 0.03
+  "5-150": -0.0068,
+  "150-450": 0.0351,
+  "5-450": 0.0282
  },
  "peak_NNLO": {
   "E": 315.0,
@@ -56,9 +56,9 @@ NNLO fit from combined_fit.json: alpha = 11.0676, beta = 3.0660, g_E = -2.093, r
   "lec": 0.016346806346282956
  },
  "peak_NNLO_fit": {
-  "E": 320.0,
-  "sigma_mub": 3.5029272808226004,
-  "fit_err": 0.0058577272785832945
+  "E": 315.0,
+  "sigma_mub": 3.304396677407325,
+  "fit_err": 0.011553365604126625
  },
  "prediction": {
   "Pref": [
@@ -73,31 +73,31 @@ NNLO fit from combined_fit.json: alpha = 11.0676, beta = 3.0660, g_E = -2.093, r
   "band": "central differences at Pref +- dlec e_k (alpha_E1, beta_M1), in quadrature"
  },
  "nnlo_fit": {
-  "alphaE1": 11.067565170168157,
-  "betaM1": 3.066012306656907,
-  "gE": -2.0925088559468494,
+  "alphaE1": 10.387697517530507,
+  "betaM1": 3.6416845592255442,
+  "gE": -1.335271701000515,
   "cov": [
    [
-    0.2197189484880892,
-    -0.18855101172870428
+    0.22500689258484055,
+    -0.19734264748649463
    ],
    [
-    -0.1885510117287044,
-    0.19558389664078463
+    -0.19734264748649458,
+    0.2053039739673409
    ]
   ],
   "source": "<release>/code/fits/results/combined_fit.json ['combined']"
  }
 }
-E=   50  NNLO pred=0.176+-0.001  fit=0.177+-0.001  BornPi0=0.192  noVC=0.176  Thomson=0.197 mub
-E=  100  NNLO pred=0.156+-0.003  fit=0.158+-0.002  BornPi0=0.204  noVC=0.156  Thomson=0.197 mub
-E=  140  NNLO pred=0.155+-0.004  fit=0.157+-0.003  BornPi0=0.219  noVC=0.155  Thomson=0.197 mub
-E=  150  NNLO pred=0.164+-0.003  fit=0.166+-0.003  BornPi0=0.223  noVC=0.164  Thomson=0.197 mub
-E=  200  NNLO pred=0.370+-0.007  fit=0.372+-0.006  BornPi0=0.248  noVC=0.370  Thomson=0.197 mub
-E=  250  NNLO pred=0.982+-0.022  fit=1.003+-0.015  BornPi0=0.277  noVC=0.980  Thomson=0.197 mub
-E=  300  NNLO pred=2.892+-0.033  fit=3.084+-0.019  BornPi0=0.307  noVC=2.906  Thomson=0.197 mub
-E=  320  NNLO pred=3.211+-0.009  fit=3.503+-0.006  BornPi0=0.319  noVC=3.254  Thomson=0.197 mub
-E=  350  NNLO pred=2.456+-0.032  fit=2.772+-0.016  BornPi0=0.337  noVC=2.532  Thomson=0.197 mub
-E=  400  NNLO pred=1.401+-0.054  fit=1.654+-0.031  BornPi0=0.369  noVC=1.498  Thomson=0.197 mub
-E=  450  NNLO pred=1.038+-0.055  fit=1.248+-0.040  BornPi0=0.400  noVC=1.153  Thomson=0.197 mub
+E=   50  NNLO pred=0.176+-0.001  fit=0.178+-0.001  BornPi0=0.192  noVC=0.176  Thomson=0.197 mub
+E=  100  NNLO pred=0.156+-0.003  fit=0.162+-0.002  BornPi0=0.204  noVC=0.156  Thomson=0.197 mub
+E=  140  NNLO pred=0.155+-0.004  fit=0.168+-0.003  BornPi0=0.219  noVC=0.155  Thomson=0.197 mub
+E=  150  NNLO pred=0.164+-0.003  fit=0.181+-0.003  BornPi0=0.223  noVC=0.164  Thomson=0.197 mub
+E=  200  NNLO pred=0.370+-0.007  fit=0.397+-0.007  BornPi0=0.248  noVC=0.370  Thomson=0.197 mub
+E=  250  NNLO pred=0.982+-0.022  fit=1.028+-0.016  BornPi0=0.277  noVC=0.980  Thomson=0.197 mub
+E=  300  NNLO pred=2.892+-0.033  fit=2.983+-0.021  BornPi0=0.307  noVC=2.906  Thomson=0.197 mub
+E=  320  NNLO pred=3.211+-0.009  fit=3.291+-0.008  BornPi0=0.319  noVC=3.254  Thomson=0.197 mub
+E=  350  NNLO pred=2.456+-0.032  fit=2.483+-0.014  BornPi0=0.337  noVC=2.532  Thomson=0.197 mub
+E=  400  NNLO pred=1.401+-0.054  fit=1.355+-0.028  BornPi0=0.369  noVC=1.498  Thomson=0.197 mub
+E=  450  NNLO pred=1.038+-0.055  fit=0.928+-0.035  BornPi0=0.400  noVC=1.153  Thomson=0.197 mub
 saved <release>/paper/figs/fig_sigma_tot.pdf
