@@ -1,0 +1,47 @@
+{
+ "npar": {
+  "pwa": 86,
+  "bchpt": 17
+ },
+ "p_eff_all_rows": {
+  "pwa": 86.00000000000901,
+  "bchpt": 17.0
+ },
+ "modern (A2 2022, A2 2001, Saskatoon)": {
+  "N": 181,
+  "chi2_pwa": 141.57131523653322,
+  "p_eff_pwa": 11.006124016636019,
+  "chi2_bchpt": 145.1606176163109,
+  "p_eff_bchpt": 5.148614092008886,
+  "chi2_per_nu_pwa": 0.8328024431326441,
+  "chi2_per_nu_bchpt": 0.8254732646364344,
+  "dchi2": 3.5893023797776777,
+  "dp_eff": 5.8575099246271325,
+  "p_gain": 0.7163560365700852,
+  "dAIC_pwa_minus_bchpt": 8.125717469476598
+ },
+ "PWA database (237)": {
+  "N": 237,
+  "chi2_pwa": 174.35970569455105,
+  "p_eff_pwa": 16.97142040062326,
+  "chi2_bchpt": 180.05860211384245,
+  "p_eff_bchpt": 10.64447486084416,
+  "chi2_per_nu_pwa": 0.7924411729240874,
+  "chi2_per_nu_bchpt": 0.7954681115168204,
+  "dchi2": 5.698896419291401,
+  "dp_eff": 6.3269455397791,
+  "p_gain": 0.497052799984819,
+  "dAIC_pwa_minus_bchpt": 6.954994660266806
+ },
+ "pwa_share": {
+  "global (alpha-beta, gE1E1, gM1E2)": 3.017387950794653,
+  "forward nuisances": 0.1777558037333621,
+  "residual functions fR1": 1.9314235123475467,
+  "residual functions fR2": -0.2504392105039003,
+  "residual functions fR3": 2.1699289602480354,
+  "residual functions fR4": 0.8756298761905983,
+  "residual functions fR5": 0.033628588154405344,
+  "residual functions fR6": 0.05701799350073637,
+  "normalisations": 8.959086926157795
+ }
+}

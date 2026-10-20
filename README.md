@@ -105,6 +105,15 @@ NNLO uncertainties (`scenarios/spin_pol_uncertainties.py`).  Result: α_E1 = 11.
 fixed or within ±15%, weights 0.01–1, E ≤ 350 MeV, forward SRs above threshold omitted or at weight 1, 5- and 20-MeV
 grids, R_EM from the Δ-region angular data alone with and without LEGS) in `combined_fit.json`.
 
+Neutron polarizabilities (`code/fits/scenarios/neutron_pols.py`, run by `make all`; `results/neutron_pols.json`): the NNLO
+prediction with the physical masses, πN loops of the neutron (Lensky, McGovern, Pascalutsa 2015, App. C), πΔ loops and Δ pole
+as for the proton, uncertainties re-examined as for the proton: α_E1 = 13.7(3.2), β_M1 = 4.6(1.2), γ_E1E1 = −4.7(1.1),
+γ_M1M1 = 2.9(7), γ_E1M2 = 0.22(14), γ_M1E2 = 1.6(4), γ_0 = 0.0(7), γ_π = 9.0(2.1).
+
+Effective number of parameters of the PWA and of the BChPT Baldin fit below threshold (`code/pwa/scenarios/effective_dof.py`,
+`code/pwa/results/effective_dof.{json,md}`): sums of the leverages of the data points; on the 237 common points χ² = 174.4
+with p_eff = 17.0 (PWA) and 180.1 with 10.6 (BChPT), i.e. χ²/(N − p_eff) = 0.792 and 0.795.
+
 Fits below threshold (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`; R_EM at its default): NNLO fit α_E1 = 11.14(44),
 β_M1 = 3.02(42), χ² = 206.3 for 248 degrees of freedom (267 points: 245 angular data and 22 forward points); the
 same fit without the forward points (`F2_d_nofwd_thB`) 11.99(57), 3.28(44), and the parameter-goodness-of-fit test
@@ -198,5 +207,5 @@ Python 3.13.15, package versions of `requirements.txt`):
 |---|---|
 | `python3 scripts/s03_fits_L.py` (11 s) | NNLO fit α_E1 = 11.14(44), β_M1 = 3.02(42), χ²/dof = 206.3/248; without the forward points 11.99(57), 3.28(44); Baldin fit 11.17(44), 3.01(42), 203.6/229; all entries of `fits_L.json` identical to the paper's (230 413 numbers, maximal relative difference 8×10⁻¹⁶) |
 | `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 232.6 for the 267 points (normalizations and nuisances floated, truncation covariance); table identical |
-| `make all` (39 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.01(49), β_M1 = 3.03(47), R_EM = −1.73(88)%, χ² = 296.5; `combined_fit.json` (incl. the Δ-only R_EM variants), `spin_pol_uncertainties.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
+| `make all` (41 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.01(49), β_M1 = 3.03(47), R_EM = −1.73(88)%, χ² = 296.5; `combined_fit.json` (incl. the Δ-only R_EM variants), `spin_pol_uncertainties.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
 | `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |
