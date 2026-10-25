@@ -1,1 +1,1 @@
-work/code_v2 at commit 20b8c5df82f9ae2accc46d3e1a0f118317955847 (2026-10-18): Link LoopTools-dq by default in makefile.gfortran-native; default regression list without the removed test d
+work/code_v2 at commit 832f0981044609a0a2f82b220b603a4bf2580ced (2026-10-25): Orders N3LO and N4LO of the proton Compton amplitude; N2LO stays the default

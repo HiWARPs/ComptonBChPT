@@ -19,8 +19,11 @@
 #     exe=PATH      executable (default ../execs/ampl.exe relative to this script)
 #     keep=1        keep the temporary run directory
 #   [v2] options (namelist &v2 of ampl.exe; defaults reproduce the 2015 code apart from the bug fixes):
-#     order=2|3|3.5 chiral order of the base amplitude (LMP2015 Table 1): 2 = Born (charges only),
-#                   3 = + AMM, pi0 pole, piN loops, 3.5 = + Delta pole, piDelta loops (NNLO, default)
+#     order=2|3|3.5|4|4.5  or  order=N2LO|N3LO|N4LO   chiral order of the base amplitude (delta counting):
+#                   2 = Born (charges only), 3 = + AMM, pi0 pole, piN loops, 3.5 = N2LO = + Delta pole, piDelta
+#                   loops (default; LMP2015), 4 = N3LO = + O(p^4) piN loops and the photon on the Delta charge in the
+#                   piDelta loops, 4.5 = N4LO = + gamma N Delta vertex in the piN loops and the one-loop gamma N Delta
+#                   vertex in the Delta pole (orders 4, 4.5: proton only; ~1 s per point at 4.5)
 #     dvertex=t|f   Im parts of the gamma-N-Delta vertex loops (NLO in the Delta region, LMP2015 Fig. 4)
 #     drunning=t|f|0|1|2|3  running Re gM, gE, M_Delta(s), 1+Re tau_R(s) (LMP2015 App. D; higher order, off):
 #                   t = 1 = once subtracted at the Delta pole (changes the static polarisabilities),
@@ -44,7 +47,7 @@ for kv in "$@"; do
   case $k in
     alpha) ALPHA=$v;; beta) BETA=$v;; gEE) GEE=$v;; gMM) GMM=$v;; gEM) GEM=$v;; gME) GME=$v;;
     selftest) SELFTEST=$v;; onlylex) ONLYLEX=$v;; ref) REFS=", $v";; exe) EXE=$v;; keep) KEEP=$v;;
-    order) ORDER=$v;; dvertex) DVERTEX=", dvertex=$v";;
+    order) case $v in N2LO|NNLO) ORDER=3.5;; N3LO) ORDER=4;; N4LO) ORDER=4.5;; *) ORDER=$v;; esac;; dvertex) DVERTEX=", dvertex=$v";;
     drunning) case $v in [0-9]) DRUNNING=", irun=$v";; *) DRUNNING=", drunning=$v";; esac;;
     consts) CONSTS=$v;; v2) V2X=", $v";;
     *) echo "unknown key $k" >&2; exit 1;;

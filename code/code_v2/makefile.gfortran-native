@@ -12,6 +12,18 @@ TARGET = execs/ampl.exe
 LT = $(HOME)/.local/looptools-dq
 INCLUDES = -I. -I.. -I$(LT)/include
 
+# O(p^4) piN loops (order=4): generated sources in p4/ (../n3lo/py/build_fortran.py), compiled at -O1
+P4SRC = $(wildcard p4/*.F90) p4/p4_glue.f90
+P4OBJ = $(patsubst p4/%.F90,$(BUILD)/p4/%.o,$(filter %.F90,$(P4SRC))) $(BUILD)/p4/p4_glue.o
+P4FLAGS = -O1 -w -ffree-line-length-none
+
+# Delta loops beyond NNLO (orders 4 and 4.5: dloop, dgnd): generated sources in dl/ (../n3lo/py/build_fortran_delta.py), -O1
+DLSRC = $(wildcard dl/*.F90)
+DLOBJ = $(patsubst dl/%.F90,$(BUILD)/dl/%.o,$(DLSRC))
+# __text > 128 MB with dl/: keep main (gfortran puts it in __text_startup) inside __text so that ld inserts branch islands
+LDBIG = -Wl,-rename_section,__TEXT,__text_startup,__TEXT,__text -Wl,-rename_section,__TEXT,__text_cold,__TEXT,__text
+DLFLAGS = -O0 -w -ffree-line-length-none     # large straight-line generated code: -O0 compiles much faster; LoopTools dominates
+
 OBJECTS = \
 	$(BUILD)/trigd.o \
 	$(BUILD)/ampl.o \
@@ -24,8 +36,29 @@ OBJECTS = \
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
-	$(FC) $(NATIVE_FLAGS) -o $@ $(OBJECTS) $(LT)/lib/libooptools.a
+$(TARGET): $(OBJECTS) $(P4OBJ) $(DLOBJ)
+	$(FC) $(NATIVE_FLAGS) -o $@ $(OBJECTS) $(P4OBJ) $(DLOBJ) $(LT)/lib/libooptools.a $(LDBIG)
+
+$(BUILD)/p4:
+	mkdir -p $@
+
+$(BUILD)/p4/CovOneLoopP4.o: p4/CovOneLoopP4.F90 | $(BUILD)/p4
+	$(FC) $(P4FLAGS) -J$(BUILD)/p4 -c $< -o $@
+
+$(BUILD)/p4/p4_glue.o: p4/p4_glue.f90 $(BUILD)/p4/CovOneLoopP4.o | $(BUILD)/p4
+	$(FC) $(P4FLAGS) -I$(BUILD)/p4 -c $< -o $@
+
+$(BUILD)/p4/p4g_%.o: p4/p4g_%.F90 | $(BUILD)/p4
+	$(FC) $(P4FLAGS) -c $< -o $@
+
+$(BUILD)/dl:
+	mkdir -p $@
+
+$(BUILD)/dl/CovDeltaLoops.o: dl/CovDeltaLoops.F90 | $(BUILD)/dl
+	$(FC) $(P4FLAGS) -J$(BUILD)/dl -c $< -o $@
+
+$(BUILD)/dl/dlg_%.o: dl/dlg_%.F90 | $(BUILD)/dl
+	$(FC) $(DLFLAGS) -c $< -o $@
 
 $(BUILD):
 	mkdir -p $@

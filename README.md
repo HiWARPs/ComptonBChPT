@@ -26,6 +26,15 @@ are those of
 
 whose complete analysis can be rerun from the tabulated amplitudes in a few minutes (see below).
 
+The Fortran code also contains the next two orders of the amplitude, N³LO [O(p⁴): the πN loops with one vertex of
+the second-order chiral Lagrangian and the photon coupled to the Δ charge in the πΔ loops] and N⁴LO [O(p^{9/2}): the
+γNΔ transition inside the πN loops and the one-loop γNΔ vertex of the Δ pole], of
+
+> V. Pascalutsa, *Chiral EFT of nucleon Compton scattering from N²LO to N⁴LO* (in preparation, 2026),
+
+selected by the input `order=3.5|4|4.5` (or `N2LO|N3LO|N4LO`); N²LO, the amplitude of the papers above, is the
+default.  See `code/n3lo/README.md` and `code/code_v2/driver/README.md`.
+
 Authors: Vladimir Pascalutsa and Vadim Lensky, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.4
 (2026-10-18).  Repository: https://github.com/HiWARPs/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
 
@@ -33,7 +42,8 @@ The package contains (i) the world database of proton Compton-scattering data us
 provenance of every point, (ii) the tabulated NNLO BχPT amplitudes for every data point and for the curves of the
 figures, as exact quadratic forms in the polarizabilities, (iii) the Python code of the fits, of the error budget,
 of the partial-wave analysis (PWA), of the radiative corrections, of the total cross section and of the figures,
-(iv) the Fortran code of the NNLO amplitude, and (v) the results.  With (ii) the complete fit analysis of the 2026 paper
+(iv) the Fortran code of the amplitude (N²LO by default; N³LO and N⁴LO as options) with the generator of the
+higher-order graphs, and (v) the results.  With (ii) the complete fit analysis of the 2026 paper
 can be rerun in a few minutes without compiling the Fortran code.
 
 ## Layout
@@ -46,8 +56,10 @@ data/           fitdb.csv, fitdb_pb.csv (the fit database with provenance column
 amplitudes/     the tabulated amplitudes (README.md there describes the format and the configurations)
 code/           the analysis code; this directory is the author's former `work/` directory, so that all relative
                 paths of the scripts are unchanged:
-  code_v2/        Fortran code of the NNLO BχPT Compton amplitude with its fit driver (driver/README.md),
-                  regression tests and validation tools; GIT_COMMIT.txt gives the version
+  code_v2/        Fortran code of the BχPT Compton amplitude with its fit driver (driver/README.md),
+                  regression tests and validation tools; GIT_COMMIT.txt gives the version.  N²LO by default;
+                  the generated sources of the N³LO and N⁴LO graphs are in p4/ and dl/
+  n3lo/           generator (FORM + Python) and checks of the N³LO and N⁴LO graphs (README.md there)
   fits/           BχPT fits: lib/ (database assembly, driver interface, forward-point error model, truncation
                   uncertainty, χ² machinery), scripts/s00–s10 (the pipeline, see Makefile), scenarios/ (side
                   studies quoted in the paper), db/ (the database as read by the scripts), results/ (working copy)
@@ -148,8 +160,12 @@ Edit the compiler path (`FC`) and the LoopTools path (`LT`) at the top of the ma
 cd code/code_v2
 looptools/build_looptools_dq.sh $HOME/.local/looptools-dq   # once (~1.5 min): LoopTools-dq, see below
 make -f makefile.gfortran-native          # -> execs/ampl.exe
-tests/run_regression.sh                   # regression suite (~20 s)
+tests/run_regression.sh                   # regression suite (~1 min; ~5 min with test j of the N4LO amplitude)
 ```
+
+The generated sources of the N³LO and N⁴LO graphs (`p4/`, `dl/`, 116 MB, the Δ graphs compiled without
+optimization) make the first build take about ten minutes with `make -j 8 -f makefile.gfortran-native`.  The N²LO
+results are unchanged by them.
 
 `makefile.gfortran-native` links LoopTools-dq (`code/code_v2/looptools`). This is LoopTools 2.16 with a
 quad-precision core behind the usual double-precision interface, and it removes the precision loss of the box tensor

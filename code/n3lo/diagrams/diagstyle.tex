@@ -1,0 +1,93 @@
+%% diagstyle.tex -- common style for all Feynman-graph figures of the paper
+%% (fig_tree, fig_piN_loops, fig_Delta, fig_vertex).
+%% Load in the preamble of each standalone figure with \input{diagstyle}.
+%%
+%% Conventions (identical in all figures)
+%%   photon  = wavy line      (style gam; \GamOver = same, drawn over the lines it crosses)
+%%   pion    = dashed line    (style pion)
+%%   nucleon = solid line     (style nuc)
+%%   Delta   = double line    (style del); dressed Delta = thick double line, grey core (deld)
+%%   dot     = leading-order vertex (gamma NN, gamma pi pi, gamma gamma pi pi, pi NN, pi N Delta,
+%%             pi pi NN, gamma pi N Delta)
+%%   crossed circle = Pauli (anomalous magnetic moment) gamma NN vertex
+%%   filled square  = Wess-Zumino-Witten pi0 gamma gamma vertex
+%%   large dot      = gamma N Delta vertex (couplings g_M, g_E)
+%%   grey box       = polarizability contact term (delta alpha, delta beta)
+%%   grey blob      = full (tree + one-loop) gamma N Delta vertex
+%% Geometry: every graph lives in a cell of width 2.5 cm; the nucleon line runs
+%% along y=0 from x=0 to x=2.5, external photons end at y ~ 1.2, the graph
+%% label sits at (1.25,-0.42).  Lengths are in cm unless stated otherwise.
+
+\usepackage[T1]{fontenc}                    % Computer Modern (T1), as the body text of the paper
+\usepackage[compat=1.1.0]{tikz-feynman}     % only its "complete sines" decoration is used;
+                                            % all vertices are placed by hand (pdflatex)
+\usetikzlibrary{calc}
+
+%% ---- line widths and sizes -------------------------------------------------
+\newcommand{\lwN}{0.8pt}     % nucleon
+\newcommand{\lwP}{0.8pt}     % pion
+\newcommand{\lwG}{0.6pt}     % photon
+\newcommand{\lwD}{0.45pt}    % each of the two strokes of the Delta line
+\newcommand{\dotr}{1.35pt}   % radius of an ordinary vertex dot
+\newcommand{\bigdotr}{2.1pt} % radius of the gamma N Delta vertex
+
+\tikzset{
+  nuc/.style  ={line width=\lwN, line cap=butt},
+  pion/.style ={line width=\lwP, dash pattern=on 2.6pt off 1.9pt, line cap=butt},
+  gam/.style  ={line width=\lwG, line join=round, decorate,
+                decoration={complete sines, amplitude=2.9pt, segment length=5.2pt}},
+  del/.style  ={line width=\lwD, double distance=1.45pt, line cap=butt},
+  deld/.style ={line width=0.6pt, double=black!40, double distance=2.1pt, line cap=butt},
+  glabel/.style={font=\footnotesize, inner sep=0pt},
+  vlabel/.style={font=\footnotesize, inner sep=1pt},   % 8 pt (labels >= 8 pt)
+}
+
+%% ---- vertex symbols ----------------------------------------------------------
+% ordinary vertex
+\newcommand{\Vdot}[1]{\fill #1 circle (\dotr);}
+% Pauli (anomalous-magnetic-moment) vertex: crossed circle
+\newcommand{\Vamm}[1]{%
+  \begin{scope}[shift={#1}]
+    \filldraw[fill=white, line width=0.5pt] (0,0) circle (2.6pt);
+    \draw[line width=0.45pt] (45:2.6pt) -- (225:2.6pt) (135:2.6pt) -- (315:2.6pt);
+  \end{scope}}
+% WZW pi0 gamma gamma vertex: filled square
+\newcommand{\Vwzw}[1]{%
+  \begin{scope}[shift={#1}]
+    \fill (-2.0pt,-2.0pt) rectangle (2.0pt,2.0pt);
+  \end{scope}}
+% gamma N Delta vertex (g_M, g_E): large dot
+\newcommand{\Vgnd}[1]{\fill #1 circle (\bigdotr);}
+% polarizability contact term: grey box
+\newcommand{\Vcontact}[1]{%
+  \begin{scope}[shift={#1}]
+    \filldraw[fill=black!35, line width=0.6pt] (-3.4pt,-3.4pt) rectangle (3.4pt,3.4pt);
+  \end{scope}}
+% full gamma N Delta vertex: grey blob
+\newcommand{\Vblob}[1]{%
+  \filldraw[fill=black!30, line width=0.6pt] #1 circle (3.8pt);}
+
+%% ---- photon drawn over the lines it crosses -----------------------------------
+%% A white halo (same wave, thicker) interrupts the lines underneath.  The halo is
+%% clipped to y > 0.25 (local cell coordinates) so that it never touches the
+%% vertex at which the photon ends on the baryon line; all crossings in these
+%% graphs lie at y >= 0.36.
+\newcommand{\GamOver}[2]{%
+  \begin{scope}
+    \clip (-1,0.25) rectangle (19,3);
+    \draw[gam, draw=white, line width=3.4pt] #1 -- #2;
+  \end{scope}
+  \draw[gam] #1 -- #2;}
+
+%% ---- graph label -------------------------------------------------------------
+\newcommand{\Glabel}[1]{\node[glabel] at (1.25,-0.42) {(#1)};}
+
+%% ---- added for the O(p^4) figure (work/n3lo/diagrams) ------------------------
+% c_i (L^(2)_piN) pi pi N N vertex: filled diamond
+\newcommand{\Vci}[1]{%
+  \begin{scope}[shift={#1}]
+    \fill (0,-2.9pt) -- (2.9pt,0) -- (0,2.9pt) -- (-2.9pt,0) -- cycle;
+  \end{scope}}
+%% ---- added for the Delta figure beyond NNLO (work/n3lo/diagrams/fig_delta_loops) --
+% gamma pi N Delta contact from the Delta charge (minimal substitution in d_mu Delta_nu): open circle
+\newcommand{\Vdcont}[1]{\filldraw[fill=white, line width=0.5pt] #1 circle (2.2pt);}

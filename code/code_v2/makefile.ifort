@@ -1,5 +1,8 @@
 # Intel ifort (x86_64, runs under Rosetta on Apple silicon) cross-check build.
 # Primary build remains makefile.gfortran-native.  [2026-10]
+# It links the double-precision LoopTools: fine for N2LO (regression test e), but for orders 4 and 4.5 the Delta graphs
+# lose precision below ~100 MeV (3e-3 at 60 MeV backward) and the numerical reference polarisabilities (Pref) are
+# wrong; use the gfortran build with LoopTools-dq for those orders (above 100 MeV the two agree to 1e-7).
 FC = /opt/intel/oneapi/compiler/2022.2.1/mac/bin/intel64/ifort
 SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
 export SDKROOT
@@ -11,10 +14,31 @@ TARGET = execs/ampl_ifort.exe
 LT = $(HOME)/.local/looptools-ifort
 INCLUDES = -I. -I.. -I$(LT)/include
 OBJECTS = $(BUILD)/trigd.o $(BUILD)/ampl.o $(BUILD)/As.o $(BUILD)/bkmAs.o $(BUILD)/Loops.o $(BUILD)/Cov_1loop_As.o
+# Delta loops beyond NNLO (orders 4 and 4.5: dloop, dgnd): generated sources in dl/ (../n3lo/py/build_fortran_delta.py), -O0
+DLOBJ = $(patsubst dl/%.F90,$(BUILD)/dl/%.o,$(wildcard dl/*.F90))
+# O(p^4) piN loops (order=4): generated sources in p4/ (../n3lo/py/build_fortran.py), compiled at -O1
+P4OBJ = $(patsubst p4/%.F90,$(BUILD)/p4/%.o,$(wildcard p4/*.F90)) $(BUILD)/p4/p4_glue.o
+P4FLAGS = -O1 -w -fp-model precise
+DLFLAGS = -O0 -w -fp-model precise     # large straight-line generated code (dl/dlg_*): -O1 takes hours under Rosetta
 .PHONY: all clean
 all: $(TARGET)
-$(TARGET): $(OBJECTS)
-	$(FC) -o $@ $(OBJECTS) $(LT)/lib/libooptools.a -Wl,-syslibroot,$(SDKROOT) -L$(SDKROOT)/usr/lib
+$(TARGET): $(OBJECTS) $(P4OBJ) $(DLOBJ)
+	$(FC) -o $@ $(OBJECTS) $(P4OBJ) $(DLOBJ) $(LT)/lib/libooptools.a -Wl,-syslibroot,$(SDKROOT) -L$(SDKROOT)/usr/lib
+$(BUILD)/p4:
+	mkdir -p $@
+$(BUILD)/p4/CovOneLoopP4.o: p4/CovOneLoopP4.F90 | $(BUILD)/p4
+	cd $(BUILD)/p4 && $(FC) $(P4FLAGS) -c ../../p4/CovOneLoopP4.F90 -o CovOneLoopP4.o
+$(BUILD)/p4/p4_glue.o: p4/p4_glue.f90 $(BUILD)/p4/CovOneLoopP4.o | $(BUILD)/p4
+	cd $(BUILD)/p4 && $(FC) $(P4FLAGS) -c ../../p4/p4_glue.f90 -o p4_glue.o
+$(BUILD)/p4/p4g_%.o: p4/p4g_%.F90 | $(BUILD)/p4
+	cd $(BUILD)/p4 && $(FC) $(P4FLAGS) -c ../../$< -o $(notdir $@)
+$(BUILD)/dl:
+	mkdir -p $@
+$(BUILD)/dl/CovDeltaLoops.o: dl/CovDeltaLoops.F90 | $(BUILD)/dl
+	cd $(BUILD)/dl && $(FC) $(P4FLAGS) -c ../../dl/CovDeltaLoops.F90 -o CovDeltaLoops.o
+$(BUILD)/dl/dlg_%.o: dl/dlg_%.F90 | $(BUILD)/dl
+	cd $(BUILD)/dl && $(FC) $(DLFLAGS) -c ../../$< -o $(notdir $@)
+
 $(BUILD):
 	mkdir -p $@
 $(BUILD)/trigd.o: trigd.f90 | $(BUILD)

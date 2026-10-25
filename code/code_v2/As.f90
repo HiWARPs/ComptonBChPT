@@ -141,11 +141,19 @@
       !*              subtraction scheme (irun = 1, 2, 3) is passed to delta_running via COMMON /v2drun/
       LOGICAL ldvertex, ldrunning
       COMMON /v2delta/ ldvertex, ldrunning
+      !* [v2, 2026-10-24] &v2 drunvx=t: only the couplings run (Re gM(s), Re gE(s)); M_Delta and the field
+      !*   renormalisation stay fixed.  This is the Delta pole with the one-loop gamma N Delta vertex (its real part;
+      !*   the imaginary part is dvertex), O(p^9/2) at low energies, without the O(p^6) Delta self-energy.
+      LOGICAL lrunvx
+      COMMON /v2drvx/ lrunvx
       REAL*8 vImgM, vImgE, ReG1, ReG2, Mrun, ztau, Mp
       CI=(0.d0,1.d0)
       s=1.d0+2.d0*x
       ReG1=G1; ReG2=G2; Mrun=Md; ztau=1.d0
       IF(ldrunning) CALL delta_running(s,Md,G1,G2,ReG1,ReG2,Mrun,ztau)
+      IF(ldrunning.AND.lrunvx) THEN
+         Mrun=Md; ztau=1.d0
+      ENDIF
       GM=(3.d0/2.d0)/(1.d0+Md)*ReG1
       GE=(3.d0/2.d0)/(1.d0+Md)*ReG2
       !GM=1.d0/(2.d0*Md)*G1

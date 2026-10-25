@@ -1,0 +1,133 @@
+%% fig_delta_loops.tex -- Delta graphs beyond NNLO (work/n3lo, delta.py): row 1 the pi Delta loops with the photon
+%% on the Delta charge (complete minimal coupling, starting at O(p^4)); row 2 the O(p^9/2) graphs with the gamma N Delta
+%% vertex (large dot) inside the pi N loop, partners of the kappa insertions (26)-(31), and the Delta pole with the
+%% one-loop gamma N -> Delta vertex.  Crossed and time-reversed graphs are not drawn.  Double-column width (7.0 in).
+\documentclass[border=0pt]{standalone}
+\input{diagstyle}
+\begin{document}
+\begin{tikzpicture}
+\useasboundingbox (0,3.58) rectangle (17.8,7.62);
+%% ---------------- row 1: photon on the Delta charge ------------------------------
+% (38) photon on the pion and on the Delta
+\begin{scope}[shift={(0.15,6.3)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \draw[gam] (0.05,1.15) -- ($(1.25,0)+(140:0.65)$);
+  \GamOver{(1.45,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (0.6,0) (1.9,0) -- (2.5,0);
+  \draw[del] (0.6,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.9,0)} \Vdot{(1.45,0)} \Vdot{($(1.25,0)+(140:0.65)$)}
+  \Glabel{38}
+\end{scope}
+% (39) gamma pi N Delta contact (pion charge) and photon on the Delta
+\begin{scope}[shift={(3.15,6.3)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \draw[gam] (0.05,1.15) -- (0.6,0);
+  \GamOver{(1.35,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (0.6,0) (1.9,0) -- (2.5,0);
+  \draw[del] (0.6,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.9,0)} \Vdot{(1.35,0)}
+  \Glabel{39}
+\end{scope}
+% (40) both photons on the Delta
+\begin{scope}[shift={(6.15,6.3)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \GamOver{(0.05,1.2)}{(1.0,0)}
+  \GamOver{(1.5,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (0.6,0) (1.9,0) -- (2.5,0);
+  \draw[del] (0.6,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.0,0)} \Vdot{(1.5,0)} \Vdot{(1.9,0)}
+  \Glabel{40}
+\end{scope}
+% (41) gamma pi N Delta contact from the Delta charge, photon on the pion
+\begin{scope}[shift={(9.15,6.3)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \draw[gam] (0.05,1.15) -- (0.6,0);
+  \draw[gam] ($(1.25,0)+(40:0.65)$) -- (2.45,1.15);
+  \draw[nuc] (0,0) -- (0.6,0) (1.9,0) -- (2.5,0);
+  \draw[del] (0.6,0) -- (1.9,0);
+  \Vdot{(1.9,0)} \Vdot{($(1.25,0)+(40:0.65)$)} \Vdcont{(0.6,0)}
+  \Glabel{41}
+\end{scope}
+% (42) vertex correction with the photon on the Delta; Born (charge) vertex right
+\begin{scope}[shift={(12.15,6.3)}]
+  \draw[pion] (0.4,0) arc (180:0:0.6);
+  \GamOver{(0.0,1.2)}{(1.0,0)}
+  \draw[gam] (2.05,0) -- (2.45,1.2);
+  \draw[nuc] (0,0) -- (0.4,0) (1.6,0) -- (2.5,0);
+  \draw[del] (0.4,0) -- (1.6,0);
+  \Vdot{(0.4,0)} \Vdot{(1.0,0)} \Vdot{(1.6,0)} \Vdot{(2.05,0)}
+  \Glabel{42}
+\end{scope}
+% (43) Delta pole with the one-loop gamma N -> Delta vertex (photon on the pion)
+\begin{scope}[shift={(15.15,6.3)}]
+  \draw[pion] (0.2,0) arc (180:0:0.5);
+  \draw[gam] (0.0,1.15) -- ($(0.7,0)+(140:0.5)$);
+  \draw[gam] (2.1,0) -- (2.45,1.2);
+  \draw[nuc] (0,0) -- (0.2,0) (2.1,0) -- (2.5,0) (0.2,0) -- (1.2,0);
+  \draw[del] (1.2,0) -- (2.1,0);
+  \Vdot{(0.2,0)} \Vdot{(1.2,0)} \Vdot{($(0.7,0)+(140:0.5)$)} \Vgnd{(2.1,0)}
+  \Glabel{43}
+\end{scope}
+%% ---------------- row 2: gamma N Delta vertex inside the pi N loop --------------
+% (44) photon on the pion
+\begin{scope}[shift={(0.15,4.2)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \draw[gam] (0.05,1.15) -- ($(1.25,0)+(140:0.65)$);
+  \GamOver{(1.35,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (1.35,0) (1.9,0) -- (2.5,0);
+  \draw[del] (1.35,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.9,0)} \Vdot{($(1.25,0)+(140:0.65)$)} \Vgnd{(1.35,0)}
+  \Glabel{44}
+\end{scope}
+% (45) photon on the nucleon in the loop
+\begin{scope}[shift={(3.15,4.2)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \GamOver{(0.05,1.2)}{(1.0,0)}
+  \GamOver{(1.5,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (1.5,0) (1.9,0) -- (2.5,0);
+  \draw[del] (1.5,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.0,0)} \Vdot{(1.9,0)} \Vgnd{(1.5,0)}
+  \Glabel{45}
+\end{scope}
+% (46) Kroll-Ruderman vertex
+\begin{scope}[shift={(6.15,4.2)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \draw[gam] (0.05,1.15) -- (0.6,0);
+  \GamOver{(1.3,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (1.3,0) (1.9,0) -- (2.5,0);
+  \draw[del] (1.3,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.9,0)} \Vgnd{(1.3,0)}
+  \Glabel{46}
+\end{scope}
+% (47) gamma pi N Delta contact (pion charge)
+\begin{scope}[shift={(9.15,4.2)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \GamOver{(0.05,1.2)}{(1.15,0)}
+  \draw[gam] (1.9,0) -- (2.45,1.15);
+  \draw[nuc] (0,0) -- (1.15,0) (1.9,0) -- (2.5,0);
+  \draw[del] (1.15,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.9,0)} \Vgnd{(1.15,0)}
+  \Glabel{47}
+\end{scope}
+% (48) photon on the Delta in the loop (O(p^5), needed for gauge invariance)
+\begin{scope}[shift={(12.15,4.2)}]
+  \draw[pion] (0.6,0) arc (180:0:0.65);
+  \GamOver{(0.05,1.2)}{(1.0,0)}
+  \GamOver{(1.5,0)}{(2.45,1.2)}
+  \draw[nuc] (0,0) -- (1.0,0) (1.9,0) -- (2.5,0);
+  \draw[del] (1.0,0) -- (1.9,0);
+  \Vdot{(0.6,0)} \Vdot{(1.5,0)} \Vdot{(1.9,0)} \Vgnd{(1.0,0)}
+  \Glabel{48}
+\end{scope}
+% (49) vertex correction with the gamma N Delta vertex inside; Born (charge) vertex right
+\begin{scope}[shift={(15.15,4.2)}]
+  \draw[pion] (0.4,0) arc (180:0:0.6);
+  \GamOver{(0.0,1.2)}{(1.0,0)}
+  \draw[gam] (2.05,0) -- (2.45,1.2);
+  \draw[nuc] (0,0) -- (1.0,0) (1.6,0) -- (2.5,0);
+  \draw[del] (1.0,0) -- (1.6,0);
+  \Vdot{(0.4,0)} \Vdot{(1.6,0)} \Vdot{(2.05,0)} \Vgnd{(1.0,0)}
+  \Glabel{49}
+\end{scope}
+\end{tikzpicture}
+\end{document}

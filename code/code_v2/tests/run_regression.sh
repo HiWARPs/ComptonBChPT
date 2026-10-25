@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------
 # Regression tests of the NNLO BChPT Compton code, version 2 (work/code_v2).
 #
-# usage: tests/run_regression.sh [--build] [a b c d e f g h]
+# usage: tests/run_regression.sh [--build] [a b c e f g h i j]
 #   --build  rebuild execs/ampl.exe (gfortran) and execs/ampl_ifort.exe (ifort) first
 #   a  static polarisabilities vs LMP2015 Tables 3-4 and the analytic App. C formulas
 #   b  Thomson limit, Xi/mu independence (bug B1), NNLO vs Born+LEX at 0.5-20 MeV
@@ -13,9 +13,12 @@
 #   g  pi0 gamma gamma transition form factor (&v2 pi0ff): off = default, on leaves static pols unchanged, vs LoopTools C0
 #   h  running Delta parameters (&v2 irun): off = default; irun=2 keeps alpha, beta; irun=3 all six; reference points;
 #      Fortran delta_running vs tools/running_delta.py
+#   i  O(p^4) piN loops (order=4, dloop=0): static pols vs the Python path, parts add up, driver selftest
+#   j  N3LO/N4LO Delta graphs (order=4, 4.5): static pols of each set, additivity, order names and overrides,
+#      low-energy limit, driver selftest
 # Requirements: gfortran-16 + LoopTools (makefile.gfortran-native), ifort (makefile.ifort),
 # Python venv with numpy/scipy/mpmath: <release>/.venv
-# Output: tests/out/regression.log ; exit code = number of FAILs.  Runtime ~1 min (+ builds).
+# Output: tests/out/regression.log ; exit code = number of FAILs.  Runtime ~1 min for a-i, ~5 min for j (+ builds).
 # ---------------------------------------------------------------------------
 set -uo pipefail
 HERE=$(cd "$(dirname "$0")" && pwd)
