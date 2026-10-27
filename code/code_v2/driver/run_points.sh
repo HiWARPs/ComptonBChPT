@@ -69,7 +69,7 @@ t0=$(date +%s.%N 2>/dev/null || date +%s)
 t1=$(date +%s.%N 2>/dev/null || date +%s)
 cp "$WORK/points.out" "$OUT"
 [ "$SELFTEST" = "t" ] && cp "$WORK/points.out.selftest" "$OUT.selftest"
-grep -E "run_points|selftest" "$WORK/run.log" || true
+grep -E "run_points|selftest|Development use only" "$WORK/run.log" || true
 n=$(grep -vc '^#' "$OUT" || true)
 awk -v a="$t0" -v b="$t1" -v n="$n" 'BEGIN{ if(n>0) printf(" wall time %.2f s for %d points (%.2f ms/point)\n", b-a, n, 1000*(b-a)/n) }'
 if [ "$KEEP" = "1" ]; then echo " run directory kept: $WORK"; else rm -rf "$WORK"; fi

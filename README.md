@@ -35,6 +35,8 @@ the second-order chiral Lagrangian and the photon coupled to the Δ charge in th
 selected by the input `order=3.5|4|4.5` (or `N2LO|N3LO|N4LO`); N²LO, the amplitude of the papers above, is the
 default.  See `code/n3lo/README.md` and `code/code_v2/driver/README.md`.
 
+> **Warning: this branch of the code (N3LO-N4LO) has not been verified and is very likely to be wrong. Development use only!**
+
 Authors: Vladimir Pascalutsa and Vadim Lensky, Institut für Kernphysik, Johannes Gutenberg-Universität Mainz.  Version 1.4
 (2026-10-18).  Repository: https://github.com/HiWARPs/ComptonBChPT; archived on Zenodo, DOI [10.5281/zenodo.23413172](https://doi.org/10.5281/zenodo.23413172) (all versions; v1.0.1: 10.5281/zenodo.23413173).  Citation metadata: `CITATION.cff`.  License: MIT for the code (`LICENSE`), CC BY 4.0 for the data, amplitude tables and results (`LICENSE-DATA`).
 

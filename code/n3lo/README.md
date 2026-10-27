@@ -1,5 +1,7 @@
 # Generator of the N3LO and N4LO graphs of proton Compton scattering in covariant BχPT
 
+> **Warning: this branch of the code (N3LO-N4LO) has not been verified and is very likely to be wrong. Development use only!**
+
 This directory produces the Fortran sources `code_v2/p4/` (the O(p^4) πN loops, N3LO) and `code_v2/dl/` (the Δ graphs
 beyond N2LO: the photon on the Δ charge in the πΔ loops, N3LO; the γNΔ vertex inside the πN loops and the Δ pole
 with the one-loop γNΔ vertex, N4LO), and it contains the independent check path (Python + LoopTools) and the tests

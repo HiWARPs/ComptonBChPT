@@ -149,6 +149,10 @@ def make_inputs(cfg):
         v2.append('hA=%.4f' % c['hA'])
     if c['v2x']:
         v2.append(c['v2x'])
+    # the driver's own warning goes to the run log (stderr is captured there), so repeat it here
+    if (c['order'] or 0) > 3.75 or any(s in (c['v2x'] or '').replace(' ', '') for s in ('dloop=1', 'dgnd=1')):
+        print('Warning: this branch of the code (N3LO-N4LO) has not been verified and is very likely to be wrong. '
+              'Development use only!')
     if v2:
         ind = ind.rstrip('\n') + '\n &v2 ' + ', '.join(v2) + '/\n'
     bar = BARYON.replace('@DEX@', tf(c['delta_pole']))

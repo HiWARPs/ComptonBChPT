@@ -1663,6 +1663,9 @@
              STOP
           ENDIF
           IF(order.GT.4.25d0) WRITE(*,'(a,3i2)') ' [v2] order=4.5 (N4LO): dloop, dgnd, irun (running gM, gE) =',dloop,dgnd,irun
+          !* stderr, so that it reaches the terminal without entering the parsed stdout
+          IF(order.GT.3.75d0.OR.dloop.EQ.1.OR.dgnd.EQ.1) WRITE(0,'(a)') ' Warning: this branch of the code (N3LO-N4LO) '// &
+             'has not been verified and is very likely to be wrong. Development use only!'
           IF((dvertex.OR.drunning).AND..NOT.(bary(3)%su(1))) THEN
              WRITE(*,*) '[v2] note: dvertex/drunning have no effect without the Delta pole'
           ENDIF
