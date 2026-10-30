@@ -150,9 +150,11 @@ def make_inputs(cfg):
     if c['v2x']:
         v2.append(c['v2x'])
     # the driver's own warning goes to the run log (stderr is captured there), so repeat it here
-    if (c['order'] or 0) > 3.75 or any(s in (c['v2x'] or '').replace(' ', '') for s in ('dloop=1', 'dgnd=1')):
-        print('Warning: this branch of the code (N3LO-N4LO) has not been verified and is very likely to be wrong. '
-              'Development use only!')
+    # (as ampl.f90 set_order_v2: only the Delta graphs beyond N2LO are unverified; order 4 switches dloop on by default)
+    x, o = (c['v2x'] or '').replace(' ', ''), (c['order'] or 0)
+    if o > 4.25 or (o > 3.75 and 'dloop=0' not in x) or 'dloop=1' in x or 'dgnd=1' in x:
+        print('Warning: the Delta graphs beyond N2LO (dloop, dgnd, one-loop gamma N Delta vertex) have not been verified '
+              'and are very likely to be wrong. Development use only!')
     if v2:
         ind = ind.rstrip('\n') + '\n &v2 ' + ', '.join(v2) + '/\n'
     bar = BARYON.replace('@DEX@', tf(c['delta_pole']))
