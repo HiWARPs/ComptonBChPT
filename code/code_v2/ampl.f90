@@ -1663,11 +1663,15 @@
              STOP
           ENDIF
           IF(order.GT.4.25d0) WRITE(*,'(a,3i2)') ' [v2] order=4.5 (N4LO): dloop, dgnd, irun (running gM, gE) =',dloop,dgnd,irun
-          !* stderr, so that it reaches the terminal without entering the parsed stdout.  Only the Delta graphs beyond N2LO
-          !* are unverified: the O(p^4) piN loops (order=4, dloop=0) reproduce the covariant Delta-less O(q^4) spin
-          !* polarisabilities of Thurmann et al., PRC 103 (2021) 035201, to 0.002 (2026-10-30)
+          !* stderr, so that it reaches the terminal without entering the parsed stdout.  Every setting beyond NNLO (the
+          !* default order=3.5) is flagged: order 4, 4.5, dloop, dgnd, drunvx, and the running Delta parameters (irun > 0).
+          !* The Delta graphs beyond N2LO are in addition unverified; the O(p^4) piN loops (order=4, dloop=0) reproduce the
+          !* covariant Delta-less O(q^4) spin polarisabilities of Thurmann et al., PRC 103 (2021) 035201, to 0.002
+          IF(order.GT.3.75d0.OR.dloop.EQ.1.OR.dgnd.EQ.1.OR.drunvx.OR.drunning) WRITE(0,'(a)') &
+             ' Warning: this run goes beyond NNLO (order=3.5, the default and the order of the published results). '// &
+             'Development use only!'
           IF(dloop.EQ.1.OR.dgnd.EQ.1.OR.drunvx) WRITE(0,'(a)') ' Warning: the Delta graphs beyond N2LO (dloop, dgnd, '// &
-             'one-loop gamma N Delta vertex) have not been verified and are very likely to be wrong. Development use only!'
+             'one-loop gamma N Delta vertex) have not been verified and are very likely to be wrong.'
           IF((dvertex.OR.drunning).AND..NOT.(bary(3)%su(1))) THEN
              WRITE(*,*) '[v2] note: dvertex/drunning have no effect without the Delta pole'
           ENDIF

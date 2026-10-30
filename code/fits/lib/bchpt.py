@@ -116,6 +116,15 @@ def template():
     return DEFAULT_TEMPLATE
 
 
+def beyond_nnlo(c):
+    """(beyond NNLO, with the unverified Delta graphs beyond N2LO) for the options c, as ampl.f90 set_order_v2 decides:
+    order 4 switches dloop on unless dloop=0 is given, order 4.5 always sets drunvx; irun > 0 = running Delta parameters"""
+    x, o = (c.get('v2x') or '').replace(' ', '').lower(), c.get('order') or 3.5
+    delta = o > 4.25 or (o > 3.75 and 'dloop=0' not in x) or any(s in x for s in ('dloop=1', 'dgnd=1', 'drunvx=t'))
+    run = bool(c.get('drunning')) or any(s in x for s in ('irun=1', 'irun=2', 'irun=3', 'drunning=t'))
+    return o > 3.75 or delta or run, delta
+
+
 def make_inputs(cfg):
     c = dict(BASE)
     c.update(PROFILE_BASE[PROFILE])
@@ -150,11 +159,13 @@ def make_inputs(cfg):
     if c['v2x']:
         v2.append(c['v2x'])
     # the driver's own warning goes to the run log (stderr is captured there), so repeat it here
-    # (as ampl.f90 set_order_v2: only the Delta graphs beyond N2LO are unverified; order 4 switches dloop on by default)
-    x, o = (c['v2x'] or '').replace(' ', ''), (c['order'] or 0)
-    if o > 4.25 or (o > 3.75 and 'dloop=0' not in x) or 'dloop=1' in x or 'dgnd=1' in x:
-        print('Warning: the Delta graphs beyond N2LO (dloop, dgnd, one-loop gamma N Delta vertex) have not been verified '
-              'and are very likely to be wrong. Development use only!')
+    beyond, delta = beyond_nnlo(c)
+    if beyond:
+        print('Warning: this run goes beyond NNLO (order=3.5, the default and the order of the published results). '
+              'Development use only!')
+    if delta:
+        print('Warning: the Delta graphs beyond N2LO (dloop, dgnd, one-loop gamma N Delta vertex) have not been '
+              'verified and are very likely to be wrong.')
     if v2:
         ind = ind.rstrip('\n') + '\n &v2 ' + ', '.join(v2) + '/\n'
     bar = BARYON.replace('@DEX@', tf(c['delta_pole']))
