@@ -22,7 +22,8 @@ import analytic_pols as AP
 import rem as RM
 from common import save_json, RES
 
-D = 0.48
+D_LMP = 0.48                                            # LMP15's m_pi/Delta: reproduces the published uncertainties
+D = (1232.0 - 938.272) / 775.26              # delta = Delta/m_rho = 0.379 (author, 2026-11-11; LMP15 used m_pi/Delta = 0.48)
 MP, MNEU, MPI = 0.93827, 0.939565, 0.13957
 LAB = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2', 'gamma0', 'gammapi']
 
@@ -47,7 +48,7 @@ def ext(v):
 
 
 def lmp_rule(piN, delta_graphs, tot):
-    return np.maximum.reduce([D**2 * np.abs(piN), D * np.abs(delta_graphs), D**2 * np.abs(tot)])
+    return np.maximum.reduce([D_LMP**2 * np.abs(piN), D_LMP * np.abs(delta_graphs), D_LMP**2 * np.abs(tot)])
 
 
 with warnings.catch_warnings():
@@ -92,4 +93,4 @@ rows = dict(piN=piN, piDelta=piD, Delta_pole=pole, NNLO=tot, gM_pm0p1=s_gM, REM_
 print('%-22s' % '' + ''.join('%9s' % l[:8] for l in LAB))
 for k, v in rows.items():
     print('%-22s' % k + ''.join('%9.3f' % x for x in v))
-save_json(dict(labels=LAB, delta=D, M_n=MNEU, m_pi=MPI, gE_REM0p5=(gE_lo, gE_hi), **rows), 'neutron_pols.json')
+save_json(dict(labels=LAB, delta=D, delta_LMP15=D_LMP, M_n=MNEU, m_pi=MPI, gE_REM0p5=(gE_lo, gE_hi), **rows), 'neutron_pols.json')

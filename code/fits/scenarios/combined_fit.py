@@ -19,6 +19,11 @@ g_M = 2.97.  The four spin polarisabilities are varied within the uncertainties 
 2026-10-19): independent Gaussian priors at the NNLO values with the re-examined widths of
 scenarios/spin_pol_uncertainties.py (results/spin_pol_uncertainties.json, 'reexamined'); variant 'combined_spinNNLO':
 spin polarisabilities fixed at NNLO (the main fit until then).
+Since 2026-10-28 (author: "check that when varying g_M and g_E their impact on the polarizabilities is taken into account"):
+the fitted P are the total static polarisabilities (each g_E run is used at its own Pref, so alpha, beta absorb the change
+of the Delta pole through their LECs), but the spin priors and the "spin at NNLO" variants now follow g_E: they are
+centred at the NNLO values of the run at the current g_E (spline of Pref over GE_GRID), not at those of the default g_E.
+g_M is not varied in the fits (2.97).
 Forward sum rules (forward SRs) above the threshold (author request, 2026-10-19): the empirical forward amplitudes Re f,
 Im f, Re g, Im g of the ForwardRCS 2026 update at 160, 170, ..., 360 MeV with their complete covariance, fitted at the
 level of the amplitudes (lib/forward_amp.py), with the truncation band of the NNLO amplitude in quadrature, as the Riemann
@@ -57,6 +62,8 @@ df = S.df
 G = {g: outputs(df, 'gE%.2f' % g) for g in GE_GRID}
 T0 = G[GE0]
 grid = np.array(GE_GRID)
+_SPL_PREF = CubicSpline(grid, np.array([G[g].Pref for g in GE_GRID]), axis=0)    # NNLO static polarisabilities vs g_E
+assert np.allclose(_SPL_PREF(GE0), PREF_NNLO, atol=1e-6), 'prior centres at the default g_E must be the NNLO prediction'
 sL = S.rows_for(df, S.ALL, 'F2')                               # main database + forward points (as F2_d_all_thB)
 C_L, _ = S.thcov_for(sL, df, 'db')
 # forward SRs above threshold: data, band (at the prediction) and the BChPT amplitudes of every g_E configuration
@@ -100,10 +107,12 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
     free = NAMES if spin else NAMES[:2]
     sg = SPIN_K * SIG_SPIN if sig is None else np.asarray(sig, float)          # prior widths
     sb = SIG_SPIN if sig0 is None else np.asarray(sig0, float)                 # unit of the bound (the NNLO uncertainty)
-    cons = [(np.eye(6)[k], PREF_NNLO[k], sg[k - 2], 'prior_' + NAMES[k]) for k in range(2, 6)] if spin else ()
+
+    def Peff(P, ge):                                                           # spin=False: spin pols at NNLO of this g_E
+        return P if spin else np.r_[P[:2], _SPL_PREF(ge)[2:]]
 
     def tf(P, ex):
-        O = np.array([G[g].predict_array(P, idx) for g in GE_GRID])
+        O = np.array([G[g].predict_array(Peff(P, ex['gE']), idx) for g in GE_GRID])
         return CubicSpline(grid, O, axis=0)(ex['gE'])
 
     fb = fsr_block(Emax, fsr_step, w if wf is None else wf) if fsr else None
@@ -113,7 +122,9 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
     def run(gfix=None):
         """the fit; spin polarisabilities outside +-bound x sb of NNLO are pinned at the bound and the fit is redone"""
         ge_of = (lambda ex: ex['gE']) if gfix is None else (lambda ex: gfix)
-        app = None if fb is None else (fb[0], fb[1], fb[2], lambda P, ex: fb[3](P, ge_of(ex)))
+        app = None if fb is None else (fb[0], fb[1], fb[2], lambda P, ex: fb[3](Peff(P, ge_of(ex)), ge_of(ex)))
+        cons = [(np.eye(6)[k], lambda ex, k=k: _SPL_PREF(ge_of(ex))[k], sg[k - 2], 'prior_' + NAMES[k])
+                for k in range(2, 6)] if spin else ()                          # priors centred at NNLO of the current g_E
         pinned.clear()
         for _ in range(5):
             P0 = PREF_NNLO.copy()
@@ -125,12 +136,12 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
             R = F.run(decompose=False)
             if bound is None or not spin:
                 return R
-            d = np.array(R.P) - PREF_NNLO
+            d = np.array(R.P) - _SPL_PREF(R.extra['gE'][0] if gfix is None else gfix)
             viol = [k for k in range(2, 6) if k not in pinned and NAMES[k] not in BOUND_FREE and abs(d[k]) > bound * sb[k - 2] * (1 + 1e-9)]
             if not viol:
                 return R
-            for k in viol:
-                pinned[k] = PREF_NNLO[k] + np.sign(d[k]) * bound * sb[k - 2]
+            for k in viol:     # shortcut: pinned at the bound around NNLO of this iteration's g_E, not re-centred afterwards
+                pinned[k] = _SPL_PREF(R.extra['gE'][0] if gfix is None else gfix)[k] + np.sign(d[k]) * bound * sb[k - 2]
         return R
     edge = None
     if ge == 'fixed':
@@ -142,7 +153,7 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
             edge = lo if g[0] < lo else hi
             g_free = g
             R = run(edge); g = (edge, 0.0)
-    P, cov = np.array(R.P), np.array(R.covP)
+    P, cov = Peff(np.array(R.P), g[0]), np.array(R.covP)
     der = {k: (float(np.dot(v, P)), float(np.sqrt(np.dot(v, cov @ np.array(v, float)))))
            for k, v in {'apb': [1, 1, 0, 0, 0, 0], 'amb': [1, -1, 0, 0, 0, 0], 'g0': [0, 0, -1, -1, -1, -1],
                         'gpi': [0, 0, -1, 1, -1, 1]}.items()}
@@ -154,6 +165,11 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
                rho_ab=float(cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])))
     if edge is not None:
         out['gE_free'] = g_free; out['REM_free'] = (RM.rem(g_free[0]), RM.drem_dge(g_free[0]) * g_free[1])
+    # per-point pulls (Fig. pulls of the paper): residual / sqrt(err_pt^2 + truncation or band variance), UNWEIGHTED
+    # (the Delta-region rows enter the fit with these variances divided by w); the appended forward-SR block is left out
+    var = np.r_[sL.err_pt.values ** 2 + np.diag(C_L), sD.err_pt.values ** 2 + (sth ** 2 if band else 0.0)]
+    out['points'] = dict(pid=list(s.pid), dataset=list(s.dataset), E=s.E.values, theta_lab=s.theta_lab.values,
+                         resid=R.resid[:len(s)], pull=R.resid[:len(s)] / np.sqrt(var))
     OUT[name] = out
     print('%-24s N=%d (%d+%d) FSR=%d a=%.2f(%.2f) b=%.2f(%.2f) a+b=%.2f(%.2f) a-b=%.2f(%.2f) spin=%s g0=%.2f(%.2f) gpi=%.2f(%.2f) '
           'gE=%.3f(%.3f) REM=%.2f(%.2f)%%%s chi2=%.1f/%d' % (name, len(s), len(sL), len(sD), out['N_FSR'], P[0], R.dP[0], P[1], R.dP[1],
@@ -165,14 +181,16 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
 
 def delta_only(name, legs):
     """R_EM from the Delta-region angular data alone (band included, unweighted): alpha, beta at the fit below threshold
-    (fits_L.json 'F2_d_all_thB'), spin polarisabilities at NNLO, g_E and the normalisations free (paper Sects. IV B, IV E)"""
+    (fits_L.json 'F2_d_all_thB'), spin polarisabilities at NNLO of the current g_E, g_E and the normalisations free
+    (paper Sects. IV B, IV E)"""
     sD, sth = rows_delta(360.0, legs)
     P0 = PREF_NNLO.copy(); P0[:2] = json.load(open(os.path.join(RES, 'fits_L.json')))['F2_d_all_thB']['P'][:2]
     idx = T0.subset(sD.pid.values)
-    tf = lambda P, ex: CubicSpline(grid, np.array([G[g].predict_array(P, idx) for g in GE_GRID]), axis=0)(ex['gE'])
+    tf = lambda P, ex: CubicSpline(grid, np.array([G[g].predict_array(np.r_[P[:2], G[g].Pref[2:]], idx)
+                                                   for g in GE_GRID]), axis=0)(ex['gE'])
     R = build_fit(sD, T0, P0, [], thcov=np.diag(sth ** 2), theory_fn=tf, extra=dict(gE=GE0)).run(decompose=False)
     g = R.extra['gE']
-    OUT[name] = dict(name=name, legs=legs, N=len(sD), P=P0, gE=g, REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), chi2=R.chi2)
+    OUT[name] = dict(name=name, legs=legs, N=len(sD), P=np.r_[P0[:2], _SPL_PREF(g[0])[2:]], gE=g, REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), chi2=R.chi2)
     print('%-24s N=%d gE=%.3f(%.3f) REM=%.2f(%.2f)%% chi2=%.1f' % (name, len(sD), g[0], g[1], *OUT[name]['REM'], R.chi2))
 
 
@@ -191,6 +209,7 @@ if __name__ == '__main__':
     fit('combined_w0.03', w=0.03)
     fit('combined_w0.1', w=0.1)
     fit('combined_w1', w=1.0)
+    fit('combined_withLEGS_w1', legs=True, w=1.0)    # Table "variants", Sect. IV B (added 2026-10-28; first run saved as results/combined_fit_withLEGS_w1.json)
     fit('combined_E350', Emax=350.0)
     fit('combined_noFSR', fsr=False)                 # forward SRs below threshold only (the main fit until this request)
     fit('combined_FSRw1', wf=1.0)                    # forward SRs above threshold at weight 1

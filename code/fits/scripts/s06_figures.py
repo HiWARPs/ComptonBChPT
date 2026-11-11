@@ -21,31 +21,10 @@ P_MAIN = P_F2
 P_F1n = np.array(FL['F1_d_all']['P'])
 MP = 938.272
 
-MARK = {'OlmosdeLeon2001': ('D', '#c0392b'), 'Federspiel1991': ('^', '#2e8b57'), 'Zieger1992': ('*', '#6a3d9a'),
-        'Baranov1974_75_th90': ('v', '#8c564b'), 'Baranov1974_75_th150': ('v', '#8c564b'),
-        'Hallin1993_TabII': ('s', '#444444'), 'Hallin1993_TabII_D': ('s', '#444444'),
-        'MacGibbon1995_tagged': ('o', '#e08e0b'), 'MacGibbon1995_untagged': ('o', '#e08e0b'),
-        'Pugh1957': ('p', '#17becf'), 'Hyman1959': ('h', '#9a9a2e'), 'Goldansky1960': ('<', '#2e8b57'),
-        'Oxley1958': ('>', '#6a3d9a'), 'Bernardini1960': ('X', '#8c564b'),
-        'A2_2022_CS': ('o', '#1f4e9c'), 'A2_2022_S3': ('o', '#1f4e9c'), 'HIGS_2022_CIRC': ('s', '#d62e8a'),
-        'HIGS_2022_LIN': ('s', '#d62e8a'), 'LEGS2001_CS': ('d', '#e08e0b'), 'LEGS2001_S3': ('d', '#e08e0b'),
-        'Hunger1997_75': ('o', '#1f4e9c'), 'Hunger1997_90': ('o', '#1f4e9c'), 'Wissmann1999': ('^', '#1f4e9c'),
-        'Camen2002': ('v', '#1f4e9c'), 'Genzel1972': ('h', '#2e8b57'), 'Gray1967': ('<', '#6a3d9a'),
-        'Baranov1966': ('>', '#8c564b'), 'Kolb2000': ('*', '#c0392b'), 'Nagashima1964': ('p', '#17becf'),
-        'A2_Martel2015_S2x': ('o', '#1f4e9c'), 'A2_Paudyal2020_S2z': ('o', '#1f4e9c')}
 C_NNLO, C_F1, C_F2, C_BAND = '#444444', '#1f4e9c', '#c0392b', '#9fb6dd'
 from matplotlib.lines import Line2D   # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 W1, W2 = 246 / 72.27, 510 / 72.27     # final printed widths [in]: single / double column (revtex4-2 prd)
-# short experiment labels for the legends (as in the Delta-region figures, work/delta_plots/data_dp.LABEL)
-SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger1992': 'MAMI 92',
-         'Baranov1974_75_th90': 'Moscow 74', 'Baranov1974_75_th150': 'Moscow 74', 'Hallin1993_TabII': 'SAL 93',
-         'Hallin1993_TabII_D': 'SAL 93', 'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95',
-         'Pugh1957': 'MIT 57', 'Hyman1959': 'MIT 59', 'Goldansky1960': 'Moscow 60', 'Oxley1958': 'Chicago 58',
-         'Bernardini1960': 'Illinois 60', 'A2_2022_CS': 'A2 22', 'A2_2022_S3': 'A2 22', 'HIGS_2022_CIRC': 'HI$\\gamma$S 22',
-         'HIGS_2022_LIN': 'HI$\\gamma$S 22', 'LEGS2001_CS': 'LEGS 01', 'LEGS2001_S3': 'LEGS 01', 'Hunger1997_75': 'MAMI 97',
-         'Hunger1997_90': 'MAMI 97', 'Wissmann1999': 'MAMI 99', 'Camen2002': 'MAMI 02', 'Kolb2000': 'SAL 00',
-         'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64'}
 # theory legend entries shared by the angular-distribution figures (Figs. cs, sigma3 and higs of the paper); the
 # forward and Emax figures use the first two / the first entry only (no PWA curve there)
 TH_LAB = ['NNLO B$\\chi$PT', 'B$\\chi$PT fit', 'PWA fit']      # band = LEC uncertainty, stated in the captions (user, 2026-10-17)

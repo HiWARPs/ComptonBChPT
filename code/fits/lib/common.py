@@ -203,3 +203,26 @@ def truncation_for(dfx, s, tag='db', scheme='B', mode='sqrtQ', Lam=750.0, cbar='
         C = np.diag(tr['sigma'] ** 2)
     tr['y0'], tr['y2'], tr['y3'] = y0, y2, y3
     return C, tr
+
+
+# marker/colour and short experiment labels of the figures (moved here from scripts/s06_figures.py, 2026-10-24)
+MARK = {'OlmosdeLeon2001': ('D', '#c0392b'), 'Federspiel1991': ('^', '#2e8b57'), 'Zieger1992': ('*', '#6a3d9a'),
+        'Baranov1974_75_th90': ('v', '#8c564b'), 'Baranov1974_75_th150': ('v', '#8c564b'),
+        'Hallin1993_TabII': ('s', '#444444'), 'Hallin1993_TabII_D': ('s', '#444444'),
+        'MacGibbon1995_tagged': ('o', '#e08e0b'), 'MacGibbon1995_untagged': ('o', '#e08e0b'),
+        'Pugh1957': ('p', '#17becf'), 'Hyman1959': ('h', '#9a9a2e'), 'Goldansky1960': ('<', '#2e8b57'),
+        'Oxley1958': ('>', '#6a3d9a'), 'Bernardini1960': ('X', '#8c564b'),
+        'A2_2022_CS': ('o', '#1f4e9c'), 'A2_2022_S3': ('o', '#1f4e9c'), 'HIGS_2022_CIRC': ('s', '#d62e8a'),
+        'HIGS_2022_LIN': ('s', '#d62e8a'), 'LEGS2001_CS': ('d', '#e08e0b'), 'LEGS2001_S3': ('d', '#e08e0b'),
+        'Hunger1997_75': ('o', '#1f4e9c'), 'Hunger1997_90': ('o', '#1f4e9c'), 'Wissmann1999': ('^', '#1f4e9c'),
+        'Camen2002': ('v', '#1f4e9c'), 'Genzel1972': ('h', '#2e8b57'), 'Gray1967': ('<', '#6a3d9a'),
+        'Baranov1966': ('>', '#8c564b'), 'Kolb2000': ('*', '#c0392b'), 'Nagashima1964': ('p', '#17becf'),
+        'A2_Martel2015_S2x': ('o', '#1f4e9c'), 'A2_Paudyal2020_S2z': ('o', '#1f4e9c')}
+SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger1992': 'MAMI 92',
+         'Baranov1974_75_th90': 'Moscow 74', 'Baranov1974_75_th150': 'Moscow 74', 'Hallin1993_TabII': 'SAL 93',
+         'Hallin1993_TabII_D': 'SAL 93', 'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95',
+         'Pugh1957': 'MIT 57', 'Hyman1959': 'MIT 59', 'Goldansky1960': 'Moscow 60', 'Oxley1958': 'Chicago 58',
+         'Bernardini1960': 'Illinois 60', 'A2_2022_CS': 'A2 22', 'A2_2022_S3': 'A2 22', 'HIGS_2022_CIRC': 'HI$\\gamma$S 22',
+         'HIGS_2022_LIN': 'HI$\\gamma$S 22', 'LEGS2001_CS': 'LEGS 01', 'LEGS2001_S3': 'LEGS 01', 'Hunger1997_75': 'MAMI 97',
+         'Hunger1997_90': 'MAMI 97', 'Wissmann1999': 'MAMI 99', 'Camen2002': 'MAMI 02', 'Kolb2000': 'SAL 00',
+         'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64', 'A2_Martel2015_S2x': 'A2 15 $\\Sigma_{2x}$', 'A2_Paudyal2020_S2z': 'A2 20 $\\Sigma_{2z}$'}

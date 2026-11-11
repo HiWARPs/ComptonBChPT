@@ -113,16 +113,21 @@ LEGS: variant `combined_withLEGS`) and the forward sum rules (forward SRs) at th
 the amplitudes (Re f, Im f, Re g, Im g of the ForwardRCS 2026 update with their full covariance,
 `code/data/raw/ForwardRCS2026/forward_amp_grid.json`, made by `code/data/scripts/export_forward_amp_grid.py` with the
 ForwardRCS code; `lib/forward_amp.py`; Riemann-sum χ²).  Spin polarizabilities: Gaussian priors of 3 × the re-examined
-NNLO uncertainties (`scenarios/spin_pol_uncertainties.py`).  Result: α_E1 = 11.01(49), β_M1 = 3.03(47),
-γ_0 = −1.04(11), R_EM = −1.73(88)% (g_E = −0.77(40); exact relation R_EM = −G_E*/G_M*, `lib/rem.py`), χ² = 296.5 (weighted); the weight and prior scans are in
+NNLO uncertainties (`scenarios/spin_pol_uncertainties.py`; since 2026-11-11 the uncertainty rule uses δ = Δ/m_ρ ≈ 0.38),
+centered at the NNLO values for the current g_E.  Result: α_E1 = 10.78(48), β_M1 = 3.26(46), γ_0 = −1.04(11),
+γ_π = 9.48(1.15), R_EM = −2.06(83)% (g_E = −0.92(38); exact relation R_EM = −G_E*/G_M*, `lib/rem.py`), χ² = 298.4
+(weighted); the unweighted χ² of its parts are in `scenarios/combined_fit_parts.py`, the rows of the paper's table of
+variants are printed by `scripts/s15_variants_rows.py`; the weight and prior scans are in
 `scenarios/weight_scan.py`, the variants (previous main fit w = 0.01 with 1σ priors, priors 1σ/2σ/NNLO/LMP15, R_EM
 fixed or within ±15%, weights 0.01–1, E ≤ 350 MeV, forward SRs above threshold omitted or at weight 1, 5- and 20-MeV
 grids, R_EM from the Δ-region angular data alone with and without LEGS) in `combined_fit.json`.
 
 Neutron polarizabilities (`code/fits/scenarios/neutron_pols.py`, run by `make all`; `results/neutron_pols.json`): the NNLO
 prediction with the physical masses, πN loops of the neutron (Lensky, McGovern, Pascalutsa 2015, App. C), πΔ loops and Δ pole
-as for the proton, uncertainties re-examined as for the proton: α_E1 = 13.7(3.2), β_M1 = 4.6(1.2), γ_E1E1 = −4.7(1.1),
-γ_M1M1 = 2.9(7), γ_E1M2 = 0.22(14), γ_M1E2 = 1.6(4), γ_0 = 0.0(7), γ_π = 9.0(2.1).
+as for the proton, uncertainties re-examined as for the proton: α_E1 = 13.7(2.0), β_M1 = 4.6(8), γ_E1E1 = −4.7(7),
+γ_M1M1 = 2.9(5), γ_E1M2 = 0.22(9), γ_M1E2 = 1.6(2), γ_0 = 0.0(5), γ_π = 9.0(1.3).  The figure of the neutron scalar
+polarizabilities (`scripts/s14_fig_neutron_alpha_beta.py`) adds the main proton fit with isoscalar counterterms,
+α_E1 = 13.1(7), β_M1 = 4.2(6), and the same with the neutron Baldin sum rule imposed, α_E1 = 12.1(7), β_M1 = 3.1(7).
 
 Effective number of parameters of the PWA and of the BChPT Baldin fit below threshold (`code/pwa/scenarios/effective_dof.py`,
 `code/pwa/results/effective_dof.{json,md}`): sums of the leverages of the data points; on the 237 common points χ² = 174.4
@@ -227,3 +232,6 @@ Python 3.13.15, package versions of `requirements.txt`):
 | `python3 scenarios/nnlo_prediction_table.py` | NNLO prediction: χ² = 232.6 for the 267 points (normalizations and nuisances floated, truncation covariance); table identical |
 | `make all` (41 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.01(49), β_M1 = 3.03(47), R_EM = −1.73(88)%, χ² = 296.5; `combined_fit.json` (incl. the Δ-only R_EM variants), `spin_pol_uncertainties.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
 | `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |
+
+The main fit and the quantities that depend on it were updated on 2026-11-11 (δ = Δ/m_ρ in the uncertainty rule, which
+narrows the spin priors); this test has not been repeated for that version.

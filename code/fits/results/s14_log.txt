@@ -1,0 +1,3 @@
+proton LECs: alpha_n = 13.08(0.70), beta_n = 4.16(0.64), rho = -0.72, sum = 17.24(0.50) [2.88 sigma above BSR], diff = 8.92(1.24); via NNLO_n + LECs: 13.06, 4.16
+Baldin + alpha-beta: alpha_n = 12.06(0.67), beta_n = 3.14(0.67), rho = -0.72; isovector shift of the sum -2.04 (each of alpha, beta -1.01); via NNLO_n + LECs: 12.05, 3.15; with delta: sigma = 0.71
+wrote fig_neutron_alpha_beta.pdf to <release>/code/fits/figs and <release>/paper/figs

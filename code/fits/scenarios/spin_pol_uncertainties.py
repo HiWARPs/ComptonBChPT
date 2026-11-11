@@ -20,7 +20,8 @@ import rem as RM
 from fitter import C_GAMMA0, C_GAMMAPI
 from common import save_json
 
-D = 0.48
+D_LMP = 0.48                                            # LMP15's m_pi/Delta: reproduces the published uncertainties
+D = (1232.0 - 938.272) / 775.26              # delta = Delta/m_rho = 0.379 (author, 2026-11-11; LMP15 used m_pi/Delta = 0.48)
 GE_PM = (RM.ge_of_rem(RM.rem(-1.0) - 0.5), RM.ge_of_rem(RM.rem(-1.0) + 0.5))      # g_E for R_EM = default -+ 0.5 %
 LAB = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2', 'gamma0', 'gammapi']
 PT = [('pref', 100.0, 90.0, 'CS', 'LAB')]
@@ -42,7 +43,7 @@ tot = ext(R['NNLO'] - R['BornPi0'])
 assert np.allclose(piN + dpole + piD, tot, atol=2e-3), 'mechanisms do not add up'
 s_gM = 0.5 * np.abs(ext(R['gM3.07'] - R['gM2.87']))
 s_gE = 0.5 * np.abs(ext(R['gE%.4f' % GE_PM[1]] - R['gE%.4f' % GE_PM[0]]))
-lmp = np.maximum.reduce([D ** 2 * np.abs(piN), D * np.abs(dpole + piD), D ** 2 * np.abs(tot)])
+lmp = np.maximum.reduce([D_LMP ** 2 * np.abs(piN), D_LMP * np.abs(dpole + piD), D_LMP ** 2 * np.abs(tot)])
 PUB = np.array([0.70, 0.70, 0.80, 1.50, 0.20, 0.30, 1.40, 1.70])            # Table NNLOpols, first row
 assert np.all(np.abs(lmp[2:] - PUB[2:]) < 0.06), ('LMP15 rule not reproduced', lmp)
 trunc = np.maximum.reduce([D ** 2 * np.abs(piN), D * np.abs(piD), D ** 2 * np.abs(tot)])
@@ -57,6 +58,6 @@ for nm, s in (('LMP15', lmp), ('reexamined', reex)):
     print('%s, four spin pols independent: sigma(gamma_0) = %.2f, sigma(gamma_pi) = %.2f'
           % (nm, quad(s, np.r_[0, 0, -1, -1, -1, -1.]), quad(s, np.r_[0, 0, -1, 1, -1, 1.])))
 print('empirical gamma_0 (ForwardRCS 2026) = -1.02(10); NNLO %.2f' % tot[6])
-save_json(dict(labels=LAB, delta=D, gE_REM0p5=GE_PM, **rows,
+save_json(dict(labels=LAB, delta=D, delta_LMP15=D_LMP, gE_REM0p5=GE_PM, **rows,
                quad_g0=dict(LMP15=quad(lmp, -C_GAMMA0), reexamined=quad(reex, -C_GAMMA0)),
                quad_gpi=dict(LMP15=quad(lmp, C_GAMMAPI), reexamined=quad(reex, C_GAMMAPI))), 'spin_pol_uncertainties.json')

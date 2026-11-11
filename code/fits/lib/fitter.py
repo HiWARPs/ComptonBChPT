@@ -55,7 +55,8 @@ class Chi2Fit:
         norms    : dict dataset -> delta (fractional 1-sigma); 0 or missing => not floated
         P0       : (6,) starting / fixed polarisabilities
         free     : list of direction names (keys of DIR) or 6-vectors
-        constraints : list of (cvec(6), value, sigma, name)
+        constraints : list of (cvec(6), value, sigma, name); value may be a callable value(extra) (e.g. a prior centred
+                   at the NNLO value of the current g_E)
         shifts   : (Ns, N) additive nuisance shift vectors (1 sigma), or None
         extra    : dict name -> start value for non-linear extra parameters (e.g. gM); passed to theory
         extra_prior : dict name -> (mean, sigma) Gaussian prior (optional)
@@ -121,8 +122,9 @@ class Chi2Fit:
         r = [self.whiten(self.y - m)]
         r.append(ln)
         r.append(ls)
+        ex = dict(zip(self.extra_names, e))
         for (c, v, s, nm) in self.constraints:
-            r.append(np.atleast_1d((c @ P - v) / s))
+            r.append(np.atleast_1d((c @ P - (v(ex) if callable(v) else v)) / s))
         for k, (mu, s) in self.extra_prior.items():
             r.append(np.atleast_1d((e[self.extra_names.index(k)] - mu) / s))
         return np.concatenate(r)
@@ -180,8 +182,9 @@ class Chi2Fit:
         chi2_norm = float(ln @ ln)
         chi2_shift = float(ls @ ls)
         chi2_con = 0.0
+        ex = dict(zip(self.extra_names, e))
         for (c, v, s, nm) in self.constraints:
-            chi2_con += float(((c @ P - v) / s) ** 2)
+            chi2_con += float(((c @ P - (v(ex) if callable(v) else v)) / s) ** 2)
         for k, (mu, s) in self.extra_prior.items():
             chi2_con += float(((e[self.extra_names.index(k)] - mu) / s) ** 2)
         chi2 = chi2_data + chi2_norm + chi2_shift + chi2_con

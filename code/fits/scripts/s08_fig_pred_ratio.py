@@ -1,17 +1,20 @@
-"""Figure: the parameter-free NNLO prediction versus the new data (paper Fig. "predratio").
+"""Figure: the parameter-free NNLO prediction versus the data near the new-data energies (paper Fig. "predratio").
 
-Ratio data/prediction at the published normalisation (n = 1) versus the lab angle, for the HIgS data of Li et al.
-2022 (panel 1: unpolarised cross section at 81.3 MeV and the polarised cross sections dsigma_par, dsigma_perp at
-83.4 MeV) and the A2 2022 unpolarised cross sections at their five energies (panels 2-6).  The prediction is the
-NNLO amplitude at P = PREF_NNLO (no free polarisability), evaluated per data point with the driver ('db' run).
+Ratio data/prediction versus the lab angle at the energies of Fig. "cs" (s06_figures.py, fig1a_cs_A2_HIGS): the HIgS
+energy (unpolarised cross section at 81.3 MeV, polarised dsigma_par, dsigma_perp at 83.4 MeV), the five A2 2022
+energies and 149.87 MeV; all cross-section data within +-2.5 MeV of the panel energy, Pugh 1957 omitted (as in Fig. cs).
+Since 2026-10-27 (author): the figure is about the prediction alone; each data set is divided by the normalisation
+the prediction prefers (scenarios/nnlo_prediction_table.json[set]['n_th'], Table pred: normalisation alone fitted with
+the truncation covariance); the theory curves carry no normalisation.  The BChPT fit is not drawn (it is in Figs. cs and
+pulls).  The prediction is the NNLO amplitude at P = PREF_NNLO (no free polarisability), evaluated per data point with
+the driver ('db' run).
 Drawn in every panel: the line at 1; the truncation band 1 +- sigma_th/prediction (theory.truncation via
 truncation_for on a fine angular grid, same settings as the fit covariance: scheme B, sqrtQ, Lambda_b = 750 MeV,
-cbar = rms); the NNLO fit (fits_L 'F2_d_all_thB') divided by the prediction, both computed with predict_array on
-the grid (solid red); and the normalisation n_th the prediction prefers for the set (scenarios/
-nnlo_prediction_table.json, 'n_th': fit of the normalisation alone with the truncation covariance) as a dashed
-line.  The band and the fit/prediction curve of the HIgS panel are those of the unpolarised cross section at
-81.3 MeV (reference; the polarised points are divided by their own predictions).  Points of the same set at the
-same angle (HIgS beam times) are displaced by +-2 deg for visibility.
+cbar = rms); the PWA fit of this work (bare curve, without its normalisations, from work/pwa/results/pwa_curves.csv as in Fig. cs) divided by the prediction (dotted olive); and the
+forward SR at theta = 0 (open star; the 'GHP_fwd_CS' rows interpolated to the panel energy as in Fig. cs, no
+normalisation).  The curves of the HIgS panel are those of the unpolarised cross section at 81.3 MeV (the polarised
+points are divided by their own predictions; at theta = 0 all three cross sections coincide).  The three HIgS
+measurements and repeated points at the same angle (beam times) are displaced by a few degrees for visibility.
 Writes work/fits/figs/fig_pred_ratio.pdf and paper/figs/fig_pred_ratio.pdf (final printed size, double column).
 Not part of the make pipeline; run by hand:  .venv/bin/python scripts/s08_fig_pred_ratio.py
 """
@@ -24,6 +27,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
+from scipy.interpolate import CubicSpline
 from common import *  # noqa
 import database as DB
 
@@ -31,39 +35,42 @@ plt.style.use(STYLE)
 os.makedirs(FIGS, exist_ok=True)
 PAPER_FIGS = os.path.join(os.path.dirname(os.path.dirname(FITS)), 'paper', 'figs')
 W1, W2 = 246 / 72.27, 510 / 72.27          # final printed widths [in] (as in s06_figures.py)
-C_NNLO, C_F2, C_BAND = '#444444', '#c0392b', '#9fb6dd'
-C_A2, C_HIGS = '#1f4e9c', '#d62e8a'         # MARK colours of s06: A2 22 blue circles, HIgS 22 magenta squares
+C_BAND, C_PWA = '#9fb6dd', '#6b8e23'
 YLIM = (0.75, 1.25)                         # common y-range (narrowed 2026-10-17); points outside are marked and reported
+OWN_YLIM = {149.87: (0.75, 1.50)}           # own range: just above the pi0 threshold the forward SR is 1.33 x prediction
+PANELS = [81.3, 92.2, 103.2, 113.6, 124.1, 135.3, 149.87]   # energies of Fig. cs
+WINDOW, OMIT = 2.5, ('Pugh1957',)
+HIGS = ['HIGS_2022_CIRC', 'HIGS_2022_LIN']
 
 df = load_db()
 FL = json.load(open(os.path.join(RES, 'fits_L.json')))
 FIT = FL['F2_d_all_thB']
-MF = main_fit()                             # the main BChPT fit (combined, up to 360 MeV): curve at its alpha, beta, R_EM
-P_FIT = MF['P']
-NTH = json.load(open(os.path.join(FITS, 'scenarios', 'nnlo_prediction_table.json')))
-n_th = {k: NTH[k]['n_th'] for k in ['A2_2022_CS', 'HIGS_2022_CIRC', 'HIGS_2022_LIN']}
+NORM = {k: v['n_th'] for k, v in json.load(open(os.path.join(FITS, 'scenarios', 'nnlo_prediction_table.json'))).items()
+        if isinstance(v, dict) and 'n_th' in v}
+PWA = pd.read_csv(os.path.join(FITS, '..', 'pwa', 'results', 'pwa_curves.csv'))
 
-# ---- data points: ratio to the prediction at n = 1 (prediction = driver value at P = Pref, i.e. value_file)
+# ---- data points: ratio to the prediction, each set at the normalisation the prediction prefers
 T = outputs(df, 'NNLO')                     # cached 'db' run of all database rows
-sel = df[df.dataset.isin(['A2_2022_CS', 'HIGS_2022_CIRC', 'HIGS_2022_LIN'])].copy()
+near = np.array([np.abs(df.E.values - E) <= WINDOW for E in PANELS])
+sel = df[near.any(0) & df.dobs.isin(['CS', 'CSCM', 'SPAR', 'SPERP']) & ~df.dataset.isin(FWD + list(OMIT))
+         & (df.theta_lab > 0)].copy()
+sel['panel'] = [PANELS[int(np.argmin(np.abs(np.array(PANELS) - E)))] for E in sel.E]
+assert set(sel.dataset) <= set(NORM), set(sel.dataset) - set(NORM)
+sel['n'] = [NORM[ds] for ds in sel.dataset]
 idx = T.subset(sel.pid.values)
 sel['pred'] = T.predict_array(PREF_NNLO, idx)
 assert np.allclose(sel['pred'].values, T.value_file[idx])
-sel['ratio'] = sel.value / sel.pred
-sel['eratio'] = sel.err_pt / sel.pred
-# truncation sigma at the data points (identical to FIT['sig_th'] at the pids that are in the fit; checked below.
-# Since 2026-10-17 the HIgS data are not part of the main database, so only the A2 points are in FIT['pids'];
-# the 'B$\\chi$PT fit' curve of the HIgS panel is then a prediction of the main fit for the HIgS data.)
+sel['ratio'] = sel.value / (sel.n * sel.pred)
+sel['eratio'] = sel.err_pt / (sel.n * sel.pred)
+# truncation sigma at the data points: identical to FIT['sig_th'] at the pids that are in the fit below threshold
 _, tr = truncation_for(df, sel, tag='db')
 sel['sig_th'] = tr['sigma']
 fit_sig = dict(zip(FIT['pids'], FIT['sig_th']))
 _infit = sel.pid.isin(fit_sig).values
-assert _infit.sum() == 60 and not sel[_infit].dataset.isin(['HIGS_2022_CIRC', 'HIGS_2022_LIN']).any(), int(_infit.sum())
+assert not sel[_infit].dataset.isin(HIGS).any()
 assert np.allclose(sel.sig_th.values[_infit], [fit_sig[p] for p in sel.pid[_infit]])
 
 # ---- curves on a fine angular grid: CS at the panel energies
-E_A2 = sorted(df[df.dataset == 'A2_2022_CS'].E.unique())          # 92.2, 103.2, 113.6, 124.1, 135.3
-E_H = 81.3
 th = np.arange(0.0, 180.01, 2.5)
 
 
@@ -78,99 +85,97 @@ def grid_rows(spec):
     return pd.DataFrame(rows)
 
 
-g = grid_rows([('pr', E, t, 'CS', 'LAB') for E in [E_H] + list(E_A2) for t in th])
+def forward_point(E):
+    """as in s06_figures.py: empirical forward cross section ('GHP_fwd_CS' rows) at energy E, cubic spline through
+    the tabulated values, uncertainty linearly interpolated"""
+    d = df[df.dataset == 'GHP_fwd_CS'].sort_values('E')
+    return float(CubicSpline(d.E.values, d.value.values)(E)), float(np.interp(E, d.E.values, d.err_pt.values))
+
+
+g = grid_rows([('pr', E, t, 'CS', 'LAB') for E in PANELS for t in th])
 Tg = outputs(g, 'NNLO', tag='fig_pred_ratio')
 # flag 1 = loop amplitudes extrapolated in t inside the Gram-singular zones near 0/180 deg (driver README, Sect. 6);
 # benign (the forward grid of s06 is entirely flag 1).  flag 2 (E < 15 MeV) must not occur here.
 assert (Tg.flag <= 1).all(), 'driver flags on the grid: %s' % np.unique(Tg.flag)
 print('grid: %d of %d points with the loops extrapolated near 0/180 deg (flag 1)' % ((Tg.flag == 1).sum(), len(Tg.flag)))
 pred_g = Tg.predict_array(PREF_NNLO)
-fit_g = outputs(g, MF['cfg'], tag='fig_pred_ratio').predict_array(P_FIT)   # main fit at its R_EM
 _, trg = truncation_for(g, g, tag='fig_pred_ratio')
 sig_g = trg['sigma']
 
 # ---- figure
-PANELS = [('HIGS', E_H)] + [('A2', E) for E in E_A2]
-fig, axs = plt.subplots(2, 3, figsize=(W2, 4.3), sharex=True, sharey=True, layout='constrained')
+fig, axs = plt.subplots(2, 4, figsize=(W2, 4.6), sharex=True, layout='constrained')
 axs = axs.ravel()
 # marker, legend label, x-offset [deg] of the three HIgS measurements (the offsets separate them at the common angles)
 HSTY = {'CS': ('s', 'HI$\\gamma$S 22 $d\\sigma/d\\Omega$ (81.3 MeV)', -2.5), 'SPAR': ('^', 'HI$\\gamma$S 22 $d\\sigma_\\parallel$ (83.4 MeV)', 2.5),
         'SPERP': ('v', 'HI$\\gamma$S 22 $d\\sigma_\\perp$ (83.4 MeV)', 0.0)}
-hd, ld = [], []                 # data legend (lower row)
+leg = {}                        # data legend: label -> handle
 outside = []                    # points outside YLIM (reported)
+curves = {}                     # report: per panel (fit, PWA, forward) ratios
 
 
 def jitter(d, step=1.5):
-    """x-offsets [deg]: per observable (HSTY) plus, for repeated measurements of the same (dataset, dobs) at the
+    """x-offsets [deg]: per HIgS observable (HSTY) plus, for repeated measurements of the same (dataset, dobs) at the
     same angle (HIgS beam times), -step, 0, +step ... (symmetric); at most 4 deg in total"""
-    off = np.array([HSTY[o][2] for o in d.dobs])
+    off = np.array([HSTY[o][2] if ds in HIGS else 0.0 for ds, o in zip(d.dataset, d.dobs)])
     for (ds, o, t), grp in d.groupby(['dataset', 'dobs', 'theta_lab']):
         k = len(grp)
         off[d.index.get_indexer(grp.index)] += (np.arange(k) - (k - 1) / 2) * step
     return off
 
 
-for i, (kind, E) in enumerate(PANELS):
+for i, E in enumerate(PANELS):
     ax = axs[i]
     m = np.isclose(g.E.values, E)
     ax.fill_between(th, 1 - sig_g[m] / pred_g[m], 1 + sig_g[m] / pred_g[m], color=C_BAND, alpha=0.6, lw=0, zorder=1)
     ax.axhline(1.0, color='k', lw=0.6, zorder=2)
-    ax.plot(th, fit_g[m] / pred_g[m], '-', color=C_F2, lw=1.2, zorder=3)
-    if kind == 'A2':
-        ax.axhline(n_th['A2_2022_CS'], color=C_A2, ls='--', lw=0.9, zorder=2)
-        d = sel[(sel.dataset == 'A2_2022_CS') & np.isclose(sel.E, E)]
-        h = ax.errorbar(d.theta_lab, d.ratio, d.eratio, fmt='o', color=C_A2, ms=3.5, lw=0.7, zorder=5)
-        if 'A2 22 $d\\sigma/d\\Omega$' not in ld:
-            hd.append(h); ld.append('A2 22 $d\\sigma/d\\Omega$')
-        ax.text(0.04, 0.93, 'A2, %.1f MeV' % E, transform=ax.transAxes, va='top')
-    else:
-        ax.axhline(n_th['HIGS_2022_CIRC'], color=C_HIGS, ls='--', lw=0.9, zorder=2)
-        ax.axhline(n_th['HIGS_2022_LIN'], color=C_HIGS, ls=':', lw=0.9, zorder=2)
-        d = sel[sel.dataset.isin(['HIGS_2022_CIRC', 'HIGS_2022_LIN'])].copy()
-        d['x'] = d.theta_lab + jitter(d)
-        for o in ['CS', 'SPAR', 'SPERP']:
-            dd = d[d.dobs == o]
-            mk, lab, _ = HSTY[o]
-            vis = (dd.ratio >= YLIM[0]) & (dd.ratio <= YLIM[1])
-            h = ax.errorbar(dd.x[vis], dd.ratio[vis], dd.eratio[vis], fmt=mk, color=C_HIGS, ms=3.5, lw=0.7, zorder=5)
-            hd.append(h); ld.append(lab)
-            for _, r in dd[~vis].iterrows():
-                outside.append(r)
-        ax.text(0.04, 0.93, 'HI$\\gamma$S', transform=ax.transAxes, va='top')
-    # points of this panel outside the common range (also from the A2 sets, if any)
-    if kind == 'A2':
-        for _, r in d[(d.ratio < YLIM[0]) | (d.ratio > YLIM[1])].iterrows():
+    pw = PWA[(PWA.obs == 'CS') & np.isclose(PWA.E, E)].sort_values('theta_lab')
+    assert len(pw), 'no PWA curve at %.2f MeV' % E
+    pw_r = pw.value.values / np.interp(pw.theta_lab.values, th, pred_g[m])
+    ax.plot(pw.theta_lab, pw_r, ':', color=C_PWA, lw=1.1, zorder=3)
+    yl = OWN_YLIM.get(E, YLIM)
+    v, e = forward_point(E)
+    hf = ax.errorbar([0.0], [v / pred_g[m][0]], [e / pred_g[m][0]], fmt='*', color='k', mfc='white', ms=6.5, lw=0.7,
+                     zorder=6)
+    leg['forward SR'] = hf
+    curves[E] = (pw_r, v / pred_g[m][0], e / pred_g[m][0])
+    assert yl[0] < pw_r.min() and max(pw_r.max(), curves[E][1] + curves[E][2]) < yl[1], E
+    d = sel[np.isclose(sel.panel, E)].copy()
+    d['x'] = d.theta_lab + jitter(d)
+    for (ds, o), dd in d.groupby(['dataset', 'dobs'], sort=False):
+        if ds in HIGS:
+            mk, lab, _ = HSTY[o]; c = MARK[ds][1]; mfc = c
+        else:
+            (mk, c), lab = MARK[ds], SHORT[ds]
+            mfc = 'white' if ds.startswith('Hallin') else c
+        vis = (dd.ratio >= yl[0]) & (dd.ratio <= yl[1])
+        h = ax.errorbar(dd.x[vis], dd.ratio[vis], dd.eratio[vis], fmt=mk, color=c, mfc=mfc, ms=3.5, lw=0.7, zorder=5)
+        leg.setdefault(lab, h)
+        for _, r in dd[~vis].iterrows():
             outside.append(r)
-    ax.set_xlim(0, 180); ax.set_ylim(*YLIM)
+            assert r.ratio > yl[1], r.pid                 # arrows are drawn for points above the frame only
+            ax.annotate('', xy=(r.x, yl[1] - 0.004), xytext=(r.x, yl[1] - 0.06),
+                        arrowprops=dict(arrowstyle='->', color=c, lw=0.8, shrinkA=0, shrinkB=0))
+    ax.set_title('%.1f MeV' % E, pad=2)
+    ax.set_xlim(-6, 180); ax.set_ylim(*yl)
+    ax.yaxis.set_tick_params(labelleft=i % 4 == 0 or E in OWN_YLIM)
     ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(45))
     ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(0.1))
-    if i % 3 == 0:
+    if i % 4 == 0:
         ax.set_ylabel('data / NNLO prediction')
     if i >= 3:
         ax.set_xlabel('$\\theta_{\\rm lab}$ [deg]')
+        ax.xaxis.set_tick_params(labelbottom=True)
 
-# mark the points above the range (arrow at their angle, values in the panel)
-if outside:
-    ax = axs[0]
-    above = [r for r in outside if r.ratio > YLIM[1]]
-    if above:
-        xs = sorted(set(float(r.theta_lab) for r in above))
-        for x in xs:
-            ax.annotate('', xy=(x, YLIM[1] - 0.004), xytext=(x, YLIM[1] - 0.06),
-                        arrowprops=dict(arrowstyle='->', color=C_HIGS, lw=0.8, shrinkA=0, shrinkB=0))
-        txt = ', '.join('%.2f(%.0f)' % (r.ratio, 100 * r.eratio) for r in sorted(above, key=lambda r: r.ratio))
-        assert all(r.dobs == 'SPAR' and r.theta_lab == 90.0 for r in above), [r.pid for r in above]
-        print('  off-scale points (arrows only; values quoted in the caption): dsigma_par(90): %s' % txt)   # no in-panel text (user, 2026-10-17)
-
-# legends: theory (upper row), data (lower row); both outside the panels
-h_th = [Line2D([], [], color=C_F2, lw=1.2), Patch(facecolor=C_BAND, alpha=0.6, lw=0),
-        Line2D([], [], color=C_A2, ls='--', lw=0.9), Line2D([], [], color=C_HIGS, ls='--', lw=0.9),
-        Line2D([], [], color=C_HIGS, ls=':', lw=0.9)]
-l_th = ['B$\\chi$PT fit / prediction', 'prediction $\\pm\\,\\sigma_{\\rm th}$',
-        '$n_{\\rm th}=%.3f$ (A2)' % n_th['A2_2022_CS'], '$n_{\\rm th}=%.3f$ (HI$\\gamma$S unpol.)' % n_th['HIGS_2022_CIRC'],
-        '$n_{\\rm th}=%.3f$ (HI$\\gamma$S pol.)' % n_th['HIGS_2022_LIN']]
-fig.legend(h_th, l_th, loc='outside upper center', ncol=3, columnspacing=2.0, handletextpad=0.5)
-fig.legend(hd, ld, loc='outside lower center', ncol=4, columnspacing=1.5, handletextpad=0.3)
+# legends: theory above the panels, data in the empty eighth panel (as in Fig. cs)
+axs[7].axis('off')
+h_th = [(Patch(facecolor=C_BAND, alpha=0.6, lw=0), Line2D([], [], color='k', lw=0.6)),
+        Line2D([], [], color=C_PWA, ls=':', lw=1.1)]
+l_th = ['NNLO prediction $\\pm\\,\\sigma_{\\rm th}$', 'PWA fit / prediction']
+fig.legend(h_th, l_th, loc='outside upper center', ncol=2, columnspacing=2.0, handletextpad=0.5)
+order = [k for k in ['A2 22'] + [v[1] for v in HSTY.values()] + ['A2 01', 'SAL 95', 'SAL 93', 'Moscow 74', 'forward SR']
+         if k in leg] + [k for k in leg if k not in ['A2 22', 'A2 01', 'SAL 95', 'SAL 93', 'Moscow 74', 'forward SR']
+                         and k not in [v[1] for v in HSTY.values()]]
+axs[7].legend([leg[k] for k in order], order, loc='center', ncol=1, handletextpad=0.3, frameon=False)
 
 with plt.rc_context({'savefig.bbox': 'standard'}):      # exact size, no cropping (included without scaling)
     for dd in (FIGS, PAPER_FIGS):
@@ -179,20 +184,17 @@ plt.close(fig)
 
 # ---- report
 print('fig_pred_ratio.pdf written to %s and %s' % (FIGS, PAPER_FIGS))
-print('y-range %s; n_th: %s' % (YLIM, {k: round(v, 4) for k, v in n_th.items()}))
-print('ratio ranges (data/prediction, n = 1):')
+print('normalisations applied to the data (preferred by the prediction, n_th):')
 for ds, d in sel.groupby('dataset'):
-    print('  %-16s N=%2d  ratio %.3f-%.3f  (with errors %.3f-%.3f)  sigma_th/pred %.3f-%.3f' % (
-        ds, len(d), d.ratio.min(), d.ratio.max(), (d.ratio - d.eratio).min(), (d.ratio + d.eratio).max(),
-        (d.sig_th / d.pred).min(), (d.sig_th / d.pred).max()))
+    print('  %-24s n=%.3f  N=%2d  ratio %.3f-%.3f  sigma_th/pred %.3f-%.3f' % (
+        ds, d.n.iloc[0], len(d), d.ratio.min(), d.ratio.max(), (d.sig_th / d.pred).min(), (d.sig_th / d.pred).max()))
 if outside:
-    print('points outside the y-range (marked by an arrow and quoted in the panel):')
+    print('points above the y-range (arrows; values to be quoted in the caption):')
     for r in outside:
-        print('  %s  E=%.1f theta=%.0f %s  value %.2f(%.2f)  prediction %.3f  ratio %.3f(%.3f)' % (
-            r.pid, r.E, r.theta_lab, r.dobs, r.value, r.err_pt, r.pred, r.ratio, r.eratio))
-else:
-    print('all points inside the y-range')
-for E in [E_H] + list(E_A2):
+        print('  %s  E=%.1f theta=%.0f %s  value %.2f(%.2f)  n %.3f  prediction %.3f  ratio %.2f(%.2f)' % (
+            r.pid, r.E, r.theta_lab, r.dobs, r.value, r.err_pt, r.n, r.pred, r.ratio, r.eratio))
+for E in PANELS:
+    p, v, e = curves[E]
     m = np.isclose(g.E.values, E)
-    print('  E=%.1f: fit/prediction %.3f-%.3f; sigma_th/prediction %.3f-%.3f' % (
-        E, (fit_g[m] / pred_g[m]).min(), (fit_g[m] / pred_g[m]).max(), (sig_g[m] / pred_g[m]).min(), (sig_g[m] / pred_g[m]).max()))
+    print('  E=%6.2f: PWA/pred %.3f-%.3f (0 deg %.3f); forward SR/pred %.3f(%.3f); sigma_th/pred %.3f-%.3f' % (
+        E, p.min(), p.max(), p[0], v, e, (sig_g[m] / pred_g[m]).min(), (sig_g[m] / pred_g[m]).max()))
