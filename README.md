@@ -108,15 +108,18 @@ python3 scripts/s07b_error_budget_table.py   # the error-budget table of Appendi
 Main fit of the paper (`results/combined_fit.json` entry `combined`, written by `make combined`): the combined NNLO
 fit of α_E1, β_M1, R_EM and the four spin polarizabilities to the data below the pion-production threshold (the main
 database and the forward SRs, as `F2_d_all_thB`), and to the region 150 < E ≤ 360 MeV with weight 0.15 (uncertainties
-inflated by 1/√w): the Δ-region sets without the LEGS 2001 data (theory band of the NNLO amplitude in quadrature; with
-LEGS: variant `combined_withLEGS`) and the forward sum rules (forward SRs) at the level of
+inflated by 1/√w): the Δ-region sets, since 2026-11-12 with the LARA cross sections of Wolf et al. (2001), without the LEGS 2001 data
+(theory band of the NNLO amplitude in quadrature; with LEGS: variant `combined_withLEGS`; without LARA:
+`combined_noLARA`) and the forward sum rules (forward SRs) at the level of
 the amplitudes (Re f, Im f, Re g, Im g of the ForwardRCS 2026 update with their full covariance,
 `code/data/raw/ForwardRCS2026/forward_amp_grid.json`, made by `code/data/scripts/export_forward_amp_grid.py` with the
 ForwardRCS code; `lib/forward_amp.py`; Riemann-sum χ²).  Spin polarizabilities: Gaussian priors of 3 × the re-examined
 NNLO uncertainties (`scenarios/spin_pol_uncertainties.py`; since 2026-11-11 the uncertainty rule uses δ = Δ/m_ρ ≈ 0.38),
-centered at the NNLO values for the current g_E.  Result: α_E1 = 10.78(48), β_M1 = 3.26(46), γ_0 = −1.04(11),
-γ_π = 9.48(1.15), R_EM = −2.06(83)% (g_E = −0.92(38); exact relation R_EM = −G_E*/G_M*, `lib/rem.py`), χ² = 298.4
-(weighted); the unweighted χ² of its parts are in `scenarios/combined_fit_parts.py`, the rows of the paper's table of
+centered at the NNLO values for the current g_E.  Result: α_E1 = 11.06(51), β_M1 = 2.98(49), γ_0 = −1.04(11),
+γ_π = 8.95(1.29), R_EM = −2.14(49)% (g_E = −0.96(22); exact relation R_EM = −G_E*/G_M*, `lib/rem.py`), χ² = 356.6
+(weighted).  The fit uncertainties correspond to Δχ² = 1: since 2026-11-13 `lib/fitter.py` inverts the full matrix of
+second derivatives of χ² (before, its Gauss–Newton approximation, which gave 0.45 and 0.43 for α_E1 and β_M1 of this
+fit).  The unweighted χ² of its parts are in `scenarios/combined_fit_parts.py`, the rows of the paper's table of
 variants are printed by `scripts/s15_variants_rows.py`; the weight and prior scans are in
 `scenarios/weight_scan.py`, the variants (previous main fit w = 0.01 with 1σ priors, priors 1σ/2σ/NNLO/LMP15, R_EM
 fixed or within ±15%, weights 0.01–1, E ≤ 350 MeV, forward SRs above threshold omitted or at weight 1, 5- and 20-MeV
@@ -127,7 +130,7 @@ prediction with the physical masses, πN loops of the neutron (Lensky, McGovern,
 as for the proton, uncertainties re-examined as for the proton: α_E1 = 13.7(2.0), β_M1 = 4.6(8), γ_E1E1 = −4.7(7),
 γ_M1M1 = 2.9(5), γ_E1M2 = 0.22(9), γ_M1E2 = 1.6(2), γ_0 = 0.0(5), γ_π = 9.0(1.3).  The figure of the neutron scalar
 polarizabilities (`scripts/s14_fig_neutron_alpha_beta.py`) adds the main proton fit with isoscalar counterterms,
-α_E1 = 13.1(7), β_M1 = 4.2(6), and the same with the neutron Baldin sum rule imposed, α_E1 = 12.1(7), β_M1 = 3.1(7).
+α_E1 = 13.4(7), β_M1 = 3.9(7), and the same with the neutron Baldin sum rule imposed, α_E1 = 12.3(7), β_M1 = 2.9(7).
 
 Effective number of parameters of the PWA and of the BChPT Baldin fit below threshold (`code/pwa/scenarios/effective_dof.py`,
 `code/pwa/results/effective_dof.{json,md}`): sums of the leverages of the data points; on the 237 common points χ² = 174.4
@@ -135,7 +138,7 @@ with p_eff = 17.0 (PWA) and 180.1 with 10.6 (BChPT), i.e. χ²/(N − p_eff) = 0
 
 Fits below threshold (`results/tables.md`, `results/fits_L.json` entry `F2_d_all_thB`; R_EM at its default): NNLO fit α_E1 = 11.14(44),
 β_M1 = 3.02(42), χ² = 206.3 for 248 degrees of freedom (267 points: 245 angular data and 22 forward points); the
-same fit without the forward points (`F2_d_nofwd_thB`) 11.99(57), 3.28(44), and the parameter-goodness-of-fit test
+same fit without the forward points (`F2_d_nofwd_thB`) 11.99(58), 3.28(44), and the parameter-goodness-of-fit test
 of the angular data against the forward points (`FWD_test`, 2.3σ); Baldin fit (`F1_d_all_thB`) 11.17(44),
 3.01(42); parameter-free NNLO prediction χ² = 232.6 for the 267 points with normalizations and nuisance parameters
 floated and the truncation covariance (`scenarios/nnlo_prediction_table.txt`, line GLOBAL).
@@ -233,5 +236,16 @@ Python 3.13.15, package versions of `requirements.txt`):
 | `make all` (41 s) | database, forward validation, fits, correlation lengths, Δ region, the main fit, figures, tables and error budget regenerated; main fit α_E1 = 11.01(49), β_M1 = 3.03(47), R_EM = −1.73(88)%, χ² = 296.5; `combined_fit.json` (incl. the Δ-only R_EM variants), `spin_pol_uncertainties.json`, `error_budget.json`, `delta_region.json`, `theory_lengths.json` identical |
 | `s07b`, `s08`–`s11`; `sigma_tot.py`; `run_radcorr_fit.py` (6 s); PWA `main_fits_legacynorm.py` (4 s) | run without error; `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` identical to the shipped results |
 
-The main fit and the quantities that depend on it were updated on 2026-11-11 (δ = Δ/m_ρ in the uncertainty rule, which
-narrows the spin priors); this test has not been repeated for that version.
+The numbers in this table are those of the test of 2026-10-20.  Since then the results were updated on 2026-11-11
+(δ = Δ/m_ρ in the uncertainty rule, which narrows the spin priors), on 2026-11-12 (the LARA cross sections of Wolf et
+al. 2001 added to the database, 624 → 918 points, and to the main fit) and on 2026-11-13 (fit uncertainties from the
+full matrix of second derivatives of χ², `code/fits/lib/fitter.py`).  The 81 tables of `amplitudes/` that depend on the
+database or on the fitted g_E were replaced by the driver outputs used for the paper (executable of 2026-10-25, the
+commit of `GIT_COMMIT.txt`).  The package was tested again in a fresh copy without an executable (2026-11-13; macOS,
+Python 3.13): `make all` (85 s), `scenarios/nnlo_prediction_table.py`, `s07b`–`s11`, `s13`–`s16`,
+`scenarios/combined_fit_parts.py`, `scenarios/weight_scan.py`, `sigma_tot.py`, `run_radcorr_fit.py` and the PWA
+`main_fits_legacynorm.py` run without error.  `fits_L.json` (230 413 numbers), `combined_fit.json`, `delta_region.json`,
+`error_budget.json`, `theory_lengths.json`, `spin_pol_uncertainties.json`, `neutron_pols.json`, `combined_fit_parts.json`,
+`weight_scan_d038.json`, `sigma_tot.json`, `fit_shifts.json` and `main_fits_legacynorm.json` are identical to the shipped
+results (maximal relative difference 1×10⁻¹³).  Main fit: α_E1 = 11.06(51), β_M1 = 2.98(49), R_EM = −2.14(49)%,
+χ² = 356.6; fit below threshold: 11.14(44), 3.02(42), χ²/dof = 206.3/248.

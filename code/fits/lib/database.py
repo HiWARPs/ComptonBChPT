@@ -56,6 +56,7 @@ EXPT = {
     'Hunger1997_90': 'MAMI 97 90°cm (Hünger)', 'Wissmann1999': 'MAMI 99 (Wissmann)', 'Camen2002': 'MAMI 02 (Camen/Kossert)',
     'Hallin1993_TabII_D': 'SAL 93 (Hallin) >150', 'Gray1967': 'Illinois 67 (Gray)', 'Genzel1972': 'Bonn 72 (Genzel)',
     'Baranov1966': 'Moscow 66 (Baranov)', 'Kolb2000': 'SAL 00 (Kolb)', 'Nagashima1964': 'Tokyo 64 (Nagashima)',
+    'Wolf2001_LARA': 'LARA 01 (Wolf)',
 }
 
 
@@ -204,6 +205,28 @@ def _rows_new(per_beamtime=False):
     return out
 
 
+def _rows_lara():
+    """LARA angular distributions of Wolf et al., EPJA 12 (2001) 231 (since 2026-11-12, author: "add LARA"): Figs. 13
+    (264.9-375.0 MeV) and 14 (385.8-454.9 MeV) digitized from the arXiv vector graphics (work/data/
+    db_lara_wolf2001_angdist_fig13.csv, db_lara_wolf2001_angdist.csv; scripts/extract_lara_wolf2001_fig14.py), up to
+    400 MeV as the rest of the database: 294 points, the count of Griesshammer et al. 2012 ("MAMI 01a").  c.m. angles
+    and c.m. cross sections; error = plotted individual error (stat (+) point-to-point syst); scale 3% (tagging 2%,
+    target 2%), floated.  The Fig. 4 points of Galler et al. are the same data rebinned and are not used."""
+    out = []
+    for fn in ('db_lara_wolf2001_angdist_fig13.csv', 'db_lara_wolf2001_angdist.csv'):
+        d = pd.read_csv(os.path.join(DATA, fn))
+        for r in d[d.E_lab_MeV <= 400.0].itertuples():
+            hid = 'NO ERROR BAR' in str(r.notes)
+            out.append(dict(source=fn[:-4], obs='CS', dobs='CSCM', frame='CM', E=float(r.E_lab_MeV),
+                            theta_lab=float(r.theta_lab_deg), theta_cm=float(r.theta_cm_deg), value=float(r.value),
+                            err_stat=float(r.stat_err), err_syspt=0.0, norm=float(r.norm_err_frac),
+                            flags=['NOBAR'] if hid else [], dataset='Wolf2001_LARA',
+                            prov='digitized (Wolf et al. Fig. %s); c.m.; stat (+) p2p syst as plotted; norm 3%%%s' % (
+                                '13' if 'fig13' in fn else '14', '; no bar drawn: marker radius as error' if hid else '')))
+    assert len(out) == 294, len(out)
+    return out
+
+
 def _rows_forward():
     d = pd.read_csv(os.path.join(DATA, 'db_forward_obs%s.csv' % FWD_SUFFIX))
     prov = ('forward amplitudes, ForwardRCS 2026 update' if FWD_SOURCE == '2026' else 'GHP 2016 forward amplitudes') + \
@@ -220,7 +243,7 @@ def _rows_forward():
 
 
 def build(per_beamtime=False):
-    rows = _rows_old() + _rows_b01() + _rows_new(per_beamtime) + _rows_forward()
+    rows = _rows_old() + _rows_b01() + _rows_new(per_beamtime) + _rows_lara() + _rows_forward()
     df = pd.DataFrame(rows)
     df['theta'] = np.where(df['frame'] == 'CM', df['theta_cm'], df['theta_lab'])
     df['err_pt'] = np.sqrt(df['err_stat'] ** 2 + df['err_syspt'] ** 2)

@@ -26,7 +26,7 @@ FL = json.load(open(os.path.join(RES, 'fits_L.json')))
 MAIN = {'F1': FL['F1_d_all_thB'], 'F2': FL['F2_d_all_thB'], 'F1_noth': FL['F1_d_all'], 'F2_noth': FL['F2_d_all']}
 D_ALL = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS', 'Hunger1997_75', 'Hunger1997_90',
          'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001', 'Gray1967',
-         'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964']
+         'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964', 'Wolf2001_LARA']
 TH_VERTEX = {'S2X': 0.03, 'S2Z': 0.02, 'S3': 0.01}
 GMT = {True: {g: outputs(df, 'gM%.2f' % g) for g in GM_GRID},
        False: {g: outputs(df, 'gM%.2fnv' % g) for g in GM_GRID} if HAVE_NV else None}
@@ -171,6 +171,7 @@ if __name__ == '__main__':
              free=['alphaE1', 'betaM1'], gM_prior=W)
     spin_fit('gM_only_LEGScs', ['LEGS2001_CS'], float_gM=True, free=['alphaE1', 'betaM1'], gM_prior=W)
     spin_fit('gM_only_Hallin', ['Hallin1993_TabII_D'], float_gM=True, free=['alphaE1', 'betaM1'], gM_prior=W)
+    spin_fit('gM_only_LARA', ['Wolf2001_LARA'], float_gM=True, free=['alphaE1', 'betaM1'], gM_prior=W)   # 2026-11-12
     if HAVE_NV:
         print('=== same without gamma-N-Delta vertex corrections (dvertex=f) ===')
         spin_fit('S_A2_2free_novtx', A, free=two, vtx=False)
@@ -180,6 +181,7 @@ if __name__ == '__main__':
         spin_fit('S_A2_LEGS_gpi_gMwide_novtx', AL, gpi=GPI, float_gM=True, gM_prior=(2.97, 0.30), vtx=False)
         for nm, st in [('gM_only_A2asym', A), ('gM_only_LEGS_S3', ['LEGS2001_S3']),
                        ('gM_only_MAMIcs', ['Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002']),
-                       ('gM_only_LEGScs', ['LEGS2001_CS']), ('gM_only_Hallin', ['Hallin1993_TabII_D'])]:
+                       ('gM_only_LEGScs', ['LEGS2001_CS']), ('gM_only_Hallin', ['Hallin1993_TabII_D']),
+                       ('gM_only_LARA', ['Wolf2001_LARA'])]:
             spin_fit(nm + '_novtx', st, float_gM=True, free=['alphaE1', 'betaM1'], gM_prior=W, vtx=False)
     save_json(OUT, 'delta_region.json')

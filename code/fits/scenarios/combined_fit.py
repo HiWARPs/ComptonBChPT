@@ -32,6 +32,10 @@ data above 150 MeV; below the threshold the forward SRs enter as before (as F2_d
 Variants: R_EM fixed at the default; R_EM within +-15%; Delta weight 0.03 and 1; E <= 350 MeV; without the forward
 SRs above threshold ('combined_noFSR', the main fit before); forward SRs above threshold unweighted; 20-MeV grid.
 The fits of Table "fits" (below 150 MeV, g_E at its default) are unchanged.
+Since 2026-11-12 (author: "add LARA"): the LARA angular distributions of Wolf et al. (dataset Wolf2001_LARA, 204 points at
+264.9-354.8 MeV within E <= 360; digitized, lib/database.py _rows_lara) are a Delta-region set of the main fit, treated as
+the others (band in quadrature, weight w, scale 3% floated at full strength); variant 'combined_noLARA' = the main fit
+until then (scenarios/lara_test.py was the first test, with an analytic scale marginalization).
 Run from work/fits after `make` and work/delta_plots/make_all.sh.  Writes results/combined_fit.json."""
 import os, sys, json
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scripts'))
@@ -52,7 +56,8 @@ SPIN_K, SPIN_BOUND = 3.0, None          # spin priors: Gaussian width 3 x the re
 BOUND_FREE = ('gM1E2',)                 # (used only when a bound is requested)
 GE_GRID = [-3.5, -3.0, -2.6, -2.3, -2.0, -1.8, -1.6, -1.4, -1.3, -1.2, -1.15, -1.1, -1.05, -1.0, -0.95, -0.9, -0.85, -0.8, -0.7, -0.6]
 DSETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS', 'Hunger1997_75', 'Hunger1997_90',
-         'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001']
+         'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001', 'Wolf2001_LARA']
+LARA = 'Wolf2001_LARA'                  # in the main fit since 2026-11-12 (author); variant lara=False
 LEGS = ('LEGS2001_S3', 'LEGS2001_CS')   # excluded from the main fit since 2026-10-20 (author decision; variant legs=True)
 NAMES = ['alphaE1', 'betaM1', 'gE1E1', 'gM1M1', 'gE1M2', 'gM1E2']
 SIG_SPIN = np.array(json.load(open(os.path.join(RES, 'spin_pol_uncertainties.json')))['reexamined'][2:6])
@@ -88,8 +93,8 @@ def fsr_block(Emax=360.0, step=10.0, w=W_DELTA):
     return Y_F[k4], Cb, 'FSR_amp', lambda P, ge: (_SPL_F(ge) + _SM @ P)[k4]
 
 
-def rows_delta(Emax, legs=False):
-    m = df.dataset.isin([d for d in DSETS if legs or d not in LEGS]) & (df.E > 150) & (df.E <= Emax)
+def rows_delta(Emax, legs=False, lara=True):
+    m = df.dataset.isin([d for d in DSETS if (legs or d not in LEGS) and (lara or d != LARA)]) & (df.E > 150) & (df.E <= Emax)
     s = df[m].copy()
     sth = 0.5 * (BAND.loc[s.pid, 'th_hi'].values - BAND.loc[s.pid, 'th_lo'].values)
     assert np.all(np.isfinite(sth)), 'theory band missing for some Delta-region points'
@@ -97,8 +102,8 @@ def rows_delta(Emax, legs=False):
 
 
 def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, wf=None, fsr_step=10.0, sig=None, bound=SPIN_BOUND,
-        sig0=None, legs=False):
-    sD, sth = rows_delta(Emax, legs)
+        sig0=None, legs=False, lara=True):
+    sD, sth = rows_delta(Emax, legs, lara)
     s = pd.concat([sL, sD])
     C = np.zeros((len(s), len(s))); C[:len(sL), :len(sL)] = C_L
     e2 = sD.err_pt.values ** 2                                 # build_fit puts err_pt^2 on the diagonal
@@ -158,7 +163,7 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
            for k, v in {'apb': [1, 1, 0, 0, 0, 0], 'amb': [1, -1, 0, 0, 0, 0], 'g0': [0, 0, -1, -1, -1, -1],
                         'gpi': [0, 0, -1, 1, -1, 1]}.items()}
     chiL = sum(v['chi2'] for k, v in R.perset.items() if k in set(sL.dataset))
-    out = dict(name=name, legs=legs, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
+    out = dict(name=name, legs=legs, lara=lara, spin=spin, prior_sig=sg if spin else None, bound=bound if spin else None,
                pinned={NAMES[k]: v for k, v in pinned.items()}, fsr=fsr, N_FSR=0 if fb is None else len(fb[0]), N=len(s), N_L=len(sL), N_D=len(sD), Emax=Emax, band=band, w=w, P=P, dP=R.dP, covP=cov, chi2=R.chi2,
                dof=R.dof, p=R.pvalue, chi2_data=R.chi2_data, perset=R.perset, der=der, gE=g,
                REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), edge=edge, chi2_below150_sets=chiL,
@@ -179,18 +184,18 @@ def fit(name, ge='free', band=True, Emax=360.0, w=W_DELTA, spin=True, fsr=True, 
     return out
 
 
-def delta_only(name, legs):
+def delta_only(name, legs, lara=True):
     """R_EM from the Delta-region angular data alone (band included, unweighted): alpha, beta at the fit below threshold
     (fits_L.json 'F2_d_all_thB'), spin polarisabilities at NNLO of the current g_E, g_E and the normalisations free
     (paper Sects. IV B, IV E)"""
-    sD, sth = rows_delta(360.0, legs)
+    sD, sth = rows_delta(360.0, legs, lara)
     P0 = PREF_NNLO.copy(); P0[:2] = json.load(open(os.path.join(RES, 'fits_L.json')))['F2_d_all_thB']['P'][:2]
     idx = T0.subset(sD.pid.values)
     tf = lambda P, ex: CubicSpline(grid, np.array([G[g].predict_array(np.r_[P[:2], G[g].Pref[2:]], idx)
                                                    for g in GE_GRID]), axis=0)(ex['gE'])
     R = build_fit(sD, T0, P0, [], thcov=np.diag(sth ** 2), theory_fn=tf, extra=dict(gE=GE0)).run(decompose=False)
     g = R.extra['gE']
-    OUT[name] = dict(name=name, legs=legs, N=len(sD), P=np.r_[P0[:2], _SPL_PREF(g[0])[2:]], gE=g, REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), chi2=R.chi2)
+    OUT[name] = dict(name=name, legs=legs, lara=lara, N=len(sD), P=np.r_[P0[:2], _SPL_PREF(g[0])[2:]], gE=g, REM=(RM.rem(g[0]), RM.drem_dge(g[0]) * g[1]), chi2=R.chi2)
     print('%-24s N=%d gE=%.3f(%.3f) REM=%.2f(%.2f)%% chi2=%.1f' % (name, len(sD), g[0], g[1], *OUT[name]['REM'], R.chi2))
 
 
@@ -198,6 +203,8 @@ if __name__ == '__main__':
     fit('combined')                                  # MAIN: alpha, beta, R_EM free, spin pols (3 sigma priors), forward SRs,
                                                      #   E <= 360 MeV, region above 150 MeV weight 0.15, without LEGS
     fit('combined_withLEGS', legs=True)              # the same with the LEGS 2001 sets (the main fit until 2026-10-20)
+    fit('combined_noLARA', lara=False)               # without the LARA data (the main fit until 2026-11-12)
+    fit('combined_withLEGS_noLARA', legs=True, lara=False)
     fit('combined_w0.01_1sig', w=0.01, sig=SIG_SPIN, bound=None)   # the main fit until 2026-10-20 (w 0.01, 1 sigma priors)
     fit('combined_spin1sig', sig=SIG_SPIN, bound=None)
     fit('combined_spin2sig', sig=2 * SIG_SPIN, bound=None)
@@ -217,6 +224,7 @@ if __name__ == '__main__':
     fit('combined_FSR5', fsr_step=5.0)
     delta_only('delta_only_withLEGS', legs=True)     # R_EM from the Delta-region angular data alone
     delta_only('delta_only', legs=False)
+    delta_only('delta_only_noLARA', legs=False, lara=False)
     for k in ('combined', 'combined_w0.01_1sig', 'combined_REMfixed'):
         r = OUT[k]
         print('per set (%s):' % k, {ds: round(v['chi2'], 1) for ds, v in r['perset'].items()})

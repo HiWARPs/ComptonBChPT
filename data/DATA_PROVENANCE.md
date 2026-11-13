@@ -10,8 +10,8 @@ full details (bin edges, cross-checks, which compilation used which point); cons
 
 | file | content |
 |---|---|
-| `fitdb.csv` | the fit database: 624 points (all data sets below, A2 2022 combined) with the provenance columns described in Sec. 2 |
-| `fitdb_pb.csv` | the same with the A2 2022 data per beam time (March and July 2018, from the Mornacchi thesis) instead of the combined values: 720 points |
+| `fitdb.csv` | the fit database: 918 points (all data sets below, A2 2022 combined) with the provenance columns described in Sec. 2 |
+| `fitdb_pb.csv` | the same with the A2 2022 data per beam time (March and July 2018, from the Mornacchi thesis) instead of the combined values: 1014 points |
 | `db_forward_obs.csv` | the forward points: dσ/dΩ(0°) and Σ2z(0°) at 12 energies, 50–150 MeV, derived from the empirical forward amplitudes (Sec. 3, set GHP) |
 | `db_forward_amp.csv` | the forward amplitudes Re f and Re g themselves (μb GeV), with the uncertainties, from which the forward points are computed |
 
@@ -82,6 +82,7 @@ excluded from the main database (`MAIN_DROP` in `code/fits/lib/common.py`); it i
 | `Hunger1997_75`, `Hunger1997_90` | MAMI, Hünger et al., Nucl. Phys. A 620, 385 (1997) (incl. Peise 1996 at 75°, Molinari 1996 at 90° c.m.) | 12 + 9 | HEPData ins458618 | stat; norm = quoted syst (4.4%/6%/8%; 4%/5%) |
 | `Wissmann1999` | MAMI (CATS), Wissmann et al., Nucl. Phys. A 660, 232 (1999) | 8 | HEPData ins514218 | stat; norm 3%; lab frame (inferred) |
 | `Camen2002` | MAMI (CATS+SENECA), Camen et al., Phys. Rev. C 65, 032202 (2002); numbers from Kossert et al., Eur. Phys. J. A 16, 259 (2003) | 7 | arXiv:nucl-ex/0210020 (= HEPData ins599960) | stat; norm 4.4%; lab frame (inferred) |
+| `Wolf2001_LARA` | MAMI (LARA), Wolf et al., Eur. Phys. J. A 12, 231 (2001) | 294 | digitized from the vector graphics of Figs. 13 and 14 (arXiv:nucl-ex/0109013), E ≤ 400 MeV | error as plotted (stat ⊕ point syst; three points without a drawn bar: marker radius); norm 3% floated; c.m. frame |
 | `Hallin1993_TabII_D` | SAL, Hallin et al. (above 170 MeV) | 55 | HEPData ins369337 | as `Hallin1993_TabII` |
 | `Gray1967` | Illinois, Gray and Hanson, Phys. Rev. 160, 1212 (1967) | 5 | HEPData ins944949 | as quoted; c.m. frame assumed; norm 5% adopted |
 | `Genzel1972` | Bonn, Genzel et al., Lett. Nuovo Cim. 4, 695 (1972) | 14 | HEPData ins77720 | as quoted; c.m. frame; norm 5% adopted |
@@ -89,12 +90,14 @@ excluded from the main database (`MAIN_DROP` in `code/fits/lib/common.py`); it i
 | `Kolb2000` | SAL, Kolb et al., Phys. Rev. Lett. 85, 1388 (2000) | 1 | arXiv:nucl-ex/0003002 (free-proton calibration point) | stat ⊕ syst per point; not floated |
 | `Nagashima1964` | Tokyo, Nagashima (INS report 81, 1964) | 1 | HEPData ins1101996 | as quoted; c.m. frame assumed; norm 5% adopted |
 
-## 5. Data not available in numerical form (not in the database)
+## 5. Data not available in numerical form
 
-Wolf et al., Eur. Phys. J. A 12, 231 (2001) and Galler et al., Phys. Lett. B 503, 245 (2001) (LARA); the pilot beam
+The tables of Wolf et al., Eur. Phys. J. A 12, 231 (2001) and Galler et al., Phys. Lett. B 503, 245 (2001) (LARA); the pilot beam
 asymmetry of Sokhoyan et al., Eur. Phys. J. A 53, 14 (2017); DeWire et al., Phys. Rev. 124, 909 (1961); the
 superseded LEGS 1996 release; the Baranov et al. 2001 compilation.  Of these, the LARA cross sections of Fig. 4 of Galler
-et al. (75°, 90°, 125° c.m.) and the angular distributions of Fig. 14 of Wolf et al. (385.8–454.9 MeV) have been recovered
-from the vector graphics of the published figures (`code/data/db_lara_digitized.csv`, `code/data/db_lara_wolf2001_angdist.csv`;
-scripts in `code/data/scripts/`); they are used for plotting only.  Details in `code/data/db_old_README.md`, Sec. 4,
+et al. (75°, 90°, 125° c.m.) and the angular distributions of Figs. 13 and 14 of Wolf et al. (264.9–454.9 MeV) have been
+recovered from the vector graphics of the published figures (`code/data/db_lara_digitized.csv`,
+`code/data/db_lara_wolf2001_angdist_fig13.csv`, `code/data/db_lara_wolf2001_angdist.csv`; scripts in `code/data/scripts/`).
+The Fig. 4 points and the distributions above 400 MeV are used for plotting only; the 294 points of the angular
+distributions up to 400 MeV are in the fit database since 2026-11-12 (data set `Wolf2001_LARA`, Sec. 4).  Details in `code/data/db_old_README.md`, Sec. 4,
 and `code/data/db_new_README.md`, Sec. 2.

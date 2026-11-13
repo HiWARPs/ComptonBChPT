@@ -11,7 +11,7 @@ namelist, see `code/code_v2/driver/README.md`), called through `code/fits/lib/bc
 `<name>_<key>.out` with the sidecar `<name>_<key>.out.json`.
 
 * `name` = `<tag>_<configuration>`: the point set (tag) and the configuration of the amplitude.  Tags: `db` = the
-  624 points of `data/fitdb.csv`; `dbpb` = the 720 points of `data/fitdb_pb.csv` (A2 per beam time); `pref` = one
+  918 points of `data/fitdb.csv`; `dbpb` = the 1014 points of `data/fitdb_pb.csv` (A2 per beam time); `pref` = one
   point, used only to read the reference polarizabilities; `val_fwd_*` = the θ = 0 validation points;
   `fig_*`, `grid_*`, `pred_S2_*`, `fig_pred_ratio_*` = the curves of the figures; `sigtot_*` = the (E, cos θ_cm)
   grid of the total cross section (`code/sigma_tot`); `t6_*` = test points of the order-switch checks.
@@ -60,68 +60,102 @@ by table, see README.md).
 
 ## Inventory of the shipped tables
 
-95 tables, 65 MB.  Columns: the switches of the driver configuration relative to the full NNLO amplitude, and the `&v2` namelist (order switch, constants, vertex corrections, πNΔ coupling, physical masses).
+195 tables, 151 MB.  Columns: the switches of the driver configuration relative to the full NNLO amplitude, and the `&v2` namelist (order switch, constants, vertex corrections, πNΔ coupling, physical masses).
 
 | table (name) | points | kB | switches relative to NNLO | `&v2` namelist |
 |---|---|---|---|---|
-| `db_BornPi0` | 624 | 766 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_LO` | 624 | 765 | - | `order=2.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_NLO` | 624 | 765 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_NNLO` | 624 | 765 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_NNLO_noDpole` | 624 | 766 | no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_NNLO_noPiD` | 624 | 766 | no oneDloop | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_PDG24` | 624 | 765 | - | `consts='PDG24', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_PDGconst` | 624 | 765 | - | `consts='PDG24', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.50` | 624 | 765 | gM=2.5 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.50nv` | 624 | 765 | gM=2.5 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.60` | 624 | 765 | gM=2.6 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.60nv` | 624 | 765 | gM=2.6 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.70` | 624 | 765 | gM=2.7 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.70nv` | 624 | 765 | gM=2.7 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.75` | 624 | 765 | gM=2.75 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.75nv` | 624 | 765 | gM=2.75 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.80` | 624 | 765 | gM=2.8 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.80nv` | 624 | 765 | gM=2.8 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.85` | 624 | 765 | gM=2.85 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.85nv` | 624 | 765 | gM=2.85 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.87` | 624 | 765 | gM=2.87 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.90` | 624 | 765 | gM=2.9 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.90nv` | 624 | 765 | gM=2.9 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.95` | 624 | 765 | gM=2.95 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.95nv` | 624 | 765 | gM=2.95 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM2.97` | 624 | 765 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM2.97nv` | 624 | 765 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.00` | 624 | 765 | gM=3.0 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.00nv` | 624 | 765 | gM=3.0 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.05` | 624 | 765 | gM=3.05 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.05nv` | 624 | 765 | gM=3.05 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.07` | 624 | 765 | gM=3.07 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.10` | 624 | 765 | gM=3.1 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.10nv` | 624 | 765 | gM=3.1 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.15` | 624 | 765 | gM=3.15 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.15nv` | 624 | 765 | gM=3.15 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.20` | 624 | 765 | gM=3.2 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.20nv` | 624 | 765 | gM=3.2 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.30` | 624 | 765 | gM=3.3 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.30nv` | 624 | 765 | gM=3.3 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.40` | 624 | 765 | gM=3.4 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.40nv` | 624 | 765 | gM=3.4 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_gM3.50` | 624 | 765 | gM=3.5 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `db_gM3.50nv` | 624 | 765 | gM=3.5 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_hA2.84` | 624 | 765 | hA=2.84 | `consts='LMP15', dvertex=t, hA=2.8400, pimassphys=t,nmassphys=t` |
-| `db_hA2.91` | 624 | 765 | hA=2.91 | `consts='LMP15', dvertex=t, hA=2.9100, pimassphys=t,nmassphys=t` |
-| `db_novtx` | 624 | 765 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `db_singlemass` | 624 | 765 | - | `consts='LMP15', dvertex=t` |
-| `dbpb_BornPi0` | 720 | 883 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `dbpb_LO` | 720 | 883 | - | `order=2.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `dbpb_NLO` | 720 | 883 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `dbpb_NNLO` | 720 | 883 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_cs_fig1a_cs_A2_HIGS_BornPi0` | 426 | 526 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_cs_fig1a_cs_A2_HIGS_NLO` | 426 | 526 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_cs_fig1a_cs_A2_HIGS_NNLO` | 426 | 526 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_BornPi0` | 918 | 1126 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_LO` | 918 | 1126 | - | `order=2.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_NLO` | 918 | 1126 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_NNLO` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_NNLO_noDpole` | 918 | 1126 | no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_NNLO_noPiD` | 918 | 1126 | no oneDloop | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_PDG24` | 918 | 1126 | - | `consts='PDG24', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_PDGconst` | 918 | 1126 | - | `consts='PDG24', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.60` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.70` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.80` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.85` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.90` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-0.95` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.00` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.05` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.10` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.15` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.20` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.30` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.40` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.60` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-1.80` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-2.00` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-2.30` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-2.60` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-3.00` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gE-3.50` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.50` | 918 | 1126 | gM=2.5 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.50nv` | 918 | 1126 | gM=2.5 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.60` | 918 | 1126 | gM=2.6 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.60nv` | 918 | 1126 | gM=2.6 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.70` | 918 | 1126 | gM=2.7 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.70nv` | 918 | 1126 | gM=2.7 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.75` | 918 | 1126 | gM=2.75 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.75nv` | 918 | 1126 | gM=2.75 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.80` | 918 | 1126 | gM=2.8 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.80nv` | 918 | 1126 | gM=2.8 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.85` | 918 | 1126 | gM=2.85 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.85nv` | 918 | 1126 | gM=2.85 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.87` | 918 | 1126 | gM=2.87 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.90` | 918 | 1126 | gM=2.9 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.90nv` | 918 | 1126 | gM=2.9 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.95` | 918 | 1126 | gM=2.95 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.95nv` | 918 | 1126 | gM=2.95 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM2.97` | 918 | 1126 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM2.97nv` | 918 | 1126 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.00` | 918 | 1126 | gM=3.0 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.00nv` | 918 | 1126 | gM=3.0 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.05` | 918 | 1126 | gM=3.05 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.05nv` | 918 | 1126 | gM=3.05 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.07` | 918 | 1126 | gM=3.07 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.10` | 918 | 1126 | gM=3.1 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.10nv` | 918 | 1126 | gM=3.1 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.15` | 918 | 1126 | gM=3.15 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.15nv` | 918 | 1126 | gM=3.15 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.20` | 918 | 1126 | gM=3.2 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.20nv` | 918 | 1126 | gM=3.2 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.30` | 918 | 1126 | gM=3.3 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.30nv` | 918 | 1126 | gM=3.3 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.40` | 918 | 1126 | gM=3.4 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.40nv` | 918 | 1126 | gM=3.4 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_gM3.50` | 918 | 1126 | gM=3.5 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `db_gM3.50nv` | 918 | 1126 | gM=3.5 | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_hA2.84` | 918 | 1126 | hA=2.84 | `consts='LMP15', dvertex=t, hA=2.8400, pimassphys=t,nmassphys=t` |
+| `db_hA2.91` | 918 | 1126 | hA=2.91 | `consts='LMP15', dvertex=t, hA=2.9100, pimassphys=t,nmassphys=t` |
+| `db_novtx` | 918 | 1126 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `db_singlemass` | 918 | 1126 | - | `consts='LMP15', dvertex=t` |
+| `dbpb_BornPi0` | 1014 | 1244 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `dbpb_LO` | 1014 | 1244 | - | `order=2.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `dbpb_NLO` | 1014 | 1244 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `dbpb_NNLO` | 1014 | 1243 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_BornPi0` | 497 | 613 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_NLO` | 497 | 613 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_NNLO` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-0.7744` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-0.7745` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-0.9589` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-1.3353` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-2.0925` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-2.3871` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1a_cs_A2_HIGS_gE-2.3908` | 497 | 613 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_cs_fig1b_cs_older_BornPi0` | 252 | 312 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_cs_fig1b_cs_older_NLO` | 252 | 312 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_cs_fig1b_cs_older_NNLO` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-0.7744` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-0.7745` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-0.9589` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-1.3353` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-2.0925` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-2.3871` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_cs_fig1b_cs_older_gE-2.3908` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_dcs_NNLO` | 424 | 525 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_dcs_gM2.85` | 424 | 525 | gM=2.85 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_dcs_gM2.90` | 424 | 525 | gM=2.9 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
@@ -131,31 +165,97 @@ by table, see README.md).
 | `fig_delta_gM2.85` | 189 | 235 | gM=2.85 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_delta_gM3.10` | 189 | 235 | gM=3.1 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_delta_novtx` | 189 | 235 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `fig_fwd_BornPi0` | 222 | 275 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_fwd_NLO` | 222 | 275 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_fwd_NNLO` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_higs_BornPi0` | 213 | 264 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_higs_NLO` | 213 | 264 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-0.7744` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-0.7745` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-0.9589` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-1.3353` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-2.0925` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-2.3871` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_fwd_gE-2.3908` | 222 | 275 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_higs_NNLO` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-0.7744` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-0.7745` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-0.9589` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-1.3353` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-2.0925` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-2.3871` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_higs_gE-2.3908` | 213 | 264 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_legs3_NNLO` | 165 | 205 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_legs3_gM2.85` | 165 | 205 | gM=2.85 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_legs3_gM3.10` | 165 | 205 | gM=3.1 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_legs3_novtx` | 165 | 205 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
-| `fig_pred_ratio_BornPi0` | 438 | 541 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_pred_ratio_NLO` | 438 | 541 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `fig_pred_ratio_NNLO` | 438 | 540 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_BornPi0` | 511 | 631 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_NLO` | 511 | 630 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_NNLO` | 511 | 630 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-0.7744` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-0.7745` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-1.3353` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-2.0925` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-2.3871` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_pred_ratio_gE-2.3908` | 438 | 541 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_s3_BornPi0` | 252 | 312 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_s3_NLO` | 252 | 312 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `fig_s3_NNLO` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-0.7744` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-0.7745` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-0.9589` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-1.3353` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-2.0925` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-2.3871` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fig_s3_gE-2.3908` | 252 | 312 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_BornPi0` | 82 | 102 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_NLO` | 82 | 102 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_NNLO` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_NNLO_noDpole` | 82 | 102 | no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.60` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.70` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.80` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.85` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.90` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-0.95` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.00` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.05` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.10` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.15` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.20` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.30` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.40` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.60` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-1.80` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-2.00` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-2.30` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-2.60` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-3.00` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_gE-3.50` | 82 | 101 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `fsr_noVC` | 82 | 101 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
 | `grid_BornPi0` | 420 | 515 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `grid_NLO` | 420 | 515 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `grid_NNLO` | 420 | 515 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `pred_S2_BornPi0` | 296 | 368 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `pred_S2_NLO` | 296 | 368 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `pred_S2_NNLO` | 296 | 368 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_BornPi0` | 1 | 3 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_NLO` | 1 | 3 | - | `order=3.0, consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_NNLO` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_NNLO_noDpole` | 1 | 3 | no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_NNLO_noPiD` | 1 | 3 | no oneDloop | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `pref` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gE-0.7716` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gE-0.7806` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gE-1.2194` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gE-1.2307` | 1 | 3 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gM2.87` | 1 | 3 | gM=2.87 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `pref_gM3.07` | 1 | 3 | gM=3.07 | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `sigtot_BornPi0` | 3392 | 4121 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `sigtot_NNLO` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `sigtot_NNLO_noVC` | 3392 | 4121 | - | `consts='LMP15', dvertex=f, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-0.7744` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-0.7745` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-0.9589` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-1.3353` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-2.0925` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-2.3871` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `sigtot_fit_gE-2.3908` | 3392 | 4121 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
 | `val_fwd_born` | 24 | 31 | no oneNloop; no oneDloop; no delta_pole | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
-| `val_fwd_nnlo` | 408 | 498 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |
+| `val_fwd_nnlo` | 408 | 499 | - | `consts='LMP15', dvertex=t, pimassphys=t,nmassphys=t` |

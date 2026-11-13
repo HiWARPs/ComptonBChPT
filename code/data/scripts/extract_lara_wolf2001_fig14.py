@@ -2,7 +2,11 @@
 """Recover the LARA (Bonn) angular distributions of Wolf et al., EPJA 12 (2001) 231 [Wolf:2001ha] from the vector
 graphics of Fig. 14 of the arXiv source (nucl-ex/0109013, figures/fig14.eps, written by HIGZ): eight panels of
 dsigma/dOmega_cm versus theta_cm at the tagger energies 385.8 ... 454.9 MeV, "one-dimensional" (missing-time)
-analysis, about 23 angular points per panel between 60 and 160 deg.  The data were never tabulated.
+analysis, about 23 angular points per panel between 60 and 160 deg.  Fig. 13 (12 panels, 264.9 ... 375.0 MeV, 18-22
+points per panel, 67-156 deg) has the same format and is read by the same code (since 2026-11-12).  The arXiv text
+refers to Tables 1-3 in an appendix, which the arXiv source leaves out (commented out); the published EPJA version
+was not checked (paywall).  Figs. 13 + 14 give 294 points up to 400 MeV, the number used by Griesshammer et al.,
+PPNP 67 (2012) 841, Table 3 ("MAMI 01a").
 
 Method: the PostScript tokens are parsed in order.  Clip boxes ('w h x y C') delimit the panels; the filled circles
 ('x y m20') are the data points; the error bars are drawn as vertical segments with horizontal caps of 22-23 units
@@ -14,11 +18,15 @@ The error bars are the individual (random) errors as plotted: counting statistic
 (detection efficiency, geometry, background subtraction); the common scale error of 3 % (tagging 2 %, target 2 %)
 goes to norm_err_frac, as for the Fig. 4 data of Galler et al. (db_lara_digitized.csv).
 
-Output: CSV with the columns of work/data/db_old.csv -- PLOTTING ONLY (work/delta_plots, dsigma/dOmega vs theta),
-never used in fits or chi^2 tables -- and a check figure (<out>.png) to compare by eye with the rendered original.
+An error bar shorter than the marker radius (11.5 units, '/w 23 def') is not drawn by HIGZ (three points of Fig. 13
+at 264.9 MeV); such a point gets the marker radius as its error (an upper bound) and a note.
+
+Output: CSV with the columns of work/data/db_old.csv -- Fig. 14: PLOTTING ONLY (work/delta_plots, dsigma/dOmega vs
+theta); Fig. 13: not in the main database, used in the LARA test fits (work/fits/scenarios/lara_test.py) -- and a
+check figure (<out>.png) to compare by eye with the rendered original.
 
 Run (from anywhere; the EPS is an untrusted download, so it is only read):
-  python3 -I extract_lara_wolf2001_fig14.py <path/to/Wolf2001_arXiv/src/figures/fig14.eps> <out_csv>
+  python3 -I extract_lara_wolf2001_fig14.py <path/to/Wolf2001_arXiv/src/figures/fig1N.eps> <out_csv>   (N = 3 or 4)
 """
 import re, sys, csv, math
 import numpy as np
@@ -33,6 +41,7 @@ def th_cm2lab(E, thc):
 
 
 fn, out_csv = sys.argv[1], sys.argv[2]
+FIG = re.search(r'fig(\d+)\.eps$', fn).group(1)
 txt = open(fn, encoding='latin-1').read()
 txt = txt[txt.index('%%EndProlog'):]
 # tokens: PostScript strings '(...)' kept as one token
@@ -123,42 +132,49 @@ for x, y, b in markers:
         vv = [(y1, y1 + d) for x1, y1, d in vsegs if abs(x1 - x) <= 1.5 and abs(y1 - y) <= 200]
         lo = max([min(a) for a in vv if min(a) < y], default=None); hi = min([max(a) for a in vv if max(a) > y], default=None)
         print('  no caps for point at E=%.1f theta=%.1f: bar from the vertical segments %s' % (E_of_box[b], th, (lo, hi)))
-    if lo is None or hi is None:
-        err = float('nan')
+    hidden = lo is None or hi is None
+    if hidden:   # no bar drawn: shorter than the marker radius (11.5 units), used as an upper bound
+        err = 11.5 / b[3] * (Y1 - Y0)
+        print('  no error bar at E=%.1f theta=%.1f: marker radius %.2f nb/sr used' % (E_of_box[b], th, err))
     else:
         err = 0.5 * (hi - lo) / b[3] * (Y1 - Y0)
         if abs((hi - y) - (y - lo)) > 2:
             print('  asymmetric bar at E=%.1f theta=%.1f: -%d +%d units' % (E_of_box[b], th, y - lo, hi - y))
-    rows.append((E_of_box[b], th, v, err))
+    rows.append((E_of_box[b], th, v, err, hidden))
 rows.sort()
 print('points: %d (%s per panel)' % (len(rows), {E: sum(1 for r in rows if r[0] == E) for E in sorted(E_of_box.values())}))
 
-src = 'Wolf et al. EPJA 12,231 (2001) Fig. 14 (arXiv nucl-ex/0109013 figures/fig14.eps, HIGZ vector graphics)'
+src = 'Wolf et al. EPJA 12,231 (2001) Fig. %s (arXiv nucl-ex/0109013 figures/fig%s.eps, HIGZ vector graphics)' % (FIG, FIG)
+use = ('PLOTTING ONLY, not used in fits' if FIG == '14' else
+       'not in the main database; LARA test fits only (work/fits/scenarios/lara_test.py)')
 with open(out_csv, 'w', newline='') as f:
     w = csv.DictWriter(f, fieldnames=['dataset', 'texkey', 'obs', 'E_lab_MeV', 'dE_MeV', 'theta_lab_deg', 'theta_cm_deg',
                                       'frame_of_cs', 'value', 'stat_err', 'sys_err_pt', 'norm_err_frac', 'units', 'source',
                                       'notes'])
     w.writeheader()
-    for E, th, v, e in rows:
+    for E, th, v, e, hid in rows:
         w.writerow(dict(dataset='Wolf2001_LARA_angdist', texkey='Wolf:2001ha;Galler:2001ht', obs='CS', E_lab_MeV=E, dE_MeV='',
                         theta_lab_deg=round(th_cm2lab(E, th), 3), theta_cm_deg=round(th, 2), frame_of_cs='cm',
                         value=round(v, 1), stat_err=round(e, 1), sys_err_pt='', norm_err_frac=0.03, units='nb/sr',
                         source=src,
                         notes='DIGITIZED from the EPS vector graphics (extract_lara_wolf2001_fig14.py); one-dimensional '
                               '(missing-time) analysis; orig_angle=cm; error = individual (stat (+) point-to-point syst) as '
-                              'plotted; scale 3% (tagging 2%, target 2%); PLOTTING ONLY, not used in fits'))
+                              'plotted; scale 3% (tagging 2%, target 2%); ' + use +
+                              ('; NO ERROR BAR DRAWN (shorter than the marker): marker radius as upper bound' if hid else '')))
 
 # ---- check figure
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 Es = sorted(E_of_box.values())
-fig, axs = plt.subplots(3, 3, figsize=(9, 9), sharex=True, sharey=True)
+nr = int(math.ceil(len(Es) / 3.0))
+fig, axs = plt.subplots(nr, 3, figsize=(9, 3 * nr), sharex=True, sharey=True)
 for ax, E in zip(axs.ravel(), Es):
-    r = np.array([(th, v, e) for EE, th, v, e in rows if EE == E])
+    r = np.array([(th, v, e) for EE, th, v, e, _ in rows if EE == E])
     ax.errorbar(r[:, 0], r[:, 1], r[:, 2], fmt='o', ms=3, color='k')
     ax.set_title('%.1f MeV' % E); ax.set_xlim(30, 180); ax.set_ylim(0, 350)
     ax.set_xticks([60, 90, 120, 150]); ax.grid(ls=':')
-axs.ravel()[-1].axis('off')
+for ax in axs.ravel()[len(Es):]:
+    ax.axis('off')
 fig.savefig(out_csv.replace('.csv', '_check.png'), dpi=90)
 print('written', out_csv)

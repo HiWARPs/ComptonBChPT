@@ -30,7 +30,7 @@ MAIN_L_SETS = OLD_L + A2
 MAIN_L_SETS_WITH_HIGS = OLD_L + A2 + HIGS
 D_SETS = ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_CS', 'LEGS2001_S3', 'Hunger1997_75', 'Hunger1997_90',
           'Wissmann1999', 'Camen2002', 'Hallin1993_TabII', 'Hallin1993_TabII_D', 'OlmosdeLeon2001',
-          'Gray1967', 'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964']
+          'Gray1967', 'Genzel1972', 'Baranov1966', 'Kolb2000', 'Nagashima1964', 'Wolf2001_LARA']
 
 PREF_NNLO_V1 = np.array([11.246404, 3.870657, -3.335106, 2.942725, 0.178734, 1.146936])
 # NNLO static polarisabilities of the base amplitude of the active profile (v2: incl. the physical-mass shift)
@@ -217,7 +217,7 @@ MARK = {'OlmosdeLeon2001': ('D', '#c0392b'), 'Federspiel1991': ('^', '#2e8b57'),
         'Hunger1997_75': ('o', '#1f4e9c'), 'Hunger1997_90': ('o', '#1f4e9c'), 'Wissmann1999': ('^', '#1f4e9c'),
         'Camen2002': ('v', '#1f4e9c'), 'Genzel1972': ('h', '#2e8b57'), 'Gray1967': ('<', '#6a3d9a'),
         'Baranov1966': ('>', '#8c564b'), 'Kolb2000': ('*', '#c0392b'), 'Nagashima1964': ('p', '#17becf'),
-        'A2_Martel2015_S2x': ('o', '#1f4e9c'), 'A2_Paudyal2020_S2z': ('o', '#1f4e9c')}
+        'A2_Martel2015_S2x': ('o', '#1f4e9c'), 'A2_Paudyal2020_S2z': ('o', '#1f4e9c'), 'Wolf2001_LARA': ('o', '#8c564b')}
 SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger1992': 'MAMI 92',
          'Baranov1974_75_th90': 'Moscow 74', 'Baranov1974_75_th150': 'Moscow 74', 'Hallin1993_TabII': 'SAL 93',
          'Hallin1993_TabII_D': 'SAL 93', 'MacGibbon1995_tagged': 'SAL 95', 'MacGibbon1995_untagged': 'SAL 95',
@@ -225,4 +225,5 @@ SHORT = {'OlmosdeLeon2001': 'A2 01', 'Federspiel1991': 'Illinois 91', 'Zieger199
          'Bernardini1960': 'Illinois 60', 'A2_2022_CS': 'A2 22', 'A2_2022_S3': 'A2 22', 'HIGS_2022_CIRC': 'HI$\\gamma$S 22',
          'HIGS_2022_LIN': 'HI$\\gamma$S 22', 'LEGS2001_CS': 'LEGS 01', 'LEGS2001_S3': 'LEGS 01', 'Hunger1997_75': 'MAMI 97',
          'Hunger1997_90': 'MAMI 97', 'Wissmann1999': 'MAMI 99', 'Camen2002': 'MAMI 02', 'Kolb2000': 'SAL 00',
-         'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64', 'A2_Martel2015_S2x': 'A2 15 $\\Sigma_{2x}$', 'A2_Paudyal2020_S2z': 'A2 20 $\\Sigma_{2z}$'}
+         'Genzel1972': 'Bonn 72', 'Gray1967': 'Illinois 67', 'Baranov1966': 'Moscow 66', 'Nagashima1964': 'Tokyo 64', 'A2_Martel2015_S2x': 'A2 15 $\\Sigma_{2x}$', 'A2_Paudyal2020_S2z': 'A2 20 $\\Sigma_{2z}$',
+         'Wolf2001_LARA': 'LARA 01'}

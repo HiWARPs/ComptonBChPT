@@ -49,7 +49,7 @@ A = np.array([[0.5, 0.5], [0.5, -0.5]])                 # (sum, difference) -> (
 TRUNC = A @ np.diag((DELTA ** 2 * np.abs([N_MINUS_P.sum(), N_MINUS_P[0] - N_MINUS_P[1]])) ** 2) @ A.T
 cov = np.array(MF['covP'])[:2, :2] + np.outer(SYST, SYST) + TRUNC
 P_n = P_p + N_MINUS_P
-alt = N_NNLO + np.array([-0.649, -0.470])               # Eq. LECvalues (delta = Delta/m_rho refit, 2026-11-11)
+alt = N_NNLO + np.array([-0.366, -0.752])               # Eq. LECvalues (LARA refit, 2026-11-12; before -0.649, -0.470)
 s_sum, s_dif = np.sqrt(cov.sum()), np.sqrt(cov[0, 0] + cov[1, 1] - 2 * cov[0, 1])
 print('proton LECs: alpha_n = %.2f(%.2f), beta_n = %.2f(%.2f), rho = %.2f, sum = %.2f(%.2f) [%.2f sigma above BSR],'
       ' diff = %.2f(%.2f); via NNLO_n + LECs: %.2f, %.2f'

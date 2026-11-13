@@ -43,5 +43,5 @@ if __name__ == '__main__':
             r['parts'] = parts(np.array(r['P']), r['gE'][0])
             r['prior_sig'] = sig
             OUT[name] = r
-            print('   parts (unweighted): below thr %.1f/267, Delta %.1f/289, FSR %.1f/84' % (r['parts']['L'], r['parts']['D'], r['parts']['FSR']))
+            print('   parts (unweighted): below thr %.1f/267, Delta %.1f, FSR %.1f/84' % (r['parts']['L'], r['parts']['D'], r['parts']['FSR']))
     save_json(OUT, 'weight_scan%s.json' % (('_' + tag) if tag else ''))

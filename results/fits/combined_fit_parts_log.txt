@@ -1,3 +1,3 @@
-prediction {'L': 232.6, 'D': 286.4, 'FSR': 333.3, 'D_withLEGS': 761.1, 'LEGS': {'LEGS2001_S3': [133.2, 79], 'LEGS2001_CS': [341.5, 77]}, 'overall_noLEGS': 852.2}
-combined {'L': 209.5, 'D': 244.8, 'FSR': 283.7, 'D_withLEGS': 734.2, 'LEGS': {'LEGS2001_S3': [221.5, 79], 'LEGS2001_CS': [267.8, 77]}, 'overall_noLEGS': 738.1}
-combined_withLEGS {'L': 215.5, 'D': 232.3, 'FSR': 305.9, 'D_withLEGS': 567.7, 'LEGS': {'LEGS2001_S3': [99.7, 79], 'LEGS2001_CS': [235.7, 77]}, 'overall_noLEGS': 753.6}
+prediction {'L': 232.6, 'D': 648.1, 'FSR': 333.3, 'D_withLEGS': 1122.8, 'LEGS': {'LEGS2001_S3': [133.2, 79], 'LEGS2001_CS': [341.5, 77]}, 'overall_noLEGS': 1213.9}
+combined {'L': 206.3, 'D': 631.6, 'FSR': 284.7, 'D_withLEGS': 1124.3, 'LEGS': {'LEGS2001_S3': [189.7, 79], 'LEGS2001_CS': [303.0, 77]}, 'overall_noLEGS': 1122.6}
+combined_withLEGS {'L': 211.0, 'D': 638.1, 'FSR': 296.8, 'D_withLEGS': 1012.5, 'LEGS': {'LEGS2001_S3': [106.5, 79], 'LEGS2001_CS': [267.9, 77]}, 'overall_noLEGS': 1145.9}

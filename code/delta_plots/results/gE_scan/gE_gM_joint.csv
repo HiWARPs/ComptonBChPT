@@ -15,6 +15,8 @@ Wissmann1999,n1,8,9.06,0.39,"chi^2 not convex in (gM, gE): eigenvalues [-0.19, 8
 Wissmann1999,nfit,8,8.93,0.13,"chi^2 not convex in (gM, gE): eigenvalues [-0.23, 698.7]",,,,,,,,,,
 Camen2002,n1,7,4.64,1.16,"chi^2 not convex in (gM, gE): eigenvalues [-0.02, 2604.57]",,,,,,,,,,
 Camen2002,nfit,7,4.6,0.26,"chi^2 not convex in (gM, gE): eigenvalues [-0.24, 918.28]",,,,,,,,,,
+Wolf2001_LARA,n1,182,616.78,56.86,,2.929,-0.954,0.009,0.112,0.92,-2.16,0.25,442.15,-0.47,0.043
+Wolf2001_LARA,nfit,182,493.7,1.97,,2.817,-1.568,0.031,0.149,0.59,-3.63,0.36,467.31,-1.124,0.119
 Hallin1993_TabII(D),n1,70,474.56,1.37,"chi^2 not convex in (gM, gE): eigenvalues [-14.3, 4688.03]",,,,,,,,,,
 Hallin1993_TabII(D),nfit,70,234.7,0.14,"chi^2 not convex in (gM, gE): eigenvalues [-0.23, 2335.78]",,,,,,,,,,
 OlmosdeLeon2001,n1,10,16.56,0.02,"chi^2 not convex in (gM, gE): eigenvalues [-0.68, 95.43]",,,,,,,,,,

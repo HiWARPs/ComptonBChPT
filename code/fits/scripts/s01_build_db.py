@@ -16,7 +16,7 @@ print('fitdb.csv: %d rows; fitdb_pb.csv: %d rows' % (len(df), len(dfp)))
 ORDER = OLD_L + A2 + A2PB + HIGS + FWD + ['A2_Martel2015_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'LEGS2001_CS',
                                           'Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002',
                                           'Hallin1993_TabII_D', 'Gray1967', 'Genzel1972', 'Baranov1966', 'Kolb2000',
-                                          'Nagashima1964']
+                                          'Nagashima1964', 'Wolf2001_LARA']
 REF = {'OlmosdeLeon2001': 'deLeon:2001dnx', 'Federspiel1991': 'Federspiel:1991yd', 'Zieger1992': 'Zieger:1992jq',
        'Baranov1974_75_th90': 'Baranov:1974ec,Baranov:1975ju', 'Baranov1974_75_th150': 'Baranov:1974ec,Baranov:1975ju',
        'Hallin1993_TabII': 'Hallin:1993ft', 'MacGibbon1995_tagged': 'MacGibbon:1995in',
@@ -29,7 +29,8 @@ REF = {'OlmosdeLeon2001': 'deLeon:2001dnx', 'Federspiel1991': 'Federspiel:1991yd
        'LEGS2001_S3': 'Blanpied:2001ae', 'LEGS2001_CS': 'Blanpied:2001ae', 'Hunger1997_75': 'Hunger:1997pt',
        'Hunger1997_90': 'Hunger:1997pt', 'Wissmann1999': 'Wissmann:1999vi', 'Camen2002': 'Camen:2001st,Kossert:2002ws',
        'Hallin1993_TabII_D': 'Hallin:1993ft', 'Gray1967': 'Gray:1967zzd', 'Genzel1972': 'Genzel:1972ba',
-       'Baranov1966': 'Baranov:1966aaa', 'Kolb2000': 'Kolb:2000ix', 'Nagashima1964': 'Nagashima:1964zz'}
+       'Baranov1966': 'Baranov:1966aaa', 'Kolb2000': 'Kolb:2000ix', 'Nagashima1964': 'Nagashima:1964zz',
+       'Wolf2001_LARA': 'Wolf:2001ha'}
 
 def texlabel(x):
     x = re.sub(r'Σ(2x|2z|3)', lambda m: '$\\Sigma_{%s}$' % m.group(1), x)

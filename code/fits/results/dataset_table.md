@@ -37,3 +37,4 @@
 | Baranov1966 | Moscow 66 (Baranov) | CSCM | 10 | 0 | 0 | 10 | 212.9-249.2 | 59-141 | CM | 20.0% | 0 | as quoted; c.m. frame assumed (not stated in source); norm 5% (20% Baranov66) adopted |
 | Kolb2000 | SAL 00 (Kolb) | CS | 1 | 0 | 0 | 1 | 247.0-247.0 | 135-135 | LAB | - | 0 | stat (+) syst (3.8) per point; lab frame; not floated |
 | Nagashima1964 | Tokyo 64 (Nagashima) | CSCM | 2 | 0 | 0 | 1 | 314.0-351.0 | 74-76 | CM | 5.0% | 0 | as quoted; c.m. frame assumed (not stated in source); norm 5% (20% Baranov66) adopted |
+| Wolf2001_LARA | LARA 01 (Wolf) | CSCM | 294 | 0 | 0 | 182 | 264.9-395.2 | 49-149 | CM | 3.0% | 0 | digitized (Wolf et al. Fig. 13); c.m.; stat (+) p2p syst as plotted; norm 3% |

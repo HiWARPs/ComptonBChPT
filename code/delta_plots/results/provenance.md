@@ -25,6 +25,7 @@
 | Oxley1958 | Chicago 58 | CS (LAB) | 4 | 60 | 70-150 (4) | Baranov et al. 2001 Tab. 2: lab, stat | 8.0% | yes | 1 |  |  |  |  |  |  |
 | Pugh1957 | MIT 57 | CS (LAB) | 16 | 55-135 | 50-135 (3) | Baranov et al. 2001 Tab. 2: lab, stat | 7.0% | yes | 11 |  |  |  |  |  |  |
 | Wissmann1999 | MAMI 99 | CS (LAB) | 11 | 199-391 | 130.7 | stat | 3.0% | yes | 12 | 8 |  |  |  |  | 11 |
+| Wolf2001_LARA | LARA 01 | CSCM (CM) | 294 | 265-395 | 62.7-156.7 (245) | digitized (Wolf et al. Fig. 13) | 3.0% | yes |  | 99 |  |  |  |  | 294 |
 | Zieger1992 | MAMI 92 | CS (LAB) | 2 | 98-132 | 180 | Baranov et al. 2001 Tab. 2: lab, stat | 4.3% | yes |  |  |  |  |  |  |  |
 | Hallin1993_TabI | SAL 93 (Tab. I) | CSCM (CM) | 21 | 149-286 | 30-144 (18) | SAL 93 Table I (15-MeV bins), not independent of Table II | 3.6% | no |  |  |  |  |  |  |  |
 | Barbiellini1968 | Frascati 68 | S3 (CM) | 1 | 318 | 90 | HEPData ins55887: Sigma = -0.35(0.10) in the source conventi | – | no |  |  |  | 1 |  |  |  |

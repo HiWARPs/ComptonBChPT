@@ -582,9 +582,9 @@ SETNAME = {
     'OlmosdeLeon2001': 'A2 01 (Olmos de León)', 'Genzel1972': 'Bonn 72 (Genzel)', 'Gray1967': 'Illinois 67 (Gray)',
     'Baranov1966': 'Moscow 66 (Baranov)', 'Baranov1966_refined': 'Moscow 66 refined, fwd pts', 'Kolb2000': 'SAL 00 (Kolb)',
     'Nagashima1964': 'Tokyo 64 (Nagashima)', 'Barbiellini1968': 'Frascati 68 $\\Sigma_3$ (sign flipped)',
-    'MacGibbon1995_untagged': 'SAL 95 (MacGibbon)'}
+    'MacGibbon1995_untagged': 'SAL 95 (MacGibbon)', 'Wolf2001_LARA': 'LARA 01 (Wolf)'}
 SETORDER = ['A2_Martel2015_S2x', 'Martel_thesis_S2x', 'A2_Paudyal2020_S2z', 'LEGS2001_S3', 'Barbiellini1968', 'LEGS2001_CS',
-            'Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002', 'Kolb2000', 'Hallin1993_TabII(D)', 'Hallin1993_TabI',
+            'Hunger1997_75', 'Hunger1997_90', 'Wissmann1999', 'Camen2002', 'Wolf2001_LARA', 'Kolb2000', 'Hallin1993_TabII(D)', 'Hallin1993_TabI',
             'OlmosdeLeon2001', 'Genzel1972', 'Gray1967', 'Baranov1966', 'Baranov1966_refined', 'Nagashima1964']
 
 
@@ -597,6 +597,7 @@ PAPERROWS = [('A2_Martel2015_S2x', r'A2 $\Si_{2x}$~\cite{A2:2014iky}            
              ('Hunger1997_90', r'MAMI $90^\circ$~\cite{Hunger:1997pt}'),
              ('Wissmann1999', r'MAMI $131^\circ$~\cite{Wissmann:1999vi}'),
              ('Camen2002', r'MAMI $136^\circ$~\cite{Camen:2001st}'),
+             ('Wolf2001_LARA', r'LARA~\cite{Wolf:2001ha}'),
              ('Hallin1993_TabII(D)', r'SAL~\cite{Hallin:1993ft}'),
              ('OlmosdeLeon2001', r'A2 (2001), 157--164\,MeV~\cite{deLeon:2001dnx}')]
 
@@ -720,7 +721,7 @@ CITE = {'LEGS 01': 'Blanpied:2001ae', 'MAMI 97': 'Hunger:1997pt', 'MAMI 99': 'Wi
         'A2 01': 'deLeon:2001dnx', 'A2 22': 'A2:2021wmm', 'HI$\\gamma$S 22': 'Li:2022vnz', 'Illinois 91': 'Federspiel:1991yd',
         'Moscow 74': 'Baranov:1974ec,Baranov:1975ju', 'MIT 57': 'Pugh:1957zz', 'MIT 59': 'Hyman:1959zz',
         'Moscow 60': 'Goldansky:1960zz', 'Chicago 58': 'Oxley:1958zz', 'Illinois 60': 'Bernardini:1960wya',
-        'A2 15': 'A2:2014iky', 'Martel thesis (unpubl.)': 'Martel:2013phd', 'A2 20': 'A2:2019bqm'}
+        'A2 15': 'A2:2014iky', 'Martel thesis (unpubl.)': 'Martel:2013phd', 'A2 20': 'A2:2019bqm', 'LARA 01': 'Wolf:2001ha'}
 OBSTEX = {'CS': r'$d\sigma/d\Omega_{\rm lab}$', 'CSCM': r'$d\sigma/d\Omega_{\rm cm}$', 'S3': r'$\Si_3$',
           'S2X': r'$\Si_{2x}$', 'S2Z': r'$\Si_{2z}$'}
 
@@ -799,10 +800,13 @@ def main():
     ext = D.build_ext450()
     print('  Fig. 1: plotting-only points 400 < E <= 450 MeV:', ext.groupby('dataset').E.agg(['size', 'min', 'max']).to_dict('index'))
     lara = D.build_lara()
-    print('  Fig. 1: plotting-only LARA (Bonn 01) points, digitized:', lara.groupby('theta_cm').E.agg(['size', 'min', 'max']).to_dict('index'))
-    fig1(pd.concat([df, ext, lara], ignore_index=True), cv, ix)
+    print('  Fig. 1: plotting-only LARA (LARA 01) points, digitized:', lara.groupby('theta_cm').E.agg(['size', 'min', 'max']).to_dict('index'))
+    # the fitted LARA angular distributions (Wolf2001_LARA) are left out here: Fig. 4 of Galler et al. shows the same data
+    # rebinned at 75, 90, 125 deg c.m., up to 780 MeV
+    fig1(pd.concat([df[df.dataset != 'Wolf2001_LARA'], ext, lara], ignore_index=True), cv, ix)
     lara_ang = D.build_lara_ang()
-    print('  Fig. 2: plotting-only LARA angular distributions (Bonn 01), digitized:', lara_ang.groupby('E').size().to_dict())
+    lara_ang = lara_ang[lara_ang.E > 400.0]          # up to 400 MeV the same points are in the fit database (Wolf2001_LARA)
+    print('  Fig. 2: plotting-only LARA angular distributions (LARA 01), digitized:', lara_ang.groupby('E').size().to_dict())
     df2 = pd.concat([df, ext, lara_ang], ignore_index=True)       # + the plotting-only points above 400 MeV
     c2 = fig2(df2, cv, ix, FIG2, 'fig_delta_cs_vstheta')
     print('  Fig. 2: lab-frame sets converted to c.m.:', sorted(c2))

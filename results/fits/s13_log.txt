@@ -1,41 +1,56 @@
-combined                 N=400 (267+133) FSR=84 a=10.78(0.48) b=3.26(0.46) a+b=14.04(0.19) a-b=7.52(0.91) spin=[-4.31, 3.63, 0.09, 1.62] g0=-1.04(0.11) gpi=9.48(1.15) gE=-0.924(0.381) REM=-2.06(0.83)% chi2=298.4/458
-combined_withLEGS        N=556 (267+289) FSR=84 a=10.10(0.46) b=3.92(0.43) a+b=14.03(0.19) a-b=6.18(0.87) spin=[-4.62, 3.47, 0.07, 2.12] g0=-1.05(0.11) gpi=10.15(1.12) gE=-1.440(0.250) REM=-3.18(0.53)% chi2=357.7/613
-main {'below threshold': (245, 0), 'A2_Martel2015_S2x': (4, 0, 1.9464027931121957), 'A2_Paudyal2020_S2z': (10, 0, 2.8923535260453566), 'Camen2002': (8, 0, 5.872720114199435), 'Hallin1993_TabII': (15, 2, 60.40139645507235), 'Hallin1993_TabII_D': (55, 2, 29.274516792441812), 'Hunger1997_75': (13, 0, 6.546812830853978), 'Hunger1997_90': (9, 0, 5.967616311660156), 'OlmosdeLeon2001': (10, 0, 4.101264130522095), 'Wissmann1999': (9, 0, 2.695645963503447), 'LEGS2001_CS': (77, 16, 23.466517003756216), 'LEGS2001_S3': (79, 8, 15.442006549507115)}
-   Hallin1993_TabII     E= 170.0 th=135.1 chi2_i= 60.4
+combined                 N=604 (267+337) FSR=84 a=11.06(0.51) b=2.98(0.49) a+b=14.04(0.19) a-b=8.08(0.98) spin=[-4.06, 3.37, 0.1, 1.63] g0=-1.04(0.11) gpi=8.95(1.29) gE=-0.959(0.224) REM=-2.14(0.49)% chi2=356.6/661
+combined_withLEGS        N=760 (267+493) FSR=84 a=10.23(0.51) b=3.82(0.48) a+b=14.04(0.19) a-b=6.41(0.97) spin=[-3.87, 3.13, 0.03, 1.76] g0=-1.05(0.11) gpi=8.73(1.36) gE=-1.262(0.188) REM=-2.79(0.40)% chi2=423.8/816
+main {'below threshold': (245, 0), 'A2_Martel2015_S2x': (4, 0, 1.892970453567675), 'A2_Paudyal2020_S2z': (10, 0, 2.9243760059020887), 'Camen2002': (8, 0, 5.016489216481089), 'Hallin1993_TabII': (15, 2, 64.74587089693358), 'Hallin1993_TabII_D': (55, 5, 31.380811164523966), 'Hunger1997_75': (13, 0, 6.977845208515819), 'Hunger1997_90': (9, 0, 7.16636489479408), 'OlmosdeLeon2001': (10, 0, 4.8670632635158695), 'Wissmann1999': (9, 0, 2.9859032179195033), 'Wolf2001_LARA': (204, 5, 12.497005995589666), 'LEGS2001_CS': (77, 18, 27.038460039258528), 'LEGS2001_S3': (79, 3, 13.59086233434471)}
+   Hallin1993_TabII     E= 170.0 th=135.1 chi2_i= 64.7
+   Hallin1993_TabII_D   E= 239.0 th=108.2 chi2_i= 31.4
+   LEGS2001_CS          E= 244.8 th=114.6 chi2_i= 27.0 (excluded)
+   LEGS2001_CS          E= 224.3 th= 94.0 chi2_i= 17.2 (excluded)
+   LEGS2001_CS          E= 254.1 th=114.2 chi2_i= 16.5 (excluded)
+   LEGS2001_CS          E= 244.8 th=125.9 chi2_i= 16.0 (excluded)
+   LEGS2001_CS          E= 224.3 th=115.3 chi2_i= 15.7 (excluded)
+   LEGS2001_CS          E= 254.1 th=125.6 chi2_i= 15.0 (excluded)
+   LEGS2001_CS          E= 275.6 th= 91.9 chi2_i= 14.5 (excluded)
+   LEGS2001_CS          E= 265.1 th=125.2 chi2_i= 14.3 (excluded)
+   LEGS2001_CS          E= 275.6 th=124.9 chi2_i= 13.6 (excluded)
+   LEGS2001_S3          E= 275.6 th= 76.9 chi2_i= 13.6 (excluded)
+   LEGS2001_CS          E= 265.1 th=113.9 chi2_i= 13.0 (excluded)
+   LEGS2001_CS          E= 234.7 th=126.2 chi2_i= 13.0 (excluded)
+   Wolf2001_LARA        E= 285.3 th= 74.8 chi2_i= 12.5
+   LEGS2001_CS          E= 254.1 th=103.3 chi2_i= 12.4 (excluded)
+   LEGS2001_CS          E= 265.1 th=102.9 chi2_i= 12.3 (excluded)
+   LEGS2001_CS          E= 234.7 th= 93.6 chi2_i= 12.3 (excluded)
+   Hallin1993_TabII     E= 162.0 th=135.3 chi2_i= 12.3
+   Wolf2001_LARA        E= 264.9 th= 87.8 chi2_i= 12.0
+   LEGS2001_CS          E= 213.1 th= 94.4 chi2_i= 11.6 (excluded)
+   LEGS2001_CS          E= 244.8 th= 78.1 chi2_i= 11.2 (excluded)
+   LEGS2001_CS          E= 234.7 th=104.1 chi2_i= 11.1 (excluded)
+   Hallin1993_TabII_D   E= 232.0 th=133.2 chi2_i= 10.7
+   Wolf2001_LARA        E= 345.2 th= 61.6 chi2_i= 10.6
+   Wolf2001_LARA        E= 314.1 th= 87.7 chi2_i= 10.1
+   Hallin1993_TabII_D   E= 196.0 th=134.3 chi2_i= 10.1
+   LEGS2001_CS          E= 275.6 th=102.5 chi2_i= 10.0 (excluded)
+   LEGS2001_S3          E= 298.2 th= 76.0 chi2_i=  9.7 (excluded)
+   Hallin1993_TabII_D   E= 194.0 th=103.6 chi2_i=  9.6
+   LEGS2001_S3          E= 254.1 th= 92.8 chi2_i=  9.5 (excluded)
+   Hallin1993_TabII_D   E= 238.0 th= 78.3 chi2_i=  9.3
+   Wolf2001_LARA        E= 324.9 th= 66.2 chi2_i=  9.2
+legs {'below threshold': (245, 0), 'A2_Martel2015_S2x': (4, 0, 1.6752188724389463), 'A2_Paudyal2020_S2z': (10, 0, 1.9412220324479472), 'Camen2002': (8, 0, 4.388447058881262), 'Hallin1993_TabII': (15, 3, 58.19580954544309), 'Hallin1993_TabII_D': (55, 2, 29.27823290510136), 'Hunger1997_75': (13, 0, 7.155270781332271), 'Hunger1997_90': (9, 0, 7.027064844200886), 'LEGS2001_CS': (77, 8, 19.715149907597525), 'LEGS2001_S3': (79, 0, 6.9168070472377785), 'OlmosdeLeon2001': (10, 0, 3.827621573428148), 'Wissmann1999': (9, 0, 2.386730089790744), 'Wolf2001_LARA': (204, 5, 12.681767923228316)}
+   Hallin1993_TabII     E= 170.0 th=135.1 chi2_i= 58.2
    Hallin1993_TabII_D   E= 239.0 th=108.2 chi2_i= 29.3
-   LEGS2001_CS          E= 244.8 th=114.6 chi2_i= 23.5 (excluded)
-   LEGS2001_S3          E= 275.6 th= 76.9 chi2_i= 15.4 (excluded)
-   LEGS2001_CS          E= 224.3 th= 94.0 chi2_i= 14.8 (excluded)
-   LEGS2001_CS          E= 244.8 th=125.9 chi2_i= 13.7 (excluded)
-   LEGS2001_CS          E= 224.3 th=115.3 chi2_i= 13.5 (excluded)
-   LEGS2001_CS          E= 254.1 th=114.2 chi2_i= 13.5 (excluded)
-   LEGS2001_CS          E= 254.1 th=125.6 chi2_i= 12.6 (excluded)
-   LEGS2001_S3          E= 298.2 th= 76.0 chi2_i= 12.6 (excluded)
-   LEGS2001_CS          E= 265.1 th=125.2 chi2_i= 11.9 (excluded)
-   LEGS2001_S3          E= 310.1 th= 75.6 chi2_i= 11.4 (excluded)
-   LEGS2001_CS          E= 275.6 th=124.9 chi2_i= 11.2 (excluded)
-   LEGS2001_CS          E= 234.7 th=126.2 chi2_i= 11.0 (excluded)
-   LEGS2001_S3          E= 298.2 th= 91.1 chi2_i= 10.9 (excluded)
-   Hallin1993_TabII     E= 162.0 th=135.3 chi2_i= 10.7
-   LEGS2001_CS          E= 265.1 th=113.9 chi2_i= 10.3 (excluded)
-   LEGS2001_S3          E= 254.1 th= 92.8 chi2_i= 10.2 (excluded)
-   LEGS2001_CS          E= 213.1 th= 94.4 chi2_i= 10.2 (excluded)
-   LEGS2001_CS          E= 275.6 th= 91.9 chi2_i= 10.2 (excluded)
-   LEGS2001_S3          E= 298.2 th=112.7 chi2_i= 10.1 (excluded)
-   LEGS2001_CS          E= 234.7 th= 93.6 chi2_i= 10.0 (excluded)
-   LEGS2001_S3          E= 286.5 th= 62.3 chi2_i=  9.7 (excluded)
-   LEGS2001_CS          E= 244.8 th= 78.1 chi2_i=  9.6 (excluded)
-   LEGS2001_CS          E= 254.1 th=103.3 chi2_i=  9.6 (excluded)
-   LEGS2001_S3          E= 275.6 th= 91.9 chi2_i=  9.5 (excluded)
-   LEGS2001_CS          E= 265.1 th=102.9 chi2_i=  9.3 (excluded)
-   Hallin1993_TabII_D   E= 196.0 th=134.3 chi2_i=  9.0
-legs {'below threshold': (245, 0), 'A2_Martel2015_S2x': (4, 0, 1.8274225124907568), 'A2_Paudyal2020_S2z': (10, 0, 2.5564416238427916), 'Camen2002': (8, 0, 4.179508594331198), 'Hallin1993_TabII': (15, 1, 51.46787705965631), 'Hallin1993_TabII_D': (55, 2, 27.133184230889697), 'Hunger1997_75': (13, 0, 7.025322676132569), 'Hunger1997_90': (9, 0, 6.35844078336851), 'LEGS2001_CS': (77, 5, 16.78102746218768), 'LEGS2001_S3': (79, 0, 6.39071969349042), 'OlmosdeLeon2001': (10, 0, 2.5979716224635245), 'Wissmann1999': (9, 0, 3.142224125876633)}
-   Hallin1993_TabII     E= 170.0 th=135.1 chi2_i= 51.5
-   Hallin1993_TabII_D   E= 239.0 th=108.2 chi2_i= 27.1
-   LEGS2001_CS          E= 244.8 th=114.6 chi2_i= 16.8
-   LEGS2001_CS          E= 224.3 th= 94.0 chi2_i= 12.5
-   LEGS2001_CS          E= 224.3 th=115.3 chi2_i=  9.6
-   Hallin1993_TabII_D   E= 238.0 th= 78.3 chi2_i=  9.5
-   LEGS2001_CS          E= 310.1 th= 90.6 chi2_i=  9.1
-   LEGS2001_CS          E= 244.8 th= 78.1 chi2_i=  9.0
+   LEGS2001_CS          E= 244.8 th=114.6 chi2_i= 19.7
+   LEGS2001_CS          E= 224.3 th= 94.0 chi2_i= 13.7
+   Wolf2001_LARA        E= 264.9 th= 87.8 chi2_i= 12.7
+   Wolf2001_LARA        E= 345.2 th= 61.6 chi2_i= 11.7
+   LEGS2001_CS          E= 224.3 th=115.3 chi2_i= 11.4
+   Wolf2001_LARA        E= 285.3 th= 74.8 chi2_i= 10.8
+   LEGS2001_CS          E= 244.8 th=125.9 chi2_i= 10.8
+   LEGS2001_CS          E= 254.1 th=114.2 chi2_i= 10.2
+   Hallin1993_TabII     E= 162.0 th=135.3 chi2_i= 10.0
+   LEGS2001_CS          E= 213.1 th= 94.4 chi2_i=  9.6
+   Hallin1993_TabII_D   E= 238.0 th= 78.3 chi2_i=  9.6
+   Hallin1993_TabII     E= 165.0 th= 81.4 chi2_i=  9.4
+   LEGS2001_CS          E= 254.1 th=125.6 chi2_i=  9.4
+   LEGS2001_CS          E= 244.8 th= 78.1 chi2_i=  9.3
+   Wolf2001_LARA        E= 303.3 th=100.9 chi2_i=  9.3
+   Wolf2001_LARA        E= 314.1 th= 87.7 chi2_i=  9.0
 written <release>/code/fits/figs/fig_pulls_bchpt.pdf

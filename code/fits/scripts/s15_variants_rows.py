@@ -23,15 +23,14 @@ def row(label, key, gpi_err=True):
                                           pe(gp, dgp if (gpi_err and dgp > 1e-6) else None, 1))
 
 
-ROWS = [('Main fit', 'combined'), None, ('$w=1$', 'combined_w1'), ('$w=0.1$', 'combined_w0.1'),
-        ('$w=0.03$', 'combined_w0.03'), ('$w=0.01$', 'combined_w0.01'), None,
+# 2026-11-12 (author): no variants in the weight w in the paper (rows w = 1, 0.1, 0.03, 0.01, 'w = 0.01, 1x',
+# 'SRs > nu0, w = 1', 'With LEGS, w = 1' removed; the fits remain in combined_fit.json)
+ROWS = [('Main fit', 'combined'), None,
         ('Spin pol.\\ NNLO', 'combined_spinNNLO'), ('Priors $1\\times$', 'combined_spin1sig'),
-        ('Priors $2\\times$', 'combined_spin2sig'), ('$3\\times$ Ref.~\\cite{Lensky:2015awa}', 'combined_spinLMP15'),
-        ('$w=0.01$, $1\\times$', 'combined_w0.01_1sig'), None,
+        ('Priors $2\\times$', 'combined_spin2sig'), ('$3\\times$ Ref.~\\cite{Lensky:2015awa}', 'combined_spinLMP15'), None,
         ('$R_{EM}$ fixed', 'combined_REMfixed'), ('$\\EL\\leq 350$\\,MeV', 'combined_E350'),
-        ('No SRs $>\\nu_0$', 'combined_noFSR'), ('SRs $>\\nu_0$, $w=1$', 'combined_FSRw1'),
-        ('5-MeV grid', 'combined_FSR5'), ('20-MeV grid', 'combined_FSR20'), None,
-        ('With LEGS', 'combined_withLEGS'), ('With LEGS, $w=1$', 'combined_withLEGS_w1')]
+        ('No SRs $>\\nu_0$', 'combined_noFSR'), ('5-MeV grid', 'combined_FSR5'), ('20-MeV grid', 'combined_FSR20'), None,
+        ('Without LARA', 'combined_noLARA'), ('With LEGS', 'combined_withLEGS')]
 for r in ROWS:
     print('\\hline' if r is None else row(*r))
 c = J['combined']; P = np.array(c['P']); C = np.array(c['covP'])

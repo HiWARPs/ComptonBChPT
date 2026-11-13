@@ -146,6 +146,9 @@ class Chi2Fit:
         # accurate Jacobian by central differences
         J = self._jac(res, sol.x)
         H = J.T @ J
+        # full Hessian of chi^2/2, so that the errors are those of Delta chi^2 = 1: the Gauss-Newton J^T J drops
+        # sum_i r_i d^2 r_i, which is not small when the spin polarisabilities and g_E float (2026-11-13)
+        H = H + self._curv(res, sol.x, 0.1 / np.sqrt(np.diag(H)), np.where(~fm)[0] >= nf + ne)
         try:
             covf = np.linalg.inv(H)
         except np.linalg.LinAlgError:
@@ -166,6 +169,20 @@ class Chi2Fit:
             xm = x.copy(); xm[j] -= hj
             J[:, j] = (res(xp) - res(xm)) / (2 * hj)
         return J
+
+    @staticmethod
+    def _curv(res, x, h, lin):
+        """S_jk = sum_i r_i d^2 r_i / dx_j dx_k by second differences of phi(x') = r(x) . r(x'); the residuals are
+        linear in the nuisance parameters (lin), so their mutual block is zero and is skipped."""
+        r0 = res(x); n = len(x); E = np.diag(h); f0 = r0 @ r0; S = np.zeros((n, n))
+        p = [r0 @ res(x + E[j]) for j in range(n)]; m = [r0 @ res(x - E[j]) for j in range(n)]
+        for j in range(n):
+            S[j, j] = 0.0 if lin[j] else (p[j] - 2 * f0 + m[j]) / h[j] ** 2
+            for k in range(j):
+                if not (lin[j] and lin[k]):
+                    S[j, k] = S[k, j] = (r0 @ res(x + E[j] + E[k]) + r0 @ res(x - E[j] - E[k])
+                                         - p[j] - p[k] - m[j] - m[k] + 2 * f0) / (2 * h[j] * h[k])
+        return S
 
     def summarize(self, q, cov):
         x, e, ln, ls = self._split(q)
@@ -235,3 +252,22 @@ class Chi2Fit:
 def corr_from_cov(c):
     d = np.sqrt(np.diag(c))
     return c / np.outer(d, d)
+
+
+if __name__ == '__main__':
+    # self-check: a toy fit with a systematic misfit (parabola fitted by an exponential, floating normalisation), where
+    # the Gauss-Newton error of the slope is 10% off; the errors returned by fit() must be those of Delta chi^2 = 1
+    from scipy.optimize import brentq
+    xx = np.linspace(0, 2, 12)
+    F = Chi2Fit(1 + xx + 0.9 * xx ** 2, lambda P, ex: P[0] + np.exp(ex['g'] * xx), np.full(12, 0.02 ** 2), ['a'] * 12,
+                dict(a=0.05), np.zeros(6), ['alphaE1'], extra=dict(g=1.0))
+    q, cov, _ = F.fit(); c0 = F.summarize(q, cov).chi2
+
+    def dchi2(d):
+        q1 = q.copy(); q1[1] += d
+        qq, cc, _ = F.fit(fixed_mask=np.array([False, True, False]), q0=q1)
+        return F.summarize(qq, cc).chi2 - c0 - 1
+    s = np.sqrt(cov[1, 1]); up, dn = brentq(dchi2, 0, 5 * s), -brentq(dchi2, -5 * s, 0)
+    Jq = F._jac(F.residuals, q); sgn = np.sqrt(np.linalg.inv(Jq.T @ Jq)[1, 1])
+    print('sigma(g): fit() %.5f, Delta chi2 = 1 profile +%.5f -%.5f, Gauss-Newton %.5f' % (s, up, dn, sgn))
+    assert abs(s / (0.5 * (up + dn)) - 1) < 0.01 and abs(sgn / s - 1) > 0.05
